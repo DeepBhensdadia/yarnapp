@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
 import 'package:yarn_modified/model/edit-model.dart';
 import 'package:yarn_modified/model/get-yarn-category-model.dart';
@@ -55,6 +56,8 @@ class _EditYarnState extends State<EditYarn> {
       required String yarnid
 
       }) async {
+    context.loaderOverlay.show();
+
     Map<String, dynamic> parameter = {
       "yarn_name": yarn_name,
       "yarn_denier": yarn_denier,
@@ -69,7 +72,11 @@ class _EditYarnState extends State<EditYarn> {
       FlutterToast.showCustomToast(value.massage);
       Get.back();
       // print(value);
+      context.loaderOverlay.hide();
+
     }).onError((error, stackTrace) {
+      context.loaderOverlay.hide();
+
       print(error);
     });
   }

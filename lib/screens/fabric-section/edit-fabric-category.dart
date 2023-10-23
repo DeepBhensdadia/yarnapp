@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
 import 'package:yarn_modified/model/edit-model.dart';
 import 'package:yarn_modified/model/get-fabric-category-model.dart';
@@ -34,6 +35,8 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
 
   Future<void> fetchDataFromAPI(
       {required String febric_category, required String categoryid}) async {
+    context.loaderOverlay.show();
+
     Map<String, dynamic> parameter = {
       "fabric_category": febric_category,
     };
@@ -44,7 +47,10 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
       FlutterToast.showCustomToast(value.massage);
       Get.back();
       print(value);
+
     }).onError((error, stackTrace) {
+      context.loaderOverlay.hide();
+
       print(error);
     });
   }

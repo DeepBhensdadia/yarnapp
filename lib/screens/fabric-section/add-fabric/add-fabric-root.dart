@@ -30,8 +30,6 @@ class _AddFabricRootState extends State<AddFabricRoot> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,7 +124,11 @@ class _AddFabricRootState extends State<AddFabricRoot> {
           children: List.generate(headerAddFabricItems.length, (index) {
             return GestureDetector(
               onTap: () {
-
+               if(index != 0){
+                 if (activeTab >= index) {
+                   pageController.jumpToPage(index);
+                 }
+               }
               },
               child: Container(
                 padding: EdgeInsets.all(5),
@@ -142,7 +144,7 @@ class _AddFabricRootState extends State<AddFabricRoot> {
                 child: Tooltip(
                   padding: EdgeInsets.all(5),
                   message: headerAddFabricItems[index]['text'],
-                  textStyle: TextStyle(color: Colors.black,fontSize: 13),
+                  textStyle: TextStyle(color: Colors.black, fontSize: 13),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5)),

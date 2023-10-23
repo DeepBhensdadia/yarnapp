@@ -16,6 +16,7 @@ class FebricAddController extends GetxController {
   List<String> wrapyarntaar = <String>[];
 
   void changedData() {
+    weftModel.clear();
     wrapyarnids.clear();
     wrapyarntaar.clear();
     wrapModel.forEach((element) {
@@ -38,6 +39,7 @@ class FebricAddController extends GetxController {
       );
     }
   }
+
   List<WeftModel> weftModel = <WeftModel>[];
 
   List<int> weftyarnids = [];
@@ -68,9 +70,6 @@ class FebricAddController extends GetxController {
     }
   }
 
-
-
-
   @override
   void dispose() {
     super.dispose();
@@ -81,7 +80,6 @@ class FebricAddController extends GetxController {
       element.dispose();
     });
   } //
-
 
   List<yarnIndexDatum?> yarnData = [];
 
@@ -105,9 +103,8 @@ class FebricAddController extends GetxController {
     });
   }
 
-
   List<fabricCategoryDatum?> yarncategoryData = [];
-bool categorybool = false;
+  bool categorybool = false;
   Future<void> yarncategorydatafetch() async {
     categorybool = false;
     await fabricCategoryData().then((value) {
@@ -156,10 +153,11 @@ bool categorybool = false;
 
     await addfebricdetails(parameter: jsonEncode(parameter)).then((value) {
       FlutterToast.showCustomToast(value.message ?? "");
-      widget.page.nextPage(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease);
+
       getresult.getresultcall(id: value.fabaricCostId.toString());
+      Get.context!.loaderOverlay.hide();
+      widget.page
+          .nextPage(duration: Duration(milliseconds: 200), curve: Curves.ease);
     }).onError((error, stackTrace) {
       Get.context!.loaderOverlay.hide();
       print(error);

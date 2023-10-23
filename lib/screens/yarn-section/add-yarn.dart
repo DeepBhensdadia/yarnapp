@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
 import 'package:yarn_modified/model/create-yarn-index-model.dart';
 import 'package:yarn_modified/widgets/common_fields.dart';
@@ -45,6 +46,7 @@ class _AddYarnState extends State<AddYarn> {
   List<yarnCategoryDatum?> getData = [];
 
   Future<void> fetchCategoryDataFromAPI() async {
+
     await yarnCategoryData().then((value) {
       setState(() {
         getData = value.data.cast<yarnCategoryDatum?>();
@@ -62,6 +64,7 @@ class _AddYarnState extends State<AddYarn> {
     required String yarnRate,
     required String category_id,
   }) async {
+    context.loaderOverlay.show();
     Map<String, dynamic> parameter = {
       "yarn_name": yarnName,
       "yarn_denier": yarnDenier,
@@ -73,7 +76,9 @@ class _AddYarnState extends State<AddYarn> {
       yarnlist.fetchDataFromAPI(key: "");
       print(value);
       Get.back();
+      context.loaderOverlay.hide();
     }).onError((error, stackTrace) {
+      context.loaderOverlay.hide();
       print(error);
     });
   }

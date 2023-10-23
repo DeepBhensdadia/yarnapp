@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
 import 'package:yarn_modified/model/create-fabric-category-model.dart';
 import '../../const/const.dart';
@@ -25,6 +26,8 @@ class _AddFabricCategoryState extends State<AddFabricCategory> {
   Get.put(FebricCategoryController());
 
   Future<void> fetchDataFromAPI({required String categoryName}) async {
+    context.loaderOverlay.show();
+
     Map<String, dynamic> parameter = {
       "fabric_category": categoryName,
       "user_id": "1",
@@ -34,7 +37,11 @@ class _AddFabricCategoryState extends State<AddFabricCategory> {
         FlutterToast.showCustomToast(value.message);
         Get.back();
       print(value);
+      context.loaderOverlay.hide();
+
     }).onError((error, stackTrace) {
+      context.loaderOverlay.hide();
+
       print(error);
     });
   }
@@ -209,25 +216,7 @@ class _AddFabricCategoryState extends State<AddFabricCategory> {
             ),
           ),
         ),
-        isLoadingSave
-            ? Container(
-          color: Colors.black.withOpacity(0.25),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(
-                  color: Colors.black,
-                  strokeWidth: 3,
-                ),
-                SizedBox(height: 250,),
-                Text("Data Saving In Progress...",style: TextStyle(color: Colors.black, decoration: TextDecoration.none,fontSize: 13,fontWeight: FontWeight.bold),),
-              ],
-            ),
-          ),
-        )
-            : Container(),
+
       ],
     );
   }

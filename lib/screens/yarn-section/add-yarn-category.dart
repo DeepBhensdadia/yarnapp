@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/getxcontrollers/yarncategorydata.dart';
 import 'package:yarn_modified/model/create-yarn-category-model.dart';
 import '../../const/const.dart';
@@ -28,6 +29,8 @@ class _AddYarnCategoryState extends State<AddYarnCategory> {
   YarnCategoryController yarncategorycontroller = Get.put(YarnCategoryController());
 
   Future<void> fetchDataFromAPI({required String categoryName}) async {
+    context.loaderOverlay.show();
+
     Map<String, dynamic> parameter = {
       "yarn_category": categoryName,
       "user_id": "1",
@@ -36,8 +39,10 @@ class _AddYarnCategoryState extends State<AddYarnCategory> {
  yarncategorycontroller.fetchDataFromAPI();
  FlutterToast.showCustomToast(value.message);
  Get.back();
+ context.loaderOverlay.hide();
 
     }).onError((error, stackTrace) {
+      context.loaderOverlay.hide();
       print(error);
     });
   }
