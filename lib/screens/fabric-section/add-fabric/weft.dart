@@ -26,7 +26,10 @@ class _AddWeftCategoryState extends State<AddWeftCategory>with TickerProviderSta
   @override
   void initState() {
     super.initState();
-    feb.fillModelweftBasic();
+    if(feb.weftmodel == false){
+    feb.weftModel.clear();
+
+    feb.fillModelweftBasic();}
     _tabController = TabController(
       vsync: this,
       length: 2,

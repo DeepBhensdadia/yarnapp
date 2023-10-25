@@ -21,9 +21,12 @@ class _AddWarpCategoryState extends State<AddWarpCategory> {
   @override
   void initState() {
     super.initState();
-
-    feb.fillModel();
+    if (feb.wrapmodel == false) {
+      feb.wrapModel.clear();
+      feb.fillModel();
+    }
   }
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -76,7 +79,8 @@ class _AddWarpCategoryState extends State<AddWarpCategory> {
                                 ),
                                 SizedBox(height: 25),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
                                   child: Column(
                                     children: [
                                       CustomDropdownyarn(
@@ -84,8 +88,7 @@ class _AddWarpCategoryState extends State<AddWarpCategory> {
                                         yarn: feb.yarnData,
                                         onSelection: (val) {
                                           setState(() {
-                                            element.value.selectedYarnID =
-                                            val!;
+                                            element.value.selectedYarnID = val!;
                                           });
                                         },
                                       ),
@@ -94,7 +97,7 @@ class _AddWarpCategoryState extends State<AddWarpCategory> {
                                       ),
                                       CommonDecimalTextField(
                                           validatorfield: (p0) {
-                                            if(p0!.isEmpty){
+                                            if (p0!.isEmpty) {
                                               return "enter ends(taar)";
                                             }
                                             return null;
@@ -115,16 +118,17 @@ class _AddWarpCategoryState extends State<AddWarpCategory> {
               ),
               Center(
                 child: Container(
-                  padding: EdgeInsets.only(left: 5,right: 5,top: 25,bottom: 50),
+                  padding:
+                      EdgeInsets.only(left: 5, right: 5, top: 25, bottom: 50),
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
-           if(_formKey.currentState!.validate()){
-             feb.changedData();
-             widget.page.nextPage(
-                 duration: Duration(milliseconds: 200),
-                 curve: Curves.ease);
-           }
+                        if (_formKey.currentState!.validate()) {
+                          feb.changedData();
+                          widget.page.nextPage(
+                              duration: Duration(milliseconds: 200),
+                              curve: Curves.ease);
+                        }
                       },
                       style: ButtonStyle(
                           shape: MaterialStateProperty.all(

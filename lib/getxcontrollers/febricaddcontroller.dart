@@ -26,8 +26,10 @@ class FebricAddController extends GetxController {
     print(wrapyarnids.toString());
     print(wrapyarntaar.toString());
   }
+  bool wrapmodel = false;
 
   void fillModel() {
+    wrapmodel = true;
     int val = double.tryParse(numberOfWarpYarnController.text)?.toInt() ?? 0;
     for (int i = 0; i < val; i++) {
       wrapModel.add(
@@ -55,8 +57,10 @@ class FebricAddController extends GetxController {
     print(weftyarnids.toString());
     print(weftppi.toString());
   }
-
+bool weftmodel = false;
   void fillModelweftBasic() {
+    weftmodel = true;
+
     int val = double.tryParse(numberOfWeftYarnController.text)?.toInt() ?? 0;
     for (int i = 0; i < val; i++) {
       weftModel.add(

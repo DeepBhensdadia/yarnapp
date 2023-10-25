@@ -40,12 +40,9 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
     // TODO: implement initState
     super.initState();
   }
-List count  = [
-  "4000.00","10.00","2.00","5000.00","100.00"
-];
-  List count2  = [
-  "2.00","1400.00","200.00","5.00","1000.00"
-];
+
+  List count = ["4000.00", "10.00", "2.00", "5000.00", "100.00"];
+  List count2 = ["2.00", "1400.00", "200.00", "5.00", "1000.00"];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -334,17 +331,21 @@ List count  = [
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
+                              Flexible(
                                 flex: 3,
-                                child: Text('Name',
-                                    textScaleFactor: 1.15,
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        color: Colors.teal.shade800,
-                                        fontWeight: FontWeight.w500)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 0.0),
+                                  child: Text('Name',
+                                      textScaleFactor: 1.15,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.grey.shade700,
+                                          fontWeight: FontWeight.w500)),
+                                ),
                               ),
-                              Expanded(
-                                flex: 2,
+                              Flexible(
+                                flex: 1,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -352,27 +353,11 @@ List count  = [
                                       flex: 1,
                                       child: Container(
                                         // width: 70,
-                                        child: Text('Meter',
+                                        child: Text('Per Meter',
                                             textScaleFactor: 1.15,
                                             textAlign: TextAlign.end,
                                             style: TextStyle(
-                                                color: Colors.teal.shade800,
-                                                fontWeight: FontWeight.w500)),
-                                      ),
-                                    ),
-                                    VerticalDivider(
-                                      thickness: 1,
-                                      color: Colors.grey.shade500,
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(
-                                        width: 70,
-                                        child: Text('Piece',
-                                            textScaleFactor: 1.15,
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                                color: Colors.teal.shade800,
+                                                color: Colors.grey.shade700,
                                                 fontWeight: FontWeight.w500)),
                                       ),
                                     ),
@@ -402,13 +387,13 @@ List count  = [
                             child: ListView.separated(
                               // physics: BouncingScrollPhysics(),
                               padding: const EdgeInsets.only(
-                                  top: 0, left: 7.5, right: 7.5, bottom: 20),
+                                  top: 0, left: 10, right: 10, bottom: 20),
                               shrinkWrap: true,
                               controller: _allController,
-                              itemCount: 5,
-                              // itemCount: controller
-                              //         .febriclist.fabricCostList?.length ??
-                              //     0,
+
+                              itemCount: controller
+                                      .febriclist.fabricCostList?.length ??
+                                  0,
                               itemBuilder: (BuildContext context, int index) {
                                 FabricCostList? febric = controller
                                     .febriclist.fabricCostList?[index];
@@ -542,110 +527,86 @@ List count  = [
                                       margin: EdgeInsets.zero,
                                       shape: RoundedRectangleBorder(
                                           borderRadius: defaultCardRadius),
-                                      child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                        Expanded(
-                                          flex: 3,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 10,bottom: 10,top: 10,right: 10),
-                                            child: Row(
-                                              children: [
-                                                Flexible(
-                                                  flex: 1,
-                                                  child: CircleAvatar(
-                                                    backgroundColor: Colors.grey,
-                                                    radius: 27,
-                                                    foregroundImage: AssetImage(
-                                                        "images/avatar.png"),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Flexible(
-                                                  flex: 3,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                          "${febric?.fabricName.toString()} patel bhenb" ??
-                                                              "",
-                                                          textScaleFactor: 1.2,
-                                                          style: TextStyle(
-                                                              color: Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                      SizedBox(
-                                                        height: 10,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Flexible(
+                                                flex: 3,
+                                                child: Row(
+                                                  children: [
+                                                    Flexible(
+                                                      flex: 1,
+                                                      child: CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.grey,
+                                                        radius: 27,
+                                                        foregroundImage: AssetImage(
+                                                            "images/avatar.png"),
                                                       ),
-                                                      Text(
-                                                          febric?.categoryName ??
-                                                              "",
-                                                          textScaleFactor: 0.9,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey)),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Flexible(
+                                                      flex: 3,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                              "${febric?.fabricName.toString()}" ??
+                                                                  "",
+                                                              // textScaleFactor:
+                                                              //     1.3,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  // fontWeight:
+                                                                  //     FontWeight
+                                                                  //         .w400
+                                                              )),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Text(
+                                                              febric?.categoryName ??
+                                                                  "",
+                                                              textScaleFactor:
+                                                                  1,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .grey)),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-
-                                        Expanded(
-                                          flex: 2,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(right: 10.0,top: 10,bottom: 10),
-                                            child: Container(
-                                              height: 40,
-                                              child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Text(
-                                                        // '${febric?.finalPpi?.toDouble().toStringAsFixed(2)}',
-                                                        count[index],
-                                                        textScaleFactor: 1.15,
-                                                        textAlign: TextAlign.end,
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .brown,
-                                                            fontWeight:
-                                                                FontWeight.w500)),
-                                                  ),
-                                                  VerticalDivider(
-                                                    endIndent: 0,
-                                                    indent: 0,
-                                                    thickness: 1,
-                                                    color: Colors.grey.shade400,
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Text(
-                                                        // '${febric?.warpWastage?.toDouble().toStringAsFixed(2)}',
-                                                        count2[index],
-                                                        textScaleFactor: 1.15,
-                                                        textAlign: TextAlign.end,
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .brown,
-                                                            fontWeight:
-                                                                FontWeight.w500)),
-                                                  ),
-                                                ],
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                      ]),
+                                              Flexible(
+                                                flex: 1,
+                                                child: Text(
+                                                    febric?.finalPpi
+                                                            .toDouble()
+                                                            .toStringAsFixed(2) ??
+                                                        "",
+                                                    textScaleFactor: 1.15,
+                                                    textAlign: TextAlign.end,
+                                                    style: TextStyle(
+                                                        color: Colors.grey.shade700,
+                                                        fontWeight:
+                                                            FontWeight.w600)),
+                                              ),
+                                            ]),
+                                      ),
                                     ),
                                   ),
                                 );
