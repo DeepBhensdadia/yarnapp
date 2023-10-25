@@ -47,6 +47,7 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
       FlutterToast.showCustomToast(value.massage);
       Get.back();
       print(value);
+      context.loaderOverlay.hide();
 
     }).onError((error, stackTrace) {
       context.loaderOverlay.hide();

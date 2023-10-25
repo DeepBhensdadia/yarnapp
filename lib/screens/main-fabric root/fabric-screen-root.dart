@@ -6,6 +6,7 @@ import 'package:multi_select_flutter/chip_display/multi_select_chip_display.dart
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:yarn_modified/getxcontrollers/febricslistcontroller.dart';
+import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/model/getfebricslistmodel.dart';
 import '../../const/const.dart';
 import '../../const/themes.dart';
@@ -39,7 +40,12 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
     // TODO: implement initState
     super.initState();
   }
-
+List count  = [
+  "4000.00","10.00","2.00","5000.00","100.00"
+];
+  List count2  = [
+  "2.00","1400.00","200.00","5.00","1000.00"
+];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,13 +58,11 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.transparent,
-                  Colors.white.withOpacity(0.30),
-                  Colors.white.withOpacity(0.65),
-                  Colors.white.withOpacity(0.85)
-                ]
-            )
-        ),
+              Colors.transparent,
+              Colors.white.withOpacity(0.30),
+              Colors.white.withOpacity(0.65),
+              Colors.white.withOpacity(0.85)
+            ])),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           resizeToAvoidBottomInset: false,
@@ -67,7 +71,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
             title: Text(
               'Fabric Cost',
               textScaleFactor: 1,
-              style: TextStyle(letterSpacing: 0.5,color: MyTheme.appBarTextColor),
+              style:
+                  TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
             ),
             // centerTitle: true,
             backgroundColor: MyTheme.appBarColor,
@@ -75,16 +80,16 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
             automaticallyImplyLeading: true,
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.white.withOpacity(0.20),
-                        Colors.white.withOpacity(0.15),
-                        Colors.white.withOpacity(0.025),
-                        Colors.transparent,
-                      ],
-                  ),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withOpacity(0.20),
+                    Colors.white.withOpacity(0.15),
+                    Colors.white.withOpacity(0.025),
+                    Colors.transparent,
+                  ],
+                ),
               ),
             ),
             actions: [
@@ -95,9 +100,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                 child: Container(
                   margin: EdgeInsets.only(top: 7, bottom: 5),
                   padding: const EdgeInsets.only(right: 10),
-                  child:
-
-                  Tooltip(
+                  child: Tooltip(
                     message: "Categories",
                     textStyle: TextStyle(color: Colors.black),
                     decoration: BoxDecoration(
@@ -134,10 +137,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                       // ),
                     ),
                   ),
-
                 ),
               ),
-
               IconButton(
                   splashRadius: 25,
                   tooltip: "Sort",
@@ -146,14 +147,14 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            topLeft: Radius.circular(25),
-                          )),
+                        topRight: Radius.circular(25),
+                        topLeft: Radius.circular(25),
+                      )),
                       context: context,
                       builder: (BuildContext context) {
                         return Container(
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 30,bottom: 15),
+                            padding: const EdgeInsets.only(top: 30, bottom: 15),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
@@ -168,10 +169,10 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                 ListTile(
                                   onTap: () {
                                     Navigator.pop(context);
-
                                   },
                                   title: Text(
-                                    "Sort By Price (High To Low)",textScaleFactor: 1.2,
+                                    "Sort By Price (High To Low)",
+                                    textScaleFactor: 1.2,
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   leading: Icon(
@@ -183,10 +184,10 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                 ListTile(
                                   onTap: () {
                                     Navigator.pop(context);
-
                                   },
                                   title: Text(
-                                    "Sort By Price (Low To high)",textScaleFactor: 1.2,
+                                    "Sort By Price (Low To high)",
+                                    textScaleFactor: 1.2,
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   leading: Icon(
@@ -198,7 +199,6 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                 ListTile(
                                   onTap: () {
                                     Navigator.pop(context);
-
                                   },
                                   title: Text(
                                     "Sort By Date",
@@ -210,9 +210,10 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                     size: 24,
                                   ),
                                 ),
-                                ListTile(  onTap: () {
-                                  Navigator.pop(context);
-                                },
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
                                   title: Text(
                                     "Cancel",
                                     style: TextStyle(color: Colors.black),
@@ -234,7 +235,6 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                     Icons.sort_rounded,
                     size: 21,
                   )),
-
               Container(
                 margin: const EdgeInsets.only(right: 5),
                 child: IconButton(
@@ -245,7 +245,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => AddFabricRoot()));
-                    }, icon: Icon(Icons.add_rounded)),
+                    },
+                    icon: Icon(Icons.add_rounded)),
               ),
             ],
           ),
@@ -254,232 +255,411 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
             child: Column(
               children: [
                 Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 0,horizontal: 7.5),
-                child: Column(
-                  children: [
-                    SizedBox(height: 10,),
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(10)),
-                          border: Border.all(color: Colors.grey)
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 7.5),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
                       ),
-                      child: TextField(
-                          cursorColor: Colors.black,
-                          textInputAction:
-                          TextInputAction.done,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: MediaQuery.of(context)
-                                .textScaleFactor *
-                                15,
-                          ),
-                          controller: searchController,
-                          onChanged: (text) {
-                            setState(() {});
-                          },
-                          decoration: InputDecoration(
-                              contentPadding:
-                              EdgeInsets.symmetric(
-                                  horizontal: 10),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: Colors.grey.shade600,
-                                size: 30,
-                              ),
-                              suffixIcon: searchController.text.isNotEmpty ? IconButton(
-                                splashRadius: 0.1,
-                                onPressed: () {
-                                  searchController.clear();
-                                  setState(() {});
-                                },
-                                icon: Icon(
-                                  Icons.cancel_outlined,
-                                  color: Colors.black,
-                                  size: 18,
+                      Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            border: Border.all(color: Colors.grey)),
+                        child: TextField(
+                            cursorColor: Colors.black,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.text,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize:
+                                  MediaQuery.of(context).textScaleFactor * 15,
+                            ),
+                            controller: searchController,
+                            onChanged: (text) {
+                              setState(() {});
+                            },
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 10),
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: Colors.grey.shade600,
+                                  size: 30,
                                 ),
-                              ) : null,
-                              hintText: "Search Fabric Cost...",
-                              hintStyle: TextStyle(
-                                  fontSize: MediaQuery.of(context)
-                                      .textScaleFactor *
-                                      13,
-                                  color: Colors.grey),
-                              disabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                      Colors.transparent),
-                                  borderRadius:
-                                  BorderRadius.circular(
-                                      5)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                      Colors.transparent),
-                                  borderRadius:
-                                  BorderRadius.circular(5)),
-                              border: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(5)),
-                              focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(5)))),
-                    ),
-                  ],
+                                suffixIcon: searchController.text.isNotEmpty
+                                    ? IconButton(
+                                        splashRadius: 0.1,
+                                        onPressed: () {
+                                          searchController.clear();
+                                          setState(() {});
+                                        },
+                                        icon: Icon(
+                                          Icons.cancel_outlined,
+                                          color: Colors.black,
+                                          size: 18,
+                                        ),
+                                      )
+                                    : null,
+                                hintText: "Search Fabric Cost...",
+                                hintStyle: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).textScaleFactor *
+                                            13,
+                                    color: Colors.grey),
+                                disabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(5)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(5)),
+                                border: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(5)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(5)))),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 5, bottom: 5, left: 8, right: 8),
+                        child: Container(
+                          height: 20,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: Text('Name',
+                                    textScaleFactor: 1.15,
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        color: Colors.teal.shade800,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        // width: 70,
+                                        child: Text('Meter',
+                                            textScaleFactor: 1.15,
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                                color: Colors.teal.shade800,
+                                                fontWeight: FontWeight.w500)),
+                                      ),
+                                    ),
+                                    VerticalDivider(
+                                      thickness: 1,
+                                      color: Colors.grey.shade500,
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        width: 70,
+                                        child: Text('Piece',
+                                            textScaleFactor: 1.15,
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                                color: Colors.teal.shade800,
+                                                fontWeight: FontWeight.w500)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                ),
-                SizedBox(height: 10,),
                 Expanded(
-                  child:
-             GetBuilder<FebricListControllers>(builder: (controller) => controller.febriclistbool == false ? Center(child: CircularProgressIndicator(),) :  RefreshIndicator(
-               color: Colors.white,
-               onRefresh: () async {
-                 await fabricAllItems;
-               },
-               child: Scrollbar(
-                 controller: _allController,
-                 child: ListView.separated(
-                   // physics: BouncingScrollPhysics(),
-                   padding: const EdgeInsets.only(top: 20, left: 7.5,right: 7.5,bottom: 20),
-                   shrinkWrap: true,
-                   controller: _allController,
-                   itemCount: controller.febriclist.fabricCostList?.length ?? 0,
-                   itemBuilder: (BuildContext context, int index) {
-                     FabricCostList?  febric = controller.febriclist.fabricCostList?[index];
-                     return Slidable(
-                       endActionPane: ActionPane(
-                         motion: ScrollMotion(),
-                         children: [
-                           SlidableAction(
-                             borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
-                             backgroundColor: Colors.green,
-                             icon: CupertinoIcons.pencil,
-                             padding: EdgeInsets.only(top: 5,bottom: 5),
-                             label: "Edit",
-                             spacing: 10,
-                             onPressed: (context) {
-                               Navigator.push(context, MaterialPageRoute(builder: (context) => EditFabricRoot(
-                                   fabricAllItemsData: fabricAllItems[index]
-                               )));
-                             },
-                           ),
-                           SlidableAction(
-                             borderRadius: BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8)),
-                             backgroundColor: Colors.red,
-                             icon: CupertinoIcons.delete,
-                             padding: EdgeInsets.only(top: 5,bottom: 5),
-                             label: "Delete",
-                             spacing: 10,
-                             onPressed: (context) {
-                               showDialog(
-                                   context: context,
-                                   builder: (BuildContext context) {
-                                     return AlertDialog(
-                                       backgroundColor: Colors.white,
-                                       title: Text(
-                                         "Remove",
-                                         style: TextStyle(fontSize: 20, color: Colors.black),
-                                       ),
-                                       content: Text(
-                                         "Are you sure you would like to remove fabric information ?",
-                                         style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
-                                       ),
-                                       actions: <Widget>[
-                                         TextButton(
-                                             style: TextButton.styleFrom(
-                                                 surfaceTintColor: Colors.grey,
-                                                 backgroundColor: Colors.transparent),
-                                             onPressed: () {
-                                               Navigator.of(context).pop(false);
-                                             },
-                                             child: Text(
-                                               "Cancel",
-                                               style: TextStyle(fontSize: 15, color: Colors.black),
-                                             )),
-                                         TextButton(
-                                             style: TextButton.styleFrom(
-                                                 surfaceTintColor: Colors.red.withOpacity(0.3),
-                                                 foregroundColor: Colors.red,
-                                                 backgroundColor: Colors.transparent),
-                                             onPressed: () {
-                                               setState(() {
-                                                 fabricAllItems.removeAt(index);
-                                                 FlutterToast.showCustomToast("${fabricAllItems[index]['title']}) Deleted Successfully");
-                                                 Navigator.of(context).pop(false);
-                                               });
-                                             },
-                                             child: Text(
-                                               "Remove",
-                                               style: TextStyle(fontSize: 15, color: Colors.red),
-                                             )),
-                                       ],
-                                     );
-                                   });
-                             },
-                           ),
-                         ],
-                       ),
-                       child: InkWell(
-                         onTap: () {
-                           Navigator.push(context, MaterialPageRoute(builder: (context) => FabricDetailScreen(data:controller.febriclist.fabricCostList![index])));
-                         },
-                         child: Card(
-                           elevation: 2.5,
-                           color: Colors.white,
-                           margin: EdgeInsets.zero,
-                           shape: RoundedRectangleBorder(borderRadius: defaultCardRadius),
-                           child: Padding(
-                             padding: EdgeInsets.only(top: 10,bottom: 10),
-                             child: ListTile(
-                               leading: GestureDetector(
-                                 onTap: () {
-                                   Navigator.push(context, MaterialPageRoute(builder: (context) => ImageOpenScreen(image:"images/avatar.png")));
-                                 },
-                                 child: CircleAvatar(
-                                   backgroundColor: Colors.grey,
-                                   radius: 22,
-                                   foregroundImage: AssetImage(
-                                       "images/avatar.png"
-                                   ),
-                                 ),
-                               ),
-                               title: Column(
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 children: [
-                                   Text(febric?.fabricName.toString() ?? "",textScaleFactor: 1,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)),
-                                   SizedBox(height: 10,),
-                                   Text(febric?.categoryName ?? "",textScaleFactor: 0.9,style: TextStyle(color: Colors.grey)),
-                                 ],
-                               ),
-                               trailing:  Padding(
-                                 padding: const EdgeInsets.only(top: 5,bottom: 5),
-                                 child: Column(
-                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                   crossAxisAlignment: CrossAxisAlignment.end,
-                                   children: [
+                    child: GetBuilder<FebricListControllers>(
+                  builder: (controller) => controller.febriclistbool == false
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : RefreshIndicator(
+                          color: Colors.white,
+                          onRefresh: () async {
+                            await fabricAllItems;
+                          },
+                          child: Scrollbar(
+                            controller: _allController,
+                            child: ListView.separated(
+                              // physics: BouncingScrollPhysics(),
+                              padding: const EdgeInsets.only(
+                                  top: 0, left: 7.5, right: 7.5, bottom: 20),
+                              shrinkWrap: true,
+                              controller: _allController,
+                              itemCount: 5,
+                              // itemCount: controller
+                              //         .febriclist.fabricCostList?.length ??
+                              //     0,
+                              itemBuilder: (BuildContext context, int index) {
+                                FabricCostList? febric = controller
+                                    .febriclist.fabricCostList?[index];
+                                return Slidable(
+                                  endActionPane: ActionPane(
+                                    motion: ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(8),
+                                            bottomLeft: Radius.circular(8)),
+                                        backgroundColor: Colors.green,
+                                        icon: CupertinoIcons.pencil,
+                                        padding:
+                                            EdgeInsets.only(top: 5, bottom: 5),
+                                        label: "Edit",
+                                        spacing: 10,
+                                        onPressed: (context) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditFabricRoot(
+                                                          fabricAllItemsData:
+                                                              fabricAllItems[
+                                                                  index])));
+                                        },
+                                      ),
+                                      SlidableAction(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(8),
+                                            bottomRight: Radius.circular(8)),
+                                        backgroundColor: Colors.red,
+                                        icon: CupertinoIcons.delete,
+                                        padding:
+                                            EdgeInsets.only(top: 5, bottom: 5),
+                                        label: "Delete",
+                                        spacing: 10,
+                                        onPressed: (context) {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  title: Text(
+                                                    "Remove",
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.black),
+                                                  ),
+                                                  content: Text(
+                                                    "Are you sure you would like to remove fabric information ?",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.black
+                                                            .withOpacity(0.5)),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                        style: TextButton.styleFrom(
+                                                            surfaceTintColor:
+                                                                Colors.grey,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop(false);
+                                                        },
+                                                        child: Text(
+                                                          "Cancel",
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color:
+                                                                  Colors.black),
+                                                        )),
+                                                    TextButton(
+                                                        style: TextButton.styleFrom(
+                                                            surfaceTintColor:
+                                                                Colors
+                                                                    .red
+                                                                    .withOpacity(
+                                                                        0.3),
+                                                            foregroundColor:
+                                                                Colors.red,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            fabricAllItems
+                                                                .removeAt(
+                                                                    index);
+                                                            FlutterToast
+                                                                .showCustomToast(
+                                                                    "${fabricAllItems[index]['title']}) Deleted Successfully");
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop(false);
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          "Remove",
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color:
+                                                                  Colors.red),
+                                                        )),
+                                                  ],
+                                                );
+                                              });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FabricDetailScreen(
+                                                      data: controller
+                                                              .febriclist
+                                                              .fabricCostList![
+                                                          index])));
+                                    },
+                                    child: Card(
+                                      elevation: 2.5,
+                                      color: Colors.white,
+                                      margin: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: defaultCardRadius),
+                                      child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                        Expanded(
+                                          flex: 3,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 10,bottom: 10,top: 10,right: 10),
+                                            child: Row(
+                                              children: [
+                                                Flexible(
+                                                  flex: 1,
+                                                  child: CircleAvatar(
+                                                    backgroundColor: Colors.grey,
+                                                    radius: 27,
+                                                    foregroundImage: AssetImage(
+                                                        "images/avatar.png"),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 15,
+                                                ),
+                                                Flexible(
+                                                  flex: 3,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                          "${febric?.fabricName.toString()} patel bhenb" ??
+                                                              "",
+                                                          textScaleFactor: 1.2,
+                                                          style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Text(
+                                                          febric?.categoryName ??
+                                                              "",
+                                                          textScaleFactor: 0.9,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
 
-                                     Text('Per Meter : ${febric?.finalPpi?.toDouble().toStringAsFixed(2)}',textScaleFactor: 1.15,
-                                         textAlign: TextAlign.start,style: TextStyle(color: Colors.teal.shade800,fontWeight: FontWeight.w500)),
-
-                                     Text('Per Piece : ${febric?.warpWastage?.toDouble().toStringAsFixed(2)}',textScaleFactor: 1.15,
-                                         textAlign: TextAlign.start,style: TextStyle(color: Colors.teal.shade800,fontWeight: FontWeight.w500)),
-                                   ],
-                                 ),
-                               ),
-                             ),
-                           ),
-                         ),
-                       ),
-                     );
-                   },
-                   separatorBuilder: (BuildContext context, int index) {
-                     return SizedBox(height: 10,);
-                   },
-                 ),
-               ),
-             ),)
-                ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(right: 10.0,top: 10,bottom: 10),
+                                            child: Container(
+                                              height: 40,
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Text(
+                                                        // '${febric?.finalPpi?.toDouble().toStringAsFixed(2)}',
+                                                        count[index],
+                                                        textScaleFactor: 1.15,
+                                                        textAlign: TextAlign.end,
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .brown,
+                                                            fontWeight:
+                                                                FontWeight.w500)),
+                                                  ),
+                                                  VerticalDivider(
+                                                    endIndent: 0,
+                                                    indent: 0,
+                                                    thickness: 1,
+                                                    color: Colors.grey.shade400,
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Text(
+                                                        // '${febric?.warpWastage?.toDouble().toStringAsFixed(2)}',
+                                                        count2[index],
+                                                        textScaleFactor: 1.15,
+                                                        textAlign: TextAlign.end,
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .brown,
+                                                            fontWeight:
+                                                                FontWeight.w500)),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return SizedBox(
+                                  height: 10,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                )),
               ],
             ),
           ),
@@ -535,56 +715,56 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
   }*/
 
 // Widget getHeader() {
-  //   return ScrollConfiguration(
-  //     behavior: MyBehavior(),
-  //     child: SingleChildScrollView(
-  //       controller: _allController,
-  //       scrollDirection: Axis.horizontal,
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         children: List.generate(headerFabricItems.length, (index) {
-  //           return GestureDetector(
-  //             onTap: () {
-  //               setState(() {
-  //                 activeTab = index;
-  //               });
-  //             },
-  //             child: Container(
-  //               padding: EdgeInsets.all(5),
-  //               margin: EdgeInsets.only(left: 5,right: 5),
-  //               decoration: BoxDecoration(
-  //                   color: activeTab == index
-  //                       ? Colors.white
-  //                       : Colors.transparent,
-  //                   borderRadius: BorderRadius.circular(7.5),
-  //                   border: Border.all(
-  //                     color: activeTab == index
-  //                         ? Colors.grey
-  //                         : Colors.transparent,
-  //                   )
-  //               ),
-  //               child: Tooltip(
-  //                 padding: EdgeInsets.all(5),
-  //                 message: headerFabricItems[index]['text'],
-  //                 textStyle: TextStyle(
-  //                     color: Colors.white),decoration: BoxDecoration(color: Colors.black,
-  //                   borderRadius: BorderRadius.circular(7.5)),
-  //                 child: Text(headerFabricItems[index]['text'], textScaleFactor: 0.95,style: TextStyle(
-  //                     color: activeTab == index
-  //                       ? Colors.black
-  //                       : Colors.black.withOpacity(0.4),
-  //                     fontWeight: activeTab == index
-  //                       ? FontWeight.w600
-  //                       : FontWeight.w500),
-  //                 ),),
-  //               ),
-  //             );
-  //         }),
-  //       ),
-  //     ),
-  //   );
-  // }
+//   return ScrollConfiguration(
+//     behavior: MyBehavior(),
+//     child: SingleChildScrollView(
+//       controller: _allController,
+//       scrollDirection: Axis.horizontal,
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//         children: List.generate(headerFabricItems.length, (index) {
+//           return GestureDetector(
+//             onTap: () {
+//               setState(() {
+//                 activeTab = index;
+//               });
+//             },
+//             child: Container(
+//               padding: EdgeInsets.all(5),
+//               margin: EdgeInsets.only(left: 5,right: 5),
+//               decoration: BoxDecoration(
+//                   color: activeTab == index
+//                       ? Colors.white
+//                       : Colors.transparent,
+//                   borderRadius: BorderRadius.circular(7.5),
+//                   border: Border.all(
+//                     color: activeTab == index
+//                         ? Colors.grey
+//                         : Colors.transparent,
+//                   )
+//               ),
+//               child: Tooltip(
+//                 padding: EdgeInsets.all(5),
+//                 message: headerFabricItems[index]['text'],
+//                 textStyle: TextStyle(
+//                     color: Colors.white),decoration: BoxDecoration(color: Colors.black,
+//                   borderRadius: BorderRadius.circular(7.5)),
+//                 child: Text(headerFabricItems[index]['text'], textScaleFactor: 0.95,style: TextStyle(
+//                     color: activeTab == index
+//                       ? Colors.black
+//                       : Colors.black.withOpacity(0.4),
+//                     fontWeight: activeTab == index
+//                       ? FontWeight.w600
+//                       : FontWeight.w500),
+//                 ),),
+//               ),
+//             );
+//         }),
+//       ),
+//     ),
+//   );
+// }
 
 /*  // Old Design Modification
 *

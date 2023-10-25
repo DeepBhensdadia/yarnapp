@@ -239,7 +239,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                 children: [
                                                                   Text(
                                                                     e.value.weight
-                                                                            .toString() ??
+                                                                        .toDouble().toStringAsFixed(3) ??
                                                                         "",
                                                                     style: TextStyle(
                                                                         color: Colors
@@ -255,8 +255,8 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                             child: Column(
                                                                 children: [
                                                                   Text(
-                                                                    e.value.rate
-                                                                            .toString() ??
+                                                                   "${ e.value.rate
+                                                                       .toString()}" ??
                                                                         "",
                                                                     style: TextStyle(
                                                                         color: Colors
@@ -268,19 +268,18 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                             padding:
                                                                 EdgeInsets.only(
                                                                     bottom: 10,
+                                                                    right: 10,
                                                                     top: 10),
-                                                            child: Column(
-                                                                children: [
-                                                                  Text(
-                                                                    e.value.amount
-                                                                            .toString() ??
-                                                                        "",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black
-                                                                            .withOpacity(0.8)),
-                                                                  ),
-                                                                ])),
+                                                            child: Text(
+                                                              textAlign: TextAlign.end,
+                                                              e.value.amount
+                                                                  ?.toDouble().toStringAsFixed(2) ??
+                                                                  "",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black
+                                                                      .withOpacity(0.8)),
+                                                            )),
                                                       ]),
                                                 )
                                                 .toList()
@@ -442,7 +441,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                 children: [
                                                                   Text(
                                                                     e.value.weight
-                                                                            .toString() ??
+                                                                        .toDouble().toStringAsFixed(3) ??
                                                                         "",
                                                                     style: TextStyle(
                                                                         color: Colors
@@ -471,19 +470,18 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                             padding:
                                                                 EdgeInsets.only(
                                                                     bottom: 10,
+                                                                    right: 8,
                                                                     top: 10),
-                                                            child: Column(
-                                                                children: [
-                                                                  Text(
-                                                                    e.value.amount
-                                                                            .toString() ??
-                                                                        "",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black
-                                                                            .withOpacity(0.8)),
-                                                                  ),
-                                                                ])),
+                                                            child: Text(
+                                                              textAlign: TextAlign.end,
+                                                              e.value.amount
+                                                                  ?.toDouble().toStringAsFixed(2) ??
+                                                                  "",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black
+                                                                      .withOpacity(0.8)),
+                                                            )),
                                                       ]),
                                                 )
                                                 .toList()
@@ -633,8 +631,10 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                   ),
                                                                 ),
                                                               ]),
-                                                              Column(children: [
-                                                                Text(
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(right: 8.0),
+                                                                child: Text(
+                                                                  textAlign: TextAlign.end,
                                                                   e.value.value?.toDouble().toStringAsFixed(2) ?? "",
                                                                   style: TextStyle(
                                                                       fontWeight: e.key == 6 ||
@@ -649,7 +649,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                           .withOpacity(
                                                                               0.8)),
                                                                 ),
-                                                              ]),
+                                                              ),
                                                             ]),
                                                       )
                                                       .toList()),
@@ -738,16 +738,18 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                               ),
                                                             ),
                                                           ]),
-                                                          Column(children: [
-                                                            Text(
-                                                              e.value.value?.toDouble().toStringAsFixed(2) ?? "",
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(right: 8.0),
+                                                            child: Text(
+                                                              textAlign: TextAlign.end,
+                                                              e.value.value?.toDouble().toStringAsFixed(3) ?? "",
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .black
                                                                       .withOpacity(
                                                                           0.8)),
                                                             ),
-                                                          ]),
+                                                          ),
                                                         ]),
                                                   )
                                                   .toList()),
@@ -835,9 +837,11 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                             ),
                                                           ],
                                                         ),
-                                                        Column(children: [
-                                                          Text(
-                                                            e.value.value?.toDouble().toStringAsFixed(2) ?? "",
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 8.0),
+                                                          child: Text(
+                                                            textAlign: TextAlign.end,
+                                                            e.key == 0 ? e.value.value?.toDouble().toStringAsFixed(0) ?? "": e.value.value?.toDouble().toStringAsFixed(2) ?? "",
                                                             style: TextStyle(
                                                                 // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
                                                                 color: Colors
@@ -845,7 +849,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                     .withOpacity(
                                                                         0.8)),
                                                           ),
-                                                        ]),
+                                                        ),
                                                       ]),
                                                 )
                                                 .toList(),

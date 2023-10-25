@@ -64,15 +64,17 @@ class _AddFabricRootState extends State<AddFabricRoot> {
             automaticallyImplyLeading: true,
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
                     Colors.white.withOpacity(0.20),
                     Colors.white.withOpacity(0.15),
                     Colors.white.withOpacity(0.025),
                     Colors.transparent,
-                  ])),
+                  ],
+                ),
+              ),
             ),
           ),
           body: getBody(),
@@ -124,11 +126,11 @@ class _AddFabricRootState extends State<AddFabricRoot> {
           children: List.generate(headerAddFabricItems.length, (index) {
             return GestureDetector(
               onTap: () {
-               if(index != 0){
-                 if (activeTab >= index) {
-                   pageController.jumpToPage(index);
-                 }
-               }
+                if (index != 0) {
+                  if (activeTab >= index) {
+                    pageController.jumpToPage(index);
+                  }
+                }
               },
               child: Container(
                 padding: EdgeInsets.all(5),

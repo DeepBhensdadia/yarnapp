@@ -451,40 +451,6 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                   ]),
                             )
                                 .toList()
-                              ..insert(
-                                0,
-                                TableRow(
-                                    decoration: BoxDecoration(
-                                        color: Color(0xffeeeeee)),
-                                    children: [
-                                      Column(children: [
-                                        Container(
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              top: 10,
-                                              bottom: 10),
-                                          child: Align(
-                                            alignment: AlignmentDirectional
-                                                .centerStart,
-                                            child: Text(
-                                              "Yarn Cost",
-                                              style: TextStyle(
-                                                  color:
-                                                  MyTheme.appBarColor),
-                                            ),
-                                          ),
-                                        ),
-                                      ]),
-                                      Column(children: [
-                                        Text(
-                                          "0.00",
-                                          style: TextStyle(
-                                              color: Colors.black
-                                                  .withOpacity(0.8)),
-                                        ),
-                                      ]),
-                                    ]),
-                              ),
                           ),
                         ],
                       ),

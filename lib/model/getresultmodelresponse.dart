@@ -79,16 +79,16 @@ class Calculation {
 class General {
   int? id;
   String? fabricName;
-  int? warpYarn;
-  int? weftYarn;
-  int? width;
-  int? finalPpi;
-  int? warpWastage;
-  int? weftWastage;
-  int? buttaCuttingCost;
-  int? additionalCost;
-  int? fabricCategoryId;
-  int? userId;
+  dynamic warpYarn;
+  dynamic weftYarn;
+  dynamic width;
+  dynamic finalPpi;
+  dynamic warpWastage;
+  dynamic weftWastage;
+  dynamic buttaCuttingCost;
+  dynamic additionalCost;
+  dynamic fabricCategoryId;
+  dynamic userId;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -146,17 +146,17 @@ class General {
 
 class WarplistElement {
   int? id;
-  int? fabricCostId;
+  dynamic fabricCostId;
   String? yarnName;
-  int? ends;
+  dynamic ends;
   dynamic weight;
-  int? rate;
+  dynamic rate;
   double? amount;
-  int? denier;
+  dynamic denier;
   DateTime? createdAt;
   DateTime? updatedAt;
-  int? yarnId;
-  int? finalPpi;
+  dynamic yarnId;
+  dynamic finalPpi;
 
   WarplistElement({
     this.id,

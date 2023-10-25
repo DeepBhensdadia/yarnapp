@@ -161,6 +161,7 @@ class FebricAddController extends GetxController {
     }).onError((error, stackTrace) {
       Get.context!.loaderOverlay.hide();
       print(error);
+      FlutterToast.showCustomToast("erroe found");
     });
   }
 

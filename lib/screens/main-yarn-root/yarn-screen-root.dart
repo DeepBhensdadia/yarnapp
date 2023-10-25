@@ -510,23 +510,29 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                  // yarnAllItems[index]['title'],
-                                                  controller.yarnData[index]?.yarnName.toString() ?? "",
-                                                  textScaleFactor: 1,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              Text(
-                                                  // yarnAllItems[index]['rate'],
-                                                  "${controller.yarnData[index]?.yarnRate.toDouble().toStringAsFixed(2)}",
-                                                  textScaleFactor: 1.05,
-                                                  textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                      color: Colors.brown,
-                                                      fontWeight:
-                                                          FontWeight.w600)),
+                                              Flexible(
+                                                flex:3,
+                                                child: Text(
+                                                    // yarnAllItems[index]['title'],
+                                                    controller.yarnData[index]?.yarnName.toString() ?? "",
+                                                    textScaleFactor: 1.25,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w600)),
+                                              ),
+                                              Flexible(
+                                                flex: 1,
+                                                child: Text(
+                                                    // yarnAllItems[index]['rate'],
+                                                    "${controller.yarnData[index]?.yarnRate.toDouble().toStringAsFixed(2)}",
+                                                    textScaleFactor: 1.15,
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                        color: Colors.brown,
+                                                        fontWeight:
+                                                            FontWeight.w600)),
+                                              ),
                                             ],
                                           ),
                                           SizedBox(

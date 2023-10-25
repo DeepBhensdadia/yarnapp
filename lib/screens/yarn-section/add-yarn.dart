@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:yarn_modified/getxcontrollers/yarncategorydata.dart';
 import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
 import 'package:yarn_modified/model/create-yarn-index-model.dart';
 import 'package:yarn_modified/widgets/common_fields.dart';
@@ -42,20 +43,7 @@ class _AddYarnState extends State<AddYarn> {
 
   YarnListController yarnlist = Get.put(YarnListController());
 
-
-  List<yarnCategoryDatum?> getData = [];
-
-  Future<void> fetchCategoryDataFromAPI() async {
-
-    await yarnCategoryData().then((value) {
-      setState(() {
-        getData = value.data.cast<yarnCategoryDatum?>();
-      });
-      // print(value);
-    }).onError((error, stackTrace) {
-      print(error);
-    });
-  }
+  YarnCategoryController yarncategory = Get.put(YarnCategoryController());
 
 
   Future<void> fetchDataFromAPI({
@@ -86,7 +74,7 @@ class _AddYarnState extends State<AddYarn> {
   @override
   void initState() {
     super.initState();
-    fetchCategoryDataFromAPI();
+    yarncategory.fetchDataFromAPI();
   }
 
   @override
@@ -203,7 +191,8 @@ class _AddYarnState extends State<AddYarn> {
                     tooltip: "Back",
                     icon: Icon(Icons.arrow_back_rounded)),
               ),
-              body: Stack(
+              body:
+              GetBuilder<YarnCategoryController>(builder: (controller) =>   Stack(
                 children: [
                   ScrollConfiguration(
                     behavior: MyBehavior(),
@@ -230,9 +219,9 @@ class _AddYarnState extends State<AddYarn> {
                                     padding: const EdgeInsets.all(15),
                                     child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      CrossAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         CommonTextFormField(
@@ -256,17 +245,17 @@ class _AddYarnState extends State<AddYarn> {
                                         CommonDecimalTextField(
                                             controller: yarnRateController,
                                             labelText:
-                                                'Enter Yarn Rate (Including GST)',
+                                            'Enter Yarn Rate (Including GST)',
                                             keyboardType: TextInputType.number,
                                             hintText:
-                                                'Enter Yarn Rate (Including GST)',
+                                            'Enter Yarn Rate (Including GST)',
                                             InputAction: TextInputAction.next),
                                         SizedBox(
                                           height: 25,
                                         ),
                                         Align(
                                           alignment:
-                                              AlignmentDirectional.topStart,
+                                          AlignmentDirectional.topStart,
                                           child: Text(
                                             "Select Yarn Category",
                                             textScaleFactor: 1.3,
@@ -285,9 +274,9 @@ class _AddYarnState extends State<AddYarn> {
                                                 accentColor: Colors.grey,
                                                 hintColor: Colors.grey,
                                                 colorScheme:
-                                                    ColorScheme.dark()),
+                                                ColorScheme.dark()),
                                             child:
-                                                DropdownButtonFormField<String>(
+                                            DropdownButtonFormField<String>(
                                               hint: Text("--Select Category--",style: TextStyle(fontSize: MediaQuery.of(context).textScaleFactor * 13)),
                                               // value: dropDownHint,
                                               onChanged: (value) {
@@ -307,8 +296,8 @@ class _AddYarnState extends State<AddYarn> {
                                                   decoration: BoxDecoration(
                                                       color: Colors.white,
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
+                                                      BorderRadius.circular(
+                                                          5)),
                                                   child: IconButton(
                                                     iconSize: 20,
                                                     color: Colors.grey,
@@ -322,25 +311,25 @@ class _AddYarnState extends State<AddYarn> {
                                                                   AddYarnCategory()));
                                                     },
                                                     icon:
-                                                        Icon(Icons.add_rounded),
+                                                    Icon(Icons.add_rounded),
                                                   ),
                                                 ),
                                                 disabledBorder:
-                                                    UnderlineInputBorder(
+                                                UnderlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.black
                                                           .withOpacity(0.5),
                                                       width: 0.25),
                                                 ),
                                                 enabledBorder:
-                                                    UnderlineInputBorder(
+                                                UnderlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.black
                                                           .withOpacity(0.5),
                                                       width: 0.25),
                                                 ),
                                                 focusedBorder:
-                                                    UnderlineInputBorder(
+                                                UnderlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.black
                                                           .withOpacity(0.5),
@@ -353,21 +342,21 @@ class _AddYarnState extends State<AddYarn> {
                                                       width: 0.25),
                                                 ),
                                                 floatingLabelAlignment:
-                                                    FloatingLabelAlignment
-                                                        .center,
+                                                FloatingLabelAlignment
+                                                    .center,
                                                 hintText: dropDownHint,
                                                 hintStyle: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: MediaQuery.of(
-                                                                context)
-                                                            .textScaleFactor *
+                                                        context)
+                                                        .textScaleFactor *
                                                         13),
                                               ),
                                               style: TextStyle(
                                                   color: Colors.black,fontSize: MediaQuery.of(context).textScaleFactor * 13.5),
                                               // value: sub_Category_Data.first!.catId,
                                               items:
-                                              getData
+                                              yarncategory.getData
                                                   .map((e) => DropdownMenuItem(
                                                   value: e!.id.toString(),
                                                   child: Text(e.yarnCategory)))
@@ -397,7 +386,7 @@ class _AddYarnState extends State<AddYarn> {
                                         yarnName: nameController.text,
                                         yarnDenier: denierController.text,
                                         yarnRate: yarnRateController.text,
-                                      category_id: categoryid
+                                        category_id: categoryid
                                     );
                                   },
                                   style: ButtonStyle(
@@ -406,14 +395,14 @@ class _AddYarnState extends State<AddYarn> {
                                       shape: MaterialStateProperty.all(
                                           RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(8))),
+                                              BorderRadius.circular(8))),
                                       elevation: MaterialStateProperty.all(2.5),
                                       foregroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.white),
+                                      MaterialStateProperty.all(
+                                          Colors.white),
                                       backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.green)),
+                                      MaterialStateProperty.all(
+                                          Colors.green)),
                                   child: Text('SAVE')),
                             ),
                             SizedBox(
@@ -425,7 +414,8 @@ class _AddYarnState extends State<AddYarn> {
                     ),
                   ),
                 ],
-              ),
+              ),)
+
             ),
           ),
         ),

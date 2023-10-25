@@ -35,16 +35,16 @@ class GetFebricsModel {
 class FabricCostList {
   int? id;
   String? fabricName;
-  int? warpYarn;
-  int? weftYarn;
-  int? width;
-  int? finalPpi;
-  int? warpWastage;
-  int? weftWastage;
-  int? buttaCuttingCost;
-  int? additionalCost;
-  int? fabricCategoryId;
-  int? userId;
+  dynamic warpYarn;
+  dynamic weftYarn;
+  dynamic width;
+  dynamic finalPpi;
+  dynamic warpWastage;
+  dynamic weftWastage;
+  dynamic buttaCuttingCost;
+  dynamic additionalCost;
+  dynamic fabricCategoryId;
+  dynamic userId;
   DateTime? createdAt;
   DateTime? updatedAt;
   String? categoryName;
