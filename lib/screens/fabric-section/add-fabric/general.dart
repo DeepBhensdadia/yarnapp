@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yarn_modified/model/get-fabric-category-model.dart';
-import 'package:yarn_modified/model/get-yarn-category-model.dart';
+import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
+import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric-category.dart';
 import 'package:yarn_modified/getxcontrollers/febricaddcontroller.dart';
 import '../../../const/const.dart';
 import '../../../const/themes.dart';
-import '../../../services/all_api_services.dart';
 import '../../../widgets/common_fields.dart';
 
 class AddGeneralCategory extends StatefulWidget {
@@ -20,7 +19,8 @@ class AddGeneralCategory extends StatefulWidget {
   State<AddGeneralCategory> createState() => _AddGeneralCategoryState();
 }
 
-class _AddGeneralCategoryState extends State<AddGeneralCategory> {
+class _AddGeneralCategoryState extends State<AddGeneralCategory>
+    with AutomaticKeepAliveClientMixin {
   ScrollController _controller1 = ScrollController();
   FebricAddController feb = Get.put(FebricAddController());
 
@@ -28,6 +28,15 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  List count = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+@override
+  void initState() {
+  feb.buttaCuttingController.text = "0";
+  feb.additionalCostController.text = "0";
+  feb.fabricCategoryController.text = "29";
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +45,8 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
       body: SingleChildScrollView(
           controller: _controller1,
           physics: BouncingScrollPhysics(),
-          child: GetBuilder<FebricAddController>(
-            builder: (controller) => Column(
+          child: GetBuilder<FebricCategoryController>(
+            builder: (v) => Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -71,33 +80,151 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
                           SizedBox(
                             height: 25,
                           ),
-                          CommonDecimalTextField(
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter number of wrap yarn";
-                                }
-                                return null;
-                              },
-                              controller: feb.numberOfWarpYarnController,
-                              labelText: 'Enter Number of Warp Yarn',
-                              keyboardType: TextInputType.number,
-                              hintText: 'Enter Number of Warp Yarn',
-                              InputAction: TextInputAction.next),
+                          Align(
+                            alignment: AlignmentDirectional.topStart,
+                            child: Text(
+                              "Select Number of Warp Yarn",
+                              textScaleFactor: 1.3,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: MyTheme.appBarColor),
+                            ),
+                          ),
+                          Container(
+                            height: 40,
+                            child: Theme(
+                              data: ThemeData(
+                                  canvasColor: Colors.white,
+                                  primaryColor: Colors.grey,
+                                  accentColor: Colors.grey,
+                                  hintColor: Colors.grey,
+                                  colorScheme: ColorScheme.dark()),
+                              child: AbsorbPointer(
+                                absorbing: feb.isWrapDone,
+                                child: DropdownButtonFormField<String>(
+                                  onChanged: (value) {
+                                    feb.numberOfWarpYarnController.text =
+                                        value ?? "";
+                                  },
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.transparent,
+                                  ),
+                                  decoration: InputDecoration(
+                                    enabled: true,
+                                    isDense: true,
+                                    disabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5),
+                                          width: 0.25),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5),
+                                          width: 0.25),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5),
+                                          width: 0.25),
+                                    ),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5),
+                                          width: 0.25),
+                                    ),
+                                    floatingLabelAlignment:
+                                        FloatingLabelAlignment.center,
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        MediaQuery.of(context).textScaleFactor *
+                                            13.5,
+                                  ),
+                                  // value: sub_Category_Data.first!.catId,
+                                  items: count
+                                      .map((e) => DropdownMenuItem<String>(
+                                          value: e, child: Text(e)))
+                                      .toList(),
+                                ),
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 25,
                           ),
-                          CommonDecimalTextField(
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter number of weft yarn";
-                                }
-                                return null;
-                              },
-                              controller: feb.numberOfWeftYarnController,
-                              labelText: 'Enter Number of Weft Yarn',
-                              keyboardType: TextInputType.number,
-                              hintText: 'Enter Number of Weft Yarn',
-                              InputAction: TextInputAction.next),
+                          Align(
+                            alignment: AlignmentDirectional.topStart,
+                            child: Text(
+                              "Select Number of Weft Yarn",
+                              textScaleFactor: 1.3,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: MyTheme.appBarColor),
+                            ),
+                          ),
+                          Container(
+                            height: 40,
+                            child: Theme(
+                              data: ThemeData(
+                                  canvasColor: Colors.white,
+                                  primaryColor: Colors.grey,
+                                  accentColor: Colors.grey,
+                                  hintColor: Colors.grey,
+                                  colorScheme: ColorScheme.dark()),
+                              child: AbsorbPointer(
+                                absorbing: feb.isWrapDone,
+                                child: DropdownButtonFormField<String>(
+                                  onChanged: (value) {
+                                    feb.numberOfWeftYarnController.text =
+                                        value ?? "";
+                                  },
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.transparent,
+                                  ),
+                                  decoration: InputDecoration(
+                                    // enabled: false,
+                                    isDense: true,
+                                    disabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5),
+                                          width: 0.25),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5),
+                                          width: 0.25),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5),
+                                          width: 0.25),
+                                    ),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5),
+                                          width: 0.25),
+                                    ),
+                                    floatingLabelAlignment:
+                                        FloatingLabelAlignment.center,
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        MediaQuery.of(context).textScaleFactor *
+                                            13.5,
+                                  ),
+                                  // value: sub_Category_Data.first!.catId,
+                                  items: count
+                                      .map((e) => DropdownMenuItem<String>(
+                                          value: e, child: Text(e)))
+                                      .toList(),
+                                ),
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 25,
                           ),
@@ -172,6 +299,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
                                 }
                                 return null;
                               },
+                              ontaps: () => feb.buttaCuttingController.clear(),
                               controller: feb.buttaCuttingController,
                               labelText: 'Enter Butta Cutting cost Per Metre',
                               keyboardType: TextInputType.number,
@@ -187,6 +315,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
                                 }
                                 return null;
                               },
+                              ontaps: () => feb.additionalCostController.clear(),
                               controller: feb.additionalCostController,
                               labelText: 'Enter Any Additional cost Per Metre',
                               keyboardType: TextInputType.number,
@@ -206,7 +335,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          controller.categorybool == false
+                          v.febricbool == false
                               ? SizedBox.shrink()
                               : Container(
                                   height: 40,
@@ -217,24 +346,72 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
                                         accentColor: Colors.grey,
                                         hintColor: Colors.grey,
                                         colorScheme: ColorScheme.dark()),
-                                    child: DropdownButtonFormField<String>(
-                                      hint: Text("--Select Category--",
-                                          style: TextStyle(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child:
+                                              DropdownButtonFormField<String>(
+                                            menuMaxHeight: screenheight(context,
+                                                dividedby: 1.5),
+                                            onChanged: (value) {
+                                              feb.fabricCategoryController
+                                                  .text = value ?? "";
+                                            },
+                                            icon: Icon(
+                                              Icons.arrow_drop_down,
+                                              color: Colors.transparent,
+                                            ),
+                                            decoration: InputDecoration(
+                                              enabled: true,
+                                              isDense: true,
+                                              disabledBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                    width: 0.25),
+                                              ),
+                                              enabledBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                    width: 0.25),
+                                              ),
+                                              focusedBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                    width: 0.25),
+                                              ),
+                                              border: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                    width: 0.25),
+                                              ),
+                                              floatingLabelAlignment:
+                                                  FloatingLabelAlignment.center,
+                                            ),
+                                            style: TextStyle(
+                                              color: Colors.black,
                                               fontSize: MediaQuery.of(context)
                                                       .textScaleFactor *
-                                                  13)),
-                                      onChanged: (value) {
-                                        controller.fabricCategoryController
-                                            .text = value ?? "";
-                                      },
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.transparent,
-                                      ),
-                                      decoration: InputDecoration(
-                                        enabled: true,
-                                        isDense: true,
-                                        suffix: Tooltip(
+                                                  13.5,
+                                            ),
+                                            value: "29",
+                                            items: v.getData
+                                                .map((e) =>
+                                                    DropdownMenuItem<String>(
+                                                        value: e!.id.toString(),
+                                                        child: Text(e
+                                                            .fabricCategory
+                                                            .toString())))
+                                                .toList(),
+                                          ),
+                                        ),
+                                        Tooltip(
                                           message: "Add Fabric Category",
                                           textStyle:
                                               TextStyle(color: Colors.black),
@@ -257,52 +434,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
                                             icon: Icon(Icons.add_rounded),
                                           ),
                                         ),
-                                        disabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              width: 0.25),
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              width: 0.25),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              width: 0.25),
-                                        ),
-                                        border: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              width: 0.25),
-                                        ),
-                                        floatingLabelAlignment:
-                                            FloatingLabelAlignment.center,
-                                        hintText: dropDownHint,
-                                        hintStyle: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: MediaQuery.of(context)
-                                                    .textScaleFactor *
-                                                13),
-                                      ),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: MediaQuery.of(context)
-                                                .textScaleFactor *
-                                            13.5,
-                                      ),
-                                      // value: sub_Category_Data.first!.catId,
-                                      items: controller.yarncategoryData
-                                          .map((e) => DropdownMenuItem<String>(
-                                              value: e!.id.toString(),
-                                              child: Text(
-                                                  e.fabricCategory.toString())))
-                                          .toList(),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -320,9 +452,8 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
                   child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          widget.page.nextPage(
-                              duration: Duration(milliseconds: 200),
-                              curve: Curves.ease);
+                          Get.find<FebricAddController>().isWrapDone = true;
+                          widget.page.jumpToPage(1);
                         }
                       },
                       style: ButtonStyle(
@@ -344,4 +475,8 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory> {
           )),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -18,7 +18,7 @@ class YarnCategoryModel {
   factory YarnCategoryModel.fromJson(Map<String, dynamic> json) => YarnCategoryModel(
     success: json["success"],
     message: json["message"],
-    data: List<yarnCategoryDatum?>.from(json["data"].map((x) => yarnCategoryDatum.fromJson(x))),
+    data:json["data"] == null ? [] : List<yarnCategoryDatum?>.from(json["data"].map((x) => yarnCategoryDatum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {

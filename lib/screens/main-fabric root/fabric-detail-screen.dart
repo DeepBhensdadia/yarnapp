@@ -62,7 +62,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                           height: 2,
                         ),
                         Text(
-                         widget.data.categoryName ?? "",
+                          widget.data.categoryName ?? "",
                           textScaleFactor: 0.75,
                           style:
                               TextStyle(color: Colors.white.withOpacity(0.75)),
@@ -239,7 +239,8 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                 children: [
                                                                   Text(
                                                                     e.value.weight
-                                                                        .toDouble().toStringAsFixed(3) ??
+                                                                            .toDouble()
+                                                                            .toStringAsFixed(3) ??
                                                                         "",
                                                                     style: TextStyle(
                                                                         color: Colors
@@ -255,8 +256,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                             child: Column(
                                                                 children: [
                                                                   Text(
-                                                                   "${ e.value.rate
-                                                                       .toString()}" ??
+                                                                    "${e.value.rate.toString()}" ??
                                                                         "",
                                                                     style: TextStyle(
                                                                         color: Colors
@@ -271,14 +271,18 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                     right: 10,
                                                                     top: 10),
                                                             child: Text(
-                                                              textAlign: TextAlign.end,
+                                                              textAlign:
+                                                                  TextAlign.end,
                                                               e.value.amount
-                                                                  ?.toDouble().toStringAsFixed(2) ??
+                                                                      ?.toDouble()
+                                                                      .toStringAsFixed(
+                                                                          2) ??
                                                                   "",
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .black
-                                                                      .withOpacity(0.8)),
+                                                                      .withOpacity(
+                                                                          0.8)),
                                                             )),
                                                       ]),
                                                 )
@@ -406,7 +410,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                             child: Column(
                                                                 children: [
                                                                   Text(
-                                                                    e.value.yarnId
+                                                                    e.value.yarnName
                                                                             .toString() ??
                                                                         "",
                                                                     style: TextStyle(
@@ -441,7 +445,8 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                 children: [
                                                                   Text(
                                                                     e.value.weight
-                                                                        .toDouble().toStringAsFixed(3) ??
+                                                                            .toDouble()
+                                                                            .toStringAsFixed(3) ??
                                                                         "",
                                                                     style: TextStyle(
                                                                         color: Colors
@@ -473,14 +478,18 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                     right: 8,
                                                                     top: 10),
                                                             child: Text(
-                                                              textAlign: TextAlign.end,
+                                                              textAlign:
+                                                                  TextAlign.end,
                                                               e.value.amount
-                                                                  ?.toDouble().toStringAsFixed(2) ??
+                                                                      ?.toDouble()
+                                                                      .toStringAsFixed(
+                                                                          2) ??
                                                                   "",
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .black
-                                                                      .withOpacity(0.8)),
+                                                                      .withOpacity(
+                                                                          0.8)),
                                                             )),
                                                       ]),
                                                 )
@@ -632,10 +641,20 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                 ),
                                                               ]),
                                                               Padding(
-                                                                padding: const EdgeInsets.only(right: 8.0),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            8.0),
                                                                 child: Text(
-                                                                  textAlign: TextAlign.end,
-                                                                  e.value.value?.toDouble().toStringAsFixed(2) ?? "",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .end,
+                                                                  e.value.value
+                                                                          ?.toDouble()
+                                                                          .toStringAsFixed(
+                                                                              2) ??
+                                                                      "",
                                                                   style: TextStyle(
                                                                       fontWeight: e.key == 6 ||
                                                                               e.key ==
@@ -739,10 +758,18 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                             ),
                                                           ]),
                                                           Padding(
-                                                            padding: const EdgeInsets.only(right: 8.0),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 8.0),
                                                             child: Text(
-                                                              textAlign: TextAlign.end,
-                                                              e.value.value?.toDouble().toStringAsFixed(3) ?? "",
+                                                              textAlign:
+                                                                  TextAlign.end,
+                                                              e.value.value
+                                                                      ?.toDouble()
+                                                                      .toStringAsFixed(
+                                                                          3) ??
+                                                                  "",
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .black
@@ -838,10 +865,24 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                           ],
                                                         ),
                                                         Padding(
-                                                          padding: const EdgeInsets.only(right: 8.0),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 8.0),
                                                           child: Text(
-                                                            textAlign: TextAlign.end,
-                                                            e.key == 0 ? e.value.value?.toDouble().toStringAsFixed(0) ?? "": e.value.value?.toDouble().toStringAsFixed(2) ?? "",
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            e.key == 0
+                                                                ? e.value.value
+                                                                        ?.toDouble()
+                                                                        .toStringAsFixed(
+                                                                            0) ??
+                                                                    ""
+                                                                : e.value.value
+                                                                        ?.toDouble()
+                                                                        .toStringAsFixed(
+                                                                            2) ??
+                                                                    "",
                                                             style: TextStyle(
                                                                 // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
                                                                 color: Colors

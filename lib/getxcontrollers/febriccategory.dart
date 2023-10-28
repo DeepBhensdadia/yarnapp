@@ -8,7 +8,7 @@ class FebricCategoryController extends GetxController{
   List<fabricCategoryDatum?> getData = [];
 bool febricbool =false;
   Future<void> fetchDataFromAPI() async {
-    febricbool =true;
+    febricbool =false;
     await fabricCategoryData().then((value) {
       getData = value.data;
       febricbool =true;

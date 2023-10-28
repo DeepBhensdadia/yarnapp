@@ -52,12 +52,14 @@ class _CommonTextFieldState extends State<CommonTextField> {
             fontSize: MediaQuery.of(context).textScaleFactor * 15,
           ),
           inputFormatters: [widget.inputFormatters],
+          maxLength: 25,
           decoration: InputDecoration(
-            hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: Colors.grey,
-              fontSize: MediaQuery.of(context).textScaleFactor * 13,
-            ),
+            counter: Offstage(),
+            // hintText: widget.hintText,
+            // hintStyle: TextStyle(
+            //   color: Colors.grey,
+            //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
+            // ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: 0,
             ),
@@ -139,11 +141,11 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
           ],
           decoration: InputDecoration(
             counter: Offstage(),
-            hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: Colors.grey,
-              fontSize: MediaQuery.of(context).textScaleFactor * 13,
-            ),
+            // hintText: widget.hintText,
+            // hintStyle: TextStyle(
+            //   color: Colors.grey,
+            //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
+            // ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: 0,
             ),
@@ -230,12 +232,14 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
             color: Colors.black,
             fontSize: MediaQuery.of(context).textScaleFactor * 15,
           ),
+          maxLength: 25,
           decoration: InputDecoration(
-            hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: Colors.grey,
-              fontSize: MediaQuery.of(context).textScaleFactor * 13,
-            ),
+            counter: Offstage(),
+            // hintText: widget.hintText,
+            // hintStyle: TextStyle(
+            //   color: Colors.grey,
+            //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
+            // ),
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 0
             ),
@@ -263,13 +267,15 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
 
 class CommonDecimalTextField extends StatefulWidget {
   final String? Function(String?)? validatorfield;
+
+ final void Function()? ontaps;
   const CommonDecimalTextField({
     super.key,
     required this.controller,
     required this.labelText,
     required this.keyboardType,
     required this.hintText,
-    required this.InputAction, this.validatorfield,
+    required this.InputAction, this.validatorfield, this.ontaps,
   });
 
   final String labelText;
@@ -283,6 +289,8 @@ class CommonDecimalTextField extends StatefulWidget {
 }
 
 class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -309,15 +317,19 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
             color: Colors.black,
             fontSize: MediaQuery.of(context).textScaleFactor * 15,
           ),
+
           inputFormatters: [
             FilteringTextInputFormatter.deny(RegExp('[\\-,\b]')),
           ],
+          onTap: widget.ontaps,
+          maxLength: 25,
           decoration: InputDecoration(
-            hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: Colors.grey,
-              fontSize: MediaQuery.of(context).textScaleFactor * 13,
-            ),
+            counter: Offstage(),
+            // hintText: widget.hintText,
+            // hintStyle: TextStyle(
+            //   color: Colors.grey,
+            //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
+            // ),
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 0
             ),

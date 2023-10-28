@@ -41,7 +41,7 @@ class _AddFabricCategoryState extends State<AddFabricCategory> {
 
     }).onError((error, stackTrace) {
       context.loaderOverlay.hide();
-
+      FlutterToast.showCustomToast("The Febric category has already been taken.");
       print(error);
     });
   }

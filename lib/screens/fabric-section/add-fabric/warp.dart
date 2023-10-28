@@ -14,17 +14,15 @@ class AddWarpCategory extends StatefulWidget {
   State<AddWarpCategory> createState() => _AddWarpCategoryState();
 }
 
-class _AddWarpCategoryState extends State<AddWarpCategory> {
+class _AddWarpCategoryState extends State<AddWarpCategory>
+    with AutomaticKeepAliveClientMixin {
   ScrollController _controller2 = ScrollController();
   FebricAddController feb = Get.put(FebricAddController());
 
   @override
   void initState() {
     super.initState();
-    if (feb.wrapmodel == false) {
-      feb.wrapModel.clear();
-      feb.fillModel();
-    }
+    feb.fillModel();
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -124,10 +122,10 @@ class _AddWarpCategoryState extends State<AddWarpCategory> {
                   child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          feb.changedData();
-                          widget.page.nextPage(
-                              duration: Duration(milliseconds: 200),
-                              curve: Curves.ease);
+                          Get.find<FebricAddController>().isWeftDone = true;
+                          // feb.changedData();
+                          widget.page.jumpToPage(
+                              2);
                         }
                       },
                       style: ButtonStyle(
@@ -146,4 +144,8 @@ class _AddWarpCategoryState extends State<AddWarpCategory> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -16,9 +16,7 @@ import '../model/get-yarn-index-model.dart';
 
 //==============Get Yarn & Fabric Category, Yarn & Fabric Index Api===========
 
-var commonHeaders = {
-  'Content-Type': 'application/json'
-};
+var commonHeaders = {'Content-Type': 'application/json'};
 
 Future<YarnCategoryModel> yarnCategoryData() async {
   var url = Uri.parse(URLs.Base_url + "yarnCategory?user_id=1");
@@ -26,6 +24,7 @@ Future<YarnCategoryModel> yarnCategoryData() async {
   // print('Response Body: ${response.body}');
   return yarnCategoryModelFromJson(response.body);
 }
+
 Future<GetFebricsModel> febricindexlist() async {
   var url = Uri.parse(URLs.Base_url + "getFabricCost?user_id=1");
   var response = await http.get(url);
@@ -59,7 +58,7 @@ Future<GetResultModel> getResultapi({required String id}) async {
 Future<AddfebricresponseModel> addfebricdetails({required var parameter}) {
   String url = '${URLs.Base_url}AddFabricDetails';
   return http
-      .post(Uri.parse(url),body: parameter,headers: commonHeaders)
+      .post(Uri.parse(url), body: parameter, headers: commonHeaders)
       .then((http.Response response) {
     debugPrint(json.encode(response.body));
     return addfebricresponseModelFromJson(response.body);
@@ -68,14 +67,15 @@ Future<AddfebricresponseModel> addfebricdetails({required var parameter}) {
 
 //==============Add Yarn & Fabric Category, Yarn & Fabric Index Api===========
 
-
-Future<CreateYarnCategoryModel> addYarnCategoryData({required parameter}) async {
+Future<CreateYarnCategoryModel> addYarnCategoryData(
+    {required parameter}) async {
   var url = Uri.parse(URLs.Base_url + "yarnCreateCategory");
   // var response = await http.post(body: jsonEncode(parameter),url,headers: yarnHeaders);
   // // print('Response Body: ${response.body}');
   // return createYarnCategoryModelFromJson(response.body);
 
-  var response = await http.post(body: jsonEncode(parameter),url,headers: commonHeaders);
+  var response =
+      await http.post(body: jsonEncode(parameter), url, headers: commonHeaders);
 
   if (response.statusCode == 200) {
     // print('Response Body: ${response.body}');
@@ -83,46 +83,52 @@ Future<CreateYarnCategoryModel> addYarnCategoryData({required parameter}) async 
   return createYarnCategoryModelFromJson(response.body);
 }
 
-Future<CreateFabricCategoryModel> addFabricCategoryData({required parameter}) async {
+Future<CreateFabricCategoryModel> addFabricCategoryData(
+    {required parameter}) async {
   var url = Uri.parse(URLs.Base_url + "fabricCreateCategory");
-  var response = await http.post(body: jsonEncode(parameter),url,headers: commonHeaders);
+  var response =
+      await http.post(body: jsonEncode(parameter), url, headers: commonHeaders);
   // print('Response Body: ${response.body}');
   return createFabricCategoryModelFromJson(response.body);
 }
 
 Future<CreateAddYarnModel> addYarnIndexData({required parameter}) async {
   var url = Uri.parse(URLs.Base_url + "yarnCreate");
-  var response = await http.post(body: parameter,url,headers: commonHeaders);
+  var response = await http.post(body: parameter, url, headers: commonHeaders);
   // print('Response Body: ${response.body}');
   return createAddYarnModelFromJson(response.body);
 }
 
 //==============Edit Yarn & Fabric Category, Yarn & Fabric Index Api===========
 
-Future<EditModel> editYarnCategoryData({required  parameter, required String categoryId}) async {
+Future<EditModel> editYarnCategoryData(
+    {required parameter, required String categoryId}) async {
   var url = Uri.parse(URLs.Base_url + "yarnUpdateCategory/$categoryId");
-  var response = await http.put(body: parameter,url,headers: commonHeaders);
+  var response = await http.put(body: parameter, url, headers: commonHeaders);
   print('Response Body: ${response.body}');
   return editModelFromJson(response.body);
 }
 
-Future<EditModel> editFabricCategoryData({required  parameter, required String categoryId}) async {
+Future<EditModel> editFabricCategoryData(
+    {required parameter, required String categoryId}) async {
   var url = Uri.parse(URLs.Base_url + "fabricUpdateCategory/$categoryId");
-  var response = await http.put(body: parameter,url,headers: commonHeaders);
+  var response = await http.put(body: parameter, url, headers: commonHeaders);
   print('Response Body: ${response.body}');
   return editModelFromJson(response.body);
 }
 
-Future<EditModel> editYarnIndexData({required  parameter, required String categoryId}) async {
+Future<EditModel> editYarnIndexData(
+    {required parameter, required String categoryId}) async {
   var url = Uri.parse(URLs.Base_url + "yarnUpdate/$categoryId");
-  var response = await http.put(body:parameter,url,headers: commonHeaders);
+  var response = await http.put(body: parameter, url, headers: commonHeaders);
   print('Response Body: ${response.body}');
   return editModelFromJson(response.body);
 }
 
 //=============Delete Yarn & Fabric Category, Yarn & Fabric Index Api==========
 
-Future<DeletionModel> deleteYarnCategoryData({required String categoryId}) async {
+Future<DeletionModel> deleteYarnCategoryData(
+    {required String categoryId}) async {
   var url = Uri.parse(URLs.Base_url + "yarnDestroyCategory/$categoryId");
   print(url);
   var response = await http.delete(url);
@@ -130,7 +136,8 @@ Future<DeletionModel> deleteYarnCategoryData({required String categoryId}) async
   return deletionModelFromJson(response.body);
 }
 
-Future<DeletionModel> deleteFabricCategoryData({required String categoryId}) async {
+Future<DeletionModel> deleteFabricCategoryData(
+    {required String categoryId}) async {
   var url = Uri.parse(URLs.Base_url + "fabricDestroyCategory/$categoryId");
   print(url);
   var response = await http.delete(url);

@@ -91,6 +91,7 @@ class General {
   dynamic userId;
   DateTime? createdAt;
   DateTime? updatedAt;
+  dynamic categoryName;
 
   General({
     this.id,
@@ -107,6 +108,7 @@ class General {
     this.userId,
     this.createdAt,
     this.updatedAt,
+    this.categoryName,
   });
 
   factory General.fromJson(Map<String, dynamic> json) => General(
@@ -124,6 +126,7 @@ class General {
     userId: json["user_id"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
+    categoryName: json["category_name"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -141,6 +144,7 @@ class General {
     "user_id": userId,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
+    "category_name": categoryName,
   };
 }
 

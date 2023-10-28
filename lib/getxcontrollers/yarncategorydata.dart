@@ -3,8 +3,7 @@ import 'package:yarn_modified/model/get-yarn-category-model.dart';
 import 'package:yarn_modified/model/get-yarn-index-model.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 
-class YarnCategoryController extends GetxController{
-
+class YarnCategoryController extends GetxController {
   bool yarncategorybool = false;
 
   List<yarnCategoryDatum?> getData = [];
@@ -19,4 +18,6 @@ class YarnCategoryController extends GetxController{
       print(error);
     });
   }
+
+  String categoryid = "53";
 }

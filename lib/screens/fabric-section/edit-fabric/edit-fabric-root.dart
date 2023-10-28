@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
+import 'package:yarn_modified/getxcontrollers/febriceditcontroller.dart';
+import 'package:yarn_modified/getxcontrollers/getresultscontroller.dart';
+import 'package:yarn_modified/helper.dart';
+import 'package:yarn_modified/model/getfebricslistmodel.dart';
+import 'package:yarn_modified/model/getresultmodelresponse.dart';
+import 'package:yarn_modified/screens/fabric-section/add-fabric/result.dart';
+import 'package:yarn_modified/screens/fabric-section/add-fabric/warp.dart';
+import 'package:yarn_modified/screens/fabric-section/add-fabric/weft.dart';
 import 'package:yarn_modified/screens/fabric-section/edit-fabric/result.dart';
 import 'package:yarn_modified/screens/fabric-section/edit-fabric/warp.dart';
 import 'package:yarn_modified/screens/fabric-section/edit-fabric/weft.dart';
+import 'package:yarn_modified/services/all_api_services.dart';
 import '../../../const/themes.dart';
 import '../../../static_json/root_app_json.dart';
 import '../../../widgets/common_fields.dart';
+
 import 'general.dart';
 
 class EditFabricRoot extends StatefulWidget {
-  const EditFabricRoot({
-    super.key,
-    this.fabricAllItemsData,
-    // this.velvetData,
-    // this.georgetteData,
-    // this.cottonData,
-    // this.softCottonData,
-    // this.chiffonData,
-    // this.crepeCottonData,
-    // this.satinSilkData,
-    // this.silkCottonData
-  });
-
-  final fabricAllItemsData;
-  // final velvetData;
-  // final georgetteData;
-  // final cottonData;
-  // final softCottonData;
-  // final chiffonData;
-  // final crepeCottonData;
-  // final satinSilkData;
-  // final silkCottonData;
+  final FabricCostList? febricdata;
+  const EditFabricRoot({super.key, this.febricdata});
 
   @override
   State<EditFabricRoot> createState() => _EditFabricRootState();
@@ -37,24 +30,31 @@ class EditFabricRoot extends StatefulWidget {
 
 class _EditFabricRootState extends State<EditFabricRoot> {
   final ScrollController _allController = ScrollController();
-  int activeTab = 0;
-  final PageController pageController = PageController();
+  dynamic activeTab = 0;
+  final PageController pageController = PageController(keepPage: true);
+  FebricEditController feb = Get.put(FebricEditController());
+  FebricCategoryController febcategory = Get.put(FebricCategoryController());
+  GetResultController getResultController = Get.put(GetResultController());
 
   @override
   void initState() {
-    pageController.addListener(_pageListener);
+    feb.clearall();
+    getResultController.getresultcall(id: widget.febricdata?.id.toString() ?? " ");
+    feb.numberOfWarpYarnController.text =
+        widget.febricdata?.warpYarn.toString() ?? "";
+    feb.numberOfWeftYarnController.text =
+        widget.febricdata?.weftYarn.toString() ?? "";
+    feb.fetchDataFromAPI(key: "");
+    febcategory.fetchDataFromAPI();
+    feb.fillModel();
+    feb.fillModelweftBasic();
     // TODO: implement initState
     super.initState();
   }
 
-  void _pageListener() {
-    setState(() {
-      activeTab = int.parse(pageController.page!.round().toString());
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    Get.put(FebricEditController());
     return Container(
       height: double.maxFinite,
       width: double.maxFinite,
@@ -87,70 +87,18 @@ class _EditFabricRootState extends State<EditFabricRoot> {
             automaticallyImplyLeading: true,
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
                     Colors.white.withOpacity(0.20),
                     Colors.white.withOpacity(0.15),
                     Colors.white.withOpacity(0.025),
                     Colors.transparent,
-                  ])),
+                  ],
+                ),
+              ),
             ),
-            // leading: IconButton(
-            //     splashRadius: 20,
-            //     onPressed: () {
-            //       setState(() {
-            //         if(nameController.text.isEmpty && denierController.text.isEmpty && yarnRateController.text.isEmpty && categoryController.text.isEmpty) {
-            //           Navigator.of(context).pop(false);
-            //         }
-            //         else if (nameController.text.isNotEmpty || denierController.text.isNotEmpty || yarnRateController.text.isNotEmpty || categoryController.text.isNotEmpty) {
-            //           showDialog(
-            //               context: context,
-            //               builder: (BuildContext context) {
-            //                 return AlertDialog(
-            //                   backgroundColor: Colors.white,
-            //                   title: Text(
-            //                     "Alert",
-            //                     style: TextStyle(fontSize: 20, color: Colors.red),
-            //                   ),
-            //                   content: Text(
-            //                     "Are you sure you would like to go back without saving data that you have added in text field(s) ?",
-            //                     style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
-            //                   ),
-            //                   actions: <Widget>[
-            //                     TextButton(
-            //                         style: TextButton.styleFrom(
-            //                             foregroundColor: Colors.grey,
-            //                             backgroundColor: Colors.white.withOpacity(0.9)),
-            //                         onPressed: () {
-            //                           Navigator.of(context).pop(false);
-            //                         },
-            //                         child: Text(
-            //                           "Cancel",
-            //                           style: TextStyle(fontSize: 15, color: Colors.black),
-            //                         )),
-            //                     TextButton(
-            //                         style: TextButton.styleFrom(
-            //                             foregroundColor: Colors.grey,
-            //                             backgroundColor: Colors.white.withOpacity(0.9)),
-            //                         onPressed: () {
-            //                           Navigator.of(context).pop(false);
-            //                           // Navigator.push(context, MaterialPageRoute(builder: (context) => YarnCategoryScreen()));
-            //                           Navigator.of(context).pop(false);
-            //                         },
-            //                         child: Text(
-            //                           "Yes",
-            //                           style: TextStyle(fontSize: 15, color: Colors.black),
-            //                         )),
-            //                   ],
-            //                 );
-            //               });
-            //         }
-            //       });
-            //     },
-            //     icon: Icon(Icons.arrow_back_rounded)
-            // ),
           ),
           body: getBody(),
         ),
@@ -161,90 +109,111 @@ class _EditFabricRootState extends State<EditFabricRoot> {
   Widget getBody() {
     return Padding(
       padding: const EdgeInsets.all(5),
-      child: Column(
+      child: GetBuilder<GetResultController>(builder: (controller) => Column(
         children: [
           getHeader(),
-          SizedBox(
-            height: 20,
-          ),
           Expanded(
-            child: PageView(
+            child: controller.call != true ? Center(child: CircularProgressIndicator(),) :PageView(
               physics: NeverScrollableScrollPhysics(),
               controller: pageController,
-              // onPageChanged: (_) {},
+              onPageChanged: (value) {
+                setState(() {
+                  activeTab = value;
+                });
+              },
               children: [
-                EditGeneralCategory(
-                    fabricAllItemsData: widget.fabricAllItemsData,
-                    page: pageController
-                    //   velvetData: widget.velvetData,
-                    //   georgetteData: widget.georgetteData,
-                    //   cottonData: widget.cottonData,
-                    //   softCottonData: widget.softCottonData,
-                    //   chiffonData: widget.chiffonData,
-                    //   crepeCottonData: widget.crepeCottonData,
-                    // satinSilkData: widget.satinSilkData,
-                    // silkCottonData: widget.silkCottonData,
-                    ),
-                EditWarpCategory(page: pageController),
-                EditWeftCategory(page: pageController),
-                EditResultCategory()
+                EditGeneralCategory(page: pageController, general: controller.result),
+                EditWarpCategory(page: pageController, general: controller.result),
+                EditWeftCategory(page: pageController, general: controller.result),
+                EditResultCategory(),
               ],
             ),
           ),
         ],
-      ),
+      ),)
     );
   }
 
   Widget getHeader() {
-    return ScrollConfiguration(
-      behavior: MyBehavior(),
-      child: SingleChildScrollView(
-        controller: _allController,
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: List.generate(headerAddFabricItems.length, (index) {
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  activeTab = index;
-                });
-              },
-              child: Container(
-                padding: EdgeInsets.all(5),
-                margin: EdgeInsets.only(left: 5, right: 5),
-                decoration: BoxDecoration(
-                    color:
-                        activeTab == index ? Colors.white : Colors.transparent,
-                    borderRadius: BorderRadius.circular(7.5),
-                    border: Border.all(
-                      color:
-                          activeTab == index ? Colors.grey : Colors.transparent,
-                    )),
-                child: Tooltip(
-                  padding: EdgeInsets.all(5),
-                  message: headerAddFabricItems[index]['text'],
-                  textStyle: TextStyle(color: Colors.white),
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(7.5)),
-                  child: Text(
-                    headerAddFabricItems[index]['text'],
-                    textScaleFactor: 0.95,
-                    style: TextStyle(
-                        color: activeTab == index
-                            ? MyTheme.appBarColor
-                            : Colors.black,
-                        fontWeight: activeTab == index
-                            ? FontWeight.w500
-                            : FontWeight.w400),
+    return SingleChildScrollView(
+      controller: _allController,
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Container(
+          padding: EdgeInsets.all(0),
+          decoration: BoxDecoration(
+            color: Colors.white70,
+            borderRadius: BorderRadius.circular(7.5),
+          ),
+          // color: Colors.white70,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(headerAddFabricItems.length, (index) {
+                return GestureDetector(
+                  onTap: () {
+                    // final controller = Get.find<FebricEditController>();
+                    if (index != 3) {
+                      pageController.jumpToPage(index);
+                    } else {
+                      if (activeTab != index)
+                        feb.goToResult(widget.febricdata?.id);
+                      pageController.jumpToPage(index);
+                    }
+                    // if (controller.isWrapDone) {
+                    //   if (index == 0 || index == 1) {
+                    //     pageController.jumpToPage(index);
+                    //   }
+                    //   // return;
+                    // }
+                    //
+                    // if (controller.isWeftDone) {
+                    //   if (index == 0 || index == 2 || index == 1) {
+                    //     pageController.jumpToPage(index);
+                    //     return;
+                    //   }
+                    // }
+                    // if (controller.isResultDone && index != activeTab) {
+                    //   feb.goToResult(pageController);
+                    //   pageController.jumpToPage(index);
+                    // }
+                    // if (activeTab >= index) {
+                    //   pageController.jumpToPage(index);
+                    // }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: activeTab == index
+                              ? Colors.white
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(7.5),
+                          border: Border.all(
+                            color: activeTab == index
+                                ? Colors.grey
+                                : Colors.transparent,
+                          )),
+                      child: Text(
+                        headerAddFabricItems[index]['text'],
+                        textScaleFactor: 0.95,
+                        style: TextStyle(
+                            color: activeTab == index
+                                ? MyTheme.appBarColor
+                                : Colors.black,
+                            fontWeight: activeTab == index
+                                ? FontWeight.w500
+                                : FontWeight.w400),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          }),
+                );
+              }),
+            ),
+          ),
         ),
       ),
     );

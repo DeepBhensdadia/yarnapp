@@ -115,15 +115,16 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                     padding: const EdgeInsets.only(right: 10),
                     child: MultiSelectDialogField(
                       // chipDisplay: MultiSelectChipDisplay.none(decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey,width: 1)))),
+                      chipDisplay: MultiSelectChipDisplay.none(),
                       items: List.generate(
-                              yarnCatData.length,
-                              (index) => MultiSelectItem(
-                                  index, "${yarnCatData[index]!.yarnCategory}"))
-                          .toList(),
+                          yarnCatData.length,
+                          (index) => MultiSelectItem(yarnCatData[index]!.id,
+                              "${yarnCatData[index]!.yarnCategory}")).toList(),
                       title: Text(
                         "Yarn Categories",
                         style: TextStyle(color: MyTheme.appBarColor),
                       ),
+
                       selectedColor: Colors.blue,
                       buttonIcon: Icon(
                         Icons.category_outlined,
@@ -137,7 +138,10 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                         color: Colors.transparent,
                         borderRadius: BorderRadius.all(Radius.circular(40)),
                       ),
-                      onConfirm: (_) {
+                      onConfirm: (value) {
+                        yarnlist.fetchDataFromAPI(
+                            key: "", price: "asc");
+                        // print(value);
                         // _selectedAnimals2;
                       },
                     ),
@@ -175,7 +179,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   onTap: () {
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
-                                        key: "", price: "asc");
+                                        key: "", price: "desc");
                                   },
                                   title: Text(
                                     "Sort By Price (High To Low)",
@@ -192,7 +196,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   onTap: () {
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
-                                        key: "", price: "desc");
+                                        key: "", price: "asc");
                                   },
                                   title: Text(
                                     "Sort By Price (Low To high)",
@@ -511,27 +515,28 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Flexible(
-                                                flex:3,
+                                                flex: 3,
                                                 child: Text(
                                                     // yarnAllItems[index]['title'],
-                                                    controller.yarnData[index]?.yarnName.toString() ?? "",
+                                                    controller.yarnData[index]
+                                                            ?.yarnName
+                                                            .toString() ??
+                                                        "",
                                                     textScaleFactor: 1.25,
                                                     style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w600)),
+                                                      color: Colors.black,
+                                                    )),
                                               ),
                                               Flexible(
                                                 flex: 1,
                                                 child: Text(
                                                     // yarnAllItems[index]['rate'],
-                                                    "${controller.yarnData[index]?.yarnRate.toDouble().toStringAsFixed(2)}",
+                                                    "${controller.yarnData[index]?.yarnRate}",
                                                     textScaleFactor: 1.15,
                                                     textAlign: TextAlign.start,
                                                     style: TextStyle(
-                                                        color: Colors.brown,
-                                                        fontWeight:
-                                                            FontWeight.w600)),
+                                                      color: Colors.black,
+                                                    )),
                                               ),
                                             ],
                                           ),
@@ -540,11 +545,11 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                           ),
                                           Text(
                                             // "(Denier : ${denierItems[index]})",
-                                            "${ controller.yarnData[index]?.yarnCategory.toString()} (Denier : ${controller.yarnData[index]!.yarnDenier.toString()})",
+                                            "${controller.yarnData[index]?.yarnCategory.toString()} (Denier : ${controller.yarnData[index]!.yarnDenier.toString()})",
                                             textScaleFactor: 1,
                                             textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                                color: Colors.grey),
+                                            style:
+                                                TextStyle(color: Colors.grey),
                                           ),
                                         ],
                                       ),

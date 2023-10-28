@@ -26,7 +26,8 @@ class _AddYarnCategoryState extends State<AddYarnCategory> {
     nameController.dispose();
   }
 
-  YarnCategoryController yarncategorycontroller = Get.put(YarnCategoryController());
+  YarnCategoryController yarncategorycontroller =
+      Get.put(YarnCategoryController());
 
   Future<void> fetchDataFromAPI({required String categoryName}) async {
     context.loaderOverlay.show();
@@ -36,12 +37,12 @@ class _AddYarnCategoryState extends State<AddYarnCategory> {
       "user_id": "1",
     };
     await addYarnCategoryData(parameter: parameter).then((value) {
- yarncategorycontroller.fetchDataFromAPI();
- FlutterToast.showCustomToast(value.message);
- Get.back();
- context.loaderOverlay.hide();
-
+      yarncategorycontroller.fetchDataFromAPI();
+      FlutterToast.showCustomToast(value.message);
+      Get.back();
+      context.loaderOverlay.hide();
     }).onError((error, stackTrace) {
+      FlutterToast.showCustomToast("The yarn category has already been taken.");
       context.loaderOverlay.hide();
       print(error);
     });

@@ -9,23 +9,19 @@ import 'package:yarn_modified/model/get-yarn-index-model.dart';
 import '../model/addfebricresponsemodel.dart';
 import '../services/all_api_services.dart';
 
-class FebricAddController extends GetxController {
+class FebricEditController extends GetxController {
   //
   List<WrapModel> wrapModel = <WrapModel>[];
-  GetResultController resultController = Get.put(GetResultController());
 
   List<int> wrapyarnids = <int>[];
   List<String> wrapyarntaar = <String>[];
 
-  void goToResult(widget) {
-    if(isadddone){
-      resultController.result.warplist?.forEach((element) {wrapyarnupdateid.add(element.id ?? 0);});
-      resultController.result.weftlist?.forEach((element) {weftyarnupdateid.add(element.id ?? 0);});
-    }
-
+  void goToResult(resultid) {
     changedData();
     changedDataweft();
-    !isadddone ? Addfebrickaro(widget) : updatefebrickaro(widget);
+    print(wrapyarnupdateid.toString());
+    print(weftyarnupdateid.toString());
+    updatefebrickaro(resultid);
   }
 
   void changedData() {
@@ -138,49 +134,13 @@ class FebricAddController extends GetxController {
   TextEditingController fabricCategoryController =
       TextEditingController(text: "29");
 
-  Addfebrickaro(widget) async {
-    Get.context!.loaderOverlay.show();
-    Map<String, dynamic> parameter = {
-      "fabric_name": nameController.text,
-      "warp_yarn": numberOfWarpYarnController.text,
-      "weft_yarn": numberOfWeftYarnController.text,
-      "width": widthInInchController.text,
-      "final_ppi": costPerFinalController.text,
-      "warp_wastage": warpAmountController.text,
-      "weft_wastage": weftAmountController.text,
-      "butta_cutting_cost": buttaCuttingController.text,
-      "additional_cost": additionalCostController.text,
-      "fabric_category_id": fabricCategoryController.text,
-      "user_id": "10",
-      "yarn_id_warp": wrapyarnids,
-      "ends": wrapyarntaar,
-      "yarn_id_weft": weftyarnids,
-      "ppi": weftppi
-    };
-
-    await addfebricdetails(parameter: jsonEncode(parameter)).then((value) {
-      FlutterToast.showCustomToast(value.message ?? "");
-      isadddone = true;
-      febriccostid = value;
-      getresult.getresultcall(id: value.fabaricCostId.toString());
-      Get.context!.loaderOverlay.hide();
-      try {
-        widget.page.jumpToPage(3);
-      } catch (e, s) {
-        print(s);
-      }
-    }).onError((error, stackTrace) {
-      Get.context!.loaderOverlay.hide();
-      print(error);
-      // FlutterToast.showCustomToast("The Febric Name has already been taken.");
-    });
-  }
   List<int> wrapyarnupdateid = <int>[];
   List<int> weftyarnupdateid = <int>[];
-  updatefebrickaro(widget) async {
+
+  updatefebrickaro(costid) async {
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> parameter = {
-      "fabric_cost_id": febriccostid.fabaricCostId,
+      "fabric_cost_id": costid,
       "fabric_name": nameController.text,
       "warp_yarn": numberOfWarpYarnController.text,
       "weft_yarn": numberOfWeftYarnController.text,
@@ -205,12 +165,6 @@ class FebricAddController extends GetxController {
 
       getresult.getresultcall(id: value.fabaricCostId.toString());
       Get.context!.loaderOverlay.hide();
-      widget.page.jumpToPage(3);
-
-      // try {
-      // } catch (e, s) {
-      //   print(s);
-      // }
     }).onError((error, stackTrace) {
       Get.context!.loaderOverlay.hide();
       print(error);

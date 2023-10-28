@@ -329,41 +329,14 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                         child: Container(
                           height: 20,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Flexible(
-                                flex: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 0.0),
-                                  child: Text('Name',
-                                      textScaleFactor: 1.15,
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          color: Colors.grey.shade700,
-                                          fontWeight: FontWeight.w500)),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(
-                                        // width: 70,
-                                        child: Text('Per Meter',
-                                            textScaleFactor: 1.15,
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                                color: Colors.grey.shade700,
-                                                fontWeight: FontWeight.w500)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              Text('Per Meter',
+                                  textScaleFactor: 1.15,
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  )),
                             ],
                           ),
                         ),
@@ -417,9 +390,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       EditFabricRoot(
-                                                          fabricAllItemsData:
-                                                              fabricAllItems[
-                                                                  index])));
+                                                          febricdata: febric)));
                                         },
                                       ),
                                       SlidableAction(
@@ -568,11 +539,11 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                               // textScaleFactor:
                                                               //     1.3,
                                                               style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  // fontWeight:
-                                                                  //     FontWeight
-                                                                  //         .w400
+                                                                color: Colors
+                                                                    .black,
+                                                                // fontWeight:
+                                                                //     FontWeight
+                                                                //         .w400
                                                               )),
                                                           SizedBox(
                                                             height: 10,
@@ -593,17 +564,20 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                               ),
                                               Flexible(
                                                 flex: 1,
-                                                child: Text(
-                                                    febric?.finalPpi
-                                                            .toDouble()
-                                                            .toStringAsFixed(2) ??
-                                                        "",
-                                                    textScaleFactor: 1.15,
-                                                    textAlign: TextAlign.end,
-                                                    style: TextStyle(
-                                                        color: Colors.grey.shade700,
-                                                        fontWeight:
-                                                            FontWeight.w600)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                                  child: Text(
+                                                      febric?.finalPpi
+                                                              .toDouble()
+                                                              .toStringAsFixed(
+                                                                  2) ??
+                                                          "",
+                                                      textScaleFactor: 1.15,
+                                                      textAlign: TextAlign.end,
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                      )),
+                                                ),
                                               ),
                                             ]),
                                       ),

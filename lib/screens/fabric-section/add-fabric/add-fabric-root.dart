@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
+import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric/result.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric/warp.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric/weft.dart';
@@ -19,12 +21,17 @@ class AddFabricRoot extends StatefulWidget {
 class _AddFabricRootState extends State<AddFabricRoot> {
   final ScrollController _allController = ScrollController();
   dynamic activeTab = 0;
-  final PageController pageController = PageController();
+  final PageController pageController = PageController(keepPage: true);
   FebricAddController feb = Get.put(FebricAddController());
+  FebricCategoryController febcategory = Get.put(FebricCategoryController());
+
   @override
   void initState() {
+    feb.isWrapDone = false;
+    feb.isWeftDone = false;
+    feb.isResultDone = false;
     feb.fetchDataFromAPI(key: "");
-    feb.yarncategorydatafetch();
+    febcategory.fetchDataFromAPI();
     feb.clearall();
     // TODO: implement initState
     super.initState();
@@ -32,6 +39,7 @@ class _AddFabricRootState extends State<AddFabricRoot> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(FebricAddController());
     return Container(
       height: double.maxFinite,
       width: double.maxFinite,
@@ -89,9 +97,7 @@ class _AddFabricRootState extends State<AddFabricRoot> {
       child: Column(
         children: [
           getHeader(),
-          SizedBox(
-            height: 20,
-          ),
+
           Expanded(
             child: PageView(
               physics: NeverScrollableScrollPhysics(),
@@ -115,56 +121,76 @@ class _AddFabricRootState extends State<AddFabricRoot> {
   }
 
   Widget getHeader() {
-    return ScrollConfiguration(
-      behavior: MyBehavior(),
-      child: SingleChildScrollView(
-        controller: _allController,
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: List.generate(headerAddFabricItems.length, (index) {
-            return GestureDetector(
-              onTap: () {
-                if (index != 0) {
-                  if (activeTab >= index) {
-                    pageController.jumpToPage(index);
-                  }
-                }
-              },
-              child: Container(
-                padding: EdgeInsets.all(5),
-                margin: EdgeInsets.only(left: 5, right: 5),
-                decoration: BoxDecoration(
-                    color:
-                        activeTab == index ? Colors.white : Colors.transparent,
-                    borderRadius: BorderRadius.circular(7.5),
-                    border: Border.all(
-                      color:
-                          activeTab == index ? Colors.grey : Colors.transparent,
-                    )),
-                child: Tooltip(
-                  padding: EdgeInsets.all(5),
-                  message: headerAddFabricItems[index]['text'],
-                  textStyle: TextStyle(color: Colors.black, fontSize: 13),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Text(
-                    headerAddFabricItems[index]['text'],
-                    textScaleFactor: 0.95,
-                    style: TextStyle(
-                        color: activeTab == index
-                            ? MyTheme.appBarColor
-                            : Colors.black,
-                        fontWeight: activeTab == index
-                            ? FontWeight.w500
-                            : FontWeight.w400),
+    return SingleChildScrollView(
+      controller: _allController,
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Container(
+          padding: EdgeInsets.all(0),
+          decoration: BoxDecoration(
+            color: Colors.white70,
+              borderRadius: BorderRadius.circular(7.5),
+            ),
+          // color: Colors.white70,
+          child: Padding(
+            padding:  EdgeInsets.symmetric(vertical: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(headerAddFabricItems.length, (index) {
+                return GestureDetector(
+                  onTap: () {
+                    final controller = Get.find<FebricAddController>();
+                    if (controller.isWrapDone) {
+                      if (index == 0 || index == 1) {
+                        pageController.jumpToPage(index);
+                      }
+                      // return;
+                    }
+
+                    if (controller.isWeftDone) {
+                      if (index == 0 || index == 2 || index == 1) {
+                        pageController.jumpToPage(index);
+                        return;
+                      }
+                    }
+                    if (controller.isResultDone && index != activeTab) {
+                      feb.goToResult(pageController);
+                      pageController.jumpToPage(index);
+                    }
+                    if (activeTab >= index) {
+                      pageController.jumpToPage(index);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color:
+                              activeTab == index ? Colors.white : Colors.transparent,
+                          borderRadius: BorderRadius.circular(7.5),
+                          border: Border.all(
+                            color:
+                                activeTab == index ? Colors.grey : Colors.transparent,
+                          )),
+                      child: Text(
+                        headerAddFabricItems[index]['text'],
+                        textScaleFactor: 0.95,
+                        style: TextStyle(
+                            color: activeTab == index
+                                ? MyTheme.appBarColor
+                                : Colors.black,
+                            fontWeight: activeTab == index
+                                ? FontWeight.w500
+                                : FontWeight.w400),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          }),
+                );
+              }),
+            ),
+          ),
         ),
       ),
     );

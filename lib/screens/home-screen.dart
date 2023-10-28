@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Image.asset("images/RR_Textiles-r.png"))),
                           Container(
                               width: MediaQuery.of(context).size.width * 0.95,
-                              child: Center(child: Text("WELCOME, RAHUL",textAlign: TextAlign.center,textScaleFactor: 1.9,style: TextStyle(color: MyTheme.scaffoldColor,fontWeight: FontWeight.bold),))),
+                              child: Center(child: Text("WELCOME RAHUL",textAlign: TextAlign.center,textScaleFactor: 1.9,style: TextStyle(color: MyTheme.scaffoldColor,fontWeight: FontWeight.bold),))),
                         ],
                       ),
                     ),
