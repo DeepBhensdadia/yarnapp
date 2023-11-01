@@ -7,6 +7,7 @@ import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:yarn_modified/const/const.dart';
+import 'package:yarn_modified/getxcontrollers/yarncategorydata.dart';
 import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
 import 'package:yarn_modified/model/get-yarn-category-model.dart';
 import 'package:yarn_modified/model/get-yarn-index-model.dart';
@@ -28,27 +29,17 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
   final ScrollController _allController = ScrollController();
 
   YarnListController yarnlist = Get.put(YarnListController());
-
-  List<yarnCategoryDatum?> yarnCatData = [];
-
-  Future<void> fetchYarnCategoryDataFromAPI() async {
-    await yarnCategoryData().then((value) {
-      setState(() {
-        yarnCatData = value.data;
-      });
-      // print(value);
-    }).onError((error, stackTrace) {
-      print(error);
-    });
-  }
+  YarnCategoryController yarncategorycontroll =
+      Get.put(YarnCategoryController());
 
   @override
   void initState() {
     super.initState();
     yarnlist.fetchDataFromAPI(key: "");
-    fetchYarnCategoryDataFromAPI();
+    yarncategorycontroll.fetchDataFromAPI();
   }
 
+  List yarnhbj = [];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -113,37 +104,50 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                   child: Container(
                     margin: EdgeInsets.only(top: 7, bottom: 5),
                     padding: const EdgeInsets.only(right: 10),
-                    child: MultiSelectDialogField(
-                      // chipDisplay: MultiSelectChipDisplay.none(decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey,width: 1)))),
-                      chipDisplay: MultiSelectChipDisplay.none(),
-                      items: List.generate(
-                          yarnCatData.length,
-                          (index) => MultiSelectItem(yarnCatData[index]!.id,
-                              "${yarnCatData[index]!.yarnCategory}")).toList(),
-                      title: Text(
-                        "Yarn Categories",
-                        style: TextStyle(color: MyTheme.appBarColor),
-                      ),
+                    child: GetBuilder<YarnCategoryController>(
+                      builder: (controler) =>
+                          yarncategorycontroll.yarncategorybool == true
+                              ? MultiSelectDialogField(
+                                  // initialValue: yarnCatDataids,
+                                  // chipDisplay: MultiSelectChipDisplay.none(decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey,width: 1)))),
+                                  chipDisplay: MultiSelectChipDisplay.none(),
+                                  items: List.generate(
+                                          controler.getData.length,
+                                          (index) => MultiSelectItem(
+                                              controler.getData[index]!.id,
+                                              "${controler.getData[index]!.yarnCategory}"))
+                                      .toList(),
+                                  title: Text(
+                                    "Yarn Categories",
+                                    style:
+                                        TextStyle(color: MyTheme.appBarColor),
+                                  ),
 
-                      selectedColor: Colors.blue,
-                      buttonIcon: Icon(
-                        Icons.category_outlined,
-                        color: Colors.white,
-                        size: 21,
-                      ),
-                      buttonText: Text(
-                        "",
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.all(Radius.circular(40)),
-                      ),
-                      onConfirm: (value) {
-                        yarnlist.fetchDataFromAPI(
-                            key: "", price: "asc");
-                        // print(value);
-                        // _selectedAnimals2;
-                      },
+                                  selectedColor: Colors.blue,
+                                  buttonIcon: Icon(
+                                    Icons.category_outlined,
+                                    color: Colors.white,
+                                    size: 21,
+                                  ),
+                                  buttonText: Text(
+                                    "",
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(40)),
+                                  ),
+
+                                  onConfirm: (value) {
+                                    if (value.isNotEmpty) {
+                                      yarnlist.fetchDataFromAPI(
+                                          key: "", category: value.toString());
+                                    } else {
+                                      yarnlist.fetchDataFromAPI(key: "");
+                                    }
+                                  },
+                                )
+                              : SizedBox.shrink(),
                     ),
                   ),
                 ),
@@ -187,9 +191,9 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   leading: Icon(
-                                    CupertinoIcons.money_dollar,
+                                    Icons.currency_rupee,
                                     color: Colors.black,
-                                    size: 25,
+                                    size: 24,
                                   ),
                                 ),
                                 ListTile(
@@ -204,16 +208,33 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   leading: Icon(
-                                    CupertinoIcons.money_dollar,
+                                    Icons.currency_rupee,
                                     color: Colors.black,
-                                    size: 25,
+                                    size: 24,
                                   ),
                                 ),
                                 ListTile(
                                   onTap: () {
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
-                                        key: "", date: "asc");
+                                        key: "", atoz: true);
+                                  },
+                                  title: Text(
+                                    "Sort By A to Z",
+                                    textScaleFactor: 1.2,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  leading: Icon(
+                                    Icons.abc,
+                                    color: Colors.black,
+                                    size: 24,
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    yarnlist.fetchDataFromAPI(
+                                        key: "", date: "desc");
                                   },
                                   title: Text(
                                     "Sort By Date",
@@ -351,221 +372,252 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                 Expanded(
                     child: GetBuilder<YarnListController>(
                   builder: (controller) => controller.yarnlistbool == true
-                      ? RefreshIndicator(
-                          color: Colors.white,
-                          onRefresh: () async {
-                            await yarnlist.fetchDataFromAPI(key: "");
-                          },
-                          child: Scrollbar(
-                            controller: _allController,
-                            interactive: true,
-                            child: ListView.separated(
-                              // physics: BouncingScrollPhysics(),
-                              padding: const EdgeInsets.only(
-                                  top: 20, left: 7.5, right: 7.5, bottom: 20),
-                              shrinkWrap: true,
-                              controller: _allController,
-                              // itemCount: yarnAllItems.length,
-                              itemCount: controller.yarnData.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                // yarnItem allData = yarnAllItems[index];
-                                return Slidable(
-                                  endActionPane: ActionPane(
-                                    motion: ScrollMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(8),
-                                            bottomLeft: Radius.circular(8)),
-                                        backgroundColor: Colors.green,
-                                        icon: CupertinoIcons.pencil,
-                                        padding:
-                                            EdgeInsets.only(top: 5, bottom: 5),
-                                        label: "Edit",
-                                        spacing: 10,
-                                        onPressed: (context) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditYarn(
-                                                        yarnAllItemsData:
-                                                            controller.yarnData[
-                                                                index],
-                                                        // yarnLowTwistItemsData: yarnLowTwistItems[index],
-                                                        yarnCategoryData:
-                                                            yarnCatData[index],
-                                                      )));
-                                        },
-                                      ),
-                                      SlidableAction(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(8),
-                                            bottomRight: Radius.circular(8)),
-                                        backgroundColor: Colors.red,
-                                        icon: CupertinoIcons.delete,
-                                        padding:
-                                            EdgeInsets.only(top: 5, bottom: 5),
-                                        label: "Delete",
-                                        spacing: 10,
-                                        onPressed: (context) {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  backgroundColor: Colors.white,
-                                                  title: Text(
-                                                    "Remove",
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.black),
-                                                  ),
-                                                  content: Text(
-                                                    "Are you sure you would like to remove yarn information ?",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.black
-                                                            .withOpacity(0.5)),
-                                                  ),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                        style: TextButton.styleFrom(
-                                                            surfaceTintColor:
-                                                                Colors.grey,
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent),
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop(false);
-                                                        },
-                                                        child: Text(
-                                                          "Cancel",
-                                                          style: TextStyle(
-                                                              fontSize: 15,
-                                                              color:
-                                                                  Colors.black),
-                                                        )),
-                                                    TextButton(
-                                                        style: TextButton.styleFrom(
-                                                            surfaceTintColor:
-                                                                Colors
-                                                                    .red
-                                                                    .withOpacity(
-                                                                        0.3),
-                                                            foregroundColor:
-                                                                Colors.red,
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent),
-                                                        onPressed: () async {
-                                                          await deleteYarnIndexData(
-                                                                  categoryId: controller
-                                                                          .yarnData[
-                                                                              index]
-                                                                          ?.id
-                                                                          .toString() ??
-                                                                      "")
-                                                              .then((value) {
-                                                            controller.yarnData
-                                                                .clear();
-                                                            controller
-                                                                .fetchDataFromAPI(
-                                                                    key: '');
-                                                            print(value);
-                                                          }).onError((error,
-                                                                  stackTrace) {
-                                                            print(error);
-                                                          });
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text(
-                                                          "Remove",
-                                                          style: TextStyle(
-                                                              fontSize: 15,
-                                                              color:
-                                                                  Colors.red),
-                                                        )),
-                                                  ],
-                                                );
-                                              });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  child: Card(
-                                    elevation: 2.5,
-                                    color: Colors.white,
-                                    margin: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: defaultCardRadius),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                      ? controller.yarnData.isEmpty
+                          ? Center(
+                              child: Text("No Data Found",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600)),
+                            )
+                          : RefreshIndicator(
+                              color: Colors.white,
+                              onRefresh: () async {
+                                await yarnlist.fetchDataFromAPI(key: "");
+                              },
+                              child: Scrollbar(
+                                controller: _allController,
+                                interactive: true,
+                                child: ListView.separated(
+                                  // physics: BouncingScrollPhysics(),
+                                  padding: const EdgeInsets.only(
+                                      top: 20,
+                                      left: 7.5,
+                                      right: 7.5,
+                                      bottom: 20),
+                                  shrinkWrap: true,
+                                  controller: _allController,
+                                  // itemCount: yarnAllItems.length,
+                                  itemCount: controller.yarnData.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    // yarnItem allData = yarnAllItems[index];
+                                    return Slidable(
+                                      endActionPane: ActionPane(
+                                        motion: ScrollMotion(),
                                         children: [
-                                          Row(
+                                          SlidableAction(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(8),
+                                                bottomLeft: Radius.circular(8)),
+                                            backgroundColor: Colors.green,
+                                            icon: CupertinoIcons.pencil,
+                                            padding: EdgeInsets.only(
+                                                top: 5, bottom: 5),
+                                            label: "Edit",
+                                            spacing: 10,
+                                            onPressed: (context) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditYarn(
+                                                            yarnAllItemsData:
+                                                                controller
+                                                                        .yarnData[
+                                                                    index],
+                                                            // yarnLowTwistItemsData: yarnLowTwistItems[index],
+                                                            yarnCategoryData:
+                                                                yarncategorycontroll
+                                                                        .getData[
+                                                                    index],
+                                                          )));
+                                            },
+                                          ),
+                                          SlidableAction(
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(8),
+                                                bottomRight:
+                                                    Radius.circular(8)),
+                                            backgroundColor: Colors.red,
+                                            icon: CupertinoIcons.delete,
+                                            padding: EdgeInsets.only(
+                                                top: 5, bottom: 5),
+                                            label: "Delete",
+                                            spacing: 10,
+                                            onPressed: (context) {
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      title: Text(
+                                                        "Remove",
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      content: Text(
+                                                        "Are you sure you would like to remove yarn information ?",
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5)),
+                                                      ),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                            style: TextButton.styleFrom(
+                                                                surfaceTintColor:
+                                                                    Colors.grey,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop(false);
+                                                            },
+                                                            child: Text(
+                                                              "Cancel",
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                      .black),
+                                                            )),
+                                                        TextButton(
+                                                            style: TextButton.styleFrom(
+                                                                surfaceTintColor:
+                                                                    Colors.red
+                                                                        .withOpacity(
+                                                                            0.3),
+                                                                foregroundColor:
+                                                                    Colors.red,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent),
+                                                            onPressed:
+                                                                () async {
+                                                              await deleteYarnIndexData(
+                                                                      categoryId:
+                                                                          controller.yarnData[index]?.id.toString() ??
+                                                                              "")
+                                                                  .then(
+                                                                      (value) {
+                                                                if (value
+                                                                        .success !=
+                                                                    false) {
+                                                                  controller
+                                                                      .yarnData
+                                                                      .clear();
+                                                                  controller
+                                                                      .fetchDataFromAPI(
+                                                                          key:
+                                                                              '');
+                                                                }
+                                                                FlutterToast
+                                                                    .showCustomToast(
+                                                                        value
+                                                                            .message);
+                                                                print(value);
+                                                              }).onError((error,
+                                                                      stackTrace) {
+                                                                print(error);
+                                                              });
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              "Remove",
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                      .red),
+                                                            )),
+                                                      ],
+                                                    );
+                                                  });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      child: Card(
+                                        elevation: 2.5,
+                                        color: Colors.white,
+                                        margin: EdgeInsets.zero,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: defaultCardRadius),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Flexible(
-                                                flex: 3,
-                                                child: Text(
-                                                    // yarnAllItems[index]['title'],
-                                                    controller.yarnData[index]
-                                                            ?.yarnName
-                                                            .toString() ??
-                                                        "",
-                                                    textScaleFactor: 1.25,
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                    )),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                    flex: 3,
+                                                    child: Text(
+                                                        // yarnAllItems[index]['title'],
+                                                        controller
+                                                                .yarnData[index]
+                                                                ?.yarnName
+                                                                .toString() ??
+                                                            "",
+                                                        textScaleFactor: 1.25,
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                        )),
+                                                  ),
+                                                  Flexible(
+                                                    flex: 1,
+                                                    child: Text(
+                                                        // yarnAllItems[index]['rate'],
+                                                        "${controller.yarnData[index]?.yarnRate}",
+                                                        textScaleFactor: 1.15,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                        )),
+                                                  ),
+                                                ],
                                               ),
-                                              Flexible(
-                                                flex: 1,
-                                                child: Text(
-                                                    // yarnAllItems[index]['rate'],
-                                                    "${controller.yarnData[index]?.yarnRate}",
-                                                    textScaleFactor: 1.15,
-                                                    textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                    )),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Text(
+                                                // "(Denier : ${denierItems[index]})",
+                                                "${controller.yarnData[index]?.yarnCategory.toString()} (Denier : ${controller.yarnData[index]!.yarnDenier.toString()})",
+                                                textScaleFactor: 1,
+                                                textAlign: TextAlign.end,
+                                                style: TextStyle(
+                                                    color: Colors.grey),
                                               ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          Text(
-                                            // "(Denier : ${denierItems[index]})",
-                                            "${controller.yarnData[index]?.yarnCategory.toString()} (Denier : ${controller.yarnData[index]!.yarnDenier.toString()})",
-                                            textScaleFactor: 1,
-                                            textAlign: TextAlign.end,
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return SizedBox(
-                                  height: 10,
-                                );
-                              },
-                            ),
-                          ),
-                        )
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return SizedBox(
+                                      height: 10,
+                                    );
+                                  },
+                                ),
+                              ),
+                            )
                       : Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 2.5,

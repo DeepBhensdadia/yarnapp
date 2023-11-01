@@ -28,924 +28,946 @@ class _EditResultCategoryState extends State<EditResultCategory> {
   Widget build(BuildContext context) {
     return GetBuilder<GetResultController>(
         builder: (controller) => Container(
-          height: double.maxFinite,
-          width: double.maxFinite,
-          color: MyTheme.scaffoldColor,
-          child: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
+              height: double.maxFinite,
+              width: double.maxFinite,
+              color: MyTheme.scaffoldColor,
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
                       Colors.transparent,
                       Colors.white.withOpacity(0.30),
                       Colors.white.withOpacity(0.65),
                       Colors.white.withOpacity(0.85),
                     ])),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Builder(builder: (context) {
-                final MediaQueryData data = MediaQuery.of(context);
-                return MediaQuery(
-                  data: data.copyWith(textScaleFactor: 1),
-                  child: controller.call == false
-                      ? Center(child: CircularProgressIndicator())
-                      : SingleChildScrollView(
-                    controller: _controller4,
-                    physics: BouncingScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Card(
-                            elevation: 2.5,
-                            color: Colors.white,
-                            margin: EdgeInsets.zero,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: defaultCardRadius),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: Builder(builder: (context) {
+                    final MediaQueryData data = MediaQuery.of(context);
+                    return MediaQuery(
+                      data: data.copyWith(textScaleFactor: 1),
+                      child: controller.call == false
+                          ? Center(child: CircularProgressIndicator())
+                          : SingleChildScrollView(
+                              controller: _controller4,
+                              physics: BouncingScrollPhysics(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Row(
+                                    Card(
+                                      elevation: 2.5,
+                                      color: Colors.white,
+                                      margin: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: defaultCardRadius),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder: (_) => Center(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 50,
+                                                                    right: 50),
+                                                            child: Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        "images/avatar.png"),
+                                                                    fit: BoxFit
+                                                                        .contain),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.grey,
+                                                      radius: 27,
+                                                      foregroundImage: AssetImage(
+                                                          "images/avatar.png"),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                          controller.call ==
+                                                                  false
+                                                              ? "Febric"
+                                                              : controller
+                                                                      .result
+                                                                      .general
+                                                                      ?.fabricName ??
+                                                                  "",
+                                                          textScaleFactor: 1.3,
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            // fontWeight:
+                                                            //     FontWeight
+                                                            //         .w400
+                                                          )),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Text(
+                                                          controller.call ==
+                                                                  false
+                                                              ? "Febric Category"
+                                                              : controller
+                                                                      .result
+                                                                      .general
+                                                                      ?.categoryName ??
+                                                                  "",
+                                                          textScaleFactor: 1,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey)),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ]),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await showDialog(
-                                              context: context,
-                                              builder: (_) => Center(
-                                                child: Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .only(
-                                                      left: 50,
-                                                      right: 50),
-                                                  child: Container(
-                                                    decoration:
-                                                    BoxDecoration(
-                                                      shape: BoxShape
-                                                          .circle,
-                                                      image: DecorationImage(
-                                                          image: AssetImage(
-                                                              "images/avatar.png"),
-                                                          fit: BoxFit
-                                                              .contain),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          child: CircleAvatar(
-                                            backgroundColor:
-                                            Colors.grey,
-                                            radius: 27,
-                                            foregroundImage: AssetImage(
-                                                "images/avatar.png"),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceBetween,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .start,
-                                          children: [
-                                            Text(
-                                                controller.call ==
-                                                    false
-                                                    ? "Febric"
-                                                    : controller
-                                                    .result
-                                                    .general
-                                                    ?.fabricName ??
-                                                    "",
-                                                textScaleFactor: 1.3,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  // fontWeight:
-                                                  //     FontWeight
-                                                  //         .w400
-                                                )),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                                controller.call ==
-                                                    false
-                                                    ? "Febric Category"
-                                                    : controller
-                                                    .result
-                                                    .general
-                                                    ?.categoryName ??
-                                                    "",
-                                                textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    color:
-                                                    Colors.grey)),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Card(
-                            color: Colors.white,
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: defaultCardRadius),
-                            child: Column(
-                              children: [
-                                Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          topRight:
-                                          Radius.circular(8)),
-                                      color: Colors.white,
-                                    ),
-                                    width: double.infinity,
-                                    child: Center(
-                                        child: Text(
-                                          "WARP",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight:
-                                              FontWeight.bold),
-                                        ))),
-                                Table(
-                                  defaultVerticalAlignment:
-                                  TableCellVerticalAlignment
-                                      .middle,
-                                  defaultColumnWidth:
-                                  FlexColumnWidth(50),
-                                  border: TableBorder(
-                                      verticalInside: BorderSide(
-                                          color: Color(0xffdddddd),
-                                          width: 1.5,
-                                          style: BorderStyle.solid),
-                                      horizontalInside: BorderSide(
-                                          color: Color(0xffdddddd),
-                                          width: 1.5,
-                                          style: BorderStyle.solid)),
-                                  children: controller
-                                      .result.warplist!
-                                      .asMap()
-                                      .entries
-                                      .map<TableRow>(
-                                        (e) => TableRow(
-                                        decoration: BoxDecoration(
-                                            color: e.key % 2 == 0
-                                                ? Colors.white
-                                                : Color(
-                                                0xffeeeeee),
-                                            borderRadius:
-                                            BorderRadius
-                                                .circular(8)),
-                                        children: [
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10),
-                                              child: Column(
-                                                  children: [
-                                                    Text(
-                                                      e.value.yarnName ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .black
-                                                              .withOpacity(0.8)),
-                                                    ),
-                                                  ])),
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10),
-                                              child: Column(
-                                                  children: [
-                                                    Text(
-                                                      e.value.ends
-                                                          .toString() ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .black
-                                                              .withOpacity(0.8)),
-                                                    ),
-                                                  ])),
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10),
-                                              child: Column(
-                                                  children: [
-                                                    Text(
-                                                      e.value.weight
-                                                          .toDouble()
-                                                          .toStringAsFixed(3) ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .black
-                                                              .withOpacity(0.8)),
-                                                    ),
-                                                  ])),
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10),
-                                              child: Column(
-                                                  children: [
-                                                    Text(
-                                                      "${e.value.rate.toString()}" ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .black
-                                                              .withOpacity(0.8)),
-                                                    ),
-                                                  ])),
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  right: 10,
-                                                  top: 10),
-                                              child: Text(
-                                                textAlign:
-                                                TextAlign.end,
-                                                e.value.amount
-                                                    ?.toDouble()
-                                                    .toStringAsFixed(
-                                                    2) ??
-                                                    "",
-                                                style: TextStyle(
-                                                    color: Colors
-                                                        .black
-                                                        .withOpacity(
-                                                        0.8)),
-                                              )),
-                                        ]),
-                                  )
-                                      .toList()
-                                    ..insert(
-                                      0,
-                                      TableRow(
-                                          decoration: BoxDecoration(
-                                            color: Color(0xffeeeeee),
-                                          ),
-                                          children: [
-                                            Column(children: [
-                                              Text(
-                                                "Yarn",
-                                                style: TextStyle(
-                                                    color: MyTheme
-                                                        .appBarColor),
-                                              ),
-                                            ]),
-                                            Column(children: [
-                                              Text(
-                                                "Ends",
-                                                style: TextStyle(
-                                                    color: MyTheme
-                                                        .appBarColor),
-                                              ),
-                                            ]),
-                                            Container(
-                                                padding:
-                                                EdgeInsets.only(
-                                                    bottom: 5,
-                                                    top: 5),
-                                                child:
-                                                Column(children: [
-                                                  Text(
-                                                    "Weight\n(KG)",
-                                                    style: TextStyle(
-                                                        color: MyTheme
-                                                            .appBarColor),
-                                                  ),
-                                                ])),
-                                            Column(children: [
-                                              Text(
-                                                "Rate",
-                                                style: TextStyle(
-                                                    color: MyTheme
-                                                        .appBarColor),
-                                              ),
-                                            ]),
-                                            Column(children: [
-                                              Text(
-                                                "Amount",
-                                                style: TextStyle(
-                                                    color: MyTheme
-                                                        .appBarColor),
-                                              ),
-                                            ]),
-                                          ]),
-                                    ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Card(
-                            color: Colors.white,
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: defaultCardRadius),
-                            child: Column(
-                              children: [
-                                Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          topRight:
-                                          Radius.circular(8)),
-                                      color: Colors.white,
-                                    ),
-                                    width: double.infinity,
-                                    child: Center(
-                                        child: Text(
-                                          "WEFT",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight:
-                                              FontWeight.bold),
-                                        ))),
-                                Table(
-                                  defaultVerticalAlignment:
-                                  TableCellVerticalAlignment
-                                      .middle,
-                                  border: TableBorder(
-                                      verticalInside: BorderSide(
-                                          color: Color(0xffdddddd),
-                                          width: 1.5,
-                                          style: BorderStyle.solid),
-                                      horizontalInside: BorderSide(
-                                          color: Color(0xffdddddd),
-                                          width: 1.5,
-                                          style: BorderStyle.solid)),
-                                  children: controller
-                                      .result.weftlist!
-                                      .asMap()
-                                      .entries
-                                      .map<TableRow>(
-                                        (e) => TableRow(
-                                        decoration: BoxDecoration(
-                                            color: e.key % 2 == 0
-                                                ? Colors.white
-                                                : Color(
-                                                0xffeeeeee),
-                                            borderRadius:
-                                            BorderRadius
-                                                .circular(8)),
-                                        children: [
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10),
-                                              child: Column(
-                                                  children: [
-                                                    Text(
-                                                      e.value.yarnName
-                                                          .toString() ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .black
-                                                              .withOpacity(0.8)),
-                                                    ),
-                                                  ])),
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10),
-                                              child: Column(
-                                                  children: [
-                                                    Text(
-                                                      e.value.finalPpi
-                                                          .toString() ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .black
-                                                              .withOpacity(0.8)),
-                                                    ),
-                                                  ])),
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10),
-                                              child: Column(
-                                                  children: [
-                                                    Text(
-                                                      e.value.weight
-                                                          .toDouble()
-                                                          .toStringAsFixed(3) ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .black
-                                                              .withOpacity(0.8)),
-                                                    ),
-                                                  ])),
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10),
-                                              child: Column(
-                                                  children: [
-                                                    Text(
-                                                      e.value.rate
-                                                          .toString() ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .black
-                                                              .withOpacity(0.8)),
-                                                    ),
-                                                  ])),
-                                          Container(
-                                              padding:
-                                              EdgeInsets.only(
-                                                  bottom: 10,
-                                                  right: 8,
-                                                  top: 10),
-                                              child: Text(
-                                                textAlign:
-                                                TextAlign.end,
-                                                e.value.amount
-                                                    ?.toDouble()
-                                                    .toStringAsFixed(
-                                                    2) ??
-                                                    "",
-                                                style: TextStyle(
-                                                    color: Colors
-                                                        .black
-                                                        .withOpacity(
-                                                        0.8)),
-                                              )),
-                                        ]),
-                                  )
-                                      .toList()
-                                    ..insert(
-                                      0,
-                                      TableRow(
-                                          decoration: BoxDecoration(
-                                            color: Color(0xffeeeeee),
-                                          ),
-                                          children: [
-                                            Column(children: [
-                                              Text(
-                                                "Yarn",
-                                                style: TextStyle(
-                                                    color: MyTheme
-                                                        .appBarColor),
-                                              ),
-                                            ]),
-                                            Column(children: [
-                                              Text(
-                                                "Final\nPPI",
-                                                style: TextStyle(
-                                                    color: MyTheme
-                                                        .appBarColor),
-                                              ),
-                                            ]),
-                                            Container(
-                                                padding:
-                                                EdgeInsets.only(
-                                                    bottom: 5,
-                                                    top: 5),
-                                                child:
-                                                Column(children: [
-                                                  Text(
-                                                    "Weight\n(KG)",
-                                                    style: TextStyle(
-                                                        color: MyTheme
-                                                            .appBarColor),
-                                                  ),
-                                                ])),
-                                            Column(children: [
-                                              Text(
-                                                "Rate",
-                                                style: TextStyle(
-                                                    color: MyTheme
-                                                        .appBarColor),
-                                              ),
-                                            ]),
-                                            Column(children: [
-                                              Text(
-                                                "Amount",
-                                                style: TextStyle(
-                                                    color: MyTheme
-                                                        .appBarColor),
-                                              ),
-                                            ]),
-                                          ]),
-                                    ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Card(
-                            color: Colors.white,
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: defaultCardRadius),
-                            child: Column(
-                              children: [
-                                Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          topRight:
-                                          Radius.circular(8)),
-                                    ),
-                                    width: double.infinity,
-                                    child: Center(
-                                        child: Text(
-                                          "RESULT",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight:
-                                              FontWeight.bold),
-                                        ))),
-                                Table(
-                                    columnWidths: {
-                                      0: FlexColumnWidth(4),
-                                    },
-                                    defaultVerticalAlignment:
-                                    TableCellVerticalAlignment
-                                        .middle,
-                                    border: TableBorder(
-                                        verticalInside: BorderSide(
-                                            color: Color(0xffdddddd),
-                                            width: 1.5,
-                                            style: BorderStyle.solid),
-                                        horizontalInside: BorderSide(
-                                            color: Color(0xffdddddd),
-                                            width: 1.5,
-                                            style:
-                                            BorderStyle.solid)),
-                                    children:
-                                    controller.result.calculation!
-                                        .asMap()
-                                        .entries
-                                        .map<TableRow>(
-                                          (e) => TableRow(
-                                          decoration:
-                                          BoxDecoration(
-                                            color: e.key %
-                                                2 ==
-                                                0
-                                                ? Colors.white
-                                                : Color(
-                                                0xffeeeeee),
-                                          ),
-                                          children: [
-                                            Column(children: [
-                                              Container(
-                                                padding: EdgeInsets
-                                                    .only(
-                                                    left:
-                                                    10,
-                                                    top:
-                                                    10,
-                                                    bottom:
-                                                    10),
-                                                child: Align(
-                                                  alignment:
-                                                  AlignmentDirectional
-                                                      .centerStart,
-                                                  child: Text(
-                                                    e.value.name ??
-                                                        "",
-                                                    style: TextStyle(
-                                                        fontWeight: e.key == 6 || e.key == 7
-                                                            ? FontWeight.w600
-                                                            : FontWeight.w400,
-                                                        color: MyTheme.appBarColor),
-                                                  ),
-                                                ),
-                                              ),
-                                            ]),
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets
-                                                  .only(
-                                                  right:
-                                                  8.0),
-                                              child: Text(
-                                                textAlign:
-                                                TextAlign
-                                                    .end,
-                                                e.value.value
-                                                    ?.toDouble()
-                                                    .toStringAsFixed(
-                                                    2) ??
-                                                    "",
-                                                style: TextStyle(
-                                                    fontWeight: e.key == 6 ||
-                                                        e.key ==
-                                                            7
-                                                        ? FontWeight
-                                                        .w600
-                                                        : FontWeight
-                                                        .w400,
-                                                    color: Colors
-                                                        .black
-                                                        .withOpacity(
-                                                        0.8)),
-                                              ),
-                                            ),
-                                          ]),
-                                    )
-                                        .toList()),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Card(
-                            color: Colors.white,
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: defaultCardRadius),
-                            child: Column(
-                              children: [
-                                Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          topRight:
-                                          Radius.circular(8)),
-                                    ),
-                                    width: double.infinity,
-                                    child: Center(
-                                        child: Text(
-                                          "WEIGHT DETAILS",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight:
-                                              FontWeight.bold),
-                                        ))),
-                                Table(
-                                    columnWidths: {
-                                      0: FlexColumnWidth(4),
-                                    },
-                                    defaultVerticalAlignment:
-                                    TableCellVerticalAlignment
-                                        .middle,
-                                    border: TableBorder(
-                                        verticalInside: BorderSide(
-                                            color: Color(0xffdddddd),
-                                            width: 1.5,
-                                            style: BorderStyle.solid),
-                                        horizontalInside: BorderSide(
-                                            color: Color(0xffdddddd),
-                                            width: 1.5,
-                                            style:
-                                            BorderStyle.solid)),
-                                    children: controller
-                                        .result.weightDetails!
-                                        .asMap()
-                                        .entries
-                                        .map<TableRow>(
-                                          (e) => TableRow(
-                                          decoration:
-                                          BoxDecoration(
-                                            color: e.key % 2 == 0
-                                                ? Colors.white
-                                                : Color(
-                                                0xffeeeeee),
-                                          ),
-                                          children: [
-                                            Column(children: [
-                                              Container(
-                                                padding: EdgeInsets
-                                                    .only(
-                                                    left: 10,
-                                                    top: 10,
-                                                    bottom:
-                                                    10),
-                                                child: Align(
-                                                  alignment:
-                                                  AlignmentDirectional
-                                                      .centerStart,
-                                                  child: Text(
-                                                    e.value.name ??
-                                                        "",
-                                                    style: TextStyle(
-                                                      // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
-                                                      //   fontSize: e.key == 0 ? 16 :14,
-                                                        color: MyTheme.appBarColor),
-                                                  ),
-                                                ),
-                                              ),
-                                            ]),
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets
-                                                  .only(
-                                                  right: 8.0),
-                                              child: Text(
-                                                textAlign:
-                                                TextAlign.end,
-                                                e.value.value
-                                                    ?.toDouble()
-                                                    .toStringAsFixed(
-                                                    3) ??
-                                                    "",
-                                                style: TextStyle(
-                                                    color: Colors
-                                                        .black
-                                                        .withOpacity(
-                                                        0.8)),
-                                              ),
-                                            ),
-                                          ]),
-                                    )
-                                        .toList()),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Card(
-                            color: Colors.white,
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: defaultCardRadius),
-                            child: Column(
-                              children: [
-                                Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          topRight:
-                                          Radius.circular(8)),
-                                    ),
-                                    width: double.infinity,
-                                    child: Center(
-                                        child: Text(
-                                          "ORDER DETAILS",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight:
-                                              FontWeight.bold),
-                                        ))),
-                                Table(
-                                  columnWidths: {
-                                    0: FlexColumnWidth(4),
-                                  },
-                                  defaultVerticalAlignment:
-                                  TableCellVerticalAlignment
-                                      .middle,
-                                  border: TableBorder(
-                                      verticalInside: BorderSide(
-                                          color: Color(0xffdddddd),
-                                          width: 1.5,
-                                          style: BorderStyle.solid),
-                                      horizontalInside: BorderSide(
-                                          color: Color(0xffdddddd),
-                                          width: 1.5,
-                                          style: BorderStyle.solid)),
-                                  children: controller
-                                      .result.otherDetails!
-                                      .asMap()
-                                      .entries
-                                      .map<TableRow>(
-                                        (e) => TableRow(
-                                        decoration: BoxDecoration(
-                                          color: e.key % 2 == 0
-                                              ? Colors.white
-                                              : Color(0xffeeeeee),
-                                        ),
-                                        children: [
-                                          Column(
+                                        Card(
+                                          color: Colors.white,
+                                          elevation: 5,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: defaultCardRadius),
+                                          child: Column(
                                             children: [
                                               Container(
-                                                padding: EdgeInsets
-                                                    .only(
-                                                    left: 10,
-                                                    top: 10,
-                                                    bottom:
-                                                    10),
-                                                child: Align(
-                                                  alignment:
-                                                  AlignmentDirectional
-                                                      .centerStart,
-                                                  child: Text(
-                                                    e.value.name ??
-                                                        "",
-                                                    style: TextStyle(
-                                                      // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
-                                                      //   fontSize: e.key == 5 && e.key == 6 ? 16 :14,
-                                                        color: MyTheme.appBarColor),
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topLeft: Radius
+                                                                .circular(8),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    8)),
+                                                    color: Colors.white,
                                                   ),
-                                                ),
+                                                  width: double.infinity,
+                                                  child: Center(
+                                                      child: Text(
+                                                    "WARP",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ))),
+                                              Table(
+                                                defaultVerticalAlignment:
+                                                    TableCellVerticalAlignment
+                                                        .middle,
+                                                defaultColumnWidth:
+                                                    FlexColumnWidth(50),
+                                                border: TableBorder(
+                                                    verticalInside: BorderSide(
+                                                        color:
+                                                            Color(0xffdddddd),
+                                                        width: 1.5,
+                                                        style:
+                                                            BorderStyle.solid),
+                                                    horizontalInside:
+                                                        BorderSide(
+                                                            color: Color(
+                                                                0xffdddddd),
+                                                            width: 1.5,
+                                                            style: BorderStyle
+                                                                .solid)),
+                                                children:
+                                                    controller.result.warplist!
+                                                        .asMap()
+                                                        .entries
+                                                        .map<TableRow>(
+                                                          (e) => TableRow(
+                                                              decoration: BoxDecoration(
+                                                                  color: e.key %
+                                                                              2 ==
+                                                                          0
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Color(
+                                                                          0xffeeeeee),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8)),
+                                                              children: [
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        top:
+                                                                            10),
+                                                                    child: Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            e.value.yarnName ??
+                                                                                "",
+                                                                            style:
+                                                                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                                                                          ),
+                                                                        ])),
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        top:
+                                                                            10),
+                                                                    child: Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            e.value.ends.toString() ??
+                                                                                "",
+                                                                            style:
+                                                                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                                                                          ),
+                                                                        ])),
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        top:
+                                                                            10),
+                                                                    child: Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            e.value.weight.toString(),
+                                                                            style:
+                                                                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                                                                          ),
+                                                                        ])),
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        top:
+                                                                            10),
+                                                                    child: Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            "${e.value.yarnRate.toString()}" ??
+                                                                                "",
+                                                                            style:
+                                                                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                                                                          ),
+                                                                        ])),
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        right:
+                                                                            10,
+                                                                        top:
+                                                                            10),
+                                                                    child: Text(
+                                                                      e.value.amount
+                                                                              ?.toDouble()
+                                                                              .toStringAsFixed(2) ??
+                                                                          "",
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black
+                                                                              .withOpacity(0.8)),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .end,
+                                                                    )),
+                                                              ]),
+                                                        )
+                                                        .toList()
+                                                      ..insert(
+                                                        0,
+                                                        TableRow(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0xffeeeeee),
+                                                            ),
+                                                            children: [
+                                                              Column(children: [
+                                                                Text(
+                                                                  "Yarn",
+                                                                  style: TextStyle(
+                                                                      color: MyTheme
+                                                                          .appBarColor),
+                                                                ),
+                                                              ]),
+                                                              Column(children: [
+                                                                Text(
+                                                                  "Ends",
+                                                                  style: TextStyle(
+                                                                      color: MyTheme
+                                                                          .appBarColor),
+                                                                ),
+                                                              ]),
+                                                              Container(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          bottom:
+                                                                              5,
+                                                                          top:
+                                                                              5),
+                                                                  child: Column(
+                                                                      children: [
+                                                                        Text(
+                                                                          "Weight\n(KG)",
+                                                                          style:
+                                                                              TextStyle(color: MyTheme.appBarColor),
+                                                                        ),
+                                                                      ])),
+                                                              Column(children: [
+                                                                Text(
+                                                                  "Rate",
+                                                                  style: TextStyle(
+                                                                      color: MyTheme
+                                                                          .appBarColor),
+                                                                ),
+                                                              ]),
+                                                              Column(children: [
+                                                                Text(
+                                                                  "Amount",
+                                                                  style: TextStyle(
+                                                                      color: MyTheme
+                                                                          .appBarColor),
+                                                                ),
+                                                              ]),
+                                                            ]),
+                                                      ),
                                               ),
                                             ],
                                           ),
-                                          Padding(
-                                            padding:
-                                            const EdgeInsets
-                                                .only(
-                                                right: 8.0),
-                                            child: Text(
-                                              textAlign:
-                                              TextAlign.end,
-                                              e.key == 0
-                                                  ? e.value.value
-                                                  ?.toDouble()
-                                                  .toStringAsFixed(
-                                                  0) ??
-                                                  ""
-                                                  : e.value.value
-                                                  ?.toDouble()
-                                                  .toStringAsFixed(
-                                                  2) ??
-                                                  "",
-                                              style: TextStyle(
-                                                // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
-                                                  color: Colors
-                                                      .black
-                                                      .withOpacity(
-                                                      0.8)),
-                                            ),
+                                        ),
+                                        SizedBox(
+                                          height: 25,
+                                        ),
+                                        Card(
+                                          color: Colors.white,
+                                          elevation: 5,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: defaultCardRadius),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topLeft: Radius
+                                                                .circular(8),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    8)),
+                                                    color: Colors.white,
+                                                  ),
+                                                  width: double.infinity,
+                                                  child: Center(
+                                                      child: Text(
+                                                    "WEFT",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ))),
+                                              Table(
+                                                defaultVerticalAlignment:
+                                                    TableCellVerticalAlignment
+                                                        .middle,
+                                                border: TableBorder(
+                                                    verticalInside: BorderSide(
+                                                        color:
+                                                            Color(0xffdddddd),
+                                                        width: 1.5,
+                                                        style:
+                                                            BorderStyle.solid),
+                                                    horizontalInside:
+                                                        BorderSide(
+                                                            color: Color(
+                                                                0xffdddddd),
+                                                            width: 1.5,
+                                                            style: BorderStyle
+                                                                .solid)),
+                                                children:
+                                                    controller.result.weftlist!
+                                                        .asMap()
+                                                        .entries
+                                                        .map<TableRow>(
+                                                          (e) => TableRow(
+                                                              decoration: BoxDecoration(
+                                                                  color: e.key %
+                                                                              2 ==
+                                                                          0
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Color(
+                                                                          0xffeeeeee),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8)),
+                                                              children: [
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        top:
+                                                                            10),
+                                                                    child: Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            e.value.yarnName.toString() ??
+                                                                                "",
+                                                                            style:
+                                                                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                                                                          ),
+                                                                        ])),
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        top:
+                                                                            10),
+                                                                    child: Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            e.value.finalPpi.toString() ??
+                                                                                "",
+                                                                            style:
+                                                                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                                                                          ),
+                                                                        ])),
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        top:
+                                                                            10),
+                                                                    child: Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            e.value.weight.toString(),
+                                                                            style:
+                                                                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                                                                          ),
+                                                                        ])),
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        top:
+                                                                            10),
+                                                                    child: Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            e.value.yarnRate.toString() ??
+                                                                                "",
+                                                                            style:
+                                                                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                                                                          ),
+                                                                        ])),
+                                                                Container(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            10,
+                                                                        right:
+                                                                            8,
+                                                                        top:
+                                                                            10),
+                                                                    child: Text(
+                                                                      e.value
+                                                                          .rate
+                                                                          .toString(),
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black
+                                                                              .withOpacity(0.8)),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .end,
+                                                                    )),
+                                                              ]),
+                                                        )
+                                                        .toList()
+                                                      ..insert(
+                                                        0,
+                                                        TableRow(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0xffeeeeee),
+                                                            ),
+                                                            children: [
+                                                              Column(children: [
+                                                                Text(
+                                                                  "Yarn",
+                                                                  style: TextStyle(
+                                                                      color: MyTheme
+                                                                          .appBarColor),
+                                                                ),
+                                                              ]),
+                                                              Column(children: [
+                                                                Text(
+                                                                  "Final\nPPI",
+                                                                  style: TextStyle(
+                                                                      color: MyTheme
+                                                                          .appBarColor),
+                                                                ),
+                                                              ]),
+                                                              Container(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          bottom:
+                                                                              5,
+                                                                          top:
+                                                                              5),
+                                                                  child: Column(
+                                                                      children: [
+                                                                        Text(
+                                                                          "Weight\n(KG)",
+                                                                          style:
+                                                                              TextStyle(color: MyTheme.appBarColor),
+                                                                        ),
+                                                                      ])),
+                                                              Column(children: [
+                                                                Text(
+                                                                  "Rate",
+                                                                  style: TextStyle(
+                                                                      color: MyTheme
+                                                                          .appBarColor),
+                                                                ),
+                                                              ]),
+                                                              Column(children: [
+                                                                Text(
+                                                                  "Amount",
+                                                                  style: TextStyle(
+                                                                      color: MyTheme
+                                                                          .appBarColor),
+                                                                ),
+                                                              ]),
+                                                            ]),
+                                                      ),
+                                              ),
+                                            ],
                                           ),
-                                        ]),
-                                  )
-                                      .toList(),
+                                        ),
+                                        SizedBox(
+                                          height: 25,
+                                        ),
+                                        Card(
+                                          color: Colors.white,
+                                          elevation: 5,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: defaultCardRadius),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topLeft: Radius
+                                                                .circular(8),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    8)),
+                                                  ),
+                                                  width: double.infinity,
+                                                  child: Center(
+                                                      child: Text(
+                                                    "RESULT",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ))),
+                                              Table(
+                                                  columnWidths: {
+                                                    0: FlexColumnWidth(4),
+                                                  },
+                                                  defaultVerticalAlignment:
+                                                      TableCellVerticalAlignment
+                                                          .middle,
+                                                  border: TableBorder(
+                                                      verticalInside:
+                                                          BorderSide(
+                                                              color: Color(
+                                                                  0xffdddddd),
+                                                              width: 1.5,
+                                                              style: BorderStyle
+                                                                  .solid),
+                                                      horizontalInside:
+                                                          BorderSide(
+                                                              color: Color(
+                                                                  0xffdddddd),
+                                                              width: 1.5,
+                                                              style: BorderStyle
+                                                                  .solid)),
+                                                  children:
+                                                      controller
+                                                          .result.calculation!
+                                                          .asMap()
+                                                          .entries
+                                                          .map<TableRow>(
+                                                            (e) => TableRow(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: e.key %
+                                                                              2 ==
+                                                                          0
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Color(
+                                                                          0xffeeeeee),
+                                                                ),
+                                                                children: [
+                                                                  Column(
+                                                                      children: [
+                                                                        Container(
+                                                                          padding: EdgeInsets.only(
+                                                                              left: 10,
+                                                                              top: 10,
+                                                                              bottom: 10),
+                                                                          child:
+                                                                              Align(
+                                                                            alignment:
+                                                                                AlignmentDirectional.centerStart,
+                                                                            child:
+                                                                                Text(
+                                                                              e.value.name ?? "",
+                                                                              style: TextStyle(fontWeight: e.key == 6 || e.key == 7 ? FontWeight.w600 : FontWeight.w400, color: MyTheme.appBarColor),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            8.0),
+                                                                    child: Text(
+                                                                      e.value.value
+                                                                              ?.toDouble()
+                                                                              .toStringAsFixed(2) ??
+                                                                          "",
+                                                                      style: TextStyle(
+                                                                          fontWeight: e.key == 6 || e.key == 7
+                                                                              ? FontWeight.w600
+                                                                              : FontWeight.w400,
+                                                                          color: Colors.black.withOpacity(0.8)),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .end,
+                                                                    ),
+                                                                  ),
+                                                                ]),
+                                                          )
+                                                          .toList()),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 25,
+                                        ),
+                                        Card(
+                                          color: Colors.white,
+                                          elevation: 5,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: defaultCardRadius),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topLeft: Radius
+                                                                .circular(8),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    8)),
+                                                  ),
+                                                  width: double.infinity,
+                                                  child: Center(
+                                                      child: Text(
+                                                    "WEIGHT DETAILS",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ))),
+                                              Table(
+                                                  columnWidths: {
+                                                    0: FlexColumnWidth(4),
+                                                  },
+                                                  defaultVerticalAlignment:
+                                                      TableCellVerticalAlignment
+                                                          .middle,
+                                                  border: TableBorder(
+                                                      verticalInside:
+                                                          BorderSide(
+                                                              color: Color(
+                                                                  0xffdddddd),
+                                                              width: 1.5,
+                                                              style: BorderStyle
+                                                                  .solid),
+                                                      horizontalInside:
+                                                          BorderSide(
+                                                              color: Color(
+                                                                  0xffdddddd),
+                                                              width: 1.5,
+                                                              style: BorderStyle
+                                                                  .solid)),
+                                                  children:
+                                                      controller
+                                                          .result.weightDetails!
+                                                          .asMap()
+                                                          .entries
+                                                          .map<TableRow>(
+                                                            (e) => TableRow(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: e.key %
+                                                                              2 ==
+                                                                          0
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Color(
+                                                                          0xffeeeeee),
+                                                                ),
+                                                                children: [
+                                                                  Column(
+                                                                      children: [
+                                                                        Container(
+                                                                          padding: EdgeInsets.only(
+                                                                              left: 10,
+                                                                              top: 10,
+                                                                              bottom: 10),
+                                                                          child:
+                                                                              Align(
+                                                                            alignment:
+                                                                                AlignmentDirectional.centerStart,
+                                                                            child:
+                                                                                Text(
+                                                                              e.value.name ?? "",
+                                                                              style: TextStyle(
+                                                                                  // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
+                                                                                  //   fontSize: e.key == 0 ? 16 :14,
+                                                                                  color: MyTheme.appBarColor),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            8.0),
+                                                                    child: Text(
+                                                                      e.value.value
+                                                                              ?.toDouble()
+                                                                              .toStringAsFixed(3) ??
+                                                                          "",
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black
+                                                                              .withOpacity(0.8)),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .end,
+                                                                    ),
+                                                                  ),
+                                                                ]),
+                                                          )
+                                                          .toList()),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 25,
+                                        ),
+                                        Card(
+                                          color: Colors.white,
+                                          elevation: 5,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: defaultCardRadius),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topLeft: Radius
+                                                                .circular(8),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    8)),
+                                                  ),
+                                                  width: double.infinity,
+                                                  child: Center(
+                                                      child: Text(
+                                                    "ORDER DETAILS",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ))),
+                                              Table(
+                                                columnWidths: {
+                                                  0: FlexColumnWidth(4),
+                                                },
+                                                defaultVerticalAlignment:
+                                                    TableCellVerticalAlignment
+                                                        .middle,
+                                                border: TableBorder(
+                                                    verticalInside: BorderSide(
+                                                        color:
+                                                            Color(0xffdddddd),
+                                                        width: 1.5,
+                                                        style:
+                                                            BorderStyle.solid),
+                                                    horizontalInside:
+                                                        BorderSide(
+                                                            color: Color(
+                                                                0xffdddddd),
+                                                            width: 1.5,
+                                                            style: BorderStyle
+                                                                .solid)),
+                                                children:
+                                                    controller
+                                                        .result.otherDetails!
+                                                        .asMap()
+                                                        .entries
+                                                        .map<TableRow>(
+                                                          (e) => TableRow(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: e.key %
+                                                                            2 ==
+                                                                        0
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Color(
+                                                                        0xffeeeeee),
+                                                              ),
+                                                              children: [
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
+                                                                              10,
+                                                                          top:
+                                                                              10,
+                                                                          bottom:
+                                                                              10),
+                                                                      child:
+                                                                          Align(
+                                                                        alignment:
+                                                                            AlignmentDirectional.centerStart,
+                                                                        child:
+                                                                            Text(
+                                                                          e.value.name ??
+                                                                              "",
+                                                                          style: TextStyle(
+                                                                              // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
+                                                                              //   fontSize: e.key == 5 && e.key == 6 ? 16 :14,
+                                                                              color: MyTheme.appBarColor),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          8.0),
+                                                                  child: Text(
+                                                                    e.key == 0
+                                                                        ? e.value.value?.toDouble().toStringAsFixed(0) ??
+                                                                            ""
+                                                                        : e.value.value?.toDouble().toStringAsFixed(2) ??
+                                                                            "",
+                                                                    style: TextStyle(
+                                                                        // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
+                                                                        color: Colors.black.withOpacity(0.8)),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .end,
+                                                                  ),
+                                                                ),
+                                                              ]),
+                                                        )
+                                                        .toList(),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 50,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                          ),
-                          Container(
-                            width: screenwidth(context, dividedby: 3),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10),
-                            child: ElevatedButton(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                    MaterialStateProperty.all(
-                                        Colors.blueAccent)),
-                                child: Text('Save')),
-                          ),
-                          SizedBox(
-                            height: 50,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ),
-        ));
+                    );
+                  }),
+                ),
+              ),
+            ));
   }
 }

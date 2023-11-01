@@ -39,23 +39,36 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
 
     Map<String, dynamic> parameter = {
       "fabric_category": febric_category,
+      "user_id": "1"
     };
     await editFabricCategoryData(
             parameter: jsonEncode(parameter), categoryId: categoryid)
         .then((value) {
-      febricCategoryController.fetchDataFromAPI();
-      FlutterToast.showCustomToast(value.massage);
-      Get.back();
+      if (value.success != false) {
+        febricCategoryController.fetchDataFromAPI();
+        Get.back();
+      }
       print(value);
+      FlutterToast.showCustomToast(value.massage);
       context.loaderOverlay.hide();
-
     }).onError((error, stackTrace) {
+      // FlutterToast.showCustomToast(
+      //     "This fabric category has been previously saved");
+
       context.loaderOverlay.hide();
 
       print(error);
     });
   }
 
+  @override
+  void initState() {
+    nameController.text = widget.fabricCategoryData!.fabricCategory;
+    // TODO: implement initState
+    super.initState();
+  }
+
+  bool editedt = false;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -106,64 +119,9 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
                     tooltip: "Back",
                     splashRadius: 20,
                     onPressed: () {
-                      setState(() {
-                        if (nameController.text.isNotEmpty &&
-                            nameController.text ==
-                                widget.fabricCategoryData!.fabricCategory) {
-                          Navigator.of(context).pop(false);
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.white,
-                                  title: Text(
-                                    "Alert",
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.red),
-                                  ),
-                                  content: Text(
-                                    "Are you sure you would like to go back without updating data that you have edited in text field(s) ?",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.black.withOpacity(0.5)),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        style: TextButton.styleFrom(
-                                            foregroundColor: Colors.grey,
-                                            backgroundColor:
-                                                Colors.white.withOpacity(0.9)),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(false);
-                                        },
-                                        child: Text(
-                                          "Cancel",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black),
-                                        )),
-                                    TextButton(
-                                        style: TextButton.styleFrom(
-                                            foregroundColor: Colors.grey,
-                                            backgroundColor:
-                                                Colors.white.withOpacity(0.9)),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(false);
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => YarnCategoryScreen()));
-                                          Navigator.of(context).pop(false);
-                                        },
-                                        child: Text(
-                                          "Yes",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black),
-                                        )),
-                                  ],
-                                );
-                              });
-                        }
-                      });
+                      editedt == true
+                          ? showdialogboxalert(context)
+                          : Get.back();
                     },
                     icon: Icon(Icons.arrow_back_rounded)),
               ),
@@ -185,9 +143,14 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
                         child: Column(
                           children: [
                             CommonTextFormField(
-                              controller: nameController
-                                ..text =
-                                    widget.fabricCategoryData!.fabricCategory,
+                              onchange: (p0) {
+                                setState(() {
+                                  p0.isNotEmpty
+                                      ? editedt = true
+                                      : editedt = false;
+                                });
+                              },
+                              controller: nameController,
                               labelText: 'Edit Fabric Category',
                               keyboardType: TextInputType.text,
                               hintText: 'Edit Fabric Category',
@@ -207,10 +170,11 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
                           const EdgeInsets.only(top: 50, left: 5, right: 5),
                       child: ElevatedButton(
                           onPressed: () {
-                            fetchDataFromAPI(
-                                febric_category: nameController.text,
-                                categoryid:
-                                    widget.fabricCategoryData!.id.toString());
+                            if (editedt = true)
+                              fetchDataFromAPI(
+                                  febric_category: nameController.text,
+                                  categoryid:
+                                      widget.fabricCategoryData!.id.toString());
                           },
                           style: ButtonStyle(
                               overlayColor: MaterialStateProperty.all(
@@ -221,8 +185,10 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
                               elevation: MaterialStateProperty.all(2.5),
                               foregroundColor:
                                   MaterialStateProperty.all(Colors.white),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.blueAccent)),
+                              backgroundColor: MaterialStateProperty.all(
+                                  editedt == true
+                                      ? Colors.blueAccent
+                                      : Colors.blueAccent.withOpacity(0.2))),
                           child: Text('UPDATE')),
                     ),
                     SizedBox(

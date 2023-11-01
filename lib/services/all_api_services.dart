@@ -51,7 +51,7 @@ Future<YarnIndexModel> yarnIndexData({required String keyword}) async {
 Future<GetResultModel> getResultapi({required String id}) async {
   var url = Uri.parse(URLs.Base_url + "getresult/$id");
   var response = await http.get(url);
-  // print('Response Body: ${response.body}');
+  print('Response Body: ${response.body}');
   return getResultModelFromJson(response.body);
 }
 

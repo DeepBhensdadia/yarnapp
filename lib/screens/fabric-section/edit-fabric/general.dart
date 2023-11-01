@@ -52,13 +52,19 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
     feb.wrapModel.asMap().forEach((index, element) {
       element.controller.text =
           widget.general?.warplist?[index].ends.toString() ?? "";
-      element.selectedYarnID = widget.general?.warplist?[index].yarnId;
+      element.selectedYarnID = widget.general?.warplist?[index].yarnId ?? 0;
     });
+    feb.currenttab = widget.general?.weftlist?.first.isAdvance ?? 0;
     feb.weftModel.asMap().forEach((index, element) {
       element.ppiController.text =
-          widget.general?.weftlist?[index].finalPpi.toString() ?? "";
-      element.selectedYarnID = widget.general?.weftlist?[index].yarnId;
+          widget.general?.weftlist?[index].ppi.toString() ?? "";
+      element.selectedYarnID = widget.general?.weftlist?[index].yarnId ?? 0;
+      if (widget.general?.weftlist?[index].isAdvance == 1)
+        element.repeatController.text =
+            widget.general?.weftlist?[index].repeat.toString() ?? "";
     });
+    feb.wrapyarnupdateid.clear();
+    feb.weftyarnupdateid.clear();
     widget.general?.warplist?.forEach((element) {
       feb.wrapyarnupdateid.add(element.id ?? 0);
     });
@@ -98,6 +104,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CommonTextFormField(
+                              onchange: (p0) {
+                               p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter Febric name";
@@ -135,6 +144,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                 absorbing: true,
                                 child: DropdownButtonFormField<String>(
                                   onChanged: (value) {
+                                    feb.editedt = true;
                                     feb.numberOfWarpYarnController.text =
                                         value ?? "";
                                   },
@@ -211,6 +221,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                 absorbing: true,
                                 child: DropdownButtonFormField<String>(
                                   onChanged: (value) {
+                                    feb.editedt = true;
                                     feb.numberOfWeftYarnController.text =
                                         value ?? "";
                                   },
@@ -265,6 +276,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter width in inch";
@@ -280,6 +294,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter cost of final ppi";
@@ -295,6 +312,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter wrap wesrage % onn warap amount";
@@ -312,6 +332,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter weft wastage in % on weft amount";
@@ -329,6 +352,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter butta cutting cost pr meter";
@@ -344,6 +370,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter any addittional cost per meter";
@@ -388,6 +417,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                             menuMaxHeight: screenheight(context,
                                                 dividedby: 1.5),
                                             onChanged: (value) {
+                                              feb.editedt = true;
                                               feb.fabricCategoryController
                                                   .text = value ?? "";
                                             },

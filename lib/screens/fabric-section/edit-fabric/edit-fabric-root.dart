@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
 import 'package:yarn_modified/getxcontrollers/febriceditcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/getresultscontroller.dart';
@@ -38,8 +39,10 @@ class _EditFabricRootState extends State<EditFabricRoot> {
 
   @override
   void initState() {
+    feb.editedt = false;
     feb.clearall();
-    getResultController.getresultcall(id: widget.febricdata?.id.toString() ?? " ");
+    getResultController.getresultcall(
+        id: widget.febricdata?.id.toString() ?? " ");
     feb.numberOfWarpYarnController.text =
         widget.febricdata?.warpYarn.toString() ?? "";
     feb.numberOfWeftYarnController.text =
@@ -74,6 +77,13 @@ class _EditFabricRootState extends State<EditFabricRoot> {
           backgroundColor: Colors.transparent,
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
+            leading: IconButton(
+                onPressed: () {
+                  feb.editedt == true
+                      ? showdialogboxalert(context)
+                      : Get.back();
+                },
+                icon: Icon(Icons.arrow_back)),
             title: Text(
               'Edit Fabric',
               textScaleFactor: 1,
@@ -108,30 +118,38 @@ class _EditFabricRootState extends State<EditFabricRoot> {
 
   Widget getBody() {
     return Padding(
-      padding: const EdgeInsets.all(5),
-      child: GetBuilder<GetResultController>(builder: (controller) => Column(
-        children: [
-          getHeader(),
-          Expanded(
-            child: controller.call != true ? Center(child: CircularProgressIndicator(),) :PageView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: pageController,
-              onPageChanged: (value) {
-                setState(() {
-                  activeTab = value;
-                });
-              },
-              children: [
-                EditGeneralCategory(page: pageController, general: controller.result),
-                EditWarpCategory(page: pageController, general: controller.result),
-                EditWeftCategory(page: pageController, general: controller.result),
-                EditResultCategory(),
-              ],
-            ),
+        padding: const EdgeInsets.all(5),
+        child: GetBuilder<GetResultController>(
+          builder: (controller) => Column(
+            children: [
+              getHeader(),
+              Expanded(
+                child: controller.call != true
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : PageView(
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: pageController,
+                        onPageChanged: (value) {
+                          setState(() {
+                            activeTab = value;
+                          });
+                        },
+                        children: [
+                          EditGeneralCategory(
+                              page: pageController, general: controller.result),
+                          EditWarpCategory(
+                              page: pageController, general: controller.result),
+                          EditWeftCategory(
+                              page: pageController, general: controller.result),
+                          EditResultCategory(),
+                        ],
+                      ),
+              ),
+            ],
           ),
-        ],
-      ),)
-    );
+        ));
   }
 
   Widget getHeader() {
@@ -148,7 +166,7 @@ class _EditFabricRootState extends State<EditFabricRoot> {
           ),
           // color: Colors.white70,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: EdgeInsets.symmetric(vertical: 3),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(headerAddFabricItems.length, (index) {
@@ -186,27 +204,28 @@ class _EditFabricRootState extends State<EditFabricRoot> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                       decoration: BoxDecoration(
-                          color: activeTab == index
-                              ? Colors.white
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(7.5),
-                          border: Border.all(
-                            color: activeTab == index
-                                ? Colors.grey
-                                : Colors.transparent,
-                          )),
+                        color: activeTab == index
+                            ? MyTheme.appBarColor.withOpacity(1)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(7.5),
+                        // border: Border.all(
+                        //   color: activeTab == index
+                        //       ? Colors.grey
+                        //       : Colors.transparent,
+                        // ),
+                      ),
                       child: Text(
                         headerAddFabricItems[index]['text'],
-                        textScaleFactor: 0.95,
+                        textScaleFactor: 1.1,
                         style: TextStyle(
                             color: activeTab == index
-                                ? MyTheme.appBarColor
+                                ? Colors.white
                                 : Colors.black,
                             fontWeight: activeTab == index
                                 ? FontWeight.w500
-                                : FontWeight.w400),
+                                : FontWeight.w500),
                       ),
                     ),
                   ),

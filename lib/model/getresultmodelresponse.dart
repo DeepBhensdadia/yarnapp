@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-GetResultModel getResultModelFromJson(String str) => GetResultModel.fromJson(json.decode(str));
+GetResultModel getResultModelFromJson(String str) =>
+    GetResultModel.fromJson(json.decode(str));
 
 String getResultModelToJson(GetResultModel data) => json.encode(data.toJson());
 
@@ -12,8 +13,8 @@ class GetResultModel {
   bool? success;
   String? message;
   List<dynamic>? data;
-  List<WarplistElement>? warplist;
-  List<WarplistElement>? weftlist;
+  List<Warplist>? warplist;
+  List<Weftlist>? weftlist;
   General? general;
   List<Calculation>? calculation;
   List<Calculation>? weightDetails;
@@ -32,28 +33,35 @@ class GetResultModel {
   });
 
   factory GetResultModel.fromJson(Map<String, dynamic> json) => GetResultModel(
-    success: json["success"],
-    message: json["message"],
-    data: List<dynamic>.from(json["data"].map((x) => x)),
-    warplist: List<WarplistElement>.from(json["warplist"].map((x) => WarplistElement.fromJson(x))),
-    weftlist: List<WarplistElement>.from(json["weftlist"].map((x) => WarplistElement.fromJson(x))),
-    general: General.fromJson(json["general"]),
-    calculation: List<Calculation>.from(json["calculation"].map((x) => Calculation.fromJson(x))),
-    weightDetails: List<Calculation>.from(json["weightDetails"].map((x) => Calculation.fromJson(x))),
-    otherDetails: List<Calculation>.from(json["otherDetails"].map((x) => Calculation.fromJson(x))),
-  );
+        success: json["success"],
+        message: json["message"],
+        data: List<dynamic>.from(json["data"].map((x) => x)),
+        warplist: List<Warplist>.from(
+            json["warplist"].map((x) => Warplist.fromJson(x))),
+        weftlist: List<Weftlist>.from(
+            json["weftlist"].map((x) => Weftlist.fromJson(x))),
+        general: General.fromJson(json["general"]),
+        calculation: List<Calculation>.from(
+            json["calculation"].map((x) => Calculation.fromJson(x))),
+        weightDetails: List<Calculation>.from(
+            json["weightDetails"].map((x) => Calculation.fromJson(x))),
+        otherDetails: List<Calculation>.from(
+            json["otherDetails"].map((x) => Calculation.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "message": message,
-    "data": List<dynamic>.from(data!.map((x) => x)),
-    "warplist": List<dynamic>.from(warplist!.map((x) => x.toJson())),
-    "weftlist": List<dynamic>.from(weftlist!.map((x) => x.toJson())),
-    "general": general?.toJson(),
-    "calculation": List<dynamic>.from(calculation!.map((x) => x.toJson())),
-    "weightDetails": List<dynamic>.from(weightDetails!.map((x) => x.toJson())),
-    "otherDetails": List<dynamic>.from(otherDetails!.map((x) => x.toJson())),
-  };
+        "success": success,
+        "message": message,
+        "data": List<dynamic>.from(data!.map((x) => x)),
+        "warplist": List<dynamic>.from(warplist!.map((x) => x.toJson())),
+        "weftlist": List<dynamic>.from(weftlist!.map((x) => x.toJson())),
+        "general": general?.toJson(),
+        "calculation": List<dynamic>.from(calculation!.map((x) => x.toJson())),
+        "weightDetails":
+            List<dynamic>.from(weightDetails!.map((x) => x.toJson())),
+        "otherDetails":
+            List<dynamic>.from(otherDetails!.map((x) => x.toJson())),
+      };
 }
 
 class Calculation {
@@ -66,32 +74,34 @@ class Calculation {
   });
 
   factory Calculation.fromJson(Map<String, dynamic> json) => Calculation(
-    name: json["name"],
-    value: json["value"].toDouble(),
-  );
+        name: json["name"],
+        value: json["value"].toDouble(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "value": value,
-  };
+        "name": name,
+        "value": value,
+      };
 }
 
 class General {
   int? id;
   String? fabricName;
-  dynamic warpYarn;
-  dynamic weftYarn;
-  dynamic width;
-  dynamic finalPpi;
-  dynamic warpWastage;
-  dynamic weftWastage;
-  dynamic buttaCuttingCost;
-  dynamic additionalCost;
-  dynamic fabricCategoryId;
-  dynamic userId;
+  int? warpYarn;
+  int? weftYarn;
+  double? width;
+  double? finalPpi;
+  double? warpWastage;
+  double? weftWastage;
+  double? buttaCuttingCost;
+  double? additionalCost;
+  int? fabricCategoryId;
+  int? userId;
+  dynamic finalCostPerMeter;
+  dynamic finalCostPerPiece;
   DateTime? createdAt;
   DateTime? updatedAt;
-  dynamic categoryName;
+  String? categoryName;
 
   General({
     this.id,
@@ -106,104 +116,166 @@ class General {
     this.additionalCost,
     this.fabricCategoryId,
     this.userId,
+    this.finalCostPerMeter,
+    this.finalCostPerPiece,
     this.createdAt,
     this.updatedAt,
     this.categoryName,
   });
 
   factory General.fromJson(Map<String, dynamic> json) => General(
-    id: json["id"],
-    fabricName: json["fabric_name"],
-    warpYarn: json["warp_yarn"],
-    weftYarn: json["weft_yarn"],
-    width: json["width"],
-    finalPpi: json["final_ppi"],
-    warpWastage: json["warp_wastage"],
-    weftWastage: json["weft_wastage"],
-    buttaCuttingCost: json["butta_cutting_cost"],
-    additionalCost: json["additional_cost"],
-    fabricCategoryId: json["fabric_category_id"],
-    userId: json["user_id"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    categoryName: json["category_name"],
-  );
+        id: json["id"],
+        fabricName: json["fabric_name"],
+        warpYarn: json["warp_yarn"],
+        weftYarn: json["weft_yarn"],
+        width: json["width"].toDouble(),
+        finalPpi: json["final_ppi"].toDouble(),
+        warpWastage: json["warp_wastage"].toDouble(),
+        weftWastage: json["weft_wastage"].toDouble(),
+        buttaCuttingCost: json["butta_cutting_cost"].toDouble(),
+        additionalCost: json["additional_cost"].toDouble(),
+        fabricCategoryId: json["fabric_category_id"],
+        userId: json["user_id"],
+        finalCostPerMeter: json["final_cost_per_meter"],
+        finalCostPerPiece: json["final_cost_per_piece"],
+        createdAt:json["created_at"] != null ? DateTime.parse(json["created_at"]) : DateTime.now(),
+        updatedAt:json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : DateTime.now(),
+        categoryName: json["category_name"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "fabric_name": fabricName,
-    "warp_yarn": warpYarn,
-    "weft_yarn": weftYarn,
-    "width": width,
-    "final_ppi": finalPpi,
-    "warp_wastage": warpWastage,
-    "weft_wastage": weftWastage,
-    "butta_cutting_cost": buttaCuttingCost,
-    "additional_cost": additionalCost,
-    "fabric_category_id": fabricCategoryId,
-    "user_id": userId,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-    "category_name": categoryName,
-  };
+        "id": id,
+        "fabric_name": fabricName,
+        "warp_yarn": warpYarn,
+        "weft_yarn": weftYarn,
+        "width": width,
+        "final_ppi": finalPpi,
+        "warp_wastage": warpWastage,
+        "weft_wastage": weftWastage,
+        "butta_cutting_cost": buttaCuttingCost,
+        "additional_cost": additionalCost,
+        "fabric_category_id": fabricCategoryId,
+        "user_id": userId,
+        "final_cost_per_meter": finalCostPerMeter,
+        "final_cost_per_piece": finalCostPerPiece,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "category_name": categoryName,
+      };
 }
 
-class WarplistElement {
+class Warplist {
   int? id;
-  dynamic fabricCostId;
+  int? fabricCostId;
+  int? ends;
   String? yarnName;
-  dynamic ends;
-  dynamic weight;
-  dynamic rate;
+  int? yarnId;
+  int? yarnDenier;
+  int? yarnRate;
+  int? denier;
+  double? weight;
   double? amount;
-  dynamic denier;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  dynamic yarnId;
-  dynamic finalPpi;
 
-  WarplistElement({
+  Warplist({
     this.id,
     this.fabricCostId,
-    this.yarnName,
     this.ends,
-    this.weight,
-    this.rate,
-    this.amount,
-    this.denier,
-    this.createdAt,
-    this.updatedAt,
+    this.yarnName,
     this.yarnId,
-    this.finalPpi,
+    this.yarnDenier,
+    this.yarnRate,
+    this.denier,
+    this.weight,
+    this.amount,
   });
 
-  factory WarplistElement.fromJson(Map<String, dynamic> json) => WarplistElement(
-    id: json["id"],
-    fabricCostId: json["fabric_cost_id"],
-    yarnName: json["yarn_name"],
-    ends: json["ends"],
-    weight: json["weight"],
-    rate: json["rate"],
-    amount: json["amount"].toDouble(),
-    denier: json["denier"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    yarnId: json["yarn_id"],
-    finalPpi: json["final_ppi"],
-  );
+  factory Warplist.fromJson(Map<String, dynamic> json) => Warplist(
+        id: json["id"],
+        fabricCostId: json["fabric_cost_id"],
+        ends: json["ends"],
+        yarnName: json["yarn_name"],
+        yarnId: json["yarn_id"],
+        yarnDenier: json["yarn_denier"],
+        yarnRate: json["yarn_rate"],
+        denier: json["denier"],
+        weight: json["weight"].toDouble(),
+        amount: json["amount"].toDouble(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "fabric_cost_id": fabricCostId,
-    "yarn_name": yarnName,
-    "ends": ends,
-    "weight": weight,
-    "rate": rate,
-    "amount": amount,
-    "denier": denier,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-    "yarn_id": yarnId,
-    "final_ppi": finalPpi,
-  };
+        "id": id,
+        "fabric_cost_id": fabricCostId,
+        "ends": ends,
+        "yarn_name": yarnName,
+        "yarn_id": yarnId,
+        "yarn_denier": yarnDenier,
+        "yarn_rate": yarnRate,
+        "denier": denier,
+        "weight": weight,
+        "amount": amount,
+      };
+}
+
+class Weftlist {
+  int? id;
+  int? fabricCostId;
+  double? finalPpi;
+  int? isAdvance;
+  double? lenght;
+  int? repeat;
+  int? yarnDenier;
+  int? yarnRate;
+  String? yarnName;
+  int? yarnId;
+  double? weight;
+  double? rate;
+  double? ppi;
+
+  Weftlist({
+    this.id,
+    this.fabricCostId,
+    this.finalPpi,
+    this.isAdvance,
+    this.lenght,
+    this.repeat,
+    this.yarnDenier,
+    this.yarnRate,
+    this.yarnName,
+    this.yarnId,
+    this.weight,
+    this.rate,
+    this.ppi,
+  });
+
+  factory Weftlist.fromJson(Map<String, dynamic> json) => Weftlist(
+        id: json["id"],
+        fabricCostId: json["fabric_cost_id"],
+        finalPpi: json["final_ppi"].toDouble(),
+        isAdvance: json["is_advance"],
+        lenght: json["lenght"].toDouble(),
+        repeat: json["repeat"],
+        yarnDenier: json["yarn_denier"],
+        yarnRate: json["yarn_rate"],
+        yarnName: json["yarn_name"],
+        yarnId: json["yarn_id"],
+        weight: json["weight"].toDouble(),
+        rate: json["rate"].toDouble(),
+        ppi: json["ppi"].toDouble(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "fabric_cost_id": fabricCostId,
+        "final_ppi": finalPpi,
+        "is_advance": isAdvance,
+        "lenght": lenght,
+        "repeat": repeat,
+        "yarn_denier": yarnDenier,
+        "yarn_rate": yarnRate,
+        "yarn_name": yarnName,
+        "yarn_id": yarnId,
+        "weight": weight,
+        "rate": rate,
+        "ppi": ppi,
+      };
 }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/getxcontrollers/yarncategorydata.dart';
 import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
+import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/model/create-yarn-index-model.dart';
 import 'package:yarn_modified/widgets/common_fields.dart';
 import '../../const/const.dart';
@@ -40,7 +41,6 @@ class _AddYarnState extends State<AddYarn> {
 
   String dropDownHint = "--Select Category--";
 
-
   YarnListController yarnlist = Get.put(YarnListController());
 
   YarnCategoryController yarncategory = Get.put(YarnCategoryController());
@@ -57,15 +57,18 @@ class _AddYarnState extends State<AddYarn> {
       "yarn_denier": yarnDenier,
       "yarn_rate": yarnRate,
       "category_id": category_id,
-      "user_id": "1",
+      "user_id": "1"
     };
     await addYarnIndexData(parameter: jsonEncode(parameter)).then((value) {
-      yarnlist.fetchDataFromAPI(key: "");
+      if (value.message != false) {
+        yarnlist.fetchDataFromAPI(key: "");
+        Get.back();
+      }
       print(value);
-      Get.back();
+      FlutterToast.showCustomToast(value.message);
       context.loaderOverlay.hide();
     }).onError((error, stackTrace) {
-      FlutterToast.showCustomToast("The yarn name has already been taken.");
+      // FlutterToast.showCustomToast("This yarn rate has been previously saved");
       context.loaderOverlay.hide();
       print(error);
     });
@@ -74,10 +77,12 @@ class _AddYarnState extends State<AddYarn> {
   @override
   void initState() {
     super.initState();
-    yarncategory.categoryid = "53";
+    yarncategory.categoryid = "0";
     yarncategory.fetchDataFromAPI();
   }
 
+  final _formKey = GlobalKey<FormState>();
+  bool editedt = false;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -127,68 +132,9 @@ class _AddYarnState extends State<AddYarn> {
                   leading: IconButton(
                       splashRadius: 20,
                       onPressed: () {
-                        setState(() {
-                          if (nameController.text.isEmpty &&
-                              denierController.text.isEmpty &&
-                              yarnRateController.text.isEmpty &&
-                              categoryController.text.isEmpty) {
-                            Navigator.of(context).pop(false);
-                          } else if (nameController.text.isNotEmpty ||
-                              denierController.text.isNotEmpty ||
-                              yarnRateController.text.isNotEmpty ||
-                              categoryController.text.isNotEmpty) {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    backgroundColor: Colors.white,
-                                    title: Text(
-                                      "Alert",
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.red),
-                                    ),
-                                    content: Text(
-                                      "Are you sure you would like to go back without saving data that you have added in text field(s) ?",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.black.withOpacity(0.5)),
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                          style: TextButton.styleFrom(
-                                              foregroundColor: Colors.grey,
-                                              backgroundColor: Colors.white
-                                                  .withOpacity(0.9)),
-                                          onPressed: () {
-                                            Navigator.of(context).pop(false);
-                                          },
-                                          child: Text(
-                                            "Cancel",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.black),
-                                          )),
-                                      TextButton(
-                                          style: TextButton.styleFrom(
-                                              foregroundColor: Colors.grey,
-                                              backgroundColor: Colors.white
-                                                  .withOpacity(0.9)),
-                                          onPressed: () {
-                                            Navigator.of(context).pop(false);
-                                            // Navigator.push(context, MaterialPageRoute(builder: (context) => YarnCategoryScreen()));
-                                            Navigator.of(context).pop(false);
-                                          },
-                                          child: Text(
-                                            "Yes",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.black),
-                                          )),
-                                    ],
-                                  );
-                                });
-                          }
-                        });
+                        editedt == true
+                            ? showdialogboxalert(context)
+                            : Get.back();
                       },
                       tooltip: "Back",
                       icon: Icon(Icons.arrow_back_rounded)),
@@ -208,195 +154,278 @@ class _AddYarnState extends State<AddYarn> {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Card(
-                                      elevation: 2.5,
-                                      color: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: defaultCardRadius),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            CommonTextFormField(
-                                                controller: nameController,
-                                                labelText: 'Enter Yarn Name',
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                hintText: 'Enter Yarn Name',
-                                                InputAction:
-                                                    TextInputAction.next),
-                                            SizedBox(
-                                              height: 25,
-                                            ),
-                                            CommonDecimalTextField(
-                                                controller: denierController,
-                                                labelText: 'Enter Yarn Denier',
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                hintText: 'Enter Yarn Denier',
-                                                InputAction:
-                                                    TextInputAction.next),
-                                            SizedBox(
-                                              height: 25,
-                                            ),
-                                            CommonDecimalTextField(
-                                                controller: yarnRateController,
-                                                labelText:
-                                                    'Enter Yarn Rate (Including GST)',
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                hintText:
-                                                    'Enter Yarn Rate (Including GST)',
-                                                InputAction:
-                                                    TextInputAction.next),
-                                            SizedBox(
-                                              height: 25,
-                                            ),
-                                            Align(
-                                              alignment:
-                                                  AlignmentDirectional.topStart,
-                                              child: Text(
-                                                "Select Yarn Category",
-                                                textScaleFactor: 1.3,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: MyTheme.appBarColor),
+                                Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Card(
+                                        elevation: 2.5,
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: defaultCardRadius),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              CommonTextFormField(
+                                                  onchange: (p0) {
+                                                    setState(() {
+                                                      p0.isNotEmpty &&
+                                                              denierController
+                                                                  .text
+                                                                  .isNotEmpty &&
+                                                              yarnRateController
+                                                                  .text
+                                                                  .isNotEmpty
+                                                          ? editedt = true
+                                                          : editedt = false;
+                                                    });
+                                                  },
+                                                  validatorfield: (p0) {
+                                                    if (p0!.isEmpty) {
+                                                      return "enter yarn name";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  controller: nameController,
+                                                  labelText: 'Enter Yarn Name',
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  hintText: 'Enter Yarn Name',
+                                                  InputAction:
+                                                      TextInputAction.next),
+                                              SizedBox(
+                                                height: 25,
                                               ),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Container(
-                                              height: 40,
-                                              child: Theme(
-                                                data: ThemeData(
-                                                    canvasColor: Colors.white,
-                                                    primaryColor: Colors.grey,
-                                                    accentColor: Colors.grey,
-                                                    hintColor: Colors.grey,
-                                                    colorScheme:
-                                                        ColorScheme.dark()),
-                                                child: DropdownButtonFormField<
-                                                    String>(
-                                                  hint: Text(
-                                                      "--Select Category--",
-                                                      style: TextStyle(
+                                              CommonDecimalTextField(
+                                                  onchange: (p0) {
+                                                    setState(() {
+                                                      p0.isNotEmpty &&
+                                                              yarnRateController
+                                                                  .text
+                                                                  .isNotEmpty &&
+                                                              nameController
+                                                                  .text
+                                                                  .isNotEmpty
+                                                          ? editedt = true
+                                                          : editedt = false;
+                                                    });
+                                                  },
+                                                  validatorfield: (p0) {
+                                                    if (p0!.isEmpty) {
+                                                      return "enter yarn denier";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  controller: denierController,
+                                                  labelText:
+                                                      'Enter Yarn Denier',
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  hintText: 'Enter Yarn Denier',
+                                                  InputAction:
+                                                      TextInputAction.next),
+                                              SizedBox(
+                                                height: 25,
+                                              ),
+                                              CommonDecimalTextField(
+                                                  onchange: (p0) {
+                                                    setState(() {
+                                                      p0.isNotEmpty &&
+                                                              denierController
+                                                                  .text
+                                                                  .isNotEmpty &&
+                                                              nameController
+                                                                  .text
+                                                                  .isNotEmpty
+                                                          ? editedt = true
+                                                          : editedt = false;
+                                                    });
+                                                  },
+                                                  validatorfield: (p0) {
+                                                    if (p0!.isEmpty) {
+                                                      return "enter yarn Rate";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  controller:
+                                                      yarnRateController,
+                                                  labelText:
+                                                      'Enter Yarn Rate (Including GST)',
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  hintText:
+                                                      'Enter Yarn Rate (Including GST)',
+                                                  InputAction:
+                                                      TextInputAction.next),
+                                              SizedBox(
+                                                height: 25,
+                                              ),
+                                              Align(
+                                                alignment: AlignmentDirectional
+                                                    .topStart,
+                                                child: Text(
+                                                  "Select Yarn Category",
+                                                  textScaleFactor: 1.3,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color:
+                                                          MyTheme.appBarColor),
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Container(
+                                                height: 40,
+                                                child: Theme(
+                                                  data: ThemeData(
+                                                      canvasColor: Colors.white,
+                                                      primaryColor: Colors.grey,
+                                                      accentColor: Colors.grey,
+                                                      hintColor: Colors.grey,
+                                                      colorScheme:
+                                                          ColorScheme.dark()),
+                                                  child:
+                                                      DropdownButtonFormField<
+                                                          String>(
+                                                    validator: (value) {
+                                                      if (value!.isEmpty) {
+                                                        return "enter yarn Category";
+                                                      }
+                                                      return null;
+                                                    },
+                                                    menuMaxHeight: screenheight(
+                                                        context,
+                                                        dividedby: 2),
+                                                    hint: Text(
+                                                        "--Select Category--",
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .textScaleFactor *
+                                                                13)),
+                                                    // value: dropDownHint,
+                                                    onChanged: (value) {
+                                                      editedt = true;
+                                                      yarncategory.categoryid =
+                                                          value.toString();
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.arrow_drop_down,
+                                                      color: Colors.transparent,
+                                                    ),
+                                                    decoration: InputDecoration(
+                                                      enabled: true,
+                                                      isDense: true,
+                                                      suffix: Tooltip(
+                                                        message:
+                                                            "Add Yarn Category",
+                                                        textStyle: TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5)),
+                                                        child: IconButton(
+                                                          iconSize: 20,
+                                                          color: Colors.grey,
+                                                          padding:
+                                                              EdgeInsets.zero,
+                                                          splashRadius: 20,
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            AddYarnCategory()));
+                                                          },
+                                                          icon: Icon(Icons
+                                                              .add_rounded),
+                                                        ),
+                                                      ),
+                                                      disabledBorder:
+                                                          UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5),
+                                                            width: 0.25),
+                                                      ),
+                                                      enabledBorder:
+                                                          UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5),
+                                                            width: 0.25),
+                                                      ),
+                                                      focusedBorder:
+                                                          UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5),
+                                                            width: 0.25),
+                                                      ),
+                                                      border:
+                                                          UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5),
+                                                            width: 0.25),
+                                                      ),
+                                                      floatingLabelAlignment:
+                                                          FloatingLabelAlignment
+                                                              .center,
+                                                      hintText: dropDownHint,
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey,
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .textScaleFactor *
-                                                              13)),
-                                                  // value: dropDownHint,
-                                                  onChanged: (value) {
-                                                    yarncategory.categoryid =
-                                                        value.toString();
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.arrow_drop_down,
-                                                    color: Colors.transparent,
-                                                  ),
-                                                  decoration: InputDecoration(
-                                                    enabled: true,
-                                                    isDense: true,
-                                                    suffix: Tooltip(
-                                                      message:
-                                                          "Add Yarn Category",
-                                                      textStyle: TextStyle(
-                                                          color: Colors.black),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5)),
-                                                      child: IconButton(
-                                                        iconSize: 20,
-                                                        color: Colors.grey,
-                                                        padding:
-                                                            EdgeInsets.zero,
-                                                        splashRadius: 20,
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          AddYarnCategory()));
-                                                        },
-                                                        icon: Icon(
-                                                            Icons.add_rounded),
-                                                      ),
+                                                              13),
                                                     ),
-                                                    disabledBorder:
-                                                        UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black
-                                                              .withOpacity(0.5),
-                                                          width: 0.25),
-                                                    ),
-                                                    enabledBorder:
-                                                        UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black
-                                                              .withOpacity(0.5),
-                                                          width: 0.25),
-                                                    ),
-                                                    focusedBorder:
-                                                        UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black
-                                                              .withOpacity(0.5),
-                                                          width: 0.25),
-                                                    ),
-                                                    border:
-                                                        UnderlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black
-                                                              .withOpacity(0.5),
-                                                          width: 0.25),
-                                                    ),
-                                                    floatingLabelAlignment:
-                                                        FloatingLabelAlignment
-                                                            .center,
-                                                    hintText: dropDownHint,
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
                                                         fontSize: MediaQuery.of(
                                                                     context)
                                                                 .textScaleFactor *
-                                                            13),
+                                                            13.5),
+                                                    value:
+                                                        yarncategory.categoryid,
+                                                    items: yarncategory.getData
+                                                        .map((e) =>
+                                                            DropdownMenuItem(
+                                                                value: e!.id
+                                                                    .toString(),
+                                                                child: Text(e
+                                                                    .yarnCategory)))
+                                                        .toList(),
                                                   ),
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .textScaleFactor *
-                                                          13.5),
-                                                  value: yarncategory.categoryid,
-                                                  items: yarncategory.getData
-                                                      .map((e) =>
-                                                          DropdownMenuItem(
-                                                              value: e!.id
-                                                                  .toString(),
-                                                              child: Text(e
-                                                                  .yarnCategory)))
-                                                      .toList(),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 25,
-                                            ),
-                                          ],
+                                              SizedBox(
+                                                height: 25,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 50,
@@ -406,17 +435,18 @@ class _AddYarnState extends State<AddYarn> {
                                   padding: EdgeInsets.symmetric(horizontal: 5),
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        fetchDataFromAPI(
-                                            yarnName: nameController.text,
-                                            yarnDenier: denierController.text,
-                                            yarnRate: yarnRateController.text,
-                                            category_id: yarncategory.categoryid);
+                                        if (_formKey.currentState!.validate()) {
+                                          fetchDataFromAPI(
+                                              yarnName: nameController.text,
+                                              yarnDenier: denierController.text,
+                                              yarnRate: yarnRateController.text,
+                                              category_id:
+                                                  yarncategory.categoryid);
+                                        }
                                       },
                                       style: ButtonStyle(
-                                          overlayColor:
-                                              MaterialStateProperty.all(Colors
-                                                  .white
-                                                  .withOpacity(0.25)),
+                                          overlayColor: MaterialStateProperty.all(
+                                              Colors.white.withOpacity(0.25)),
                                           shape: MaterialStateProperty.all(
                                               RoundedRectangleBorder(
                                                   borderRadius:
@@ -424,12 +454,14 @@ class _AddYarnState extends State<AddYarn> {
                                                           8))),
                                           elevation:
                                               MaterialStateProperty.all(2.5),
-                                          foregroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.white),
+                                          foregroundColor: MaterialStateProperty.all(
+                                              Colors.white),
                                           backgroundColor:
                                               MaterialStateProperty.all(
-                                                  Colors.green)),
+                                                  editedt == true
+                                                      ? Colors.green
+                                                      : Colors.green
+                                                          .withOpacity(0.5))),
                                       child: Text('SAVE')),
                                 ),
                                 SizedBox(

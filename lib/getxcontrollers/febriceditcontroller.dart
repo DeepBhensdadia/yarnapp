@@ -10,6 +10,7 @@ import '../model/addfebricresponsemodel.dart';
 import '../services/all_api_services.dart';
 
 class FebricEditController extends GetxController {
+  bool editedt = false;
   //
   List<WrapModel> wrapModel = <WrapModel>[];
 
@@ -17,10 +18,11 @@ class FebricEditController extends GetxController {
   List<String> wrapyarntaar = <String>[];
 
   void goToResult(resultid) {
+    editedt = false;
     changedData();
     changedDataweft();
-    print(wrapyarnupdateid.toString());
-    print(weftyarnupdateid.toString());
+    print("wrapids${wrapyarnupdateid}");
+    print("weftids${weftyarnupdateid}");
     updatefebrickaro(resultid);
   }
 
@@ -32,8 +34,8 @@ class FebricEditController extends GetxController {
       wrapyarnids.add(element.selectedYarnID);
       wrapyarntaar.add(element.taar);
     });
-    print(wrapyarnids.toString());
-    print(wrapyarntaar.toString());
+    print("wrap yarn id ${wrapyarnids}");
+    print("wrap yarn taar ${wrapyarntaar}");
   }
 
   void fillModel() {
@@ -53,6 +55,7 @@ class FebricEditController extends GetxController {
 
   List<int> weftyarnids = [];
   List<String> weftppi = [];
+  List<String> weftrepeat = [];
 
   bool isWrapDone = false;
   bool isWeftDone = false;
@@ -62,12 +65,14 @@ class FebricEditController extends GetxController {
   void changedDataweft() {
     weftyarnids.clear();
     weftppi.clear();
+    weftrepeat.clear();
     weftModel.forEach((element) {
       weftyarnids.add(element.selectedYarnID);
       weftppi.add(element.ppi);
+      if (currenttab != 0) weftrepeat.add(element.repeat);
     });
-    print(weftyarnids.toString());
-    print(weftppi.toString());
+    print("weft yarn ids ${weftyarnids}");
+    print("weft yarn ppi ${weftppi}");
   }
 
   void fillModelweftBasic() {
@@ -137,6 +142,9 @@ class FebricEditController extends GetxController {
   List<int> wrapyarnupdateid = <int>[];
   List<int> weftyarnupdateid = <int>[];
 
+  bool weftppitect = false;
+  int currenttab = 0;
+
   updatefebrickaro(costid) async {
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> parameter = {
@@ -159,6 +167,10 @@ class FebricEditController extends GetxController {
       "yarn_id_weft": weftyarnids,
       "ppi": weftppi
     };
+    if (currenttab == 1) {
+      Map<String, dynamic> newEntries = {"repeat": weftrepeat, "is_advance": 1};
+      parameter.addAll(newEntries);
+    }
 
     await addfebricdetails(parameter: jsonEncode(parameter)).then((value) {
       FlutterToast.showCustomToast(value.message ?? "");
@@ -232,12 +244,17 @@ class WeftModel {
   Key key;
 
   String get ppi => ppiController.text.trim();
+  String get repeat => repeatController.text.trim();
 
-  void dispose() => ppiController.dispose();
+  void dispose() {
+    ppiController.dispose();
+    repeatController.dispose();
+  }
 
   Map<String, dynamic> toJson() {
     return {
       "enteredppi": ppiController.text,
+      "enteredrepet": repeatController.text,
       "yarnID": selectedYarnID,
     };
   }

@@ -87,6 +87,7 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                                 yarn: feb.yarnData,
                                 onSelection: (val) {
                                   setState(() {
+                                      feb.editedt = true;
                                     element.value.selectedYarnID = val!;
                                   });
                                 },
@@ -95,6 +96,9 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                                 height: 20,
                               ),
                               CommonDecimalTextField(
+                                  onchange: (p0) {
+                                    p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                  },
                                   validatorfield: (p0) {
                                     if (p0!.isEmpty) {
                                       return "enter ends(taar)";

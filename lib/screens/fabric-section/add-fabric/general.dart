@@ -29,14 +29,16 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   List count = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-@override
+  @override
   void initState() {
-  feb.buttaCuttingController.text = "0";
-  feb.additionalCostController.text = "0";
-  feb.fabricCategoryController.text = "29";
+    feb.currenttab = 0;
+    // feb.buttaCuttingController.text = "0";
+    // feb.additionalCostController.text = "0";
+    feb.fabricCategoryController.text = "0";
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +68,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CommonTextFormField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter Febric name";
@@ -103,6 +108,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                 absorbing: feb.isWrapDone,
                                 child: DropdownButtonFormField<String>(
                                   onChanged: (value) {
+
+                                      feb.editedt = true;
+
                                     feb.numberOfWarpYarnController.text =
                                         value ?? "";
                                   },
@@ -177,6 +185,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                 absorbing: feb.isWrapDone,
                                 child: DropdownButtonFormField<String>(
                                   onChanged: (value) {
+                                    feb.editedt = true;
                                     feb.numberOfWeftYarnController.text =
                                         value ?? "";
                                   },
@@ -229,6 +238,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter width in inch";
@@ -244,6 +256,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                            p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                          },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter cost of final ppi";
@@ -259,6 +274,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter wrap wesrage % onn warap amount";
@@ -276,6 +294,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter weft wastage in % on weft amount";
@@ -293,13 +314,16 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter butta cutting cost pr meter";
                                 }
                                 return null;
                               },
-                              ontaps: () => feb.buttaCuttingController.clear(),
+                              // ontaps: () => feb.buttaCuttingController.clear(),
                               controller: feb.buttaCuttingController,
                               labelText: 'Enter Butta Cutting cost Per Metre',
                               keyboardType: TextInputType.number,
@@ -309,13 +333,16 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             height: 25,
                           ),
                           CommonDecimalTextField(
+                              onchange: (p0) {
+                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter any addittional cost per meter";
                                 }
                                 return null;
                               },
-                              ontaps: () => feb.additionalCostController.clear(),
+                              // ontaps: () => feb.additionalCostController.clear(),
                               controller: feb.additionalCostController,
                               labelText: 'Enter Any Additional cost Per Metre',
                               keyboardType: TextInputType.number,
@@ -354,6 +381,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                             menuMaxHeight: screenheight(context,
                                                 dividedby: 1.5),
                                             onChanged: (value) {
+                                              feb.editedt = true;
                                               feb.fabricCategoryController
                                                   .text = value ?? "";
                                             },
@@ -400,7 +428,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                                       .textScaleFactor *
                                                   13.5,
                                             ),
-                                            value: "29",
+                                            value:  feb.fabricCategoryController.text,
                                             items: v.getData
                                                 .map((e) =>
                                                     DropdownMenuItem<String>(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yarn_modified/getxcontrollers/febricaddcontroller.dart';
+import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
 import 'package:yarn_modified/widgets/customdropdown.dart';
 import '../../../const/const.dart';
 import '../../../widgets/common_fields.dart';
+import '../../yarn-section/add-yarn.dart';
 
 class AddWarpCategory extends StatefulWidget {
   final PageController page;
@@ -81,19 +83,37 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                       horizontal: 15),
                                   child: Column(
                                     children: [
-                                      CustomDropdownyarn(
-                                        hint: "--Select Yarn--",
-                                        yarn: feb.yarnData,
-                                        onSelection: (val) {
-                                          setState(() {
-                                            element.value.selectedYarnID = val!;
-                                          });
-                                        },
-                                      ),
+                                      GetBuilder<YarnListController>(builder: (controller) =>   Row(
+                                        children: [
+                                          Expanded(
+                                            child: CustomDropdownyarn(
+                                              hint: "--Select Yarn--",
+                                              yarn: controller.yarnData,
+                                              onSelection: (val) {
+                                                setState(() {
+                                                  feb.editedt = true;
+                                                  element.value
+                                                      .selectedYarnID =
+                                                  val!;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                Get.to(AddYarn());
+                                              },
+                                              icon: Icon(Icons.add,color: Colors.grey,))
+                                        ],
+                                      ),),
+
                                       SizedBox(
                                         height: 20,
                                       ),
                                       CommonDecimalTextField(
+                                          onchange: (p0) {
+                                            p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                          },
                                           validatorfield: (p0) {
                                             if (p0!.isEmpty) {
                                               return "enter ends(taar)";

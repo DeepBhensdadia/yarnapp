@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
+import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
 import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric/result.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric/warp.dart';
@@ -24,13 +26,16 @@ class _AddFabricRootState extends State<AddFabricRoot> {
   final PageController pageController = PageController(keepPage: true);
   FebricAddController feb = Get.put(FebricAddController());
   FebricCategoryController febcategory = Get.put(FebricCategoryController());
+  YarnListController yarnListController = Get.put(YarnListController());
 
   @override
   void initState() {
+    feb.editedt = false;
+    feb.isadddone = false;
     feb.isWrapDone = false;
     feb.isWeftDone = false;
     feb.isResultDone = false;
-    feb.fetchDataFromAPI(key: "");
+    yarnListController.fetchDataFromAPI(key: "");
     febcategory.fetchDataFromAPI();
     feb.clearall();
     // TODO: implement initState
@@ -67,9 +72,16 @@ class _AddFabricRootState extends State<AddFabricRoot> {
             ),
             iconTheme: IconThemeData(color: Colors.white),
             // centerTitle: true,
+            leading: IconButton(
+                onPressed: () {
+                  feb.editedt == true
+                      ? showdialogboxalert(context)
+                      : Get.back();
+                },
+                icon: Icon(Icons.arrow_back)),
             backgroundColor: MyTheme.appBarColor,
             elevation: 5,
-            automaticallyImplyLeading: true,
+            automaticallyImplyLeading: false,
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -97,7 +109,6 @@ class _AddFabricRootState extends State<AddFabricRoot> {
       child: Column(
         children: [
           getHeader(),
-
           Expanded(
             child: PageView(
               physics: NeverScrollableScrollPhysics(),
@@ -130,11 +141,11 @@ class _AddFabricRootState extends State<AddFabricRoot> {
           padding: EdgeInsets.all(0),
           decoration: BoxDecoration(
             color: Colors.white70,
-              borderRadius: BorderRadius.circular(7.5),
-            ),
+            borderRadius: BorderRadius.circular(7.5),
+          ),
           // color: Colors.white70,
           child: Padding(
-            padding:  EdgeInsets.symmetric(vertical: 5),
+            padding: EdgeInsets.symmetric(vertical: 3),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(headerAddFabricItems.length, (index) {
@@ -165,25 +176,28 @@ class _AddFabricRootState extends State<AddFabricRoot> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                          color:
-                              activeTab == index ? Colors.white : Colors.transparent,
-                          borderRadius: BorderRadius.circular(7.5),
-                          border: Border.all(
-                            color:
-                                activeTab == index ? Colors.grey : Colors.transparent,
-                          )),
+                        color: activeTab == index
+                            ? MyTheme.appBarColor
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(7.5),
+                        // border: Border.all(
+                        //   color: activeTab == index
+                        //       ? Colors.grey
+                        //       : Colors.transparent,
+                        // ),
+                      ),
                       child: Text(
                         headerAddFabricItems[index]['text'],
-                        textScaleFactor: 0.95,
+                        textScaleFactor: 1.1,
                         style: TextStyle(
                             color: activeTab == index
-                                ? MyTheme.appBarColor
+                                ? Colors.white
                                 : Colors.black,
                             fontWeight: activeTab == index
                                 ? FontWeight.w500
-                                : FontWeight.w400),
+                                : FontWeight.w500),
                       ),
                     ),
                   ),

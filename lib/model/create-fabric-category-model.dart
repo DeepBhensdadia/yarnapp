@@ -5,21 +5,25 @@ CreateFabricCategoryModel createFabricCategoryModelFromJson(String str) => Creat
 String createFabricCategoryModelToJson(CreateFabricCategoryModel data) => json.encode(data.toJson());
 
 class CreateFabricCategoryModel {
-  bool success;
-  String message;
+  bool? success;
+  String? message;
+  int? categoryId;
 
   CreateFabricCategoryModel({
-    required this.success,
-    required this.message,
+     this.success,
+     this.message,
+    this.categoryId,
   });
 
   factory CreateFabricCategoryModel.fromJson(Map<String, dynamic> json) => CreateFabricCategoryModel(
     success: json["success"]??false,
     message: json["message"]??"",
+    categoryId: json["category_id"],
   );
 
   Map<String, dynamic> toJson() => {
     "success": success,
     "message": message,
+    "category_id": categoryId,
   };
 }

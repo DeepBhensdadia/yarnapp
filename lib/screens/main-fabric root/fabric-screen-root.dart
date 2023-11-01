@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:multi_select_flutter/chip_display/multi_select_chip_display.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
 import 'package:yarn_modified/getxcontrollers/febricslistcontroller.dart';
 import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/model/getfebricslistmodel.dart';
@@ -33,9 +34,12 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
   int activeTab = 0;
 
   FebricListControllers febricsController = Get.put(FebricListControllers());
+  FebricCategoryController febricscategory =
+      Get.put(FebricCategoryController());
 
   @override
   void initState() {
+    febricscategory.fetchDataFromAPI();
     febricsController.getfebrics();
     // TODO: implement initState
     super.initState();
@@ -98,42 +102,46 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                   margin: EdgeInsets.only(top: 7, bottom: 5),
                   padding: const EdgeInsets.only(right: 10),
                   child: Tooltip(
-                    message: "Categories",
-                    textStyle: TextStyle(color: Colors.black),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Container(
-                      height: double.infinity,
-                      // child: MultiSelectDialogField(
-                      //   // dialogHeight: MediaQuery.of(context).size.height,
-                      //   chipDisplay: MultiSelectChipDisplay.none(),
-                      //   items: List.generate(
-                      //       yarnCatData.length,
-                      //           (index) => MultiSelectItem(
-                      //           index, "${yarnCatData[index]!.yarnCategory}")),
-                      //   title: Text("Fabric Categories", style: TextStyle(color: MyTheme.appBarColor),),
-                      //   selectedColor: Colors.blue,
-                      //   buttonIcon: Icon(
-                      //     Icons.category_outlined,
-                      //     color: Colors.white,
-                      //     size: 21,
-                      // ),
-                      //   buttonText: Text(
-                      //     "",
-                      //   ),
-                      //   decoration: BoxDecoration(
-                      //     color: Colors.transparent,
-                      //     borderRadius: BorderRadius.all(Radius.circular(40)),
-                      //
-                      //   ),
-                      //
-                      //   onConfirm: (_) {
-                      //     // _selectedAnimals2;
-                      //   },
-                      // ),
-                    ),
-                  ),
+                      message: "Categories",
+                      textStyle: TextStyle(color: Colors.black),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: GetBuilder<FebricCategoryController>(
+                        builder: (controller) => Container(
+                          height: double.infinity,
+                          child: MultiSelectDialogField(
+                            // dialogHeight: MediaQuery.of(context).size.height,
+                            chipDisplay: MultiSelectChipDisplay.none(),
+                            items: List.generate(
+                                controller.getData.length,
+                                (index) => MultiSelectItem(index,
+                                    "${controller.getData[index]!.fabricCategory}")),
+                            title: Text(
+                              "Fabric Categories",
+                              style: TextStyle(color: MyTheme.appBarColor),
+                            ),
+                            selectedColor: Colors.blue,
+                            buttonIcon: Icon(
+                              Icons.category_outlined,
+                              color: Colors.white,
+                              size: 21,
+                            ),
+                            buttonText: Text(
+                              "",
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(40)),
+                            ),
+
+                            onConfirm: (_) {
+                              // _selectedAnimals2;
+                            },
+                          ),
+                        ),
+                      )),
                 ),
               ),
               IconButton(
@@ -565,7 +573,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                               Flexible(
                                                 flex: 1,
                                                 child: Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 5.0),
                                                   child: Text(
                                                       febric?.finalPpi
                                                               .toDouble()
@@ -604,105 +613,3 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
     );
   }
 }
-
-/*Widget getFooter() {
-    return Container(
-      decoration: BoxDecoration(
-          color: MyTheme.appBarColor,
-          borderRadius: BorderRadius.only(topRight: Radius.circular(15),topLeft: Radius.circular(15))
-      ),
-      child: Container(
-        margin: EdgeInsets.only(top: 10,bottom: 10,left: 100,right: 100),
-        child: Tooltip(
-          message: "Add Fabric",
-          textStyle: TextStyle(color: Colors.white),
-          decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(10)),
-          child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                  MaterialStateProperty.all(Colors.white),
-                  foregroundColor:
-                  MaterialStateProperty.all(Colors.black)),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddFabricRoot()));
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.add,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text("Add Fabric"),
-                ],
-              )),
-        ),
-      ),
-    );
-  }*/
-
-// Widget getHeader() {
-//   return ScrollConfiguration(
-//     behavior: MyBehavior(),
-//     child: SingleChildScrollView(
-//       controller: _allController,
-//       scrollDirection: Axis.horizontal,
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: List.generate(headerFabricItems.length, (index) {
-//           return GestureDetector(
-//             onTap: () {
-//               setState(() {
-//                 activeTab = index;
-//               });
-//             },
-//             child: Container(
-//               padding: EdgeInsets.all(5),
-//               margin: EdgeInsets.only(left: 5,right: 5),
-//               decoration: BoxDecoration(
-//                   color: activeTab == index
-//                       ? Colors.white
-//                       : Colors.transparent,
-//                   borderRadius: BorderRadius.circular(7.5),
-//                   border: Border.all(
-//                     color: activeTab == index
-//                         ? Colors.grey
-//                         : Colors.transparent,
-//                   )
-//               ),
-//               child: Tooltip(
-//                 padding: EdgeInsets.all(5),
-//                 message: headerFabricItems[index]['text'],
-//                 textStyle: TextStyle(
-//                     color: Colors.white),decoration: BoxDecoration(color: Colors.black,
-//                   borderRadius: BorderRadius.circular(7.5)),
-//                 child: Text(headerFabricItems[index]['text'], textScaleFactor: 0.95,style: TextStyle(
-//                     color: activeTab == index
-//                       ? Colors.black
-//                       : Colors.black.withOpacity(0.4),
-//                     fontWeight: activeTab == index
-//                       ? FontWeight.w600
-//                       : FontWeight.w500),
-//                 ),),
-//               ),
-//             );
-//         }),
-//       ),
-//     ),
-//   );
-// }
-
-/*  // Old Design Modification
-*
-*
-*
-* */

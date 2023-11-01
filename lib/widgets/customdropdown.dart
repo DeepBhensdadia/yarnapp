@@ -49,6 +49,7 @@ class _CustomDropdownyarnState extends State<CustomDropdownyarn> {
           ),
           child: SearchChoices<int>.single(
             padding: const EdgeInsets.only(top: 2.5,bottom: 7.5),
+
             icon: Icon(Icons.arrow_drop_down,color: Colors.grey,),
             items: widget.yarn
                 .map<DropdownMenuItem<int>>(

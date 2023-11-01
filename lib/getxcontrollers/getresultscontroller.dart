@@ -9,12 +9,10 @@ class GetResultController extends GetxController {
   getresultcall({required String id}) async {
     call = false;
     await getResultapi(id: id).then((value) {
-
       call = true;
       result = value;
       update();
       Get.context!.loaderOverlay.hide();
-
     }).onError((error, stackTrace) {
       Get.context!.loaderOverlay.hide();
       print("error...$error");

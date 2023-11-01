@@ -53,9 +53,7 @@ class _EditYarnState extends State<EditYarn> {
       required String yarn_rate,
       required String yarn_name,
       required String categoryid,
-      required String yarnid
-
-      }) async {
+      required String yarnid}) async {
     context.loaderOverlay.show();
 
     Map<String, dynamic> parameter = {
@@ -68,13 +66,16 @@ class _EditYarnState extends State<EditYarn> {
     await editYarnIndexData(
             parameter: jsonEncode(parameter), categoryId: yarnid)
         .then((value) {
-      yarnlist.fetchDataFromAPI(key: '');
-      FlutterToast.showCustomToast(value.massage);
-      Get.back();
+      if (value.success != false) {
+        yarnlist.fetchDataFromAPI(key: '');
+        Get.back();
+      }
       // print(value);
+      FlutterToast.showCustomToast(value.massage);
       context.loaderOverlay.hide();
-
     }).onError((error, stackTrace) {
+      // FlutterToast.showCustomToast("This yarn has been previously saved");
+
       context.loaderOverlay.hide();
 
       print(error);
@@ -93,6 +94,7 @@ class _EditYarnState extends State<EditYarn> {
     super.initState();
   }
 
+  bool editedt = false;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -142,84 +144,9 @@ class _EditYarnState extends State<EditYarn> {
                 leading: IconButton(
                     splashRadius: 20,
                     onPressed: () {
-                      setState(() {
-                        if (nameController.text.isNotEmpty &&
-                            denierController.text.isNotEmpty &&
-                            yarnRateController.text.isNotEmpty &&
-                            CategoryidController.text.isNotEmpty &&
-                            nameController.text ==
-                                widget.yarnAllItemsData!.yarnName &&
-                            denierController.text ==
-                                widget.yarnAllItemsData!.yarnDenier &&
-                            yarnRateController.text ==
-                                widget.yarnAllItemsData!.yarnRate &&
-                            CategoryidController.text ==
-                                widget.yarnCategoryData!.yarnCategory) {
-                          Navigator.of(context).pop(false);
-                        } else if (nameController.text.isNotEmpty ||
-                            denierController.text.isNotEmpty ||
-                            yarnRateController.text.isNotEmpty ||
-                            CategoryidController.text.isNotEmpty ||
-                            nameController.text !=
-                                widget.yarnAllItemsData!.yarnName ||
-                            denierController.text !=
-                                widget.yarnAllItemsData!.yarnDenier ||
-                            yarnRateController.text !=
-                                widget.yarnAllItemsData!.yarnRate ||
-                            CategoryidController.text !=
-                                widget.yarnCategoryData!.yarnCategory) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.white,
-                                  title: Text(
-                                    "Alert",
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.red),
-                                  ),
-                                  content: Text(
-                                    "Are you sure you would like to go back without updating data that you have edited in text field(s) ?",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.black.withOpacity(0.5)),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        style: TextButton.styleFrom(
-                                            foregroundColor: Colors.grey,
-                                            backgroundColor:
-                                                Colors.white.withOpacity(0.9)),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(false);
-                                        },
-                                        child: Text(
-                                          "Cancel",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black),
-                                        )),
-                                    TextButton(
-                                        style: TextButton.styleFrom(
-                                            foregroundColor: Colors.grey,
-                                            backgroundColor:
-                                                Colors.white.withOpacity(0.9)),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(false);
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => YarnCategoryScreen()));
-                                          Navigator.of(context).pop(false);
-                                        },
-                                        child: Text(
-                                          "Yes",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black),
-                                        )),
-                                  ],
-                                );
-                              });
-                        }
-                      });
+                      editedt == true
+                          ? showdialogboxalert(context)
+                          : Get.back();
                     },
                     tooltip: "Back",
                     icon: Icon(Icons.arrow_back_rounded)),
@@ -257,6 +184,13 @@ class _EditYarnState extends State<EditYarn> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         CommonTextFormField(
+                                            onchange: (p0) {
+                                              setState(() {
+                                                p0.isNotEmpty
+                                                    ? editedt = true
+                                                    : editedt = false;
+                                              });
+                                            },
                                             controller: nameController,
                                             labelText: 'Edit Yarn Name',
                                             keyboardType: TextInputType.text,
@@ -266,6 +200,13 @@ class _EditYarnState extends State<EditYarn> {
                                           height: 25,
                                         ),
                                         CommonDecimalTextField(
+                                            onchange: (p0) {
+                                              setState(() {
+                                                p0.isNotEmpty
+                                                    ? editedt = true
+                                                    : editedt = false;
+                                              });
+                                            },
                                             controller: denierController,
                                             labelText: 'Edit Yarn Denier',
                                             keyboardType: TextInputType.number,
@@ -275,6 +216,13 @@ class _EditYarnState extends State<EditYarn> {
                                           height: 25,
                                         ),
                                         CommonDecimalTextField(
+                                            onchange: (p0) {
+                                              setState(() {
+                                                p0.isNotEmpty
+                                                    ? editedt = true
+                                                    : editedt = false;
+                                              });
+                                            },
                                             controller: yarnRateController,
                                             labelText:
                                                 'Edit Yarn Rate (Including GST)',
@@ -307,7 +255,8 @@ class _EditYarnState extends State<EditYarn> {
                                                 hintColor: Colors.grey,
                                                 colorScheme:
                                                     ColorScheme.dark()),
-                                            child: DropdownButtonFormField<String>(
+                                            child:
+                                                DropdownButtonFormField<String>(
                                               hint: Text("--Select Category--",
                                                   style: TextStyle(
                                                       fontSize: MediaQuery.of(
@@ -315,6 +264,7 @@ class _EditYarnState extends State<EditYarn> {
                                                               .textScaleFactor *
                                                           13)),
                                               onChanged: (value) {
+                                                editedt = true;
                                                 CategoryidController.text =
                                                     value.toString();
                                               },
@@ -325,26 +275,6 @@ class _EditYarnState extends State<EditYarn> {
                                               decoration: InputDecoration(
                                                 enabled: true,
                                                 isDense: true,
-                                                suffix: Tooltip(
-                                                  message:
-                                                      "Add Fabric Category",
-                                                  textStyle: TextStyle(
-                                                      color: Colors.black),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  child: IconButton(
-                                                    iconSize: 20,
-                                                    color: Colors.grey,
-                                                    padding: EdgeInsets.zero,
-                                                    splashRadius: 20,
-                                                    onPressed: () {},
-                                                    icon:
-                                                        Icon(Icons.add_rounded),
-                                                  ),
-                                                ),
                                                 disabledBorder:
                                                     UnderlineInputBorder(
                                                   borderSide: BorderSide(
@@ -389,11 +319,12 @@ class _EditYarnState extends State<EditYarn> {
                                                         .textScaleFactor *
                                                     13.5,
                                               ),
-                                              value:  CategoryidController.text,
+                                              value: CategoryidController.text,
                                               items: getData
                                                   .map((e) =>
                                                       DropdownMenuItem<String>(
-                                                          value: e!.id.toString(),
+                                                          value:
+                                                              e!.id.toString(),
                                                           child: Text(e
                                                               .yarnCategory
                                                               .toString())))
@@ -418,14 +349,14 @@ class _EditYarnState extends State<EditYarn> {
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    fetchDataFromAPI(
-                                        yarn_denier: denierController.text,
-                                        yarn_name: nameController.text,
-                                        yarn_rate: yarnRateController.text,
-                                        categoryid: CategoryidController.text,
-                                        yarnid: widget.yarnAllItemsData!.id.toString()
-
-                                    );
+                                    if (editedt = true)
+                                      fetchDataFromAPI(
+                                          yarn_denier: denierController.text,
+                                          yarn_name: nameController.text,
+                                          yarn_rate: yarnRateController.text,
+                                          categoryid: CategoryidController.text,
+                                          yarnid: widget.yarnAllItemsData!.id
+                                              .toString());
                                   },
                                   style: ButtonStyle(
                                       overlayColor: MaterialStateProperty.all(
@@ -440,7 +371,10 @@ class _EditYarnState extends State<EditYarn> {
                                               Colors.white),
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                              Colors.blueAccent)),
+                                              editedt == true
+                                                  ? Colors.blueAccent
+                                                  : Colors.blueAccent
+                                                      .withOpacity(0.2))),
                                   child: Text('UPDATE')),
                             ),
                             SizedBox(
@@ -458,339 +392,5 @@ class _EditYarnState extends State<EditYarn> {
         ),
       ],
     );
-
-    //   Stack(
-    //   children: [
-    //     Scaffold(
-    //       resizeToAvoidBottomInset: false,
-    //       backgroundColor: Colors.grey.shade200,
-    //       appBar: AppBar(
-    //         iconTheme: IconThemeData(color: Colors.black),
-    //         title: Text("Edit Yarn",textScaleFactor: 1,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)),
-    //         // title: Text(widget.allData == null ? "Add Yarn" : "Edit Yarn",textScaleFactor: 1,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-    //         centerTitle: true,
-    //         backgroundColor: Colors.transparent,
-    //         elevation: 0,
-    //         automaticallyImplyLeading: true,
-    //       ),
-    //       body: Padding(
-    //         padding: const EdgeInsets.all(5),
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.start,
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           children: [
-    //             Card(
-    //               elevation: 2.5,
-    //               color: Colors.white,
-    //               child: Padding(
-    //                 padding: const EdgeInsets.all(15),
-    //                 child: Column(
-    //                   mainAxisAlignment: MainAxisAlignment.start,
-    //                   crossAxisAlignment: CrossAxisAlignment.center,
-    //                   mainAxisSize: MainAxisSize.min,
-    //                   children: [
-    //                     Align(
-    //                       alignment: AlignmentDirectional.topStart,
-    //                       child: Text(
-    //                         'Enter Yarn Name',
-    //                         textScaleFactor: 1,
-    //                         style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-    //                       ),
-    //                     ),
-    //                     SizedBox(height: 10,),
-    //                     Container(
-    //                       constraints: BoxConstraints(),
-    //                       decoration: BoxDecoration(
-    //                         borderRadius: BorderRadius.all(Radius.circular(4)),
-    //                         color: Colors.transparent,
-    //                         // border: Border.all(color: Colors.grey.withOpacity(0.5))
-    //                       ),
-    //                       child: TextFormField(
-    //                         autocorrect: false,
-    //                         textAlign: TextAlign.start,
-    //                         cursorColor: Colors.black,
-    //                         textInputAction: TextInputAction.next,
-    //                         controller: nameController..text = widget.yarnAllItemsData['title'],
-    //                         keyboardType: TextInputType.text,
-    //                         style: TextStyle(
-    //                           color: Colors.black,
-    //                           fontSize: MediaQuery.of(context).textScaleFactor * 12,
-    //                         ),
-    //                         decoration: InputDecoration(
-    //                           hintText: 'Enter Yarn Name',
-    //                           hintStyle: TextStyle(
-    //                             color: Colors.grey,
-    //                             fontSize: MediaQuery.of(context).textScaleFactor * 12,
-    //                           ),
-    //                           contentPadding: EdgeInsets.symmetric(
-    //                             horizontal: 20,
-    //                           ),
-    //                           disabledBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           enabledBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           focusedBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           border: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     SizedBox(height: 20,),
-    //                     Align(
-    //                       alignment: AlignmentDirectional.topStart,
-    //                       child: Text(
-    //                         'Enter Yarn Denier',
-    //                         textScaleFactor: 1,
-    //                         style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-    //                       ),
-    //                     ),
-    //                     SizedBox(height: 10,),
-    //                     Container(
-    //                       constraints: BoxConstraints(),
-    //                       decoration: BoxDecoration(
-    //                         borderRadius: BorderRadius.all(Radius.circular(4)),
-    //                         color: Colors.transparent,
-    //                         // border: Border.all(color: Colors.grey.withOpacity(0.5))
-    //                       ),
-    //                       child: TextFormField(
-    //                         autocorrect: false,
-    //                         textAlign: TextAlign.start,
-    //                         cursorColor: Colors.black,
-    //                         textInputAction: TextInputAction.next,
-    //                         controller: denierController..text = widget.denierAllData,
-    //                         keyboardType: TextInputType.text,
-    //                         style: TextStyle(
-    //                           color: Colors.black,
-    //                           fontSize: MediaQuery.of(context).textScaleFactor * 12,
-    //                         ),
-    //                         decoration: InputDecoration(
-    //                           hintText: 'Enter Yarn Denier',
-    //                           hintStyle: TextStyle(
-    //                             color: Colors.grey,
-    //                             fontSize: MediaQuery.of(context).textScaleFactor * 12,
-    //                           ),
-    //                           contentPadding: EdgeInsets.symmetric(
-    //                             horizontal: 20,
-    //                           ),
-    //                           disabledBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           enabledBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           focusedBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           border: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           // focusedBorder: UnderlineInputBorder(
-    //                           //   borderSide: BorderSide.none,
-    //                           //   borderRadius: BorderRadius.circular(15),
-    //                           // ),
-    //                           // border: UnderlineInputBorder(
-    //                           //   borderSide: BorderSide.none,
-    //                           //   borderRadius: BorderRadius.all(Radius.circular(15)),
-    //                           // ),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     SizedBox(height: 20,),
-    //                     Align(
-    //                       alignment: AlignmentDirectional.topStart,
-    //                       child: Text(
-    //                         'Enter Yarn Rate (Including GST)',
-    //                         textScaleFactor: 1,
-    //                         style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-    //                       ),
-    //                     ),
-    //                     SizedBox(height: 10,),
-    //                     Container(
-    //                       constraints: BoxConstraints(),
-    //                       decoration: BoxDecoration(
-    //                         borderRadius: BorderRadius.all(Radius.circular(4)),
-    //                         color: Colors.transparent,
-    //                         // border: Border.all(color: Colors.grey.withOpacity(0.5))
-    //                       ),
-    //                       child: TextFormField(
-    //                         autocorrect: false,
-    //                         textAlign: TextAlign.start,
-    //                         cursorColor: Colors.black,
-    //                         textInputAction: TextInputAction.next,
-    //                         controller: yarnRateController..text = widget.yarnAllItemsData['rate'],
-    //                         keyboardType: TextInputType.text,
-    //                         style: TextStyle(
-    //                           color: Colors.black,
-    //                           fontSize: MediaQuery.of(context).textScaleFactor * 12,
-    //                         ),
-    //                         decoration: InputDecoration(
-    //                           hintText: 'Enter Yarn Rate (Including GST)',
-    //                           hintStyle: TextStyle(
-    //                             color: Colors.grey,
-    //                             fontSize: MediaQuery.of(context).textScaleFactor * 12,
-    //                           ),
-    //                           contentPadding: EdgeInsets.symmetric(
-    //                             horizontal: 20,
-    //                           ),
-    //                           disabledBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           enabledBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           focusedBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           border: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           // focusedBorder: UnderlineInputBorder(
-    //                           //   borderSide: BorderSide.none,
-    //                           //   borderRadius: BorderRadius.circular(15),
-    //                           // ),
-    //                           // border: UnderlineInputBorder(
-    //                           //   borderSide: BorderSide.none,
-    //                           //   borderRadius: BorderRadius.all(Radius.circular(15)),
-    //                           // ),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     SizedBox(height: 20,),
-    //                     Align(
-    //                       alignment: AlignmentDirectional.topStart,
-    //                       child: Text(
-    //                         'Select Yarn Category',
-    //                         textScaleFactor: 1,
-    //                         style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-    //                       ),
-    //                     ),
-    //                     SizedBox(height: 10,),
-    //                     Container(
-    //                       constraints: BoxConstraints(),
-    //                       decoration: BoxDecoration(
-    //                         borderRadius: BorderRadius.all(Radius.circular(4)),
-    //                         color: Colors.transparent,
-    //                         // border: Border.all(color: Colors.grey.withOpacity(0.5))
-    //                       ),
-    //                       child: TextFormField(
-    //                         autocorrect: false,
-    //                         textAlign: TextAlign.start,
-    //                         cursorColor: Colors.black,
-    //                         textInputAction: TextInputAction.next,
-    //                         controller: categoryController..text = widget.yarnAllItemsData['subtitle'],
-    //                         keyboardType: TextInputType.text,
-    //                         style: TextStyle(
-    //                           color: Colors.black,
-    //                           fontSize: MediaQuery.of(context).textScaleFactor * 12,
-    //                         ),
-    //                         onTap: () {
-    //                           dialogBox();
-    //                         },
-    //                         decoration: InputDecoration(
-    //                           hintText: 'Select Yarn Category',
-    //                           hintStyle: TextStyle(
-    //                             color: Colors.grey,
-    //                             fontSize: MediaQuery.of(context).textScaleFactor * 12,
-    //                           ),
-    //                           contentPadding: EdgeInsets.symmetric(
-    //                             horizontal: 20,
-    //                           ),
-    //                           disabledBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           enabledBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           focusedBorder: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           border: OutlineInputBorder(
-    //                             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
-    //                           ),
-    //                           // focusedBorder: UnderlineInputBorder(
-    //                           //   borderSide: BorderSide.none,
-    //                           //   borderRadius: BorderRadius.circular(15),
-    //                           // ),
-    //                           // border: UnderlineInputBorder(
-    //                           //   borderSide: BorderSide.none,
-    //                           //   borderRadius: BorderRadius.all(Radius.circular(15)),
-    //                           // ),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     SizedBox(height: 25,),
-    //                     Align(
-    //                       alignment: Alignment.centerRight,
-    //                       child: ElevatedButton(
-    //                           onPressed: () {
-    //                             setState(() {
-    //                               isLoadingSave = true;
-    //                             });
-    //                             Timer(Duration(milliseconds: 2500), () {
-    //                               setState(() {
-    //                                 isLoadingSave = false;
-    //                               });
-    //                               FlutterToast.showCustomToast("DATA SAVED SUCCESSFULLY");
-    //                             });
-    //                           },
-    //                           style: ButtonStyle(
-    //                               overlayColor: MaterialStateProperty.all(Colors.grey),
-    //                               shape: MaterialStateProperty.all(
-    //                                   RoundedRectangleBorder(
-    //                                       borderRadius:
-    //                                       BorderRadius.circular(10))),
-    //                               elevation: MaterialStateProperty.all(0),
-    //                               foregroundColor: MaterialStateProperty.all(Colors.white),
-    //                               backgroundColor: MaterialStateProperty.all(
-    //                                   Colors.blueAccent)),
-    //                           child: Text('SAVE')),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //
-    //             SizedBox(height: 50,),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //     isLoadingRefresh
-    //         ? Container(
-    //       color: Colors.black.withOpacity(0.25),
-    //       child: Center(
-    //         child: CircularProgressIndicator(
-    //           color: Colors.black,
-    //           strokeWidth: 3,
-    //         ),
-    //       ),
-    //     )
-    //         : Container(),
-    //     isLoadingSave
-    //         ? Container(
-    //       color: Colors.black.withOpacity(0.25),
-    //       child: Center(
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           children: [
-    //             CircularProgressIndicator(
-    //               color: Colors.black,
-    //               strokeWidth: 3,
-    //             ),
-    //             SizedBox(height: 250,),
-    //             Text("Data Saving In Progress...",style: TextStyle(color: Colors.black, decoration: TextDecoration.none,fontSize: 13,fontWeight: FontWeight.bold),),
-    //           ],
-    //         ),
-    //       ),
-    //     )
-    //         : Container(),
-    //   ],
-    // );
   }
 }

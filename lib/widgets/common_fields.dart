@@ -6,14 +6,13 @@ import '../const/themes.dart';
 //===================Common TextField Login/Forgot Password====================
 
 class CommonTextField extends StatefulWidget {
-  const CommonTextField({
-    super.key,
-    required this.controller,
-    required this.labelText,
-    required this.keyboardType,
-    required this.hintText,
-    required this.inputFormatters
-  });
+  const CommonTextField(
+      {super.key,
+      required this.controller,
+      required this.labelText,
+      required this.keyboardType,
+      required this.hintText,
+      required this.inputFormatters});
 
   final String labelText;
   final TextEditingController controller;
@@ -35,10 +34,13 @@ class _CommonTextFieldState extends State<CommonTextField> {
           child: Text(
             widget.labelText,
             textScaleFactor: 1.3,
-            style: TextStyle(fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
+            style: TextStyle(
+                fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
           ),
         ),
-        SizedBox(height: 2,),
+        SizedBox(
+          height: 2,
+        ),
         TextFormField(
           textCapitalization: TextCapitalization.words,
           autocorrect: false,
@@ -64,16 +66,20 @@ class _CommonTextFieldState extends State<CommonTextField> {
               horizontal: 0,
             ),
             disabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
             ),
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue.withOpacity(0.5),width: 1),
+              borderSide:
+                  BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
             ),
             border: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 1),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
             ),
             // focusedBorder: UnderlineInputBorder(
             //   borderSide: BorderSide.none,
@@ -94,10 +100,11 @@ class _CommonTextFieldState extends State<CommonTextField> {
 //===================Common Mobile TextField Login/Forgot Password====================
 
 class CommonMobileTextField extends StatefulWidget {
-  const CommonMobileTextField({super.key,
-    required this.controller,
-    required this.labelText,
-    required this.hintText});
+  const CommonMobileTextField(
+      {super.key,
+      required this.controller,
+      required this.labelText,
+      required this.hintText});
 
   final String labelText;
   final TextEditingController controller;
@@ -117,13 +124,15 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
           child: Text(
             widget.labelText,
             textScaleFactor: 1.3,
-            style: TextStyle(fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
+            style: TextStyle(
+                fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
           ),
         ),
-        SizedBox(height: 2,),
+        SizedBox(
+          height: 2,
+        ),
         TextFormField(
           textCapitalization: TextCapitalization.words,
-
           autocorrect: false,
           textAlign: TextAlign.start,
           cursorColor: Colors.black,
@@ -150,16 +159,20 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
               horizontal: 0,
             ),
             disabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
             ),
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue.withOpacity(0.5),width: 1),
+              borderSide:
+                  BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
             ),
             border: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 1),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
             ),
           ),
         ),
@@ -184,6 +197,7 @@ class MyBehavior extends ScrollBehavior {
 
 class CommonTextFormField extends StatefulWidget {
   final String? Function(String?)? validatorfield;
+  final void Function(String)? onchange;
 
   const CommonTextFormField({
     super.key,
@@ -191,7 +205,9 @@ class CommonTextFormField extends StatefulWidget {
     required this.labelText,
     required this.keyboardType,
     required this.hintText,
-    required this.InputAction, this.validatorfield,
+    required this.InputAction,
+    this.validatorfield,
+    this.onchange,
   });
 
   final String labelText;
@@ -214,13 +230,16 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
           child: Text(
             widget.labelText,
             textScaleFactor: 1.3,
-            style: TextStyle(fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
+            style: TextStyle(
+                fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
           ),
         ),
-        SizedBox(height: 2,),
+        SizedBox(
+          height: 2,
+        ),
         TextFormField(
           textCapitalization: TextCapitalization.words,
-
+          onChanged: widget.onchange,
           validator: widget.validatorfield,
           autocorrect: false,
           textAlign: TextAlign.start,
@@ -240,20 +259,22 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
             //   color: Colors.grey,
             //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
             // ),
-            contentPadding: EdgeInsets.symmetric(
-                horizontal: 0
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 0),
             disabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
             ),
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue.withOpacity(0.5),width: 1),
+              borderSide:
+                  BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
             ),
             border: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 1),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
             ),
           ),
         ),
@@ -268,14 +289,19 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
 class CommonDecimalTextField extends StatefulWidget {
   final String? Function(String?)? validatorfield;
 
- final void Function()? ontaps;
+  final void Function()? ontaps;
+
+  final void Function(String)? onchange;
   const CommonDecimalTextField({
     super.key,
     required this.controller,
     required this.labelText,
     required this.keyboardType,
     required this.hintText,
-    required this.InputAction, this.validatorfield, this.ontaps,
+    required this.InputAction,
+    this.validatorfield,
+    this.ontaps,
+    this.onchange,
   });
 
   final String labelText;
@@ -289,8 +315,6 @@ class CommonDecimalTextField extends StatefulWidget {
 }
 
 class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -300,11 +324,15 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
           child: Text(
             widget.labelText,
             textScaleFactor: 1.3,
-            style: TextStyle(fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
+            style: TextStyle(
+                fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
           ),
         ),
-        SizedBox(height: 2,),
+        SizedBox(
+          height: 2,
+        ),
         TextFormField(
+          onChanged: widget.onchange,
           textCapitalization: TextCapitalization.words,
           validator: widget.validatorfield,
           autocorrect: false,
@@ -317,7 +345,6 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
             color: Colors.black,
             fontSize: MediaQuery.of(context).textScaleFactor * 15,
           ),
-
           inputFormatters: [
             FilteringTextInputFormatter.deny(RegExp('[\\-,\b]')),
           ],
@@ -330,20 +357,22 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
             //   color: Colors.grey,
             //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
             // ),
-            contentPadding: EdgeInsets.symmetric(
-                horizontal: 0
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 0),
             disabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
             ),
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue.withOpacity(0.5),width: 1),
+              borderSide:
+                  BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
             ),
             border: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 1),
+              borderSide:
+                  BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
             ),
           ),
         ),
@@ -351,6 +380,3 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
     );
   }
 }
-
-
-
