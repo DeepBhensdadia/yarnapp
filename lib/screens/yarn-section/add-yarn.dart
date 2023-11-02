@@ -133,7 +133,8 @@ class _AddYarnState extends State<AddYarn> {
                       splashRadius: 20,
                       onPressed: () {
                         editedt == true
-                            ? showdialogboxalert(context)
+                            ? showdialogboxalert(
+                                context, "Do you want to exit without Saving?")
                             : Get.back();
                       },
                       tooltip: "Back",
@@ -178,13 +179,7 @@ class _AddYarnState extends State<AddYarn> {
                                               CommonTextFormField(
                                                   onchange: (p0) {
                                                     setState(() {
-                                                      p0.isNotEmpty &&
-                                                              denierController
-                                                                  .text
-                                                                  .isNotEmpty &&
-                                                              yarnRateController
-                                                                  .text
-                                                                  .isNotEmpty
+                                                      p0.isNotEmpty
                                                           ? editedt = true
                                                           : editedt = false;
                                                     });
@@ -208,13 +203,7 @@ class _AddYarnState extends State<AddYarn> {
                                               CommonDecimalTextField(
                                                   onchange: (p0) {
                                                     setState(() {
-                                                      p0.isNotEmpty &&
-                                                              yarnRateController
-                                                                  .text
-                                                                  .isNotEmpty &&
-                                                              nameController
-                                                                  .text
-                                                                  .isNotEmpty
+                                                      p0.isNotEmpty
                                                           ? editedt = true
                                                           : editedt = false;
                                                     });
@@ -239,13 +228,7 @@ class _AddYarnState extends State<AddYarn> {
                                               CommonDecimalTextField(
                                                   onchange: (p0) {
                                                     setState(() {
-                                                      p0.isNotEmpty &&
-                                                              denierController
-                                                                  .text
-                                                                  .isNotEmpty &&
-                                                              nameController
-                                                                  .text
-                                                                  .isNotEmpty
+                                                      p0.isNotEmpty
                                                           ? editedt = true
                                                           : editedt = false;
                                                     });

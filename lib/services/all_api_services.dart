@@ -95,7 +95,7 @@ Future<CreateFabricCategoryModel> addFabricCategoryData(
 Future<CreateAddYarnModel> addYarnIndexData({required parameter}) async {
   var url = Uri.parse(URLs.Base_url + "yarnCreate");
   var response = await http.post(body: parameter, url, headers: commonHeaders);
-  // print('Response Body: ${response.body}');
+  print('Response Body: ${response.body}');
   return createAddYarnModelFromJson(response.body);
 }
 

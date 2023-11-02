@@ -377,7 +377,8 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                               child: Text("No Data Found",
                                   style: TextStyle(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.w600)),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400)),
                             )
                           : RefreshIndicator(
                               color: Colors.white,
@@ -447,94 +448,93 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                             onPressed: (context) {
                                               showDialog(
                                                   context: context,
-                                                  builder:
-                                                      (BuildContext context) {
+                                                  builder: (BuildContext context) {
                                                     return AlertDialog(
                                                       backgroundColor:
-                                                          Colors.white,
+                                                      Colors.grey.shade200,
                                                       title: Text(
-                                                        "Remove",
+                                                        "Alert",
                                                         style: TextStyle(
                                                             fontSize: 20,
-                                                            color:
-                                                                Colors.black),
+                                                            color: Colors.red),
                                                       ),
                                                       content: Text(
-                                                        "Are you sure you would like to remove yarn information ?",
+                                                        "Do you want to Delete this Yarn?",
                                                         style: TextStyle(
                                                             fontSize: 15,
+                                                            // fontWeight: FontWeight.w600,
                                                             color: Colors.black
-                                                                .withOpacity(
-                                                                    0.5)),
+                                                                .withOpacity(0.6)),
                                                       ),
                                                       actions: <Widget>[
-                                                        TextButton(
-                                                            style: TextButton.styleFrom(
+                                                        ElevatedButton(
+                                                            style:
+                                                            TextButton.styleFrom(
+                                                                elevation: 5,
                                                                 surfaceTintColor:
-                                                                    Colors.grey,
+                                                                Colors.grey,
                                                                 backgroundColor:
-                                                                    Colors
-                                                                        .transparent),
+                                                                Colors
+                                                                    .white70),
                                                             onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
+                                                              Navigator.of(context)
                                                                   .pop(false);
                                                             },
                                                             child: Text(
                                                               "Cancel",
                                                               style: TextStyle(
                                                                   fontSize: 15,
-                                                                  color: Colors
-                                                                      .black),
+                                                                  color:
+                                                                  Colors.black),
                                                             )),
-                                                        TextButton(
+                                                        ElevatedButton(
                                                             style: TextButton.styleFrom(
+                                                                elevation: 5,
                                                                 surfaceTintColor:
-                                                                    Colors.red
-                                                                        .withOpacity(
-                                                                            0.3),
+                                                                Colors.red
+                                                                    .withOpacity(
+                                                                    0.3),
                                                                 foregroundColor:
-                                                                    Colors.red,
+                                                                Colors.red,
                                                                 backgroundColor:
-                                                                    Colors
-                                                                        .transparent),
+                                                                Colors.red),
                                                             onPressed:
                                                                 () async {
                                                               await deleteYarnIndexData(
-                                                                      categoryId:
-                                                                          controller.yarnData[index]?.id.toString() ??
-                                                                              "")
+                                                                  categoryId:
+                                                                  controller.yarnData[index]?.id.toString() ??
+                                                                      "")
                                                                   .then(
                                                                       (value) {
-                                                                if (value
+                                                                    if (value
                                                                         .success !=
-                                                                    false) {
-                                                                  controller
-                                                                      .yarnData
-                                                                      .clear();
-                                                                  controller
-                                                                      .fetchDataFromAPI(
+                                                                        false) {
+                                                                      controller
+                                                                          .yarnData
+                                                                          .clear();
+                                                                      controller
+                                                                          .fetchDataFromAPI(
                                                                           key:
-                                                                              '');
-                                                                }
-                                                                FlutterToast
-                                                                    .showCustomToast(
+                                                                          '');
+                                                                    }
+                                                                    FlutterToast
+                                                                        .showCustomToast(
                                                                         value
                                                                             .message);
-                                                                print(value);
-                                                              }).onError((error,
-                                                                      stackTrace) {
+                                                                    print(value);
+                                                                  }).onError((error,
+                                                                  stackTrace) {
                                                                 print(error);
                                                               });
                                                               Navigator.pop(
                                                                   context);
                                                             },
                                                             child: Text(
-                                                              "Remove",
+                                                              "Delete",
                                                               style: TextStyle(
                                                                   fontSize: 15,
-                                                                  color: Colors
-                                                                      .red),
+                                                                  color:
+                                                                  Colors.white70),
                                                             )),
                                                       ],
                                                     );
@@ -575,6 +575,8 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                                             "",
                                                         textScaleFactor: 1.25,
                                                         style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w400,
                                                           color: Colors.black,
                                                         )),
                                                   ),
@@ -583,10 +585,12 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                                     child: Text(
                                                         // yarnAllItems[index]['rate'],
                                                         "${controller.yarnData[index]?.yarnRate}",
-                                                        textScaleFactor: 1.15,
+                                                        textScaleFactor: 1.25,
                                                         textAlign:
                                                             TextAlign.start,
                                                         style: TextStyle(
+                                                          // fontWeight: FontWeight.w500,
+
                                                           color: Colors.black,
                                                         )),
                                                   ),

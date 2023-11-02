@@ -426,9 +426,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                             child: Column(
                                                                 children: [
                                                                   Text(
-                                                                    e.value.finalPpi
-                                                                            .toString() ??
-                                                                        "",
+                                                                    e.value.finalPpi?.toDouble().toStringAsFixed(2) ?? "",
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .black
@@ -445,7 +443,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                   Text(
                                                                     e.value
                                                                         .weight
-                                                                        .toString(),
+                                                                        ?.toDouble().toStringAsFixed(4) ?? "",
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .black
@@ -757,7 +755,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                         .only(
                                                                     right: 8.0),
                                                             child: Text(
-                                                              e.value.value?.toDouble().toStringAsFixed(3) ??
+                                                              e.value.value?.toDouble().toStringAsFixed(4) ??
                                                                   "",
                                                               style: TextStyle(
                                                                   color: Colors

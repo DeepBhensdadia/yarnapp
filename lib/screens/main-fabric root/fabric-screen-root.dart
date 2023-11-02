@@ -416,28 +416,32 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
-                                                  backgroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      Colors.grey.shade200,
                                                   title: Text(
-                                                    "Remove",
+                                                    "Alert",
                                                     style: TextStyle(
                                                         fontSize: 20,
-                                                        color: Colors.black),
+                                                        color: Colors.red),
                                                   ),
                                                   content: Text(
-                                                    "Are you sure you would like to remove fabric information ?",
+                                                    "Do you want to Delete this Fabric?",
                                                     style: TextStyle(
                                                         fontSize: 15,
+                                                        // fontWeight: FontWeight.w600,
                                                         color: Colors.black
-                                                            .withOpacity(0.5)),
+                                                            .withOpacity(0.6)),
                                                   ),
                                                   actions: <Widget>[
-                                                    TextButton(
-                                                        style: TextButton.styleFrom(
-                                                            surfaceTintColor:
-                                                                Colors.grey,
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent),
+                                                    ElevatedButton(
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                                elevation: 5,
+                                                                surfaceTintColor:
+                                                                    Colors.grey,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white70),
                                                         onPressed: () {
                                                           Navigator.of(context)
                                                               .pop(false);
@@ -449,8 +453,9 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                               color:
                                                                   Colors.black),
                                                         )),
-                                                    TextButton(
+                                                    ElevatedButton(
                                                         style: TextButton.styleFrom(
+                                                            elevation: 5,
                                                             surfaceTintColor:
                                                                 Colors
                                                                     .red
@@ -459,27 +464,14 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                             foregroundColor:
                                                                 Colors.red,
                                                             backgroundColor:
-                                                                Colors
-                                                                    .transparent),
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            fabricAllItems
-                                                                .removeAt(
-                                                                    index);
-                                                            FlutterToast
-                                                                .showCustomToast(
-                                                                    "${fabricAllItems[index]['title']}) Deleted Successfully");
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop(false);
-                                                          });
-                                                        },
+                                                                Colors.red),
+                                                        onPressed: () {},
                                                         child: Text(
-                                                          "Remove",
+                                                          "Delete",
                                                           style: TextStyle(
                                                               fontSize: 15,
-                                                              color:
-                                                                  Colors.red),
+                                                              color: Colors
+                                                                  .white70),
                                                         )),
                                                   ],
                                                 );
@@ -544,8 +536,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                           Text(
                                                               "${febric?.fabricName.toString()}" ??
                                                                   "",
-                                                              // textScaleFactor:
-                                                              //     1.3,
+                                                              textScaleFactor:
+                                                                  1.25,
                                                               style: TextStyle(
                                                                 color: Colors
                                                                     .black,
@@ -560,7 +552,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                               febric?.categoryName ??
                                                                   "",
                                                               textScaleFactor:
-                                                                  1,
+                                                                  1.1,
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .grey)),
@@ -581,7 +573,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                               .toStringAsFixed(
                                                                   2) ??
                                                           "",
-                                                      textScaleFactor: 1.15,
+                                                      textScaleFactor: 1.25,
                                                       textAlign: TextAlign.end,
                                                       style: TextStyle(
                                                         color: Colors.black,

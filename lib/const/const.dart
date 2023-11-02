@@ -7,9 +7,12 @@ class FlutterToast {
   static showCustomToast(String message) {
     Fluttertoast.showToast(
       msg: message,
-      fontSize: 12,
-      // backgroundColor: Colors.white,
-      // textColor: Colors.black
+      toastLength: Toast.LENGTH_SHORT, // or Toast.LENGTH_LONG
+      gravity: ToastGravity.TOP, // Change the gravity to customize the position
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 20.0,
     );
   }
 
@@ -19,7 +22,7 @@ class FlutterToast {
 showFlutterToast({required String message}) {
   Fluttertoast.showToast(
     msg: message,
-    fontSize: 12,
+    fontSize: 15,
     // backgroundColor: Colors.white,
     // textColor: Colors.black
   );
@@ -29,26 +32,27 @@ final BorderRadius homeCardRadius = BorderRadius.all(Radius.circular(8));
 final BorderRadius categoryCardRadius = BorderRadius.all(Radius.circular(8));
 final BorderRadius defaultCardRadius = BorderRadius.all(Radius.circular(8));
 
-showdialogboxalert(BuildContext context) {
+showdialogboxalert(BuildContext context,String textfor) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey.shade300,
           title: Text(
             "Alert",
             style: TextStyle(fontSize: 20, color: Colors.red),
           ),
           content: Text(
-            "Do you want to exit without saving?",
+            textfor,
             style:
                 TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
           ),
           actions: <Widget>[
             ElevatedButton(
                 style: TextButton.styleFrom(
+                    elevation: 5,
                     foregroundColor: Colors.grey,
-                    backgroundColor: Colors.green.withOpacity(0.9)),
+                    backgroundColor: Colors.white70),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
@@ -56,10 +60,14 @@ showdialogboxalert(BuildContext context) {
                   "Cancel",
                   style: TextStyle(fontSize: 15, color: Colors.black),
                 )),
+            SizedBox(
+              width: 0,
+            ),
             ElevatedButton(
                 style: TextButton.styleFrom(
+                    elevation: 5,
                     foregroundColor: Colors.grey,
-                    backgroundColor: Colors.blue.withOpacity(0.9)),
+                    backgroundColor: Colors.white70),
                 onPressed: () {
                   Get.back();
                   Get.back();

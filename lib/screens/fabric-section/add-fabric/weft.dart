@@ -27,7 +27,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    // _scrollController.addListener(_scrollListener);
     pageController = PageController(keepPage: true, initialPage: 0);
     feb.fillModelweftBasic();
   }
@@ -67,48 +67,45 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AnimatedContainer(
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeIn,
-              height: !scrolledDown600 ? 135 : 0,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, right: 10, bottom: 10),
-                      child: Text(
-                          textAlign: TextAlign.center,
-                          "Note :-  If you have the average PPI of all weft, use “Basic” otherwise, use “Advance”.",
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.red,
-                              fontWeight: FontWeight.w500)),
-                    ),
-                    getHeader(),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              feb.weftModel.forEach((element) {
-                                element.ppiController.clear();
-                                element.repeatController.clear();
-                                element.selectedYarnID = 0;
-                              });
-                              setState(() {});
-                            },
-                            child: Text(
-                              "Reset",
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
+            Visibility(
+              visible: !scrolledDown600,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 10.0, right: 10, bottom: 10),
+                    child: Text(
+                        textAlign: TextAlign.center,
+                        "Note :-  If you have the average PPI of all weft, use “Basic” otherwise, use “Advance”.",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                            fontWeight: FontWeight.w500)),
+                  ),
+                  getHeader(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                ],
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      scrolledDown600 = false;
+                      feb.weftModel.forEach((element) {
+                        element.ppiController.clear();
+                        element.repeatController.clear();
+                        element.selectedYarnID = 0;
+                      });
+                      setState(() {});
+                    },
+                    child: Text(
+                      "Reset",
+                    )),
+              ],
             ),
             Expanded(
               child: PageView(
@@ -184,13 +181,14 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                           Expanded(
                                                             child:
                                                                 CustomDropdownyarn(
-                                                              key: UniqueKey(),
+                                                              // key: UniqueKey(),
                                                               hint:
                                                                   "--Select Yarn--",
                                                               yarn: controller
                                                                   .yarnData,
                                                               onSelection:
                                                                   (val) {
+                                                                setState(() {});
                                                                 feb.editedt =
                                                                     true;
                                                                 element.value
@@ -217,6 +215,9 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                     ),
                                                     CommonDecimalTextField(
                                                         onchange: (p0) {
+                                                          scrolledDown600 =
+                                                              true;
+
                                                           p0.isNotEmpty
                                                               ? feb.editedt =
                                                                   true
@@ -379,7 +380,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                     },
                                                     controller: element
                                                         .value.repeatController,
-                                                    labelText: 'Enter repeat ',
+                                                    labelText: 'Enter Repeat ',
                                                     keyboardType:
                                                         TextInputType.number,
                                                     hintText: 'Enter repeat ',

@@ -49,7 +49,7 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
         Get.back();
       }
       print(value);
-      FlutterToast.showCustomToast(value.massage);
+      FlutterToast.showCustomToast(value.message ?? "");
       context.loaderOverlay.hide();
     }).onError((error, stackTrace) {
       // FlutterToast.showCustomToast(
@@ -120,7 +120,7 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
                     splashRadius: 20,
                     onPressed: () {
                       editedt == true
-                          ? showdialogboxalert(context)
+                          ? showdialogboxalert(context,"Do you want to exit without Updating?")
                           : Get.back();
                     },
                     icon: Icon(Icons.arrow_back_rounded)),
@@ -170,7 +170,7 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
                           const EdgeInsets.only(top: 50, left: 5, right: 5),
                       child: ElevatedButton(
                           onPressed: () {
-                            if (editedt = true)
+                            if (editedt == true)
                               fetchDataFromAPI(
                                   febric_category: nameController.text,
                                   categoryid:

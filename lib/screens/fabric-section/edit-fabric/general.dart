@@ -104,6 +104,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CommonTextFormField(
+                            read: true,
                               onchange: (p0) {
                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
                               },

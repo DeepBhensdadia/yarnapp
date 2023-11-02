@@ -50,12 +50,12 @@ class _CustomDropdownyarnState extends State<CustomDropdownyarn> {
           child: SearchChoices<int>.single(
             padding: const EdgeInsets.only(top: 2.5,bottom: 7.5),
 
-            icon: Icon(Icons.arrow_drop_down,color: Colors.grey,),
+            icon: Icon(Icons.arrow_drop_down,color: Colors.white,),
             items: widget.yarn
                 .map<DropdownMenuItem<int>>(
                   (element) => DropdownMenuItem<int>(
                 value: element?.id ?? 0,
-                child: Text(element?.yarnName ?? ""),
+                child: Text(element?.yarnName ?? "",style: TextStyle(color: Colors.black,fontSize: 17),),
               ),
             )
                 .toList(),

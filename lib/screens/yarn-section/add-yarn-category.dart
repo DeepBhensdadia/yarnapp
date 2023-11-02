@@ -105,7 +105,7 @@ class _AddYarnCategoryState extends State<AddYarnCategory> {
                     tooltip: "Back",
                     onPressed: () {
                       editedt == true
-                          ? showdialogboxalert(context)
+                          ? showdialogboxalert(context,"Do you want to exit without Saving?")
                           : Get.back();
                     },
                     icon: Icon(Icons.arrow_back_rounded)),

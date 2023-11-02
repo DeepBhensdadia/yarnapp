@@ -454,9 +454,7 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                             child: Column(
                                                                 children: [
                                                                   Text(
-                                                                    e.value.finalPpi
-                                                                        .toString() ??
-                                                                        "",
+                                                                    e.value.finalPpi?.toDouble().toStringAsFixed(2) ?? "",
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .black
@@ -473,7 +471,7 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                                   Text(
                                                                     e.value
                                                                         .weight
-                                                                        .toString(),
+                                                                        ?.toDouble().toStringAsFixed(4) ?? "",
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .black
@@ -504,8 +502,7 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                                 right: 8,
                                                                 top: 10),
                                                             child: Text(
-                                                              e.value.rate
-                                                                  .toString(),
+                                                              e.value.rate?.toDouble().toStringAsFixed(2) ?? "" ,
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .black
@@ -786,10 +783,7 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                                 .only(
                                                                 right: 8.0),
                                                             child: Text(
-                                                              e.value.value
-                                                                  ?.toDouble()
-                                                                  .toStringAsFixed(
-                                                                  3) ??
+                                                              e.value.value?.toDouble().toStringAsFixed(4) ??
                                                                   "",
                                                               style: TextStyle(
                                                                   color: Colors

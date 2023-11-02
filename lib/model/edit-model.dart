@@ -5,21 +5,21 @@ EditModel editModelFromJson(String str) => EditModel.fromJson(json.decode(str));
 String editModelToJson(EditModel data) => json.encode(data.toJson());
 
 class EditModel {
-  bool success;
-  String massage;
+  bool? success;
+  String? message;
 
   EditModel({
-    required this.success,
-    required this.massage,
+    this.success,
+    this.message,
   });
 
   factory EditModel.fromJson(Map<String, dynamic> json) => EditModel(
-    success: json["success"]??false,
-    massage: json["massage"]??"",
-  );
+        success: json["success"],
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "massage": massage,
-  };
+        "success": success,
+        "message": message,
+      };
 }

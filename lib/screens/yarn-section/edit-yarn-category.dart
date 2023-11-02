@@ -48,7 +48,7 @@ class _EditYarnCategoryState extends State<EditYarnCategory> {
         yarncategorycontroller.fetchDataFromAPI();
         Get.back();
       }
-      FlutterToast.showCustomToast(value.massage);
+      FlutterToast.showCustomToast(value.message ?? "");
       context.loaderOverlay.hide();
     }).onError((error, stackTrace) {
       // FlutterToast.showCustomToast("Something Wrong Plz restart app");
@@ -123,7 +123,7 @@ class _EditYarnCategoryState extends State<EditYarnCategory> {
                     splashRadius: 20,
                     onPressed: () {
                       editedt == true
-                          ? showdialogboxalert(context)
+                          ? showdialogboxalert(context,"Do you want to exit without Updating?")
                           : Get.back();
                     },
                     icon: Icon(Icons.arrow_back_rounded)),
@@ -173,7 +173,7 @@ class _EditYarnCategoryState extends State<EditYarnCategory> {
                           const EdgeInsets.only(top: 50, left: 5, right: 5),
                       child: ElevatedButton(
                           onPressed: () {
-                            if (editedt = true)
+                            if (editedt == true)
                               fetchDataFromAPI(
                                   yarn_category: nameController.text,
                                   categoryid:

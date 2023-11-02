@@ -170,27 +170,30 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              backgroundColor: Colors.white,
+                                              backgroundColor:
+                                                  Colors.grey.shade200,
                                               title: Text(
-                                                "Remove",
+                                                "Alert",
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    color: Colors.black),
+                                                    color: Colors.red),
                                               ),
                                               content: Text(
-                                                "Are you sure you would like to remove fabric information ?",
+                                                "Do you want to Delete this Fabric Category?",
                                                 style: TextStyle(
                                                     fontSize: 15,
+                                                    // fontWeight: FontWeight.w600,
                                                     color: Colors.black
-                                                        .withOpacity(0.5)),
+                                                        .withOpacity(0.6)),
                                               ),
                                               actions: <Widget>[
-                                                TextButton(
+                                                ElevatedButton(
                                                     style: TextButton.styleFrom(
+                                                        elevation: 5,
                                                         surfaceTintColor:
                                                             Colors.grey,
                                                         backgroundColor:
-                                                            Colors.transparent),
+                                                            Colors.white70),
                                                     onPressed: () {
                                                       Navigator.of(context)
                                                           .pop(false);
@@ -201,15 +204,16 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
                                                           fontSize: 15,
                                                           color: Colors.black),
                                                     )),
-                                                TextButton(
+                                                ElevatedButton(
                                                     style: TextButton.styleFrom(
+                                                        elevation: 5,
                                                         surfaceTintColor: Colors
                                                             .red
                                                             .withOpacity(0.3),
                                                         foregroundColor:
                                                             Colors.red,
                                                         backgroundColor:
-                                                            Colors.transparent),
+                                                            Colors.red),
                                                     onPressed: () async {
                                                       await deleteFabricCategoryData(
                                                               categoryId: controller
@@ -225,9 +229,7 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
                                                               .clear();
                                                           controller
                                                               .fetchDataFromAPI();
-                                                          setState(() {
-
-                                                          });
+                                                          setState(() {});
                                                         }
                                                         FlutterToast
                                                             .showCustomToast(
@@ -240,10 +242,11 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
                                                       Navigator.pop(context);
                                                     },
                                                     child: Text(
-                                                      "Remove",
+                                                      "Delete",
                                                       style: TextStyle(
                                                           fontSize: 15,
-                                                          color: Colors.red),
+                                                          color:
+                                                              Colors.white70),
                                                     )),
                                               ],
                                             );

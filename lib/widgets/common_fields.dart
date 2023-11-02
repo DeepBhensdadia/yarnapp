@@ -199,6 +199,8 @@ class CommonTextFormField extends StatefulWidget {
   final String? Function(String?)? validatorfield;
   final void Function(String)? onchange;
 
+  final bool read;
+
   const CommonTextFormField({
     super.key,
     required this.controller,
@@ -208,6 +210,7 @@ class CommonTextFormField extends StatefulWidget {
     required this.InputAction,
     this.validatorfield,
     this.onchange,
+     this.read = false,
   });
 
   final String labelText;
@@ -238,6 +241,7 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
           height: 2,
         ),
         TextFormField(
+          readOnly: widget.read,
           textCapitalization: TextCapitalization.words,
           onChanged: widget.onchange,
           validator: widget.validatorfield,

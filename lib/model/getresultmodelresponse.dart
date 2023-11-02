@@ -97,8 +97,8 @@ class General {
   double? additionalCost;
   int? fabricCategoryId;
   int? userId;
-  dynamic finalCostPerMeter;
-  dynamic finalCostPerPiece;
+  double? finalCostPerMeter;
+  double? finalCostPerPiece;
   DateTime? createdAt;
   DateTime? updatedAt;
   String? categoryName;
@@ -128,18 +128,35 @@ class General {
         fabricName: json["fabric_name"],
         warpYarn: json["warp_yarn"],
         weftYarn: json["weft_yarn"],
-        width: json["width"].toDouble(),
-        finalPpi: json["final_ppi"].toDouble(),
-        warpWastage: json["warp_wastage"].toDouble(),
-        weftWastage: json["weft_wastage"].toDouble(),
-        buttaCuttingCost: json["butta_cutting_cost"].toDouble(),
-        additionalCost: json["additional_cost"].toDouble(),
+        width: json["width"] != null ? json["width"].toDouble() : 0.00,
+        finalPpi:
+            json["final_ppi"] != null ? json["final_ppi"].toDouble() : 0.00,
+        warpWastage: json["warp_wastage"] != null
+            ? json["warp_wastage"].toDouble()
+            : 0.00,
+        weftWastage: json["weft_wastage"] != null
+            ? json["weft_wastage"].toDouble()
+            : 0.00,
+        buttaCuttingCost: json["butta_cutting_cost"] != null
+            ? json["butta_cutting_cost"].toDouble()
+            : 0.00,
+        additionalCost: json["additional_cost"] != null
+            ? json["additional_cost"].toDouble()
+            : 0.00,
         fabricCategoryId: json["fabric_category_id"],
         userId: json["user_id"],
-        finalCostPerMeter: json["final_cost_per_meter"],
-        finalCostPerPiece: json["final_cost_per_piece"],
-        createdAt:json["created_at"] != null ? DateTime.parse(json["created_at"]) : DateTime.now(),
-        updatedAt:json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : DateTime.now(),
+        finalCostPerMeter: json["final_cost_per_meter"] != null
+            ? json["final_cost_per_meter"].toDouble()
+            : 0.00,
+        finalCostPerPiece: json["final_cost_per_piece"] != null
+            ? json["final_cost_per_piece"].toDouble()
+            : 0.00,
+        createdAt: json["created_at"] != null
+            ? DateTime.parse(json["created_at"])
+            : DateTime.now(),
+        updatedAt: json["updated_at"] != null
+            ? DateTime.parse(json["updated_at"])
+            : DateTime.now(),
         categoryName: json["category_name"],
       );
 
@@ -190,17 +207,16 @@ class Warplist {
   });
 
   factory Warplist.fromJson(Map<String, dynamic> json) => Warplist(
-        id: json["id"],
-        fabricCostId: json["fabric_cost_id"],
-        ends: json["ends"],
-        yarnName: json["yarn_name"],
-        yarnId: json["yarn_id"],
-        yarnDenier: json["yarn_denier"],
-        yarnRate: json["yarn_rate"],
-        denier: json["denier"],
-        weight: json["weight"].toDouble(),
-        amount: json["amount"].toDouble(),
-      );
+      id: json["id"],
+      fabricCostId: json["fabric_cost_id"],
+      ends: json["ends"],
+      yarnName: json["yarn_name"],
+      yarnId: json["yarn_id"],
+      yarnDenier: json["yarn_denier"],
+      yarnRate: json["yarn_rate"],
+      denier: json["denier"],
+      weight: json["weight"] != null ? json["weight"].toDouble() : 0.00,
+      amount: json["amount"] != null ? json["amount"].toDouble() : 0.00);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -250,17 +266,18 @@ class Weftlist {
   factory Weftlist.fromJson(Map<String, dynamic> json) => Weftlist(
         id: json["id"],
         fabricCostId: json["fabric_cost_id"],
-        finalPpi: json["final_ppi"].toDouble(),
+        finalPpi:
+            json["final_ppi"] != null ? json["final_ppi"].toDouble() : 0.00,
         isAdvance: json["is_advance"],
-        lenght: json["lenght"].toDouble(),
+        lenght: json["lenght"] != null ? json["lenght"].toDouble() : 0.00,
         repeat: json["repeat"],
         yarnDenier: json["yarn_denier"],
         yarnRate: json["yarn_rate"],
         yarnName: json["yarn_name"],
         yarnId: json["yarn_id"],
-        weight: json["weight"].toDouble(),
-        rate: json["rate"].toDouble(),
-        ppi: json["ppi"].toDouble(),
+        weight: json["weight"] != null ? json["weight"].toDouble() : 0.00,
+        rate: json["rate"] != null ? json["rate"].toDouble() : 0.00,
+        ppi: json["ppi"] != null ? json["ppi"].toDouble() : 0.00,
       );
 
   Map<String, dynamic> toJson() => {

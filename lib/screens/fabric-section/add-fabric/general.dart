@@ -95,6 +95,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                   color: MyTheme.appBarColor),
                             ),
                           ),
+                          SizedBox(height: 10,),
                           Container(
                             height: 40,
                             child: Theme(
@@ -160,7 +161,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             ),
                           ),
                           SizedBox(
-                            height: 25,
+                            height: 30,
                           ),
                           Align(
                             alignment: AlignmentDirectional.topStart,
@@ -172,6 +173,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                   color: MyTheme.appBarColor),
                             ),
                           ),
+                          SizedBox(height: 10,),
                           Container(
                             height: 40,
                             child: Theme(
@@ -194,6 +196,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                     color: Colors.transparent,
                                   ),
                                   decoration: InputDecoration(
+
                                     // enabled: false,
                                     isDense: true,
                                     disabledBorder: UnderlineInputBorder(
@@ -235,7 +238,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             ),
                           ),
                           SizedBox(
-                            height: 25,
+                            height: 30,
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {

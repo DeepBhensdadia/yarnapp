@@ -71,7 +71,7 @@ class _EditYarnState extends State<EditYarn> {
         Get.back();
       }
       // print(value);
-      FlutterToast.showCustomToast(value.massage);
+      FlutterToast.showCustomToast(value.message ?? "");
       context.loaderOverlay.hide();
     }).onError((error, stackTrace) {
       // FlutterToast.showCustomToast("This yarn has been previously saved");
@@ -145,7 +145,8 @@ class _EditYarnState extends State<EditYarn> {
                     splashRadius: 20,
                     onPressed: () {
                       editedt == true
-                          ? showdialogboxalert(context)
+                          ? showdialogboxalert(
+                              context, "Do you want to exit without Updating?")
                           : Get.back();
                     },
                     tooltip: "Back",
@@ -184,6 +185,7 @@ class _EditYarnState extends State<EditYarn> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         CommonTextFormField(
+                                            read: true,
                                             onchange: (p0) {
                                               setState(() {
                                                 p0.isNotEmpty
@@ -349,7 +351,7 @@ class _EditYarnState extends State<EditYarn> {
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    if (editedt = true)
+                                    if (editedt == true)
                                       fetchDataFromAPI(
                                           yarn_denier: denierController.text,
                                           yarn_name: nameController.text,
