@@ -755,8 +755,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                         .only(
                                                                     right: 8.0),
                                                             child: Text(
-                                                              e.value.value?.toDouble().toStringAsFixed(4) ??
-                                                                  "",
+                                                              e.value.value?.toString() ?? "",
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .black

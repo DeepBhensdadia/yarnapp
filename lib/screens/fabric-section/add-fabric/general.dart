@@ -69,7 +69,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                         children: [
                           CommonTextFormField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -95,7 +97,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                   color: MyTheme.appBarColor),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Container(
                             height: 40,
                             child: Theme(
@@ -109,8 +113,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                 absorbing: feb.isWrapDone,
                                 child: DropdownButtonFormField<String>(
                                   onChanged: (value) {
-
-                                      feb.editedt = true;
+                                    feb.editedt = true;
 
                                     feb.numberOfWarpYarnController.text =
                                         value ?? "";
@@ -173,7 +176,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                   color: MyTheme.appBarColor),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Container(
                             height: 40,
                             child: Theme(
@@ -196,7 +201,6 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                     color: Colors.transparent,
                                   ),
                                   decoration: InputDecoration(
-
                                     // enabled: false,
                                     isDense: true,
                                     disabledBorder: UnderlineInputBorder(
@@ -242,7 +246,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -260,8 +266,10 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                            p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
-                          },
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
+                              },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "enter cost of final ppi";
@@ -278,7 +286,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -298,7 +308,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -318,7 +330,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -337,7 +351,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -431,7 +447,8 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                                       .textScaleFactor *
                                                   13.5,
                                             ),
-                                            value:  feb.fabricCategoryController.text,
+                                            value: feb
+                                                .fabricCategoryController.text,
                                             items: v.getData
                                                 .map((e) =>
                                                     DropdownMenuItem<String>(

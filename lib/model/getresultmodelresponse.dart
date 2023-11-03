@@ -66,7 +66,7 @@ class GetResultModel {
 
 class Calculation {
   String? name;
-  double? value;
+  dynamic value;
 
   Calculation({
     this.name,
@@ -75,7 +75,7 @@ class Calculation {
 
   factory Calculation.fromJson(Map<String, dynamic> json) => Calculation(
         name: json["name"],
-        value: json["value"].toDouble(),
+        value: json["value"],
       );
 
   Map<String, dynamic> toJson() => {

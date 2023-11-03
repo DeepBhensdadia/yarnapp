@@ -210,7 +210,7 @@ class CommonTextFormField extends StatefulWidget {
     required this.InputAction,
     this.validatorfield,
     this.onchange,
-     this.read = false,
+    this.read = false,
   });
 
   final String labelText;
@@ -252,7 +252,7 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
           controller: widget.controller,
           keyboardType: widget.keyboardType,
           style: TextStyle(
-            color: Colors.black,
+            color: widget.read ? Colors.red.withOpacity(0.2) : Colors.black,
             fontSize: MediaQuery.of(context).textScaleFactor * 15,
           ),
           maxLength: 25,
@@ -361,6 +361,7 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
             //   color: Colors.grey,
             //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
             // ),
+
             contentPadding: EdgeInsets.symmetric(horizontal: 0),
             disabledBorder: UnderlineInputBorder(
               borderSide:

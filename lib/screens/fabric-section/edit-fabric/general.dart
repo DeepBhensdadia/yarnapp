@@ -132,7 +132,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                   color: MyTheme.appBarColor),
                             ),
                           ),
+                          SizedBox(height: 10,),
                           Container(
+                            // color: Colors.red.withOpacity(0.2),
                             height: 40,
                             child: Theme(
                               data: ThemeData(
@@ -209,6 +211,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                   color: MyTheme.appBarColor),
                             ),
                           ),
+                          SizedBox(height: 10,),
                           Container(
                             height: 40,
                             child: Theme(
@@ -274,7 +277,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                             ),
                           ),
                           SizedBox(
-                            height: 25,
+                            height: 30,
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {

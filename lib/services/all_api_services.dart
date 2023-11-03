@@ -25,10 +25,10 @@ Future<YarnCategoryModel> yarnCategoryData() async {
   return yarnCategoryModelFromJson(response.body);
 }
 
-Future<GetFebricsModel> febricindexlist() async {
-  var url = Uri.parse(URLs.Base_url + "getFabricCost?user_id=1");
+Future<GetFebricsModel> febricindexlist({required String para}) async {
+  var url = Uri.parse(URLs.Base_url + "getFabricCost?user_id=1$para");
   var response = await http.get(url);
-  // print('Response Body: ${response.body}');
+  print('Response Body: ${response.body}');
   return getFebricsModelFromJson(response.body);
 }
 

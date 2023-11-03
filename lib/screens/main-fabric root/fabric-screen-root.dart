@@ -115,7 +115,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                             chipDisplay: MultiSelectChipDisplay.none(),
                             items: List.generate(
                                 controller.getData.length,
-                                (index) => MultiSelectItem(index,
+                                (index) => MultiSelectItem(
+                                    controller.getData[index]!.id,
                                     "${controller.getData[index]!.fabricCategory}")),
                             title: Text(
                               "Fabric Categories",
@@ -136,7 +137,13 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                   BorderRadius.all(Radius.circular(40)),
                             ),
 
-                            onConfirm: (_) {
+                            onConfirm: (value) {
+                              if (value.isNotEmpty) {
+                                febricsController.getfebrics(
+                                    category: value.toString());
+                              } else {
+                                febricsController.getfebrics(key: "");
+                              }
                               // _selectedAnimals2;
                             },
                           ),
@@ -174,6 +181,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                 ListTile(
                                   onTap: () {
                                     Navigator.pop(context);
+                                    febricsController.getfebrics(
+                                        key: "", price: "desc");
                                   },
                                   title: Text(
                                     "Sort By Price (High To Low)",
@@ -181,14 +190,16 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   leading: Icon(
-                                    CupertinoIcons.money_dollar,
+                                    Icons.currency_rupee,
                                     color: Colors.black,
-                                    size: 25,
+                                    size: 24,
                                   ),
                                 ),
                                 ListTile(
                                   onTap: () {
                                     Navigator.pop(context);
+                                    febricsController.getfebrics(
+                                        key: "", price: "asc");
                                   },
                                   title: Text(
                                     "Sort By Price (Low To high)",
@@ -196,14 +207,33 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   leading: Icon(
-                                    CupertinoIcons.money_dollar,
+                                    Icons.currency_rupee,
                                     color: Colors.black,
-                                    size: 25,
+                                    size: 24,
                                   ),
                                 ),
                                 ListTile(
                                   onTap: () {
                                     Navigator.pop(context);
+                                    febricsController.getfebrics(
+                                        key: "", atoz: true);
+                                  },
+                                  title: Text(
+                                    "Sort By A to Z",
+                                    textScaleFactor: 1.2,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  leading: Icon(
+                                    Icons.abc,
+                                    color: Colors.black,
+                                    size: 24,
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    febricsController.getfebrics(
+                                        key: "", date: "desc");
                                   },
                                   title: Text(
                                     "Sort By Date",
@@ -284,7 +314,9 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                             ),
                             controller: searchController,
                             onChanged: (text) {
-                              setState(() {});
+                              febricsController.getfebrics(
+                                key: text,
+                              );
                             },
                             decoration: InputDecoration(
                                 contentPadding:
@@ -361,7 +393,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                       : RefreshIndicator(
                           color: Colors.white,
                           onRefresh: () async {
-                            await fabricAllItems;
+                            await febricsController.getfebrics();
                           },
                           child: Scrollbar(
                             controller: _allController,
