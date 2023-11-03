@@ -7,19 +7,12 @@ import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
 import 'package:yarn_modified/getxcontrollers/febricslistcontroller.dart';
-import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/model/getfebricslistmodel.dart';
 import '../../const/const.dart';
 import '../../const/themes.dart';
-import '../../model/get-yarn-category-model.dart';
-import '../../model/get-yarn-index-model.dart';
-import '../../services/all_api_services.dart';
-import '../../static_json/category-json.dart';
-import '../../static_json/fabric-json.dart';
 import '../fabric-section/add-fabric/add-fabric-root.dart';
 import '../fabric-section/edit-fabric/edit-fabric-root.dart';
 import 'fabric-detail-screen.dart';
-import 'image-open-screen.dart';
 
 class FabricScreenRoot extends StatefulWidget {
   const FabricScreenRoot({super.key});
@@ -600,11 +593,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                   padding: const EdgeInsets
                                                       .symmetric(vertical: 5.0),
                                                   child: Text(
-                                                      febric?.finalPpi
-                                                              .toDouble()
-                                                              .toStringAsFixed(
-                                                                  2) ??
-                                                          "",
+                                                      febric?.fabricCost?.toDouble().toStringAsFixed(2) ?? "",
                                                       textScaleFactor: 1.25,
                                                       textAlign: TextAlign.end,
                                                       style: TextStyle(
