@@ -3,13 +3,11 @@ import 'package:get/get.dart';
 import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
 import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
-import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric/result.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric/warp.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric/weft.dart';
 import '../../../const/themes.dart';
 import '../../../static_json/root_app_json.dart';
-import '../../../widgets/common_fields.dart';
 import '../../../getxcontrollers/febricaddcontroller.dart';
 import 'general.dart';
 
@@ -60,44 +58,12 @@ class _AddFabricRootState extends State<AddFabricRoot> {
               Colors.white.withOpacity(0.65),
               Colors.white.withOpacity(0.85)
             ])),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            title: Text(
-              'Add Fabric',
-              textScaleFactor: 1,
-              style:
-                  TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
-            ),
-            iconTheme: IconThemeData(color: Colors.white),
-            // centerTitle: true,
-            leading: IconButton(
-                onPressed: () {
-                  feb.editedt == true
-                      ? showdialogboxalert(context,"Do you want to exit without Saving?")
-                      : Get.back();
-                },
-                icon: Icon(Icons.arrow_back)),
-            backgroundColor: MyTheme.appBarColor,
-            elevation: 5,
-            automaticallyImplyLeading: false,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.white.withOpacity(0.20),
-                    Colors.white.withOpacity(0.15),
-                    Colors.white.withOpacity(0.025),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            body: getBody(),
           ),
-          body: getBody(),
         ),
       ),
     );
@@ -108,7 +74,22 @@ class _AddFabricRootState extends State<AddFabricRoot> {
       padding: const EdgeInsets.all(5),
       child: Column(
         children: [
-          getHeader(),
+          Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    feb.editedt == true
+                        ? showdialogboxalert(
+                            context, "Do you want to exit without Saving?")
+                        : Get.back();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  )),
+              Expanded(child: getHeader()),
+            ],
+          ),
           Expanded(
             child: PageView(
               physics: NeverScrollableScrollPhysics(),
@@ -152,29 +133,32 @@ class _AddFabricRootState extends State<AddFabricRoot> {
                 return GestureDetector(
                   onTap: () {
                     final controller = Get.find<FebricAddController>();
-                    if (controller.isWrapDone) {
-                      if (index == 0 || index == 1) {
-                        pageController.jumpToPage(index);
-                      }
-                      // return;
-                    }
-
-                    if (controller.isWeftDone) {
-                      if (index == 0 || index == 2 || index == 1) {
-                        pageController.jumpToPage(index);
-                        return;
-                      }
-                    }
-                    if (controller.isResultDone && index != activeTab) {
-                      feb.goToResult(pageController);
-                      pageController.jumpToPage(index);
-                    }
                     if (activeTab >= index) {
                       pageController.jumpToPage(index);
                     }
+                    // if (controller.isWrapDone) {
+                    //   if (index == 0 || index == 1) {
+                    //     pageController.jumpToPage(index);
+                    //   }
+                    //   // return;
+                    // }
+                    //
+                    // if (controller.isWeftDone) {
+                    //   if (index == 0 || index == 2 || index == 1) {
+                    //     pageController.jumpToPage(index);
+                    //     return;
+                    //   }
+                    // }
+                    // if (controller.isResultDone && index != activeTab) {
+                    //   feb.goToResult(pageController);
+                    //   pageController.jumpToPage(index);
+                    // }
+                    // if (activeTab >= index) {
+                    //   pageController.jumpToPage(index);
+                    // }
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
@@ -194,7 +178,7 @@ class _AddFabricRootState extends State<AddFabricRoot> {
                         style: TextStyle(
                             color: activeTab == index
                                 ? Colors.white
-                                : Colors.black,
+                                :activeTab >= index ?  Colors.black : Colors.grey,
                             fontWeight: activeTab == index
                                 ? FontWeight.w500
                                 : FontWeight.w500),

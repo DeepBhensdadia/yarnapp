@@ -1,13 +1,14 @@
+import 'package:yarn_modified/services/all_api_services.dart';
+
 class URLs {
   // static String Base_url = "http://192.168.29.248:8001/api/"; //Link
-  static String Base_url =
-      "https://jignyacreations.com/textiles/public/api/"; //Link
+  static String Base_url = "https://jignyacreations.com/textiles/public/api/"; //Link
 
-  static String yarnCategory = Base_url + "yarnCategory?user_id=1"; //Done
+  static String yarnCategory = Base_url + "yarnCategory?user_id=${saveUser()?.id}"; //Done
 
-  static String fabricCategory = Base_url + "fabricCategory?user_id=0"; //Done
+  static String fabricCategory = Base_url + "fabricCategory?user_id=${saveUser()?.id}"; //Done
 
-  static String yarnIndex = Base_url + "yarmsrc?user_id=1"; //Done
+  static String yarnIndex = Base_url + "yarmsrc?user_id=${saveUser()?.id}"; //Done
 
   static String createYarnCategory = Base_url + "yarnCreateCategory"; //Done
 

@@ -73,44 +73,12 @@ class _EditFabricRootState extends State<EditFabricRoot> {
               Colors.white.withOpacity(0.65),
               Colors.white.withOpacity(0.85)
             ])),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            leading: IconButton(
-                onPressed: () {
-                  feb.editedt == true
-                      ? showdialogboxalert(context,"Do you want to exit without Updating?")
-                      : Get.back();
-                },
-                icon: Icon(Icons.arrow_back)),
-            title: Text(
-              'Edit Fabric',
-              textScaleFactor: 1,
-              style:
-                  TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
-            ),
-            iconTheme: IconThemeData(color: Colors.white),
-            // centerTitle: true,
-            backgroundColor: MyTheme.appBarColor,
-            elevation: 5,
-            automaticallyImplyLeading: true,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.white.withOpacity(0.20),
-                    Colors.white.withOpacity(0.15),
-                    Colors.white.withOpacity(0.025),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            body: getBody(),
           ),
-          body: getBody(),
         ),
       ),
     );
@@ -122,12 +90,45 @@ class _EditFabricRootState extends State<EditFabricRoot> {
         child: GetBuilder<GetResultController>(
           builder: (controller) => Column(
             children: [
-              getHeader(),
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        if (feb.nameController.text.isNotEmpty &&
+                            feb.numberOfWarpYarnController.text.isNotEmpty &&
+                            feb.numberOfWeftYarnController.text.isNotEmpty &&
+                            feb.widthInInchController.text.isNotEmpty &&
+                            feb.costPerFinalController.text.isNotEmpty &&
+                            feb.warpAmountController.text.isNotEmpty &&
+                            feb.weftAmountController.text.isNotEmpty &&
+                            feb.buttaCuttingController.text.isNotEmpty &&
+                            feb.additionalCostController.text.isNotEmpty) {
+                          feb.editedt == true
+                              ? showdialogboxalert(context,
+                                  "Do you want to exit without Saving?")
+                              : Get.back();
+                        } else {
+                          showdialogboxalert(
+                              context, "Do you want to exit without Saving?");
+                        }
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                      )),
+                  Expanded(child: getHeader()),
+                ],
+              ),
               Expanded(
                 child: controller.call != true
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
+                    ? controller.resultcheck == 2
+                        ? Center(
+                            child: Text("Error...",
+                                style: TextStyle(fontSize: 18)),
+                          )
+                        : Center(
+                            child: CircularProgressIndicator(),
+                          )
                     : PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: pageController,
@@ -173,13 +174,16 @@ class _EditFabricRootState extends State<EditFabricRoot> {
                 return GestureDetector(
                   onTap: () {
                     // final controller = Get.find<FebricEditController>();
-                    if (index != 3) {
-                      pageController.jumpToPage(index);
-                    } else {
-                      if (activeTab != index)
-                        feb.goToResult(widget.febricdata?.id);
+                    if (activeTab >= index) {
                       pageController.jumpToPage(index);
                     }
+                    // if (index != 3) {
+                    //   pageController.jumpToPage(index);
+                    // } else {
+                    //   if (activeTab != index)
+                    //     feb.goToResult(widget.febricdata?.id);
+                    //   pageController.jumpToPage(index);
+                    // }
                     // if (controller.isWrapDone) {
                     //   if (index == 0 || index == 1) {
                     //     pageController.jumpToPage(index);
@@ -202,7 +206,8 @@ class _EditFabricRootState extends State<EditFabricRoot> {
                     // }
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenwidth(context, dividedby: 80)),
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                       decoration: BoxDecoration(
@@ -222,7 +227,9 @@ class _EditFabricRootState extends State<EditFabricRoot> {
                         style: TextStyle(
                             color: activeTab == index
                                 ? Colors.white
-                                : Colors.black,
+                                : activeTab >= index
+                                    ? Colors.black
+                                    : Colors.grey,
                             fontWeight: activeTab == index
                                 ? FontWeight.w500
                                 : FontWeight.w500),

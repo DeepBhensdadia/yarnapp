@@ -29,6 +29,7 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  bool forvalidation = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,40 +84,55 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                       horizontal: 15),
                                   child: Column(
                                     children: [
-                                      GetBuilder<YarnListController>(builder: (controller) =>   Row(
-                                        children: [
-                                          Expanded(
-                                            child: CustomDropdownyarn(
-                                              hint: "--Select Yarn--",
-                                              yarn: controller.yarnData,
-                                              onSelection: (val) {
-                                                setState(() {
+                                      GetBuilder<YarnListController>(
+                                        builder: (controller) => Row(
+                                          children: [
+                                            Expanded(
+                                                child: Obx(
+                                              () => CustomDropdownyarn(
+                                                validing: (p0) {
+                                                  if (p0 == null &&
+                                                      forvalidation == true) {
+                                                    return "Please Select Yarn";
+                                                  }
+                                                  return null;
+                                                },
+                                                initialValue: element
+                                                    .value.selectedYarnID.value,
+                                                hint: "--Select Yarn--",
+                                                yarn: controller.yarnData,
+                                                onSelection: (val) {
                                                   feb.editedt = true;
-                                                  element.value
-                                                      .selectedYarnID =
-                                                  val!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          IconButton(
-                                              onPressed: () {
-                                                Get.to(AddYarn());
-                                              },
-                                              icon: Icon(Icons.add,color: Colors.grey,))
-                                        ],
-                                      ),),
-
+                                                  element.value.selectedYarnID
+                                                      .value = val!;
+                                                },
+                                              ),
+                                            )),
+                                            IconButton(
+                                                onPressed: () {
+                                                  Get.to(AddYarn());
+                                                },
+                                                icon: Icon(
+                                                  Icons.add,
+                                                  color: Colors.grey,
+                                                ))
+                                          ],
+                                        ),
+                                      ),
                                       SizedBox(
                                         height: 20,
                                       ),
                                       CommonDecimalTextField(
                                           onchange: (p0) {
-                                            p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                            p0.isNotEmpty
+                                                ? feb.editedt = true
+                                                : feb.editedt = false;
                                           },
                                           validatorfield: (p0) {
                                             if (p0!.isEmpty) {
-                                              return "enter ends(taar)";
+                                              return "Enter Ends (taar)";
+                                            } else if (p0 == "0") {
+                                              return "Ends(taar) is greter than 0";
                                             }
                                             return null;
                                           },
@@ -141,11 +157,11 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
+                        forvalidation = true;
                         if (_formKey.currentState!.validate()) {
                           Get.find<FebricAddController>().isWeftDone = true;
                           // feb.changedData();
-                          widget.page.jumpToPage(
-                              2);
+                          widget.page.jumpToPage(2);
                         }
                       },
                       style: ButtonStyle(

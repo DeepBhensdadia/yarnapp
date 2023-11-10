@@ -39,7 +39,7 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
 
     Map<String, dynamic> parameter = {
       "fabric_category": febric_category,
-      "user_id": "1"
+      "user_id": "${saveUser()?.id}"
     };
     await editFabricCategoryData(
             parameter: jsonEncode(parameter), categoryId: categoryid)
@@ -119,9 +119,13 @@ class _EditFabricCategoryState extends State<EditFabricCategory> {
                     tooltip: "Back",
                     splashRadius: 20,
                     onPressed: () {
-                      editedt == true
-                          ? showdialogboxalert(context,"Do you want to exit without Updating?")
-                          : Get.back();
+                      nameController.text.isNotEmpty
+                          ? editedt == true
+                              ? showdialogboxalert(context,
+                                  "Do you want to exit without Updating?")
+                              : Get.back()
+                          : showdialogboxalert(
+                              context, "Do you want to exit without Updating?");
                     },
                     icon: Icon(Icons.arrow_back_rounded)),
               ),

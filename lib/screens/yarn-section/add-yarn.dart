@@ -57,10 +57,10 @@ class _AddYarnState extends State<AddYarn> {
       "yarn_denier": yarnDenier,
       "yarn_rate": yarnRate,
       "category_id": category_id,
-      "user_id": "1"
+      "user_id": "${saveUser()?.id}"
     };
     await addYarnIndexData(parameter: jsonEncode(parameter)).then((value) {
-      if (value.message != false) {
+      if (value.success != false) {
         yarnlist.fetchDataFromAPI(key: "");
         Get.back();
       }
@@ -132,10 +132,17 @@ class _AddYarnState extends State<AddYarn> {
                   leading: IconButton(
                       splashRadius: 20,
                       onPressed: () {
+                        if(
+                        nameController.text.isNotEmpty&&
+                        denierController.text.isNotEmpty&&
+                        yarnRateController.text.isNotEmpty){
                         editedt == true
                             ? showdialogboxalert(
                                 context, "Do you want to exit without Saving?")
-                            : Get.back();
+                            : Get.back();}else{
+                          showdialogboxalert(
+                              context, "Do you want to exit without Saving?");
+                        }
                       },
                       tooltip: "Back",
                       icon: Icon(Icons.arrow_back_rounded)),
@@ -186,7 +193,7 @@ class _AddYarnState extends State<AddYarn> {
                                                   },
                                                   validatorfield: (p0) {
                                                     if (p0!.isEmpty) {
-                                                      return "enter yarn name";
+                                                      return "Enter Yarn Name";
                                                     }
                                                     return null;
                                                   },
@@ -210,7 +217,7 @@ class _AddYarnState extends State<AddYarn> {
                                                   },
                                                   validatorfield: (p0) {
                                                     if (p0!.isEmpty) {
-                                                      return "enter yarn denier";
+                                                      return "Enter Yarn Denier";
                                                     }
                                                     return null;
                                                   },
@@ -235,7 +242,7 @@ class _AddYarnState extends State<AddYarn> {
                                                   },
                                                   validatorfield: (p0) {
                                                     if (p0!.isEmpty) {
-                                                      return "enter yarn Rate";
+                                                      return "Enter Yarn Rate";
                                                     }
                                                     return null;
                                                   },
@@ -281,7 +288,7 @@ class _AddYarnState extends State<AddYarn> {
                                                           String>(
                                                     validator: (value) {
                                                       if (value!.isEmpty) {
-                                                        return "enter yarn Category";
+                                                        return "Enter Yarn Category";
                                                       }
                                                       return null;
                                                     },

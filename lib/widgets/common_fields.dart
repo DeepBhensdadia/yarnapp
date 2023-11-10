@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:yarn_modified/helper.dart';
 import '../const/themes.dart';
 
 //=============================================================================
 //===================Common TextField Login/Forgot Password====================
 
 class CommonTextField extends StatefulWidget {
+ final String? Function(String?)?  validatoe;
+
   const CommonTextField(
       {super.key,
       required this.controller,
       required this.labelText,
       required this.keyboardType,
       required this.hintText,
-      required this.inputFormatters});
+      required this.inputFormatters, this.validatoe});
 
   final String labelText;
   final TextEditingController controller;
@@ -42,6 +45,7 @@ class _CommonTextFieldState extends State<CommonTextField> {
           height: 2,
         ),
         TextFormField(
+          validator: widget.validatoe,
           textCapitalization: TextCapitalization.words,
           autocorrect: false,
           textAlign: TextAlign.start,
@@ -100,11 +104,13 @@ class _CommonTextFieldState extends State<CommonTextField> {
 //===================Common Mobile TextField Login/Forgot Password====================
 
 class CommonMobileTextField extends StatefulWidget {
+  final String? Function(String?)? validator;
+
   const CommonMobileTextField(
       {super.key,
       required this.controller,
       required this.labelText,
-      required this.hintText});
+      required this.hintText, this.validator});
 
   final String labelText;
   final TextEditingController controller;
@@ -132,6 +138,7 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
           height: 2,
         ),
         TextFormField(
+          validator: widget.validator,
           textCapitalization: TextCapitalization.words,
           autocorrect: false,
           textAlign: TextAlign.start,
@@ -252,7 +259,7 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
           controller: widget.controller,
           keyboardType: widget.keyboardType,
           style: TextStyle(
-            color: widget.read ? Colors.red.withOpacity(0.2) : Colors.black,
+            color: widget.read ? Colors.black45 : Colors.black,
             fontSize: MediaQuery.of(context).textScaleFactor * 15,
           ),
           maxLength: 25,
@@ -329,7 +336,7 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
             widget.labelText,
             textScaleFactor: 1.3,
             style: TextStyle(
-                fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
+                fontWeight: FontWeight.w500, color: MyTheme.appBarColor,fontSize: screenwidth(context,dividedby: 28)),
           ),
         ),
         SizedBox(

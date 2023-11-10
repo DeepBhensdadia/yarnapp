@@ -140,6 +140,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
 
                                   onConfirm: (value) {
                                     if (value.isNotEmpty) {
+                                      yarnhbj = value;
                                       yarnlist.fetchDataFromAPI(
                                           key: "", category: value.toString());
                                     } else {
@@ -183,7 +184,9 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   onTap: () {
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
-                                        key: "", price: "desc");
+                                        key: "",
+                                        category: yarnhbj.toString(),
+                                        price: "desc");
                                   },
                                   title: Text(
                                     "Sort By Price (High To Low)",
@@ -200,7 +203,9 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   onTap: () {
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
-                                        key: "", price: "asc");
+                                        key: "",
+                                        category: yarnhbj.toString(),
+                                        price: "asc");
                                   },
                                   title: Text(
                                     "Sort By Price (Low To high)",
@@ -217,7 +222,9 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   onTap: () {
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
-                                        key: "", atoz: true);
+                                        category: yarnhbj.toString(),
+                                        key: "",
+                                        atoz: true);
                                   },
                                   title: Text(
                                     "Sort By A to Z",
@@ -234,7 +241,9 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   onTap: () {
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
-                                        key: "", date: "desc");
+                                        category: yarnhbj.toString(),
+                                        key: "",
+                                        date: "desc");
                                   },
                                   title: Text(
                                     "Sort By Date",
@@ -312,7 +321,10 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                             ),
                             controller: searchController,
                             onChanged: (text) {
-                              yarnlist.fetchDataFromAPI(key: text);
+                              yarnlist.fetchDataFromAPI(
+                                key: text,
+                                category: yarnhbj.toString(),
+                              );
                             },
                             decoration: InputDecoration(
                                 contentPadding:
@@ -448,10 +460,11 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                             onPressed: (context) {
                                               showDialog(
                                                   context: context,
-                                                  builder: (BuildContext context) {
+                                                  builder:
+                                                      (BuildContext context) {
                                                     return AlertDialog(
                                                       backgroundColor:
-                                                      Colors.grey.shade200,
+                                                          Colors.grey.shade200,
                                                       title: Text(
                                                         "Alert",
                                                         style: TextStyle(
@@ -464,66 +477,67 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                                             fontSize: 15,
                                                             // fontWeight: FontWeight.w600,
                                                             color: Colors.black
-                                                                .withOpacity(0.6)),
+                                                                .withOpacity(
+                                                                    0.6)),
                                                       ),
                                                       actions: <Widget>[
                                                         ElevatedButton(
-                                                            style:
-                                                            TextButton.styleFrom(
+                                                            style: TextButton.styleFrom(
                                                                 elevation: 5,
                                                                 surfaceTintColor:
-                                                                Colors.grey,
+                                                                    Colors.grey,
                                                                 backgroundColor:
-                                                                Colors
-                                                                    .white70),
+                                                                    Colors
+                                                                        .white70),
                                                             onPressed: () {
-                                                              Navigator.of(context)
+                                                              Navigator.of(
+                                                                      context)
                                                                   .pop(false);
                                                             },
                                                             child: Text(
                                                               "Cancel",
                                                               style: TextStyle(
                                                                   fontSize: 15,
-                                                                  color:
-                                                                  Colors.black),
+                                                                  color: Colors
+                                                                      .black),
                                                             )),
                                                         ElevatedButton(
                                                             style: TextButton.styleFrom(
                                                                 elevation: 5,
                                                                 surfaceTintColor:
-                                                                Colors.red
-                                                                    .withOpacity(
-                                                                    0.3),
+                                                                    Colors.red
+                                                                        .withOpacity(
+                                                                            0.3),
                                                                 foregroundColor:
-                                                                Colors.red,
+                                                                    Colors.red,
                                                                 backgroundColor:
-                                                                Colors.red),
+                                                                    Colors.red),
                                                             onPressed:
                                                                 () async {
                                                               await deleteYarnIndexData(
-                                                                  categoryId:
-                                                                  controller.yarnData[index]?.id.toString() ??
-                                                                      "")
+                                                                      categoryId:
+                                                                          controller.yarnData[index]?.id.toString() ??
+                                                                              "")
                                                                   .then(
                                                                       (value) {
-                                                                    if (value
+                                                                if (value
                                                                         .success !=
-                                                                        false) {
-                                                                      controller
-                                                                          .yarnData
-                                                                          .clear();
-                                                                      controller
-                                                                          .fetchDataFromAPI(
+                                                                    false) {
+                                                                  controller
+                                                                      .yarnData
+                                                                      .clear();
+                                                                  controller
+                                                                      .fetchDataFromAPI(
                                                                           key:
-                                                                          '');
-                                                                    }
-                                                                    FlutterToast
-                                                                        .showCustomToast(
+                                                                              '');
+                                                                }
+                                                                FlutterToast
+                                                                    .showCustomToast(
                                                                         value
                                                                             .message);
-                                                                    print(value);
-                                                                  }).onError((error,
-                                                                  stackTrace) {
+                                                                print(value);
+                                                              }).onError((error,
+                                                                      stackTrace) {
                                                                 print(error);
                                                               });
                                                               Navigator.pop(
@@ -533,8 +547,8 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                                               "Delete",
                                                               style: TextStyle(
                                                                   fontSize: 15,
-                                                                  color:
-                                                                  Colors.white70),
+                                                                  color: Colors
+                                                                      .white70),
                                                             )),
                                                       ],
                                                     );

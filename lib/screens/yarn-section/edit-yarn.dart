@@ -61,7 +61,7 @@ class _EditYarnState extends State<EditYarn> {
       "yarn_denier": yarn_denier,
       "yarn_rate": yarn_rate,
       "category_id": categoryid,
-      "user_id": "1"
+      "user_id": "${saveUser()?.id}"
     };
     await editYarnIndexData(
             parameter: jsonEncode(parameter), categoryId: yarnid)
@@ -144,10 +144,17 @@ class _EditYarnState extends State<EditYarn> {
                 leading: IconButton(
                     splashRadius: 20,
                     onPressed: () {
-                      editedt == true
-                          ? showdialogboxalert(
-                              context, "Do you want to exit without Updating?")
-                          : Get.back();
+                      if(
+                      nameController.text.isNotEmpty&&
+                          denierController.text.isNotEmpty&&
+                          yarnRateController.text.isNotEmpty){
+                        editedt == true
+                            ? showdialogboxalert(
+                            context, "Do you want to exit without Updating?")
+                            : Get.back();}else{
+                        showdialogboxalert(
+                            context, "Do you want to exit without Updating?");
+                      }
                     },
                     tooltip: "Back",
                     icon: Icon(Icons.arrow_back_rounded)),
@@ -266,7 +273,9 @@ class _EditYarnState extends State<EditYarn> {
                                                               .textScaleFactor *
                                                           13)),
                                               onChanged: (value) {
-                                                editedt = true;
+                                                setState(() {
+                                                  editedt = true;
+                                                });
                                                 CategoryidController.text =
                                                     value.toString();
                                               },

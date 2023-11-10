@@ -32,7 +32,7 @@ final BorderRadius homeCardRadius = BorderRadius.all(Radius.circular(8));
 final BorderRadius categoryCardRadius = BorderRadius.all(Radius.circular(8));
 final BorderRadius defaultCardRadius = BorderRadius.all(Radius.circular(8));
 
-showdialogboxalert(BuildContext context,String textfor) {
+showdialogboxalert(BuildContext context, String textfor) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -49,10 +49,10 @@ showdialogboxalert(BuildContext context,String textfor) {
           ),
           actions: <Widget>[
             ElevatedButton(
-                style: TextButton.styleFrom(
-                    elevation: 5,
-                    foregroundColor: Colors.grey,
-                    backgroundColor: Colors.white70),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                      (states) => Colors.white70),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
@@ -64,10 +64,10 @@ showdialogboxalert(BuildContext context,String textfor) {
               width: 0,
             ),
             ElevatedButton(
-                style: TextButton.styleFrom(
-                    elevation: 5,
-                    foregroundColor: Colors.grey,
-                    backgroundColor: Colors.white70),
+                  style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith(
+        (states) => Colors.white70),
+        ),
                 onPressed: () {
                   Get.back();
                   Get.back();

@@ -8,7 +8,7 @@ class YarnListController extends GetxController {
 
   Future<void> fetchDataFromAPI(
       {required String key,
-        bool atoz = false,
+      bool atoz = false,
       String price = "",
       String date = "",
       String category = ""}) async {
@@ -16,15 +16,18 @@ class YarnListController extends GetxController {
 
     if (key.isNotEmpty) {
       params += "&search=" + key;
-    } else if (price.isNotEmpty) {
+    }
+    if (price.isNotEmpty) {
       params += "&priceSort=" + price;
-    } else if (date.isNotEmpty) {
+    }
+    if (date.isNotEmpty) {
       params += "&dateSort=" + date;
-    } else if (category.isNotEmpty) {
-      params += "&category=" + category;
-    } else if (atoz == true){
+    }
+    if (category.isNotEmpty) {
+      if (category != "[]") params += "&category=" + category;
+    }
+    if (atoz == true) {
       params += "&atoz=asc";
-
     }
 
     await yarnIndexData(keyword: params).then((value) {

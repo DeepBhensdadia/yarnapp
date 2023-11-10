@@ -4,7 +4,7 @@ import 'package:yarn_modified/model/getfebricslistmodel.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 
 class FebricListControllers extends GetxController {
-  late GetFebricsModel febriclist;
+  List<FabricCostList> febriclist = <FabricCostList>[];
   bool febriclistbool = false;
   getfebrics(
       {String key = "",
@@ -28,7 +28,7 @@ class FebricListControllers extends GetxController {
     // Get.context!.loaderOverlay.show();
     febriclistbool = false;
     await febricindexlist(para: params).then((value) {
-      febriclist = value;
+      febriclist = value.fabricCostList ?? [];
       febriclistbool = true;
       update();
       // Get.context!.loaderOverlay.hide();

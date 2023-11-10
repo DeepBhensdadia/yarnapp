@@ -52,13 +52,15 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
     feb.wrapModel.asMap().forEach((index, element) {
       element.controller.text =
           widget.general?.warplist?[index].ends.toString() ?? "";
-      element.selectedYarnID = widget.general?.warplist?[index].yarnId ?? 0;
+      element.selectedYarnID.value =
+          widget.general?.warplist?[index].yarnId ?? 0;
     });
     feb.currenttab = widget.general?.weftlist?.first.isAdvance ?? 0;
     feb.weftModel.asMap().forEach((index, element) {
       element.ppiController.text =
           widget.general?.weftlist?[index].ppi.toString() ?? "";
-      element.selectedYarnID = widget.general?.weftlist?[index].yarnId ?? 0;
+      element.selectedYarnID.value =
+          widget.general?.weftlist?[index].yarnId ?? 0;
       if (widget.general?.weftlist?[index].isAdvance == 1)
         element.repeatController.text =
             widget.general?.weftlist?[index].repeat.toString() ?? "";
@@ -104,13 +106,15 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CommonTextFormField(
-                            read: true,
+                              read: true,
                               onchange: (p0) {
-                               p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
-                                  return "enter Febric name";
+                                  return "Enter Febric name";
                                 }
                                 return null;
                               },
@@ -132,7 +136,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                   color: MyTheme.appBarColor),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Container(
                             // color: Colors.red.withOpacity(0.2),
                             height: 40,
@@ -158,6 +164,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                   decoration: InputDecoration(
                                     enabled: true,
                                     isDense: true,
+                                    counterStyle: TextStyle(color: Colors.red),
                                     disabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
                                           color: Colors.black.withOpacity(0.5),
@@ -182,7 +189,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                         FloatingLabelAlignment.center,
                                   ),
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.black45,
                                     fontSize:
                                         MediaQuery.of(context).textScaleFactor *
                                             13.5,
@@ -211,7 +218,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                   color: MyTheme.appBarColor),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Container(
                             height: 40,
                             child: Theme(
@@ -260,7 +269,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                         FloatingLabelAlignment.center,
                                   ),
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.black45,
                                     fontSize:
                                         MediaQuery.of(context).textScaleFactor *
                                             13.5,
@@ -281,50 +290,56 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
-                                  return "enter width in inch";
+                                  return "Enter width in inch";
                                 }
                                 return null;
                               },
                               controller: feb.widthInInchController,
-                              labelText: 'Select Fabric Width in Inch',
+                              labelText: 'Enter Fabric Width in Inch',
                               keyboardType: TextInputType.number,
-                              hintText: 'Select Fabric Width in Inch',
+                              hintText: 'Enter Fabric Width in Inch',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
-                                  return "enter cost of final ppi";
+                                  return "Enter cost of per ppi";
                                 }
                                 return null;
                               },
                               controller: feb.costPerFinalController,
-                              labelText: 'Enter Cost of Final PPI',
+                              labelText: 'Enter Cost of Per PPI',
                               keyboardType: TextInputType.number,
-                              hintText: 'Enter Cost of Final PPI',
+                              hintText: 'Enter Cost of Per PPI',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter wrap wesrage % onn warap amount";
-                                }
-                                return null;
-                              },
+                              // validatorfield: (p0) {
+                              //   if (p0!.isEmpty) {
+                              //     return "Enter wrap wesrage % onn warap amount";
+                              //   }
+                              //   return null;
+                              // },
                               controller: feb.warpAmountController,
                               labelText:
                                   'Enter Warp Wastage in % on Warp Amount',
@@ -337,14 +352,16 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter weft wastage in % on weft amount";
-                                }
-                                return null;
-                              },
+                              // validatorfield: (p0) {
+                              //   if (p0!.isEmpty) {
+                              //     return "Enter weft wastage in % on weft amount";
+                              //   }
+                              //   return null;
+                              // },
                               controller: feb.weftAmountController,
                               labelText:
                                   'Enter Weft Wastage in % on Weft Amount',
@@ -357,14 +374,16 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter butta cutting cost pr meter";
-                                }
-                                return null;
-                              },
+                              // validatorfield: (p0) {
+                              //   if (p0!.isEmpty) {
+                              //     return "Enter butta cutting cost pr meter";
+                              //   }
+                              //   return null;
+                              // },
                               controller: feb.buttaCuttingController,
                               labelText: 'Enter Butta Cutting cost Per Metre',
                               keyboardType: TextInputType.number,
@@ -375,14 +394,16 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
+                                p0.isNotEmpty
+                                    ? feb.editedt = true
+                                    : feb.editedt = false;
                               },
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter any addittional cost per meter";
-                                }
-                                return null;
-                              },
+                              // validatorfield: (p0) {
+                              //   if (p0!.isEmpty) {
+                              //     return "enter any addittional cost per meter";
+                              //   }
+                              //   return null;
+                              // },
                               controller: feb.additionalCostController,
                               labelText: 'Enter Any Additional cost Per Metre',
                               keyboardType: TextInputType.number,
@@ -480,29 +501,29 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                                                 .toList(),
                                           ),
                                         ),
-                                        Tooltip(
-                                          message: "Add Fabric Category",
-                                          textStyle:
-                                              TextStyle(color: Colors.black),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: IconButton(
-                                            iconSize: 20,
-                                            color: Colors.grey,
-                                            padding: EdgeInsets.zero,
-                                            splashRadius: 20,
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          AddFabricCategory()));
-                                            },
-                                            icon: Icon(Icons.add_rounded),
-                                          ),
-                                        ),
+                                        // Tooltip(
+                                        //   message: "Add Fabric Category",
+                                        //   textStyle:
+                                        //       TextStyle(color: Colors.black),
+                                        //   decoration: BoxDecoration(
+                                        //       color: Colors.white,
+                                        //       borderRadius:
+                                        //           BorderRadius.circular(5)),
+                                        //   child: IconButton(
+                                        //     iconSize: 20,
+                                        //     color: Colors.grey,
+                                        //     padding: EdgeInsets.zero,
+                                        //     splashRadius: 20,
+                                        //     onPressed: () {
+                                        //       Navigator.push(
+                                        //           context,
+                                        //           MaterialPageRoute(
+                                        //               builder: (context) =>
+                                        //                   AddFabricCategory()));
+                                        //     },
+                                        //     icon: Icon(Icons.add_rounded),
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
                                   ),

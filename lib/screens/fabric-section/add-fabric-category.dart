@@ -30,7 +30,7 @@ class _AddFabricCategoryState extends State<AddFabricCategory> {
 
     Map<String, dynamic> parameter = {
       "fabric_category": categoryName,
-      "user_id": "1"
+      "user_id": "${saveUser()?.id}"
     };
     await addFabricCategoryData(parameter: parameter).then((value) {
       if (value.success != false) {
@@ -146,7 +146,7 @@ class _AddFabricCategoryState extends State<AddFabricCategory> {
                                 },
                                 validatorfield: (value) {
                                   if (value!.isEmpty) {
-                                    return "enter Fabric Category";
+                                    return "Enter Fabric Category";
                                   }
                                   return null;
                                 },

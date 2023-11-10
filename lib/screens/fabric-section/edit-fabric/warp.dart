@@ -8,8 +8,8 @@ import '../../../widgets/common_fields.dart';
 
 class EditWarpCategory extends StatefulWidget {
   final PageController page;
-final GetResultModel? general;
-  const EditWarpCategory({super.key, required this.page,  this.general});
+  final GetResultModel? general;
+  const EditWarpCategory({super.key, required this.page, this.general});
 
   @override
   State<EditWarpCategory> createState() => _EditWarpCategoryState();
@@ -49,88 +49,96 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                     .asMap()
                     .entries
                     .map((element) => Card(
-                  key: element.value.key,
-                  elevation: 2.5,
-                  color: Colors.white,
-                  margin: EdgeInsets.only(bottom: 20),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: defaultCardRadius),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 35,
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.1),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "WARP - ${element.key + 1}",
-                              style: TextStyle(color: Colors.black),
+                          key: element.value.key,
+                          elevation: 2.5,
+                          color: Colors.white,
+                          margin: EdgeInsets.only(bottom: 20),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: defaultCardRadius),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.1),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "WARP - ${element.key + 1}",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 25),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
+                                  child: Column(
+                                    children: [
+                                      Obx(() => CustomDropdownyarn(
+                                            // key: UniqueKey(),
+                                            initialValue: element
+                                                .value.selectedYarnID.value,
+                                            // initialValue: widget
+                                            //     .general
+                                            //     ?.weftlist?[element.key]
+                                            //     .yarnId,
+                                            hint: "--Select Yarn--",
+                                            yarn: feb.yarnData,
+                                            onSelection: (val) {
+                                              feb.editedt = true;
+                                              element.value.selectedYarnID
+                                                  .value = val!;
+                                            },
+                                          )),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      CommonDecimalTextField(
+                                          onchange: (p0) {
+                                            p0.isNotEmpty
+                                                ? feb.editedt = true
+                                                : feb.editedt = false;
+                                          },
+                                          validatorfield: (p0) {
+                                            if (p0!.isEmpty) {
+                                              return "Enter ends(taar)";
+                                            } else if (p0 == "0") {
+                                              return "Ends(taar) is greater than 0";
+                                            }
+                                            return null;
+                                          },
+                                          controller: element.value.controller,
+                                          labelText: 'Enter Ends (Taar)',
+                                          keyboardType: TextInputType.number,
+                                          hintText: 'Enter Ends (Taar)',
+                                          InputAction: TextInputAction.next),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        SizedBox(height: 25),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15),
-                          child: Column(
-                            children: [
-                              CustomDropdownyarn(
-                                initialValue: widget.general?.warplist?[element.key].yarnId ?? 0,
-                                hint: "--Select Yarn--",
-                                yarn: feb.yarnData,
-                                onSelection: (val) {
-                                  setState(() {
-                                      feb.editedt = true;
-                                    element.value.selectedYarnID = val!;
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              CommonDecimalTextField(
-                                  onchange: (p0) {
-                                    p0.isNotEmpty ? feb.editedt = true: feb.editedt = false;
-                                  },
-                                  validatorfield: (p0) {
-                                    if (p0!.isEmpty) {
-                                      return "enter ends(taar)";
-                                    }
-                                    return null;
-                                  },
-                                  controller: element.value.controller,
-                                  labelText: 'Enter Ends (Taar)',
-                                  keyboardType: TextInputType.number,
-                                  hintText: 'Enter Ends (Taar)',
-                                  InputAction: TextInputAction.next),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ))
+                        ))
                     .toList(),
               ),
               Center(
                 child: Container(
                   padding:
-                  EdgeInsets.only(left: 5, right: 5, top: 25, bottom: 50),
+                      EdgeInsets.only(left: 5, right: 5, top: 25, bottom: 50),
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           Get.find<FebricEditController>().isWeftDone = true;
                           // feb.changedData();
-                          widget.page.jumpToPage(
-                              2);
+                          widget.page.jumpToPage(2);
                         }
                       },
                       style: ButtonStyle(
@@ -139,7 +147,7 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                                   borderRadius: BorderRadius.circular(8))),
                           elevation: MaterialStateProperty.all(0),
                           backgroundColor:
-                          MaterialStateProperty.all(Colors.blueAccent)),
+                              MaterialStateProperty.all(Colors.blueAccent)),
                       child: Text('NEXT')),
                 ),
               ),

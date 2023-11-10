@@ -39,7 +39,7 @@ class _EditYarnCategoryState extends State<EditYarnCategory> {
 
     Map<String, dynamic> parameter = {
       "yarn_category": yarn_category,
-      "user_id": "1"
+      "user_id": "${saveUser()?.id}"
     };
     await editYarnCategoryData(
             parameter: jsonEncode(parameter), categoryId: categoryid)
@@ -122,9 +122,13 @@ class _EditYarnCategoryState extends State<EditYarnCategory> {
                     tooltip: "Back",
                     splashRadius: 20,
                     onPressed: () {
-                      editedt == true
-                          ? showdialogboxalert(context,"Do you want to exit without Updating?")
-                          : Get.back();
+                      nameController.text.isNotEmpty
+                          ? editedt == true
+                              ? showdialogboxalert(context,
+                                  "Do you want to exit without Updating?")
+                              : Get.back()
+                          : showdialogboxalert(
+                              context, "Do you want to exit without Updating?");
                     },
                     icon: Icon(Icons.arrow_back_rounded)),
               ),

@@ -6,7 +6,11 @@ import 'package:yarn_modified/model/get-yarn-index-model.dart';
 
 //==========================Yarn Dropdown=============================
 
-class CustomDropdownyarn extends StatefulWidget {
+class CustomDropdownyarn extends StatelessWidget {
+  final String? Function(int?)? validing;
+
+  final dynamic nonf;
+
   const CustomDropdownyarn({
     Key? key,
     required this.yarn,
@@ -14,76 +18,85 @@ class CustomDropdownyarn extends StatefulWidget {
     required this.hint,
     this.isSelectFirst = false,
     this.initialValue,
+    this.validing,  this.nonf,
   }) : super(key: key);
 
   final List<yarnIndexDatum?> yarn;
   final void Function(int?) onSelection;
   final int? initialValue;
   final bool isSelectFirst;
-  final hint;
-
-  @override
-  State<CustomDropdownyarn> createState() => _CustomDropdownyarnState();
-}
-
-class _CustomDropdownyarnState extends State<CustomDropdownyarn> {
-  int? _selectedyarn;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _selectedyarn = widget.initialValue;
-  }
+  final String hint;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Select Yarn",style: TextStyle(color: MyTheme.appBarColor,fontSize: 16,fontWeight: FontWeight.w500),),
+        Text(
+          "Select Yarn",
+          style: TextStyle(
+              color: MyTheme.appBarColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500),
+        ),
         Theme(
           data: ThemeData(
             backgroundColor: Colors.white,
             canvasColor: Colors.white,
           ),
           child: SearchChoices<int>.single(
-            padding: const EdgeInsets.only(top: 2.5,bottom: 7.5),
-
-            icon: Icon(Icons.arrow_drop_down,color: Colors.white,),
-            items: widget.yarn
+            key: nonf,
+            validator: validing,
+            padding: const EdgeInsets.only(top: 2.5, bottom: 7.5),
+            icon: Icon(
+              Icons.arrow_drop_down,
+              color: Colors.white,
+            ),
+            items: yarn
                 .map<DropdownMenuItem<int>>(
                   (element) => DropdownMenuItem<int>(
-                value: element?.id ?? 0,
-                child: Text(element?.yarnName ?? "",style: TextStyle(color: Colors.black,fontSize: 17),),
-              ),
-            )
+                    value: element?.id ?? 0,
+                    child: Text(
+                      element?.yarnName ?? "",
+                      style: TextStyle(color: Colors.black, fontSize: 17),
+                    ),
+                  ),
+                )
                 .toList(),
-            value: _selectedyarn,
-            hint: Text(widget.hint,style: TextStyle(color: Colors.grey),),
+            value: initialValue,
+            hint: Text(
+              hint,
+              style: TextStyle(color: Colors.grey),
+            ),
             onChanged: (value) {
-              setState(() {
-                _selectedyarn = value;
-                print(value);
-              });
-              widget.onSelection(value);
+              onSelection(value);
             },
-            searchHint: Text("Select Any Yarn",style: TextStyle(color: Colors.black),),
+            searchHint: Text(
+              "Select Any Yarn",
+              style: TextStyle(color: Colors.black),
+            ),
             searchInputDecoration: InputDecoration(
-              prefixIcon: Icon(Icons.search_rounded,color: Colors.black,),
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                color: Colors.black,
+              ),
               hintText: "Search...",
               hintStyle: TextStyle(color: Colors.grey),
               disabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+                borderSide: BorderSide(
+                    color: Colors.black.withOpacity(0.5), width: 0.25),
               ),
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+                borderSide: BorderSide(
+                    color: Colors.black.withOpacity(0.5), width: 0.25),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue.withOpacity(0.5),width: 1),
+                borderSide:
+                    BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
               ),
               border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 1),
+                borderSide:
+                    BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
               ),
             ),
             searchFn: (String keyword, List<DropdownMenuItem> items) {
@@ -94,7 +107,8 @@ class _CustomDropdownyarnState extends State<CustomDropdownyarn> {
                   for (DropdownMenuItem item in items) {
                     if (!filterdata.contains(i) &&
                         k.isNotEmpty &&
-                        ((item.child as Text).data
+                        ((item.child as Text)
+                            .data
                             .toString()
                             .toLowerCase()
                             .contains(k.toLowerCase()))) {
@@ -111,11 +125,11 @@ class _CustomDropdownyarnState extends State<CustomDropdownyarn> {
             },
             searchResultDisplayFn: (
                 {required displayItem,
-                  required emptyListWidget,
-                  required itemTapped,
-                  required itemsToDisplay,
-                  required scrollController,
-                  required thumbVisibility}) {
+                required emptyListWidget,
+                required itemTapped,
+                required itemsToDisplay,
+                required scrollController,
+                required thumbVisibility}) {
               return Expanded(
                 child: Scrollbar(
                   controller: scrollController,
@@ -123,27 +137,27 @@ class _CustomDropdownyarnState extends State<CustomDropdownyarn> {
                   child: itemsToDisplay.isEmpty
                       ? emptyListWidget
                       : ListView.builder(
-                    controller: scrollController,
-                    itemBuilder: (context, index) {
-                      int itemIndex = itemsToDisplay[index].item1;
-                      DropdownMenuItem item = itemsToDisplay[index].item2;
-                      bool isItemSelected = itemsToDisplay[index].item3;
-                      return InkWell(
-                        onTap: () {
-                          itemTapped(
-                            itemIndex,
-                            item.value,
-                            isItemSelected,
-                          );
-                        },
-                        child: displayItem(
-                          item,
-                          isItemSelected,
+                          controller: scrollController,
+                          itemBuilder: (context, index) {
+                            int itemIndex = itemsToDisplay[index].item1;
+                            DropdownMenuItem item = itemsToDisplay[index].item2;
+                            bool isItemSelected = itemsToDisplay[index].item3;
+                            return InkWell(
+                              onTap: () {
+                                itemTapped(
+                                  itemIndex,
+                                  item.value,
+                                  isItemSelected,
+                                );
+                              },
+                              child: displayItem(
+                                item,
+                                isItemSelected,
+                              ),
+                            );
+                          },
+                          itemCount: itemsToDisplay.length,
                         ),
-                      );
-                    },
-                    itemCount: itemsToDisplay.length,
-                  ),
                 ),
               );
             },
@@ -176,10 +190,12 @@ class CustomCategoryDropdownyarn extends StatefulWidget {
   final hint;
 
   @override
-  State<CustomCategoryDropdownyarn> createState() => _CustomCategoryDropdownyarnState();
+  State<CustomCategoryDropdownyarn> createState() =>
+      _CustomCategoryDropdownyarnState();
 }
 
-class _CustomCategoryDropdownyarnState extends State<CustomCategoryDropdownyarn> {
+class _CustomCategoryDropdownyarnState
+    extends State<CustomCategoryDropdownyarn> {
   int? _selectedyarnCategory;
 
   @override
@@ -193,25 +209,37 @@ class _CustomCategoryDropdownyarnState extends State<CustomCategoryDropdownyarn>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Select Yarn",style: TextStyle(color: MyTheme.appBarColor,fontSize: 16,fontWeight: FontWeight.w500),),
+        Text(
+          "Select Yarn",
+          style: TextStyle(
+              color: MyTheme.appBarColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500),
+        ),
         Theme(
           data: ThemeData(
             backgroundColor: Colors.white,
             canvasColor: Colors.white,
           ),
           child: SearchChoices<int>.single(
-            padding: const EdgeInsets.only(top: 2.5,bottom: 7.5),
-            icon: Icon(Icons.arrow_drop_down,color: Colors.grey,),
+            padding: const EdgeInsets.only(top: 2.5, bottom: 7.5),
+            icon: Icon(
+              Icons.arrow_drop_down,
+              color: Colors.grey,
+            ),
             items: widget.yarn
                 .map<DropdownMenuItem<int>>(
                   (element) => DropdownMenuItem<int>(
-                value: element?.id ?? 0,
-                child: Text(element?.yarnCategory ?? ""),
-              ),
-            )
+                    value: element?.id ?? 0,
+                    child: Text(element?.yarnCategory ?? ""),
+                  ),
+                )
                 .toList(),
             value: _selectedyarnCategory,
-            hint: Text(widget.hint,style: TextStyle(color: Colors.grey),),
+            hint: Text(
+              widget.hint,
+              style: TextStyle(color: Colors.grey),
+            ),
             onChanged: (value) {
               setState(() {
                 _selectedyarnCategory = value;
@@ -219,22 +247,32 @@ class _CustomCategoryDropdownyarnState extends State<CustomCategoryDropdownyarn>
               });
               widget.onSelection(value);
             },
-            searchHint: Text("Select Any Yarn",style: TextStyle(color: Colors.black),),
+            searchHint: Text(
+              "Select Any Yarn",
+              style: TextStyle(color: Colors.black),
+            ),
             searchInputDecoration: InputDecoration(
-              prefixIcon: Icon(Icons.search_rounded,color: Colors.black,),
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                color: Colors.black,
+              ),
               hintText: "Search...",
               hintStyle: TextStyle(color: Colors.grey),
               disabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+                borderSide: BorderSide(
+                    color: Colors.black.withOpacity(0.5), width: 0.25),
               ),
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 0.25),
+                borderSide: BorderSide(
+                    color: Colors.black.withOpacity(0.5), width: 0.25),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue.withOpacity(0.5),width: 1),
+                borderSide:
+                    BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
               ),
               border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.5),width: 1),
+                borderSide:
+                    BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
               ),
             ),
             searchFn: (String keyword, List<DropdownMenuItem> items) {
@@ -245,7 +283,8 @@ class _CustomCategoryDropdownyarnState extends State<CustomCategoryDropdownyarn>
                   for (DropdownMenuItem item in items) {
                     if (!filterdata.contains(i) &&
                         k.isNotEmpty &&
-                        ((item.child as Text).data
+                        ((item.child as Text)
+                            .data
                             .toString()
                             .toLowerCase()
                             .contains(k.toLowerCase()))) {
@@ -262,11 +301,11 @@ class _CustomCategoryDropdownyarnState extends State<CustomCategoryDropdownyarn>
             },
             searchResultDisplayFn: (
                 {required displayItem,
-                  required emptyListWidget,
-                  required itemTapped,
-                  required itemsToDisplay,
-                  required scrollController,
-                  required thumbVisibility}) {
+                required emptyListWidget,
+                required itemTapped,
+                required itemsToDisplay,
+                required scrollController,
+                required thumbVisibility}) {
               return Expanded(
                 child: Scrollbar(
                   controller: scrollController,
@@ -274,27 +313,27 @@ class _CustomCategoryDropdownyarnState extends State<CustomCategoryDropdownyarn>
                   child: itemsToDisplay.isEmpty
                       ? emptyListWidget
                       : ListView.builder(
-                    controller: scrollController,
-                    itemBuilder: (context, index) {
-                      int itemIndex = itemsToDisplay[index].item1;
-                      DropdownMenuItem item = itemsToDisplay[index].item2;
-                      bool isItemSelected = itemsToDisplay[index].item3;
-                      return InkWell(
-                        onTap: () {
-                          itemTapped(
-                            itemIndex,
-                            item.value,
-                            isItemSelected,
-                          );
-                        },
-                        child: displayItem(
-                          item,
-                          isItemSelected,
+                          controller: scrollController,
+                          itemBuilder: (context, index) {
+                            int itemIndex = itemsToDisplay[index].item1;
+                            DropdownMenuItem item = itemsToDisplay[index].item2;
+                            bool isItemSelected = itemsToDisplay[index].item3;
+                            return InkWell(
+                              onTap: () {
+                                itemTapped(
+                                  itemIndex,
+                                  item.value,
+                                  isItemSelected,
+                                );
+                              },
+                              child: displayItem(
+                                item,
+                                isItemSelected,
+                              ),
+                            );
+                          },
+                          itemCount: itemsToDisplay.length,
                         ),
-                      );
-                    },
-                    itemCount: itemsToDisplay.length,
-                  ),
                 ),
               );
             },

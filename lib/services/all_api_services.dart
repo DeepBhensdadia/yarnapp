@@ -4,8 +4,11 @@ import 'package:http/http.dart' as http;
 import 'package:yarn_modified/model/addfebricresponsemodel.dart';
 import 'package:yarn_modified/model/get-fabric-category-model.dart';
 import 'package:yarn_modified/model/getfebricslistmodel.dart';
+import 'package:yarn_modified/model/getloginmodel.dart';
+import 'package:yarn_modified/model/getregisterresponsemodel.dart';
 import 'package:yarn_modified/model/getresultmodelresponse.dart';
 import 'package:yarn_modified/services/app_url.dart';
+import 'package:yarn_modified/shared_pref/shared_pref.dart';
 import '../model/create-fabric-category-model.dart';
 import '../model/create-yarn-category-model.dart';
 import '../model/create-yarn-index-model.dart';
@@ -18,38 +21,57 @@ import '../model/get-yarn-index-model.dart';
 
 var commonHeaders = {'Content-Type': 'application/json'};
 
+Getloginresponse? saveUser() {
+  Getloginresponse? saveuser = SharedPref.get(prefKey: PrefKey.loginDetails) !=
+          null
+      ? getloginresponseFromJson(SharedPref.get(prefKey: PrefKey.loginDetails)!)
+      : null;
+  return saveuser;
+}
+
 Future<YarnCategoryModel> yarnCategoryData() async {
-  var url = Uri.parse(URLs.Base_url + "yarnCategory?user_id=1");
+  var url = Uri.parse(URLs.Base_url + "yarnCategory?user_id=${saveUser()?.id}");
   var response = await http.get(url);
   // print('Response Body: ${response.body}');
   return yarnCategoryModelFromJson(response.body);
 }
 
 Future<GetFebricsModel> febricindexlist({required String para}) async {
-  var url = Uri.parse(URLs.Base_url + "getFabricCost?user_id=1$para");
+  var url =
+      Uri.parse(URLs.Base_url + "getFabricCost?user_id=${saveUser()?.id}$para");
   var response = await http.get(url);
   print('Response Body: ${response.body}');
   return getFebricsModelFromJson(response.body);
 }
 
 Future<FabricCategoryModel> fabricCategoryData() async {
-  var url = Uri.parse(URLs.Base_url + "fabricCategory?user_id=1");
+  var url =
+      Uri.parse(URLs.Base_url + "fabricCategory?user_id=${saveUser()?.id}");
   var response = await http.get(url);
   // print('Response Body: ${response.body}');
   return fabricCategoryModelFromJson(response.body);
 }
 
 Future<YarnIndexModel> yarnIndexData({required String keyword}) async {
-  var url = Uri.parse(URLs.Base_url + "yarmsrc?user_id=1$keyword");
+  var url =
+      Uri.parse(URLs.Base_url + "yarmsrc?user_id=${saveUser()?.id}$keyword");
   var response = await http.get(url);
   // print('Response Body: ${response.body}');
   return yarnIndexModelFromJson(response.body);
 }
 
+Future<Getloginresponse> getlogindetails({required String keyword}) async {
+  var url = Uri.parse(URLs.Base_url + "userlogin?mobile_number=${keyword}");
+  var response = await http.post(url);
+  // print('Response Body: ${response.body}');
+  return getloginresponseFromJson(response.body);
+}
+
 // ===========================GetxCode============================
 
 Future<GetResultModel> getResultapi({required String id}) async {
-  var url = Uri.parse(URLs.Base_url + "getresult/$id");
+  var url =
+      Uri.parse(URLs.Base_url + "getresult/$id?user_id=${saveUser()?.id}");
   var response = await http.get(url);
   print('Response Body: ${response.body}');
   return getResultModelFromJson(response.body);
@@ -62,6 +84,26 @@ Future<AddfebricresponseModel> addfebricdetails({required var parameter}) {
       .then((http.Response response) {
     debugPrint(json.encode(response.body));
     return addfebricresponseModelFromJson(response.body);
+  });
+}
+
+Future<EditModel> febricvalidation({required var parameter}) {
+  String url = '${URLs.Base_url}validationFabricDetails';
+  return http
+      .post(Uri.parse(url), body: parameter, headers: commonHeaders)
+      .then((http.Response response) {
+    debugPrint(json.encode(response.body));
+    return editModelFromJson(response.body);
+  });
+}
+
+Future<Getregistrationresponse> Registration({required var parameter}) {
+  String url = '${URLs.Base_url}userRegistration';
+  return http
+      .post(Uri.parse(url), body: parameter, headers: commonHeaders)
+      .then((http.Response response) {
+    debugPrint(json.encode(response.body));
+    return getregistrationresponseFromJson(response.body);
   });
 }
 
@@ -147,6 +189,14 @@ Future<DeletionModel> deleteFabricCategoryData(
 
 Future<DeletionModel> deleteYarnIndexData({required String categoryId}) async {
   var url = Uri.parse(URLs.Base_url + "yarnDestroy/$categoryId");
+  print(url);
+  var response = await http.delete(url);
+  print('Response Body: ${response.body}');
+  return deletionModelFromJson(response.body);
+}
+
+Future<DeletionModel> deleteFabricData({required String categoryId}) async {
+  var url = Uri.parse(URLs.Base_url + "fabricCostDelete/$categoryId");
   print(url);
   var response = await http.delete(url);
   print('Response Body: ${response.body}');

@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
 import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric-category.dart';
 import 'package:yarn_modified/getxcontrollers/febricaddcontroller.dart';
+import 'package:yarn_modified/services/all_api_services.dart';
 import '../../../const/const.dart';
 import '../../../const/themes.dart';
 import '../../../widgets/common_fields.dart';
@@ -68,6 +72,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CommonTextFormField(
+                              read: feb.isWrapDone,
                               onchange: (p0) {
                                 p0.isNotEmpty
                                     ? feb.editedt = true
@@ -75,7 +80,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
-                                  return "enter Febric name";
+                                  return "Enter Fabric Name";
                                 }
                                 return null;
                               },
@@ -101,7 +106,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             height: 10,
                           ),
                           Container(
-                            height: 40,
+                            // height: 40,
                             child: Theme(
                               data: ThemeData(
                                   canvasColor: Colors.white,
@@ -112,6 +117,12 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                               child: AbsorbPointer(
                                 absorbing: feb.isWrapDone,
                                 child: DropdownButtonFormField<String>(
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return "Select Number of Warp Yarn";
+                                    }
+                                    return null;
+                                  },
                                   onChanged: (value) {
                                     feb.editedt = true;
 
@@ -120,7 +131,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                   },
                                   icon: Icon(
                                     Icons.arrow_drop_down,
-                                    color: Colors.transparent,
+                                    color: Colors.grey,
                                   ),
                                   decoration: InputDecoration(
                                     enabled: true,
@@ -149,7 +160,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                         FloatingLabelAlignment.center,
                                   ),
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: !feb.isWrapDone ?  Colors.black: Colors.grey,
                                     fontSize:
                                         MediaQuery.of(context).textScaleFactor *
                                             13.5,
@@ -180,7 +191,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                             height: 10,
                           ),
                           Container(
-                            height: 40,
+                            // height: 40,
                             child: Theme(
                               data: ThemeData(
                                   canvasColor: Colors.white,
@@ -191,6 +202,12 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                               child: AbsorbPointer(
                                 absorbing: feb.isWrapDone,
                                 child: DropdownButtonFormField<String>(
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return "Select Number of Weft Yarn";
+                                    }
+                                    return null;
+                                  },
                                   onChanged: (value) {
                                     feb.editedt = true;
                                     feb.numberOfWeftYarnController.text =
@@ -198,7 +215,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                   },
                                   icon: Icon(
                                     Icons.arrow_drop_down,
-                                    color: Colors.transparent,
+                                    color: Colors.grey,
                                   ),
                                   decoration: InputDecoration(
                                     // enabled: false,
@@ -227,7 +244,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                         FloatingLabelAlignment.center,
                                   ),
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: !feb.isWrapDone ?  Colors.black: Colors.grey,
                                     fontSize:
                                         MediaQuery.of(context).textScaleFactor *
                                             13.5,
@@ -252,14 +269,14 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
-                                  return "enter width in inch";
+                                  return "Enter Width in Inch";
                                 }
                                 return null;
                               },
                               controller: feb.widthInInchController,
-                              labelText: 'Select Fabric Width in Inch',
+                              labelText: 'Enter Fabric Width in Inch',
                               keyboardType: TextInputType.number,
-                              hintText: 'Select Fabric Width in Inch',
+                              hintText: 'Enter Fabric Width in Inch',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,
@@ -272,14 +289,14 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
-                                  return "enter cost of final ppi";
+                                  return "Enter Cost of per PPI";
                                 }
                                 return null;
                               },
                               controller: feb.costPerFinalController,
-                              labelText: 'Enter Cost of Final PPI',
+                              labelText: 'Enter Cost of Per PPI',
                               keyboardType: TextInputType.number,
-                              hintText: 'Enter Cost of Final PPI',
+                              hintText: 'Enter Cost of Per PPI',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,
@@ -290,12 +307,12 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                     ? feb.editedt = true
                                     : feb.editedt = false;
                               },
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter wrap wesrage % onn warap amount";
-                                }
-                                return null;
-                              },
+                              // validatorfield: (p0) {
+                              //   if (p0!.isEmpty) {
+                              //     return "Enter wrap wesrage % onn warap amount";
+                              //   }
+                              //   return null;
+                              // },
                               controller: feb.warpAmountController,
                               labelText:
                                   'Enter Warp Wastage in % on Warp Amount',
@@ -312,12 +329,12 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                     ? feb.editedt = true
                                     : feb.editedt = false;
                               },
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter weft wastage in % on weft amount";
-                                }
-                                return null;
-                              },
+                              // validatorfield: (p0) {
+                              //   if (p0!.isEmpty) {
+                              //     return "Enter weft wastage in % on weft amount";
+                              //   }
+                              //   return null;
+                              // },
                               controller: feb.weftAmountController,
                               labelText:
                                   'Enter Weft Wastage in % on Weft Amount',
@@ -334,17 +351,17 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                     ? feb.editedt = true
                                     : feb.editedt = false;
                               },
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter butta cutting cost pr meter";
-                                }
-                                return null;
-                              },
+                              // validatorfield: (p0) {
+                              //   if (p0!.isEmpty) {
+                              //     return "Enter butta cutting cost pr meter";
+                              //   }
+                              //   return null;
+                              // },
                               // ontaps: () => feb.buttaCuttingController.clear(),
                               controller: feb.buttaCuttingController,
-                              labelText: 'Enter Butta Cutting cost Per Metre',
+                              labelText: 'Enter Butta Cutting Cost Per Metre',
                               keyboardType: TextInputType.number,
-                              hintText: 'Enter Butta Cutting cost Per Metre',
+                              hintText: 'Enter Butta Cutting Cost Per Metre',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,
@@ -355,17 +372,17 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                     ? feb.editedt = true
                                     : feb.editedt = false;
                               },
-                              validatorfield: (p0) {
-                                if (p0!.isEmpty) {
-                                  return "enter any addittional cost per meter";
-                                }
-                                return null;
-                              },
+                              // validatorfield: (p0) {
+                              //   if (p0!.isEmpty) {
+                              //     return "Enter any addittional cost per meter";
+                              //   }
+                              //   return null;
+                              // },
                               // ontaps: () => feb.additionalCostController.clear(),
                               controller: feb.additionalCostController,
-                              labelText: 'Enter Any Additional cost Per Metre',
+                              labelText: 'Enter Any Additional Cost Per Metre',
                               keyboardType: TextInputType.number,
-                              hintText: 'Enter Any Additional cost Per Metre',
+                              hintText: 'Enter Any Additional Cost Per Metre',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,
@@ -479,7 +496,10 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                                       builder: (context) =>
                                                           AddFabricCategory()));
                                             },
-                                            icon: Icon(Icons.add_rounded),
+                                            icon: Icon(
+                                              Icons.add_rounded,
+                                              color: Colors.grey,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -498,10 +518,34 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          Get.find<FebricAddController>().isWrapDone = true;
-                          widget.page.jumpToPage(1);
+                          if (!feb.isWrapDone) {
+                            context.loaderOverlay.show();
+                            Map<String, dynamic> params = {
+                              "fabric_name": feb.nameController.text
+                            };
+
+                            await febricvalidation(
+                                    parameter: jsonEncode(params))
+                                .then((value) {
+                              if (value.success == true) {
+                                Get.find<FebricAddController>().isWrapDone =
+                                    true;
+                                widget.page.jumpToPage(1);
+                              } else {
+                                FlutterToast.showCustomToast(
+                                    value.message ?? "");
+                              }
+                              context.loaderOverlay.hide();
+                            }).onError((error, stackTrace) {
+                              print("error..$error");
+                              context.loaderOverlay.hide();
+                            });
+                          } else {
+                            Get.find<FebricAddController>().isWrapDone = true;
+                            widget.page.jumpToPage(1);
+                          }
                         }
                       },
                       style: ButtonStyle(

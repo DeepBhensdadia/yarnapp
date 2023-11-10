@@ -31,7 +31,7 @@ class FebricEditController extends GetxController {
     wrapyarnids.clear();
     wrapyarntaar.clear();
     wrapModel.forEach((element) {
-      wrapyarnids.add(element.selectedYarnID);
+      wrapyarnids.add(element.selectedYarnID.value);
       wrapyarntaar.add(element.taar);
     });
     print("wrap yarn id ${wrapyarnids}");
@@ -44,7 +44,7 @@ class FebricEditController extends GetxController {
       wrapModel.add(
         WrapModel(
           controller: TextEditingController(),
-          selectedYarnID: 0,
+          selectedYarnID: 0.obs,
           key: UniqueKey(),
         ),
       );
@@ -67,7 +67,7 @@ class FebricEditController extends GetxController {
     weftppi.clear();
     weftrepeat.clear();
     weftModel.forEach((element) {
-      weftyarnids.add(element.selectedYarnID);
+      weftyarnids.add(element.selectedYarnID.value);
       weftppi.add(element.ppi);
       if (currenttab != 0) weftrepeat.add(element.repeat);
     });
@@ -82,7 +82,7 @@ class FebricEditController extends GetxController {
         WeftModel(
           repeatController: TextEditingController(),
           ppiController: TextEditingController(),
-          selectedYarnID: 0,
+          selectedYarnID: 0.obs,
           key: UniqueKey(),
         ),
       );
@@ -159,7 +159,7 @@ class FebricEditController extends GetxController {
       "butta_cutting_cost": buttaCuttingController.text,
       "additional_cost": additionalCostController.text,
       "fabric_category_id": fabricCategoryController.text,
-      "user_id": "10",
+      "user_id": "${saveUser()?.id}",
       "warp_id": wrapyarnupdateid,
       "weft_id": weftyarnupdateid,
       "yarn_id_warp": wrapyarnids,
@@ -173,14 +173,16 @@ class FebricEditController extends GetxController {
     }
 
     await addfebricdetails(parameter: jsonEncode(parameter)).then((value) {
-      FlutterToast.showCustomToast(value.message ?? "");
+      if (value.success != false) {
+        getresult.getresultcall(id: value.fabaricCostId.toString());
+      }
 
-      getresult.getresultcall(id: value.fabaricCostId.toString());
+      FlutterToast.showCustomToast(value.message ?? "");
       Get.context!.loaderOverlay.hide();
     }).onError((error, stackTrace) {
       Get.context!.loaderOverlay.hide();
       print(error);
-      FlutterToast.showCustomToast("The Febric Name has already been taken.");
+      FlutterToast.showCustomToast("Something Wrong..");
     });
   }
 
@@ -213,7 +215,7 @@ class WrapModel {
   });
 
   TextEditingController controller;
-  int selectedYarnID;
+  Rx<int> selectedYarnID;
   Key key;
 
   String get taar => controller.text.trim();
@@ -240,7 +242,7 @@ class WeftModel {
 
   TextEditingController repeatController;
   TextEditingController ppiController;
-  int selectedYarnID;
+  Rx<int> selectedYarnID;
   Key key;
 
   String get ppi => ppiController.text.trim();

@@ -34,7 +34,7 @@ class _AddYarnCategoryState extends State<AddYarnCategory> {
 
     Map<String, dynamic> parameter = {
       "yarn_category": categoryName,
-      "user_id": "1"
+      "user_id": "${saveUser()?.id}"
     };
     await addYarnCategoryData(parameter: parameter).then((value) {
       if (value.success != false) {
@@ -139,7 +139,7 @@ class _AddYarnCategoryState extends State<AddYarnCategory> {
                                 },
                                 validatorfield: (value) {
                                   if (value!.isEmpty) {
-                                    return "enter yarn Category";
+                                    return "Enter Yarn Category";
                                   }
                                   return null;
                                 },

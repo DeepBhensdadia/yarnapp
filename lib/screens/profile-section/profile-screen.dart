@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:yarn_modified/screens/profile-section/account-section/account.dart';
 import 'package:yarn_modified/screens/profile-section/favourite-section/favourites.dart';
 import 'package:yarn_modified/screens/profile-section/notification-section/notifications.dart';
 import 'package:yarn_modified/screens/profile-section/orders-section/my-order.dart';
 import 'package:yarn_modified/screens/profile-section/settings-section/settings.dart';
+import 'package:yarn_modified/services/all_api_services.dart';
+import 'package:yarn_modified/shared_pref/shared_pref.dart';
 import '../../const/const.dart';
 import '../../const/themes.dart';
 import '../../static_json/profile_json.dart';
@@ -18,7 +21,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   bool isLoading = false;
 
   Future<bool> _onBackButtonPressed(BuildContext context) async {
@@ -32,8 +34,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               style: TextStyle(fontSize: 20, color: Colors.black),
             ),
             content: Text(
-              "Are you sure you would like to log out of the application ?",
-              style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
+              "Are you sure you would like to log out ?",
+              style:
+                  TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
             ),
             actions: <Widget>[
               TextButton(
@@ -52,16 +55,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       foregroundColor: Colors.grey,
                       backgroundColor: Colors.white.withOpacity(0.9)),
                   onPressed: () {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    Timer(Duration(milliseconds: 2500), () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-                      FlutterToast.showCustomToast("Logout");
-                      setState(() {
-                        isLoading = false;
-                      });
-                    });
+                    SharedPref.deleteAll();
+                    Get.deleteAll(force: true);
+                    Get.offAll(LoginScreen());
                   },
                   child: Text(
                     "Yes",
@@ -87,13 +83,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.transparent,
-                      Colors.white.withOpacity(0.30),
-                      Colors.white.withOpacity(0.65),
-                      Colors.white.withOpacity(0.85)
-                    ]
-                )
-            ),
+                  Colors.transparent,
+                  Colors.white.withOpacity(0.30),
+                  Colors.white.withOpacity(0.65),
+                  Colors.white.withOpacity(0.85)
+                ])),
             child: Scaffold(
               backgroundColor: Colors.transparent,
               appBar: AppBar(
@@ -113,13 +107,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.white.withOpacity(0.20),
-                            Colors.white.withOpacity(0.15),
-                            Colors.white.withOpacity(0.025),
-                            Colors.transparent,
-                          ]
-                      )
-                  ),
+                        Colors.white.withOpacity(0.20),
+                        Colors.white.withOpacity(0.15),
+                        Colors.white.withOpacity(0.025),
+                        Colors.transparent,
+                      ])),
                 ),
               ),
               body: Padding(
@@ -128,7 +120,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: Text('Hello, Rahul.',textScaleFactor: 1.75,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                      child: Text(
+                        'Hello, ${saveUser()?.name}.',
+                        textScaleFactor: 1.75,
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     Expanded(
                       child: SingleChildScrollView(
@@ -137,70 +134,105 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Card(
                           color: Colors.white,
                           elevation: 5,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 20),
                           child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 7.5),
-                            shrinkWrap: true,
-                            itemCount: profileItems.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ListTile(
-                                leading: Icon(profileItems[index]['icon'],color: Colors.black,),
-                                title: Text(profileItems[index]['text'],style: TextStyle(color: Colors.black,),),
-                                trailing: Icon(Icons.keyboard_arrow_right_rounded,color: Colors.black,),
-                                onTap: () {
-                                  if(index == 0) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
-                                  }
-                                  else if(index == 1) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
-                                  }
-                                  else if(index == 2) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
-                                  }
-                                  else if(index == 3) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
-                                  }
-                                  else if(index == 4) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrders()));
-                                  }
-                                  else if(index == 7) {
-                                    _onBackButtonPressed(context);
-                                  }
-                                  // else if(index == 1) {
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
-                                  // }
-                                  // else if(index == 2) {
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
-                                  // }
-                                  // else if(index == 3) {
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
-                                  // }
-                                  // else if(index == 4) {
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
-                                  // }
-                                },
-                              );
-                          }),
+                              physics: NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 7.5),
+                              shrinkWrap: true,
+                              itemCount: profileItems.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListTile(
+                                  leading: Icon(
+                                    profileItems[index]['icon'],
+                                    color: Colors.black,
+                                  ),
+                                  title: Text(
+                                    profileItems[index]['text'],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.keyboard_arrow_right_rounded,
+                                    color: Colors.black,
+                                  ),
+                                  onTap: () {
+                                    if (index == 0) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SettingsScreen()));
+                                    } else if (index == 1) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyAccount()));
+                                    } else if (index == 2) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyFavourites()));
+                                    } else if (index == 3) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NotificationScreen()));
+                                    } else if (index == 4) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyOrders()));
+                                    } else if (index == 7) {
+                                      _onBackButtonPressed(context);
+                                    }
+                                    // else if(index == 1) {
+                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
+                                    // }
+                                    // else if(index == 2) {
+                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
+                                    // }
+                                    // else if(index == 3) {
+                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
+                                    // }
+                                    // else if(index == 4) {
+                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+                                    // }
+                                  },
+                                );
+                              }),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-
             ),
           ),
         ),
-        isLoading ? Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.5,),
-            CircularProgressIndicator(color: Colors.black,strokeWidth: 4,),
-          ],
-        ) : Container(),
+        isLoading
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                  ),
+                  CircularProgressIndicator(
+                    color: Colors.black,
+                    strokeWidth: 4,
+                  ),
+                ],
+              )
+            : Container(),
       ],
     );
   }
