@@ -199,7 +199,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                             return "Enter PPI";
                                                           } else if (p0 ==
                                                               "0") {
-                                                            return "ppi is greter than 0";
+                                                            return "PPI should be greater than 0";
                                                           }
                                                           return null;
                                                         },
@@ -370,7 +370,17 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                   CommonDecimalTextField(
                                                       onchange: (p0) {
                                                         setState(() {
-                                                          p0.isNotEmpty
+                                                          p0.isNotEmpty ||
+                                                                  element
+                                                                      .value
+                                                                      .ppiController
+                                                                      .text
+                                                                      .isNotEmpty ||
+                                                                  element
+                                                                          .value
+                                                                          .selectedYarnID
+                                                                          .value !=
+                                                                      0
                                                               ? isdataavilable =
                                                                   true
                                                               : isdataavilable =
@@ -386,7 +396,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                         if (p0!.isEmpty) {
                                                           return "Enter Repeat";
                                                         } else if (p0 == "0") {
-                                                          return "Repeat Is Greter Than 0";
+                                                          return "Repeat should be greater than 0";
                                                         }
                                                         return null;
                                                       },
@@ -405,7 +415,17 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                   CommonDecimalTextField(
                                                       onchange: (p0) {
                                                         setState(() {
-                                                          p0.isNotEmpty
+                                                          p0.isNotEmpty ||
+                                                                  element
+                                                                      .value
+                                                                      .repeatController
+                                                                      .text
+                                                                      .isNotEmpty ||
+                                                                  element
+                                                                          .value
+                                                                          .selectedYarnID
+                                                                          .value !=
+                                                                      0
                                                               ? isdataavilable =
                                                                   true
                                                               : isdataavilable =
@@ -417,10 +437,21 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                                 false;
                                                       },
                                                       validatorfield: (p0) {
+                                                        bool allNonZero = feb
+                                                            .weftModel
+                                                            .any((element) =>
+                                                                element
+                                                                    .ppiController
+                                                                    .text !=
+                                                                "0"|| element
+                                                                    .ppiController
+                                                                    .text !=
+                                                                    "00"  );
                                                         if (p0!.isEmpty) {
                                                           return "Enter PPI";
-                                                        } else if (p0 == "0") {
-                                                          return "ppi is greater than 0";
+                                                        } else if (allNonZero ==
+                                                            false) {
+                                                          return "At least one ppi value is greater than 0";
                                                         }
                                                         return null;
                                                       },
@@ -452,6 +483,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                       fabricbasic = true;
                                       if (_formKey.currentState!.validate()) {
                                         feb.goToResult(widget);
+                                        print("done");
                                       }
                                     },
                                     style: ButtonStyle(

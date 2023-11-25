@@ -139,8 +139,11 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   ),
 
                                   onConfirm: (value) {
+                                    yarnhbj.clear();
                                     if (value.isNotEmpty) {
-                                      yarnhbj = value;
+                                      setState(() {
+                                        yarnhbj = value;
+                                      });
                                       yarnlist.fetchDataFromAPI(
                                           key: "", category: value.toString());
                                     } else {

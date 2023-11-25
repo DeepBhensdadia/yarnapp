@@ -108,9 +108,9 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                                           },
                                           validatorfield: (p0) {
                                             if (p0!.isEmpty) {
-                                              return "Enter ends(taar)";
+                                              return "Enter Ends(taar)";
                                             } else if (p0 == "0") {
-                                              return "Ends(taar) is greater than 0";
+                                              return "Ends(taar) should be greater than 0";
                                             }
                                             return null;
                                           },

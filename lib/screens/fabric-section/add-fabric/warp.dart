@@ -132,7 +132,7 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                             if (p0!.isEmpty) {
                                               return "Enter Ends (taar)";
                                             } else if (p0 == "0") {
-                                              return "Ends(taar) is greter than 0";
+                                              return "Ends(taar) should be greater than 0";
                                             }
                                             return null;
                                           },

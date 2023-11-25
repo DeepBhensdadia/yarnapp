@@ -25,6 +25,7 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
 
   @override
   void initState() {
+    isdataavilable = true;
     edit = true;
     pageController =
         PageController(keepPage: true, initialPage: feb.currenttab);
@@ -329,7 +330,17 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                   CommonDecimalTextField(
                                                       onchange: (p0) {
                                                         setState(() {
-                                                          p0.isNotEmpty
+                                                          p0.isNotEmpty ||
+                                                                  element
+                                                                      .value
+                                                                      .ppiController
+                                                                      .text
+                                                                      .isNotEmpty ||
+                                                                  element
+                                                                          .value
+                                                                          .selectedYarnID
+                                                                          .value !=
+                                                                      0
                                                               ? isdataavilable =
                                                                   true
                                                               : isdataavilable =
@@ -363,7 +374,17 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                   CommonDecimalTextField(
                                                       onchange: (p0) {
                                                         setState(() {
-                                                          p0.isNotEmpty
+                                                          p0.isNotEmpty ||
+                                                                  element
+                                                                      .value
+                                                                      .repeatController
+                                                                      .text
+                                                                      .isNotEmpty ||
+                                                                  element
+                                                                          .value
+                                                                          .selectedYarnID
+                                                                          .value !=
+                                                                      0
                                                               ? isdataavilable =
                                                                   true
                                                               : isdataavilable =
@@ -375,8 +396,21 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                                 false;
                                                       },
                                                       validatorfield: (p0) {
+                                                        bool allNonZero = feb
+                                                            .weftModel
+                                                            .any((element) =>
+                                                        element
+                                                            .ppiController
+                                                            .text !=
+                                                            "0" || element
+                                                            .ppiController
+                                                            .text !=
+                                                            "00"  );
                                                         if (p0!.isEmpty) {
                                                           return "Enter ppi";
+                                                        }else if (allNonZero ==
+                                                            false) {
+                                                          return "At least one ppi value is greater than 0";
                                                         }
                                                         return null;
                                                       },
