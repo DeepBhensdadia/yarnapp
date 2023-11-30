@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "172783685870",
+    "project_id": "yarnapp-bdc7c",
+    "storage_bucket": "yarnapp-bdc7c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172783685870:android:785b3d72d44058d323a3ff",
+        "android_client_info": {
+          "package_name": "com.example.yarn_modified"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrUGnzwJXjkJ9fIJxEybKajJC4HhMo9Yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
