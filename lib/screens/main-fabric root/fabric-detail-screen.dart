@@ -72,13 +72,13 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                     ),
                     actions: [
                       Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
+                        padding: const EdgeInsets.only(right: 20.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "₹${widget.data.fabricCost.toString()}",
-                              textScaleFactor: 1,
+                              "${widget.data.fabricCost.toString()}",
+                              textScaleFactor: 1.2,
                               style: TextStyle(
                                   color: MyTheme.appBarTextColor,
                                   fontSize:
@@ -880,7 +880,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                   width: double.infinity,
                                                   child: Center(
                                                       child: Text(
-                                                    "ORDER DETAILS",
+                                                    "OTHER DETAILS",
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontWeight:

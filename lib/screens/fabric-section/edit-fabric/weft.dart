@@ -26,7 +26,6 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
   @override
   void initState() {
     isdataavilable = true;
-    edit = true;
     pageController =
         PageController(keepPage: true, initialPage: feb.currenttab);
     super.initState();
@@ -162,11 +161,30 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                     CommonDecimalTextField(
                                                         onchange: (p0) {
                                                           setState(() {
-                                                            p0.isNotEmpty
+                                                            p0.isNotEmpty ||
+                                                                    element.value
+                                                                            .selectedYarnID !=
+                                                                        0
                                                                 ? isdataavilable =
                                                                     true
                                                                 : isdataavilable =
                                                                     false;
+                                                          });
+                                                          feb.weftModel.forEach(
+                                                              (element) {
+                                                            if (element
+                                                                    .ppiController
+                                                                    .text
+                                                                    .isNotEmpty ||
+                                                                // element.repeatController.text.isNotEmpty ||
+                                                                element.selectedYarnID !=
+                                                                    0) {
+                                                              setState(() {
+                                                                isdataavilable =
+                                                                    true;
+                                                              });
+                                                              return; // Exit the loop early if data is found
+                                                            }
                                                           });
                                                           p0.isNotEmpty
                                                               ? feb.editedt =
@@ -212,12 +230,20 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                     onPressed: () {
                                       fabricbasic = true;
                                       if (_formKey.currentState!.validate()) {
-                                        Get.find<FebricEditController>()
-                                            .isResultDone = true;
-                                        feb.goToResult(
-                                          widget.general?.general?.id,
-                                        );
-                                        widget.page.jumpToPage(3);
+                                        bool done = feb.weftModel.every(
+                                            (element) =>
+                                                element.selectedYarnID != 0);
+                                        if (done == true) {
+                                          Get.find<FebricEditController>()
+                                              .isResultDone = true;
+                                          feb.goToResult(
+                                            widget.general?.general?.id,
+                                          );
+                                          widget.page.jumpToPage(3);
+                                        } else {
+                                          FlutterToast.showCustomToast(
+                                              "Please Select Weft Yarn");
+                                        }
                                       }
                                     },
                                     style: ButtonStyle(
@@ -346,6 +372,22 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                               : isdataavilable =
                                                                   false;
                                                         });
+                                                        feb.weftModel
+                                                            .forEach((element) {
+                                                          if (element.ppiController.text.isNotEmpty ||
+                                                              element
+                                                                  .repeatController
+                                                                  .text
+                                                                  .isNotEmpty ||
+                                                              element.selectedYarnID !=
+                                                                  0) {
+                                                            setState(() {
+                                                              isdataavilable =
+                                                                  true;
+                                                            });
+                                                            return; // Exit the loop early if data is found
+                                                          }
+                                                        });
                                                         p0.isNotEmpty
                                                             ? feb.editedt = true
                                                             : feb.editedt =
@@ -390,6 +432,22 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                               : isdataavilable =
                                                                   false;
                                                         });
+                                                        feb.weftModel
+                                                            .forEach((element) {
+                                                          if (element.ppiController.text.isNotEmpty ||
+                                                              element
+                                                                  .repeatController
+                                                                  .text
+                                                                  .isNotEmpty ||
+                                                              element.selectedYarnID !=
+                                                                  0) {
+                                                            setState(() {
+                                                              isdataavilable =
+                                                                  true;
+                                                            });
+                                                            return; // Exit the loop early if data is found
+                                                          }
+                                                        });
                                                         p0.isNotEmpty
                                                             ? feb.editedt = true
                                                             : feb.editedt =
@@ -399,18 +457,17 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                         bool allNonZero = feb
                                                             .weftModel
                                                             .any((element) =>
-                                                        element
-                                                            .ppiController
-                                                            .text !=
-                                                            "0" || element
-                                                            .ppiController
-                                                            .text !=
-                                                            "00"  );
+                                                                element.ppiController
+                                                                        .text !=
+                                                                    "0" ||
+                                                                element.ppiController
+                                                                        .text !=
+                                                                    "00");
                                                         if (p0!.isEmpty) {
                                                           return "Enter ppi";
-                                                        }else if (allNonZero ==
+                                                        } else if (allNonZero ==
                                                             false) {
-                                                          return "At least one ppi value is greater than 0";
+                                                          return "At least one PPI should be greater than 0";
                                                         }
                                                         return null;
                                                       },
@@ -441,12 +498,20 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                     onPressed: () {
                                       fabricbasic = true;
                                       if (_formKey.currentState!.validate()) {
-                                        Get.find<FebricEditController>()
-                                            .isResultDone = true;
-                                        feb.goToResult(
-                                          widget.general?.general?.id,
-                                        );
-                                        widget.page.jumpToPage(3);
+                                        bool done = feb.weftModel.every(
+                                            (element) =>
+                                                element.selectedYarnID != 0);
+                                        if (done == true) {
+                                          Get.find<FebricEditController>()
+                                              .isResultDone = true;
+                                          feb.goToResult(
+                                            widget.general?.general?.id,
+                                          );
+                                          widget.page.jumpToPage(3);
+                                        } else {
+                                          FlutterToast.showCustomToast(
+                                              "Please Select Weft Yarn");
+                                        }
 
                                         // widget.page.nextPage(duration: Duration(seconds: 1), curve: Curves.bounceIn);
                                       }
@@ -480,7 +545,7 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
   bool get wantKeepAlive => true;
 
   List<String> headername = ["Basic", "Advance"];
-  bool edit = false;
+
   Widget getHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5),
@@ -510,18 +575,18 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                               if (element.ppiController.text.isNotEmpty ||
                                   element.repeatController.text.isNotEmpty ||
                                   element.selectedYarnID != 0) {
-                                edit = true;
+                                isdataavilable = true;
                                 return; // Exit the loop early if data is found
                               }
                             } else {
                               if (element.ppiController.text.isNotEmpty ||
                                   element.selectedYarnID != 0) {
-                                edit = true;
+                                isdataavilable = true;
                                 return; // Exit the loop early if data is found
                               }
                             }
                           });
-                          if (edit == false) {
+                          if (isdataavilable == false) {
                             _formKey.currentState!.reset();
                             pageController!.jumpToPage(index);
                           }
@@ -572,7 +637,7 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                   element.repeatController.clear();
                   element.selectedYarnID.value = 0;
                 });
-                edit = false;
+
                 isdataavilable = false;
                 setState(() {});
               },

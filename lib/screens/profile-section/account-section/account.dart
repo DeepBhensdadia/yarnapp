@@ -1,11 +1,8 @@
-import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import '../../../const/const.dart';
-import '../../auth-section/forgot-password.dart';
-import '../../auth-section/login-screen.dart';
+import 'package:flutter/services.dart';
+import 'package:yarn_modified/const/themes.dart';
+import 'package:yarn_modified/services/all_api_services.dart';
+import 'package:yarn_modified/widgets/common_fields.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});
@@ -15,331 +12,323 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
+  TextEditingController nameController =
+      TextEditingController(text: saveUser()?.name);
+  TextEditingController mobileController =
+      TextEditingController(text: saveUser()?.mobileNumber);
+  TextEditingController emailController =
+      TextEditingController(text: saveUser()?.email);
+  TextEditingController businessnameController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
 
-  File? _image;
-  final _picker = ImagePicker();
-  bool isLoading = false;
-
-  Future getImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
-
-    if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      setState(() {});
-    } else {
-      print('No Image Selected');
-    }
-
-    // setState(() {
-    //   _image = pickedFile as File;
-    // });
-  }
-
-  Future<bool> _onLogoutButtonPressed(BuildContext context) async {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            title: Text(
-              "LOGOUT",
-              style: TextStyle(fontSize: 20, color: Colors.black),
-            ),
-            content: Text(
-              "Are you sure you would like to log out of the application ?",
-              style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
-            ),
-            actions: <Widget>[
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.white.withOpacity(0.9)),
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(fontSize: 15, color: Colors.black),
-                  )),
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.white.withOpacity(0.9)),
-                  onPressed: () {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    Timer(Duration(milliseconds: 2500), () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-                      FlutterToast.showCustomToast("Logout");
-                      setState(() {
-                        isLoading = false;
-                      });
-                    });
-                  },
-                  child: Text(
-                    "Yes",
-                    style: TextStyle(fontSize: 15, color: Colors.black),
-                  )),
-            ],
-          );
-        });
-    return false;
-  }
-  Future<bool> _onDeleteAccountButtonPressed(BuildContext context) async {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            title: Text(
-              "DELETE ACCOUNT",
-              style: TextStyle(fontSize: 20, color: Colors.black),
-            ),
-            content:  RichText(
-              textScaleFactor: 1.3,
-              text: TextSpan(
-                  text: 'Are you sure you want to ',
-                  style: TextStyle(
-                      color: Colors.black),
-                  children: [
-                    TextSpan(
-                      text: 'delete',
-                      style: TextStyle(
-                          color: Colors.red,
-                          decoration:
-                          TextDecoration.underline,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: ' your account ',
-                      style: TextStyle(
-                          color: Colors.black),
-                    ),
-                    TextSpan(
-                      text: 'forever.',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ]),
-            ),
-            // Text(
-            //   "Are you sure you would like to Delete Your Account ?",
-            //   style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
-            // ),
-            actions: <Widget>[
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.white.withOpacity(0.9)),
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(fontSize: 15, color: Colors.black),
-                  )),
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.red.withOpacity(0.9)),
-                  onPressed: () {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    Timer(Duration(milliseconds: 2500), () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-                      Fluttertoast.showToast(
-                          msg: "Account Deleted Successfully",
-                          fontSize: 15,
-                          backgroundColor: Colors.white,
-                          textColor: Colors.red
-                      );
-                      setState(() {
-                        isLoading = false;
-                      });
-                    });
-                  },
-                  child: Text(
-                    "Yes",
-                    style: TextStyle(fontSize: 15, color: Colors.black),
-                  )),
-            ],
-          );
-        });
-    return false;
-  }
-
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Scaffold(
-          backgroundColor: Colors.blueGrey.withOpacity(0.75),
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.white),
-            elevation: 0,
-            backgroundColor: Colors.transparent,title: Text('My Account',textScaleFactor: 1,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),centerTitle: true,),
-          body: Padding(
-            padding: const EdgeInsets.only(left: 10,right: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 20,),
-                Center(
-                  child: Container(
-                    constraints: BoxConstraints(
-                        maxWidth: 190, maxHeight: 190),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      fit: StackFit.expand,
-                      children: [
-                        Center(
+        Container(
+          height: double.maxFinite,
+          width: double.maxFinite,
+          color: MyTheme.scaffoldColor,
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                  Colors.transparent,
+                  Colors.white.withOpacity(0.30),
+                  Colors.white.withOpacity(0.65),
+                  Colors.white.withOpacity(0.85)
+                ])),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                iconTheme: IconThemeData(color: Colors.white),
+                title: Text(
+                  'Profile',
+                  textScaleFactor: 1,
+                  style: TextStyle(color: MyTheme.appBarTextColor),
+                ),
+                // centerTitle: true,
+                backgroundColor: MyTheme.appBarColor,
+                elevation: 5,
+                automaticallyImplyLeading: true,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                        Colors.white.withOpacity(0.20),
+                        Colors.white.withOpacity(0.15),
+                        Colors.white.withOpacity(0.025),
+                        Colors.transparent,
+                      ])),
+                ),
+              ),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        physics: BouncingScrollPhysics(),
+                        child: Card(
+                          color: Colors.white,
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 20),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10),
-                            child: Material(
-                                elevation: 10,
-                                shape: CircleBorder(
-                                    side: BorderSide(
-                                        width: 3, color: Colors.black)),
-                                clipBehavior: Clip.antiAlias,
-                                color: Colors.transparent,
-                                child: _image == null
-                                    ? Ink.image(
-                                  image: AssetImage(
-                                      'images/avatar.png'
+                            padding: const EdgeInsets.all(15.0),
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                children: [
+                                  CommonTextField(
+                                    validatoe: (p0) {
+                                      if (p0!.isEmpty) {
+                                        return "Enter Name";
+                                      }
+                                      return null;
+                                    },
+                                    controller: nameController,
+                                    labelText: 'Name *',
+                                    keyboardType: TextInputType.text,
+                                    hintText: 'Enter Your Full Name',
+                                    inputFormatters:
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp(r'[/\\-_]')),
                                   ),
-                                  fit: BoxFit.contain,
-                                  width: 220,
-                                  height: 220,
-                                  child: InkWell(
-                                    radius: 0,
-                                    onTap: () {},
+                                  SizedBox(height: 25),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: CommonMobileTextField(
+                                            read: true,
+                                            validator: (p0) {
+                                              if (p0!.isEmpty) {
+                                                return "Enter Mobile Number";
+                                              } else if (p0.length < 10) {
+                                                return "Enter Valid Mobile Number";
+                                              }
+                                            },
+                                            controller: mobileController,
+                                            labelText: "Mobile Number *",
+                                            hintText: "Enter Mobile Number"),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          // Get.to(chenge_phonenumber());
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(8),
+                                          // height: 23,
+                                          // width: 70,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: Colors.pink),
+                                          child: Center(
+                                            child: Text(
+                                              'Change Number.',
+                                              style: TextStyle(
+                                                  fontFamily: 'SF Pro Display',
+                                                  color: Colors.white,
+                                                  fontSize: 10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                )
-                                    : Ink.image(
-                                  image: FileImage(File(_image!.path).absolute),
-                                  fit: BoxFit.contain,
-                                  width: 220,
-                                  height: 220,
-                                  child: InkWell(
-                                    radius: 0,
-                                    onTap: () {},
+                                  SizedBox(height: 20),
+                                  CommonTextField(
+                                    controller: emailController,
+                                    labelText: 'Email',
+                                    keyboardType: TextInputType.emailAddress,
+                                    hintText: 'Enter Your Email Address',
+                                    inputFormatters:
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp(r'[/\\]')),
                                   ),
-                                )
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          right: -40,
-                          left: 70,
-                          child: Tooltip(
-                            message: 'Pick Image',
-                            child: RawMaterialButton(
-                              onPressed: () {
-                                getImage();
-                              },
-                              elevation: 2,
-                              fillColor: Colors.white,
-                              child: Icon(
-                                Icons.camera_alt_outlined,
-                                color: Colors.grey,
+                                  SizedBox(height: 20),
+                                  CommonTextField(
+                                    controller: businessnameController,
+                                    labelText: 'Business Name',
+                                    keyboardType: TextInputType.emailAddress,
+                                    hintText: 'Enter Your Email Address',
+                                    inputFormatters:
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp(r'[/\\]')),
+                                  ),
+                                  SizedBox(height: 20),
+                                  CommonTextField(
+                                    controller: locationController,
+                                    labelText: 'Location',
+                                    keyboardType: TextInputType.emailAddress,
+                                    hintText: 'Enter Your Location',
+                                    inputFormatters:
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp(r'[/\\]')),
+                                  ),
+                                  SizedBox(height: 30),
+                                  Container(
+                                    height: 40,
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                        onPressed: () async {
+                                          if (formKey.currentState!
+                                              .validate()) {}
+                                        },
+                                        style: ButtonStyle(
+                                            shape: MaterialStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8))),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    MyTheme.appBarColor)),
+                                        child: Text('Update')),
+                                  ),
+                                ],
                               ),
-                              padding: EdgeInsets.all(7.5),
-                              shape: CircleBorder(
-                                  side: BorderSide(
-                                      color: Colors.grey)),
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                SizedBox(height: 50,),
-
-                Container(
-                  height: 60,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.25),
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                  ),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder( //<-- SEE HERE
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    minLeadingWidth: 10,
-                    leading: Icon(Icons.lock_reset_rounded),
-                    title: Text("Change Password"),
-                    trailing: Icon(Icons.keyboard_arrow_right_rounded),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword()));
-                    },
-                  ),
-                ),
-                SizedBox(height: 20,),
-                Container(
-                  height: 60,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.25),
-                      borderRadius: BorderRadius.all(Radius.circular(10))
-                  ),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder( //<-- SEE HERE
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    minLeadingWidth: 10,
-                    leading: Icon(Icons.delete_forever_rounded),
-                    title: Text("Delete Account"),
-                    trailing: Icon(Icons.keyboard_arrow_right_rounded),
-                    onTap: () {
-                      _onDeleteAccountButtonPressed(context);
-                    },
-                  ),
-                ),
-                SizedBox(height: 20,),
-                Container(
-                  height: 60,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.25),
-                      borderRadius: BorderRadius.all(Radius.circular(10))
-                  ),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder( //<-- SEE HERE
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    minLeadingWidth: 10,
-                    leading: Icon(Icons.logout_outlined),
-                    title: Text("Logout"),
-                    trailing: Icon(Icons.keyboard_arrow_right_rounded),
-                    onTap: () {
-                      _onLogoutButtonPressed(context);
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
-        isLoading ? Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.5,),
-            CircularProgressIndicator(color: Colors.black,strokeWidth: 4,),
-          ],
-        ) : Container(),
       ],
     );
   }
 }
+
+/*
+*  Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20,),
+                Text('Hello, Username.',textScaleFactor: 1.75,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                SizedBox(height: 10,),
+                Divider(
+                  thickness: 3,color: Colors.grey,
+                ),
+                Expanded(child: ListView.builder(
+                  itemCount: profileItems1.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      leading: Icon(profileItems1[index]['icon']),
+                      title: Text(profileItems1[index]['text']),
+                      trailing: Icon(Icons.keyboard_arrow_right_rounded),
+                      onTap: () {
+                        // if(index == 0) {
+                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrders()));
+                        // }
+                        // else if(index == 1) {
+                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
+                        // }
+                        // else if(index == 2) {
+                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
+                        // }
+                        // else if(index == 3) {
+                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
+                        // }
+                        // else if(index == 4) {
+                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+                        // }
+                      },
+                    );
+                })),
+                Divider(
+                  thickness: 3,color: Colors.grey,indent: 30,endIndent: 30,
+                ),
+                Expanded(flex: 3,child: ListView.builder(
+                    itemCount: profileItems2.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        leading: Icon(profileItems2[index]['icon']),
+                        title: Text(profileItems2[index]['text']),
+                        trailing: Icon(Icons.keyboard_arrow_right_rounded),
+                        onTap: () {
+                          // if(index == 0) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrders()));
+                          // }
+                          // else if(index == 1) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
+                          // }
+                          // else if(index == 2) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
+                          // }
+                          // else if(index == 3) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
+                          // }
+                          // else if(index == 4) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+                          // }
+                        },
+                      );
+                    })),
+                Divider(
+                  thickness: 3,color: Colors.grey,indent: 30,endIndent: 30,
+                ),
+                Expanded(flex: 3,child: ListView.builder(
+                    itemCount: profileItems3.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        leading: Icon(profileItems3[index]['icon']),
+                        title: Text(profileItems3[index]['text']),
+                        trailing: Icon(Icons.keyboard_arrow_right_rounded),
+                        onTap: () {
+                          // if(index == 0) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrders()));
+                          // }
+                          // else if(index == 1) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
+                          // }
+                          // else if(index == 2) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
+                          // }
+                          // else if(index == 3) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
+                          // }
+                          // else if(index == 4) {
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+                          // }
+                        },
+                      );
+                    })),
+              ],
+            ),
+            * */
+
+// class CustomListView extends StatelessWidget {
+//   const CustomListView({super.key, required this.Icondata, required this.text});
+//
+//   final  String text;
+//   final IconData Icondata;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListTile(
+//       leading: Icon(Icondata),
+//       title: Text(text),
+//       trailing: Icon(Icons.keyboard_arrow_right_rounded),
+//       onTap: () {
+//
+//       },
+//     );
+//   }
+// }
+
+//============================Rough==========================

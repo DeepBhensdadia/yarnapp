@@ -160,7 +160,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                         FloatingLabelAlignment.center,
                                   ),
                                   style: TextStyle(
-                                    color: !feb.isWrapDone ?  Colors.black: Colors.grey,
+                                    color: !feb.isWrapDone
+                                        ? Colors.black
+                                        : Colors.grey,
                                     fontSize:
                                         MediaQuery.of(context).textScaleFactor *
                                             13.5,
@@ -244,7 +246,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                         FloatingLabelAlignment.center,
                                   ),
                                   style: TextStyle(
-                                    color: !feb.isWrapDone ?  Colors.black: Colors.grey,
+                                    color: !feb.isWrapDone
+                                        ? Colors.black
+                                        : Colors.grey,
                                     fontSize:
                                         MediaQuery.of(context).textScaleFactor *
                                             13.5,
@@ -270,6 +274,8 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "Enter Width in Inch";
+                                }else if(p0 == "0"){
+                                  return "Width should be greater than 0";
                                 }
                                 return null;
                               },

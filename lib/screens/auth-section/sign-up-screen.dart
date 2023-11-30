@@ -7,6 +7,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:yarn_modified/getxcontrollers/authcontroller.dart';
+import 'package:yarn_modified/getxcontrollers/firebaseauthcontroller.dart';
 import 'package:yarn_modified/screens/auth-section/verifyotpscreen.dart';
 import 'package:yarn_modified/screens/root-app.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
@@ -27,6 +28,8 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen>
     with SingleTickerProviderStateMixin {
   AuthController authController = Get.put(AuthController());
+  FirebaseAuthContrller firebaseAuthContrller =
+      Get.put(FirebaseAuthContrller());
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final tenDigitsOnly = new RegExp(r'^\d{0,10}$');
@@ -42,13 +45,13 @@ class _SignUpScreenState extends State<SignUpScreen>
     authController.mobileController.text = widget.phonenumber ?? '';
   }
 
-  @override
-  void dispose() {
-    authController.nameController.dispose();
-    authController.mobileController.dispose();
-    authController.emailController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   authController.nameController.dispose();
+  //   authController.mobileController.dispose();
+  //   authController.emailController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                       Image.asset("images/RR_Textiles-r.png"))),
                           Center(
                             child: Text(
-                              'CREATE ACCOUNT',
+                              'Create Account',
                               textScaleFactor: 2,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -153,7 +156,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                         return null;
                                       },
                                       controller: authController.nameController,
-                                      labelText: 'Name',
+                                      labelText: 'Name *',
                                       keyboardType: TextInputType.text,
                                       hintText: 'Enter Your Full Name',
                                       inputFormatters:
@@ -163,6 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen>
 
                                     SizedBox(height: 25),
                                     CommonMobileTextField(
+                                        read: true,
                                         validator: (p0) {
                                           if (p0!.isEmpty) {
                                             return "Enter Mobile Number";
@@ -172,24 +176,38 @@ class _SignUpScreenState extends State<SignUpScreen>
                                         },
                                         controller:
                                             authController.mobileController,
-                                        labelText: "Mobile Number",
+                                        labelText: "Mobile Number *",
                                         hintText: "Enter Mobile Number"),
 
                                     SizedBox(height: 20),
                                     CommonTextField(
-                                      validatoe: (p0) {
-                                        if (p0!.isEmpty) {
-                                          return "Enter Email";
-                                        } else if (!gmailRegex.hasMatch(p0)) {
-                                          return "Enter valid Email";
-                                        }
-                                        return null;
-                                      },
                                       controller:
-                                          authController.emailController,
+                                          authController.businessnameController,
                                       labelText: 'Email',
                                       keyboardType: TextInputType.emailAddress,
                                       hintText: 'Enter Your Email Address',
+                                      inputFormatters:
+                                          FilteringTextInputFormatter.deny(
+                                              RegExp(r'[/\\]')),
+                                    ),
+                                    SizedBox(height: 20),
+                                    CommonTextField(
+                                      controller:
+                                          authController.emailController,
+                                      labelText: 'Business Name',
+                                      keyboardType: TextInputType.emailAddress,
+                                      hintText: 'Enter Your Email Address',
+                                      inputFormatters:
+                                          FilteringTextInputFormatter.deny(
+                                              RegExp(r'[/\\]')),
+                                    ),
+                                    SizedBox(height: 20),
+                                    CommonTextField(
+                                      controller:
+                                          authController.locationController,
+                                      labelText: 'Location',
+                                      keyboardType: TextInputType.emailAddress,
+                                      hintText: 'Enter Your Location',
                                       inputFormatters:
                                           FilteringTextInputFormatter.deny(
                                               RegExp(r'[/\\]')),
@@ -257,11 +275,14 @@ class _SignUpScreenState extends State<SignUpScreen>
                                     SizedBox(height: 30),
                                     Container(
                                       height: 40,
-                                      width: double.infinity ,
+                                      width: double.infinity,
                                       child: ElevatedButton(
-                                          onPressed: () {
+                                          onPressed: () async {
                                             if (formKey.currentState!
                                                 .validate()) {
+                                              // await firebaseAuthContrller
+                                              //     .sendOTP(authController
+                                              //         .mobileController.text);
                                               FlutterToast.showCustomToast(
                                                   "OTP sent Successfully");
                                               Get.to(VerifyOtpScreen(
@@ -269,7 +290,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                                     .mobileController.text,
                                                 register: true,
                                               ));
-                                              // authController.registerlogin();
+                                              authController.registerlogin();
                                               print("deep");
                                             }
                                           },
@@ -281,60 +302,88 @@ class _SignUpScreenState extends State<SignUpScreen>
                                                               8))),
                                               backgroundColor:
                                                   MaterialStateProperty.all(
-                                                      Colors.black
-                                                          .withOpacity(0.75))),
-                                          child: Text('Register Now')),
+                                                      MyTheme.appBarColor)),
+                                          child: Text('Register')),
                                     ),
                                     SizedBox(height: 5),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 10),
+                                      constraints: BoxConstraints(),
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                          style: ButtonStyle(
+                                              overlayColor:
+                                                  MaterialStateColor.resolveWith(
+                                                      (states) => Colors.black
+                                                          .withOpacity(0.2)),
+                                              shape: MaterialStateProperty.all(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10))),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.transparent),
+                                              foregroundColor:
+                                                  MaterialStateProperty.all(Colors.black)),
+                                          child: Text(
+                                            '<- Back ->',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          )),
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text("Already have an account ?",
-                                    textScaleFactor: 1.25,
-                                    style: TextStyle(color: Colors.black)),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginScreen()));
-                                    },
-                                    style: ButtonStyle(
-                                        overlayColor:
-                                            MaterialStateColor.resolveWith(
-                                                (states) => Colors.black
-                                                    .withOpacity(0.2)),
-                                        shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10))),
-                                        backgroundColor: MaterialStateProperty.all(
-                                            Colors.transparent.withOpacity(0)),
-                                        foregroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.transparent)),
-                                    child: Text(
-                                      'Login',
-                                      textScaleFactor: 1.25,
-                                      style: TextStyle(
-                                          color: Colors.black.withOpacity(1),
-                                          decoration: TextDecoration.underline),
-                                    )),
-                              ],
-                            ),
-                          ),
+
+                          // Padding(
+                          //   padding: const EdgeInsets.symmetric(vertical: 15),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     children: [
+                          //       Text("Already have an account ?",
+                          //           textScaleFactor: 1.25,
+                          //           style: TextStyle(color: Colors.black)),
+                          //       SizedBox(
+                          //         width: 5,
+                          //       ),
+                          //       TextButton(
+                          //           onPressed: () {
+                          //             Navigator.push(
+                          //                 context,
+                          //                 MaterialPageRoute(
+                          //                     builder: (context) =>
+                          //                         LoginScreen()));
+                          //           },
+                          //           style: ButtonStyle(
+                          //               overlayColor:
+                          //                   MaterialStateColor.resolveWith(
+                          //                       (states) => Colors.black
+                          //                           .withOpacity(0.2)),
+                          //               shape: MaterialStateProperty.all(
+                          //                   RoundedRectangleBorder(
+                          //                       borderRadius:
+                          //                           BorderRadius.circular(10))),
+                          //               backgroundColor: MaterialStateProperty.all(
+                          //                   Colors.transparent.withOpacity(0)),
+                          //               foregroundColor:
+                          //                   MaterialStateProperty.all(
+                          //                       Colors.transparent)),
+                          //           child: Text(
+                          //             'Login',
+                          //             textScaleFactor: 1.25,
+                          //             style: TextStyle(
+                          //                 color: Colors.black.withOpacity(1),
+                          //                 decoration: TextDecoration.underline),
+                          //           )),
+                          //     ],
+                          //   ),
+                          // ),
                           SizedBox(height: 10),
                         ],
                       ),

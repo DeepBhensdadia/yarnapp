@@ -162,50 +162,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   onTap: () {
                                     if (index == 0) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SettingsScreen()));
+                                      Get.to(MyAccount());
                                     } else if (index == 1) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyAccount()));
+                                      // Get.to()
                                     } else if (index == 2) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyFavourites()));
+                                      // Get.to()
                                     } else if (index == 3) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NotificationScreen()));
+                                      // Get.to()
                                     } else if (index == 4) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyOrders()));
-                                    } else if (index == 7) {
+                                      // Get.to()
                                       _onBackButtonPressed(context);
                                     }
-                                    // else if(index == 1) {
-                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
-                                    // }
-                                    // else if(index == 2) {
-                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
-                                    // }
-                                    // else if(index == 3) {
-                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
-                                    // }
-                                    // else if(index == 4) {
-                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
-                                    // }
                                   },
                                 );
                               }),

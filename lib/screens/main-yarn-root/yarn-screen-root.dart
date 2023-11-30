@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:multi_select_flutter/chip_display/multi_select_chip_display.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -139,6 +140,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   ),
 
                                   onConfirm: (value) {
+                                    searchController.clear();
                                     yarnhbj.clear();
                                     if (value.isNotEmpty) {
                                       setState(() {
@@ -185,6 +187,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                 ),
                                 ListTile(
                                   onTap: () {
+                                    searchController.clear();
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
                                         key: "",
@@ -204,6 +207,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                 ),
                                 ListTile(
                                   onTap: () {
+                                    searchController.clear();
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
                                         key: "",
@@ -223,6 +227,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                 ),
                                 ListTile(
                                   onTap: () {
+                                    searchController.clear();
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
                                         category: yarnhbj.toString(),
@@ -242,6 +247,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                 ),
                                 ListTile(
                                   onTap: () {
+                                    searchController.clear();
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
                                         category: yarnhbj.toString(),
@@ -517,6 +523,10 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                                                     Colors.red),
                                                             onPressed:
                                                                 () async {
+                                                              // context
+                                                              //     .loaderOverlay
+                                                              //     .show();
+                                                              Get.back();
                                                               await deleteYarnIndexData(
                                                                       categoryId:
                                                                           controller.yarnData[index]?.id.toString() ??
@@ -534,6 +544,9 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                                                           key:
                                                                               '');
                                                                 }
+                                                                // context
+                                                                //     .loaderOverlay
+                                                                //     .hide();
                                                                 FlutterToast
                                                                     .showCustomToast(
                                                                         value
@@ -541,10 +554,11 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                                                 print(value);
                                                               }).onError((error,
                                                                       stackTrace) {
+                                                                // context
+                                                                //     .loaderOverlay
+                                                                //     .hide();
                                                                 print(error);
                                                               });
-                                                              Navigator.pop(
-                                                                  context);
                                                             },
                                                             child: Text(
                                                               "Delete",

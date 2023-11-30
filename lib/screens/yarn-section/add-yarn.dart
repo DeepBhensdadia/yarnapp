@@ -132,14 +132,14 @@ class _AddYarnState extends State<AddYarn> {
                   leading: IconButton(
                       splashRadius: 20,
                       onPressed: () {
-                        if(
-                        nameController.text.isNotEmpty&&
-                        denierController.text.isNotEmpty&&
-                        yarnRateController.text.isNotEmpty){
-                        editedt == true
-                            ? showdialogboxalert(
-                                context, "Do you want to exit without Saving?")
-                            : Get.back();}else{
+                        if (nameController.text.isNotEmpty &&
+                            denierController.text.isNotEmpty &&
+                            yarnRateController.text.isNotEmpty) {
+                          editedt == true
+                              ? showdialogboxalert(context,
+                                  "Do you want to exit without Saving?")
+                              : Get.back();
+                        } else {
                           showdialogboxalert(
                               context, "Do you want to exit without Saving?");
                         }
@@ -218,6 +218,10 @@ class _AddYarnState extends State<AddYarn> {
                                                   validatorfield: (p0) {
                                                     if (p0!.isEmpty) {
                                                       return "Enter Yarn Denier";
+                                                    } else if (double.parse(
+                                                            p0) <
+                                                        1.0) {
+                                                      return "Yarn denier should be greater than 0";
                                                     }
                                                     return null;
                                                   },
@@ -243,6 +247,8 @@ class _AddYarnState extends State<AddYarn> {
                                                   validatorfield: (p0) {
                                                     if (p0!.isEmpty) {
                                                       return "Enter Yarn Rate";
+                                                    } else if (p0 == "0") {
+                                                      return "Yarn rate should be greater than 0";
                                                     }
                                                     return null;
                                                   },

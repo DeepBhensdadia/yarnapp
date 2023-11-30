@@ -12,6 +12,7 @@ import '../model/addfebricresponsemodel.dart';
 import '../services/all_api_services.dart';
 
 class FebricAddController extends GetxController {
+  final FocusNode focusNode = FocusNode();
   bool editedt = false;
   List<WrapModel> wrapModel = <WrapModel>[];
   GetResultController resultController = Get.put(GetResultController());

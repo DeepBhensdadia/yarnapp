@@ -50,6 +50,10 @@ dependencies:
   pinput: ^3.0.1
   shared_preferences: ^2.2.2
   percent_indicator: ^4.2.3
+  firebase_core: ^2.24.0
+  firebase_auth: ^4.15.0
+
+
 
 
 dev_dependencies:

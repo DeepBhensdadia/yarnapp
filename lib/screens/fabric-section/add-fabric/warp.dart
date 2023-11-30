@@ -157,11 +157,17 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
-                        forvalidation = true;
                         if (_formKey.currentState!.validate()) {
-                          Get.find<FebricAddController>().isWeftDone = true;
-                          // feb.changedData();
-                          widget.page.jumpToPage(2);
+                          bool done = feb.wrapModel
+                              .every((element) => element.selectedYarnID != 0);
+                          if(done == true){
+                            forvalidation = true;
+                            Get.find<FebricAddController>().isWeftDone = true;
+                            // feb.changedData();
+                            widget.page.jumpToPage(2);
+                          }else{
+                            FlutterToast.showCustomToast("Select Warp Yarn");
+                          }
                         }
                       },
                       style: ButtonStyle(

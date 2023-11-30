@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Text(
                               "YARN",
-                              textScaleFactor: 1.5,
+                              textScaleFactor: 1.3,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Text(
                               "FABRIC",
-                              textScaleFactor: 1.5,
+                              textScaleFactor: 1.3,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
@@ -246,81 +246,52 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               children: [
                                 Text(
-                                  "Subscription",
-                                  textScaleFactor: 1.5,
+                                  "SUBSCRIPTION",
+                                  textScaleFactor: 1.3,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w600),
                                 ),
                                 SizedBox(
                                   height: 20,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // Text(
-                                        //   "Subscription",
-                                        //   style: TextStyle(
-                                        //       color: Colors.black,
-                                        //       fontWeight: FontWeight.w600),
-                                        // ),
-                                        // SizedBox(
-                                        //   height: 15,
-                                        // ),
-                                        Container(
-                                          // padding: EdgeInsets.all(5),
-                                          // decoration: BoxDecoration(
-                                          //     borderRadius: BorderRadius.circular(5),
-                                          //     border: Border.all(
-                                          //         width: 1,
-                                          //         color: MyTheme.appBarColor)),
-                                          child: Text(
-                                            "Current package",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          "Basic",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
+                                    Container(
+                                      child: Text(
+                                        "Current package",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      ),
                                     ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "30 days left",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        // MaterialButton(onPressed: () {
-                                        //
-                                        // },child: Text("Upgrade",style: TextStyle(color: Colors.black),),)
-                                      ],
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+
+                                    Text(
+                                      "Basic",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600),
                                     ),
-                                    //  CircularPercentIndicator(
+                                    Text(
+                                      "30 days left",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    // MaterialButton(onPressed: () {
                                     //
-                                    // radius: 50,
-                                    //    percent: 1,
-                                    //
-                                    //    center: new Text("30 Days Left",style: TextStyle(color: Colors.black),),
-                                    //    progressColor: Colors.green,
-                                    //  )
+                                    // },child: Text("Upgrade",style: TextStyle(color: Colors.black),),)
                                   ],
                                 ),
                               ],

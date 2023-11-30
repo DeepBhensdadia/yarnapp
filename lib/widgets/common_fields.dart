@@ -7,7 +7,7 @@ import '../const/themes.dart';
 //===================Common TextField Login/Forgot Password====================
 
 class CommonTextField extends StatefulWidget {
- final String? Function(String?)?  validatoe;
+  final String? Function(String?)? validatoe;
 
   const CommonTextField(
       {super.key,
@@ -15,7 +15,8 @@ class CommonTextField extends StatefulWidget {
       required this.labelText,
       required this.keyboardType,
       required this.hintText,
-      required this.inputFormatters, this.validatoe});
+      required this.inputFormatters,
+      this.validatoe});
 
   final String labelText;
   final TextEditingController controller;
@@ -106,11 +107,15 @@ class _CommonTextFieldState extends State<CommonTextField> {
 class CommonMobileTextField extends StatefulWidget {
   final String? Function(String?)? validator;
 
+  final bool read;
+
   const CommonMobileTextField(
       {super.key,
       required this.controller,
       required this.labelText,
-      required this.hintText, this.validator});
+      required this.hintText,
+      this.validator,
+      this.read = false});
 
   final String labelText;
   final TextEditingController controller;
@@ -138,6 +143,7 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
           height: 2,
         ),
         TextFormField(
+          readOnly: widget.read,
           validator: widget.validator,
           textCapitalization: TextCapitalization.words,
           autocorrect: false,
@@ -147,7 +153,7 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
           controller: widget.controller,
           keyboardType: TextInputType.numberWithOptions(decimal: false),
           style: TextStyle(
-            color: Colors.black,
+            color: widget.read ? Colors.black45 : Colors.black,
             fontSize: MediaQuery.of(context).textScaleFactor * 15,
           ),
           maxLength: 10,
@@ -336,7 +342,9 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
             widget.labelText,
             textScaleFactor: 1.3,
             style: TextStyle(
-                fontWeight: FontWeight.w500, color: MyTheme.appBarColor,fontSize: screenwidth(context,dividedby: 28)),
+                fontWeight: FontWeight.w500,
+                color: MyTheme.appBarColor,
+                fontSize: screenwidth(context, dividedby: 28)),
           ),
         ),
         SizedBox(

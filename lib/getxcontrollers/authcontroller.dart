@@ -9,10 +9,11 @@ import 'package:yarn_modified/shared_pref/shared_pref.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class AuthController extends GetxController {
-
   TextEditingController nameController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController businessnameController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
 
   registerlogin() async {
     Get.context!.loaderOverlay.show();

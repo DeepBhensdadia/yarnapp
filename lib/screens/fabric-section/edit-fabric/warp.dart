@@ -135,7 +135,9 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
+
                         if (_formKey.currentState!.validate()) {
+
                           Get.find<FebricEditController>().isWeftDone = true;
                           // feb.changedData();
                           widget.page.jumpToPage(2);

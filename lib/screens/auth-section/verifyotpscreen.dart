@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:pinput/pinput.dart';
 import 'package:yarn_modified/getxcontrollers/authcontroller.dart';
+import 'package:yarn_modified/getxcontrollers/firebaseauthcontroller.dart';
 import 'package:yarn_modified/screens/auth-section/sign-up-screen.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import 'package:yarn_modified/shared_pref/shared_pref.dart';
@@ -85,6 +87,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
         });
     return exitApp ?? false;
   }
+
+  FirebaseAuthContrller firebaseAuthContrller =
+      Get.put(FirebaseAuthContrller());
 
   @override
   Widget build(BuildContext context) {
@@ -214,14 +219,18 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                               Border.all(color: Colors.grey),
                                         ),
                                       ),
-                                      length: 4,
+                                      length: 6,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly,
                                         FilteringTextInputFormatter.deny(
                                             RegExp('[\\.]')),
                                       ],
                                       onCompleted: (pin) async {
-                                        if (pin == "1234") {
+                                        // context.loaderOverlay.show();
+                                        // firebaseAuthContrller.verifyOTP(
+                                        //     pin, widget);
+                                        log(pin);
+                                        if (pin == "123456") {
                                           if (widget.register != true) {
                                             context.loaderOverlay.show();
                                             await getlogindetails(
@@ -239,7 +248,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                                 FlutterToast.showCustomToast(
                                                     value.message ?? "");
                                               } else {
-                                                Get.offAll(SignUpScreen(
+                                                Get.off(SignUpScreen(
                                                     phonenumber:
                                                         widget.phonenumber));
                                               }
@@ -256,7 +265,6 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                           FlutterToast.showCustomToast(
                                               "Invalid OTP");
                                         }
-                                        print(pin);
                                       },
                                     ),
                                     SizedBox(
@@ -267,30 +275,65 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                               ),
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            constraints: BoxConstraints(),
-                            child: TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                style: ButtonStyle(
-                                    overlayColor:
-                                        MaterialStateColor.resolveWith(
-                                            (states) =>
-                                                Colors.black.withOpacity(0.2)),
-                                    shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10))),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.transparent),
-                                    foregroundColor: MaterialStateProperty.all(
-                                        Colors.black)),
-                                child: Text(
-                                  '<- Back ->',
-                                  style: TextStyle(color: Colors.black),
-                                )),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                constraints: BoxConstraints(),
+                                child: TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    style: ButtonStyle(
+                                        overlayColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Colors.black
+                                                    .withOpacity(0.2)),
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.transparent),
+                                        foregroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.black)),
+                                    child: Text(
+                                      '<- Back ->',
+                                      style: TextStyle(color: Colors.black),
+                                    )),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                constraints: BoxConstraints(),
+                                child: TextButton(
+                                    onPressed: () async {
+                                      // await firebaseAuthContrller
+                                      //     .sendOTP(widget.phonenumber);
+                                    },
+                                    style: ButtonStyle(
+                                        overlayColor:
+                                            MaterialStateColor.resolveWith(
+                                                (states) => Colors.black
+                                                    .withOpacity(0.2)),
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.transparent),
+                                        foregroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.black)),
+                                    child: Text(
+                                      '<- Resend OTP ->',
+                                      style: TextStyle(color: Colors.black),
+                                    )),
+                              ),
+                            ],
                           ),
                         ],
                       ),

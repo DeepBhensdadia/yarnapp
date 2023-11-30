@@ -4,9 +4,14 @@ import 'package:get/get.dart';
 import 'package:yarn_modified/screens/splash_screen.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/shared_pref/shared_pref.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await SharedPref.init();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

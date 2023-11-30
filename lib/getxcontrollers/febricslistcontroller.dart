@@ -20,7 +20,7 @@ class FebricListControllers extends GetxController {
       params += "&priceSort=" + price;
     } else if (date.isNotEmpty) {
       params += "&dateSort=" + date;
-    } else if (category.isNotEmpty) {
+    } else if (category != "[]" && category.isNotEmpty) {
       params += "&category=" + category;
     } else if (atoz == true) {
       params += "&atoz=asc";

@@ -297,6 +297,8 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "Enter width in inch";
+                                } else if (p0 == "0") {
+                                  return "Width should be greater than 0";
                                 }
                                 return null;
                               },

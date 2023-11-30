@@ -883,7 +883,7 @@ class _EditResultCategoryState extends State<EditResultCategory> {
                                                   width: double.infinity,
                                                   child: Center(
                                                       child: Text(
-                                                        "ORDER DETAILS",
+                                                        "OTHER DETAILS",
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontWeight:
