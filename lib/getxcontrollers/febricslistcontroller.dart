@@ -16,14 +16,16 @@ class FebricListControllers extends GetxController {
 
     if (key.isNotEmpty) {
       params += "&search=" + key;
-    } else if (price.isNotEmpty) {
-      params += "&priceSort=" + price;
+    }
+    if (category != "[]" && category.isNotEmpty) {
+      params += "&category=" + category;
+    }
+    if (atoz == true) {
+      params += "&atoz=asc";
     } else if (date.isNotEmpty) {
       params += "&dateSort=" + date;
-    } else if (category != "[]" && category.isNotEmpty) {
-      params += "&category=" + category;
-    } else if (atoz == true) {
-      params += "&atoz=asc";
+    } else if (price.isNotEmpty) {
+      params += "&priceSort=" + price;
     }
     // Get.context!.loaderOverlay.show();
     febriclistbool = false;

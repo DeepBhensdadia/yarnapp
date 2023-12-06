@@ -7,6 +7,7 @@ import 'package:yarn_modified/model/getfebricslistmodel.dart';
 import 'package:yarn_modified/model/getloginmodel.dart';
 import 'package:yarn_modified/model/getregisterresponsemodel.dart';
 import 'package:yarn_modified/model/getresultmodelresponse.dart';
+import 'package:yarn_modified/model/packagelistresponse.dart';
 import 'package:yarn_modified/services/app_url.dart';
 import 'package:yarn_modified/shared_pref/shared_pref.dart';
 import '../model/create-fabric-category-model.dart';
@@ -27,6 +28,14 @@ Getloginresponse? saveUser() {
       ? getloginresponseFromJson(SharedPref.get(prefKey: PrefKey.loginDetails)!)
       : null;
   return saveuser;
+}
+//******************************* packages **************************//
+Future<Packagelistresponse> Packagelist() async {
+  var url =
+  Uri.parse(URLs.Base_url + "packagelist");
+  var response = await http.get(url);
+  print('Response Body: ${response.body}');
+  return packagelistresponseFromJson(response.body);
 }
 
 Future<YarnCategoryModel> yarnCategoryData() async {
@@ -171,7 +180,8 @@ Future<EditModel> editYarnIndexData(
 
 Future<DeletionModel> deleteYarnCategoryData(
     {required String categoryId}) async {
-  var url = Uri.parse(URLs.Base_url + "yarnDestroyCategory/$categoryId");
+  var url = Uri.parse(URLs.Base_url +
+      "yarnDestroyCategory/$categoryId?user_id=${saveUser()?.id}");
   print(url);
   var response = await http.delete(url);
   print('Response Body: ${response.body}');
@@ -180,7 +190,8 @@ Future<DeletionModel> deleteYarnCategoryData(
 
 Future<DeletionModel> deleteFabricCategoryData(
     {required String categoryId}) async {
-  var url = Uri.parse(URLs.Base_url + "fabricDestroyCategory/$categoryId");
+  var url = Uri.parse(URLs.Base_url +
+      "fabricDestroyCategory/$categoryId?user_id=${saveUser()?.id}");
   print(url);
   var response = await http.delete(url);
   print('Response Body: ${response.body}');
@@ -188,7 +199,8 @@ Future<DeletionModel> deleteFabricCategoryData(
 }
 
 Future<DeletionModel> deleteYarnIndexData({required String categoryId}) async {
-  var url = Uri.parse(URLs.Base_url + "yarnDestroy/$categoryId");
+  var url = Uri.parse(
+      URLs.Base_url + "yarnDestroy/$categoryId?user_id=${saveUser()?.id}");
   print(url);
   var response = await http.delete(url);
   print('Response Body: ${response.body}');
@@ -196,7 +208,8 @@ Future<DeletionModel> deleteYarnIndexData({required String categoryId}) async {
 }
 
 Future<DeletionModel> deleteFabricData({required String categoryId}) async {
-  var url = Uri.parse(URLs.Base_url + "fabricCostDelete/$categoryId");
+  var url = Uri.parse(
+      URLs.Base_url + "fabricCostDelete/$categoryId?user_id=${saveUser()?.id}");
   print(url);
   var response = await http.delete(url);
   print('Response Body: ${response.body}');

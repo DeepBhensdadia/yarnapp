@@ -247,7 +247,9 @@ class _AddYarnState extends State<AddYarn> {
                                                   validatorfield: (p0) {
                                                     if (p0!.isEmpty) {
                                                       return "Enter Yarn Rate";
-                                                    } else if (p0 == "0") {
+                                                    } else if (double.parse(
+                                                        p0) <
+                                                        1.0) {
                                                       return "Yarn rate should be greater than 0";
                                                     }
                                                     return null;

@@ -139,10 +139,12 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                     onConfirm: (value) {
                                       searchController.clear();
                                       if (value.isNotEmpty) {
+                                        fabricsselected.clear();
                                         fabricsselected = value;
                                         febricsController.getfebrics(
                                             category: value.toString());
                                       } else {
+                                        fabricsselected.clear();
                                         febricsController.getfebrics(key: "");
                                       }
                                       // _selectedAnimals2;
@@ -184,7 +186,6 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                         ListTile(
                                           onTap: () {
                                             searchController.clear();
-
                                             Navigator.pop(context);
                                             febricsController.getfebrics(
                                                 key: "",
@@ -380,7 +381,11 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                   splashRadius: 0.1,
                                                   onPressed: () {
                                                     searchController.clear();
-                                                    setState(() {});
+                                                    febricsController
+                                                        .getfebrics(
+                                                      category: fabricsselected
+                                                          .toString(),
+                                                    );
                                                   },
                                                   icon: Icon(
                                                     Icons.cancel_outlined,
@@ -441,7 +446,10 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                   child: Center(
                                     child: Text(
                                       "No Data Found",
-                                      style: TextStyle(color: Colors.black),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 )
@@ -449,7 +457,9 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                   child: RefreshIndicator(
                                   color: Colors.white,
                                   onRefresh: () async {
-                                    await febricsController.getfebrics();
+                                    await febricsController.getfebrics(
+                                      category: fabricsselected.toString(),
+                                    );
                                   },
                                   child: Scrollbar(
                                     controller: _allController,

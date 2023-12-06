@@ -186,17 +186,14 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                               return; // Exit the loop early if data is found
                                                             }
                                                           });
-                                                          p0.isNotEmpty
-                                                              ? feb.editedt =
-                                                                  true
-                                                              : feb.editedt =
-                                                                  false;
+                                                          feb.editedt = true;
                                                         },
                                                         validatorfield: (p0) {
                                                           if (p0!.isEmpty) {
                                                             return "Enter ppi";
-                                                          } else if (p0 ==
-                                                              "0") {
+                                                          } else if (double
+                                                                  .parse(p0) <
+                                                              1.0) {
                                                             return "PPI should be greater than 0";
                                                           }
                                                           return null;
@@ -237,7 +234,7 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                           Get.find<FebricEditController>()
                                               .isResultDone = true;
                                           feb.goToResult(
-                                            widget.general?.general?.id,
+                                            widget,
                                           );
                                           widget.page.jumpToPage(3);
                                         } else {
@@ -388,15 +385,14 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                             return; // Exit the loop early if data is found
                                                           }
                                                         });
-                                                        p0.isNotEmpty
-                                                            ? feb.editedt = true
-                                                            : feb.editedt =
-                                                                false;
+                                                        feb.editedt = true;
                                                       },
                                                       validatorfield: (p0) {
                                                         if (p0!.isEmpty) {
                                                           return "Enter repeat";
-                                                        } else if (p0 == "0") {
+                                                        } else if (double.parse(
+                                                                p0) <
+                                                            1.0) {
                                                           return "Repeat should be greater than 0";
                                                         }
                                                         return null;
@@ -448,26 +444,20 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                             return; // Exit the loop early if data is found
                                                           }
                                                         });
-                                                        p0.isNotEmpty
-                                                            ? feb.editedt = true
-                                                            : feb.editedt =
-                                                                false;
+                                                        feb.editedt = true;
                                                       },
                                                       validatorfield: (p0) {
-                                                        bool allNonZero = feb
-                                                            .weftModel
-                                                            .any((element) =>
-                                                                element.ppiController
-                                                                        .text !=
-                                                                    "0" ||
-                                                                element.ppiController
-                                                                        .text !=
-                                                                    "00");
+                                                        // bool allNonZero = feb
+                                                        //     .weftModel
+                                                        //     .any((element) =>
+                                                        //         element.ppiController
+                                                        //                 .text !=
+                                                        //             "0" ||
+                                                        //         element.ppiController
+                                                        //                 .text !=
+                                                        //             "00");
                                                         if (p0!.isEmpty) {
                                                           return "Enter ppi";
-                                                        } else if (allNonZero ==
-                                                            false) {
-                                                          return "At least one PPI should be greater than 0";
                                                         }
                                                         return null;
                                                       },
@@ -501,13 +491,21 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                         bool done = feb.weftModel.every(
                                             (element) =>
                                                 element.selectedYarnID != 0);
+                                        bool oneppicheck = feb.weftModel
+                                            .any((element) =>
+                                        double.parse(element
+                                            .ppiController.text) >=
+                                            1);
                                         if (done == true) {
+                                          if(oneppicheck){
                                           Get.find<FebricEditController>()
                                               .isResultDone = true;
                                           feb.goToResult(
-                                            widget.general?.general?.id,
+                                            widget,
                                           );
-                                          widget.page.jumpToPage(3);
+                                          widget.page.jumpToPage(3);}else{
+                                            FlutterToast.showCustomToast("At least one PPI should be greater than 0");
+                                          }
                                         } else {
                                           FlutterToast.showCustomToast(
                                               "Please Select Weft Yarn");

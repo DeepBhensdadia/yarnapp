@@ -231,6 +231,7 @@ class _EditYarnState extends State<EditYarn> {
                                                 return null;
                                               },
                                               controller: denierController,
+
                                               labelText: 'Edit Yarn Denier',
                                               keyboardType:
                                                   TextInputType.number,
@@ -244,7 +245,9 @@ class _EditYarnState extends State<EditYarn> {
                                               validatorfield: (p0) {
                                                 if (p0!.isEmpty) {
                                                   return "Enter Yarn Rate";
-                                                } else if (p0 == "0") {
+                                                } else if (double.parse(
+                                                    p0) <
+                                                    1.0) {
                                                   return "Yarn rate should be greater than 0";
                                                 }
                                                 return null;

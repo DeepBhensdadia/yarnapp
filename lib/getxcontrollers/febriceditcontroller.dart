@@ -17,13 +17,13 @@ class FebricEditController extends GetxController {
   List<int> wrapyarnids = <int>[];
   List<String> wrapyarntaar = <String>[];
 
-  void goToResult(resultid) {
+  void goToResult(widget) {
     editedt = false;
     changedData();
     changedDataweft();
     print("wrapids${wrapyarnupdateid}");
     print("weftids${weftyarnupdateid}");
-    updatefebrickaro(resultid);
+    updatefebrickaro(widget);
   }
 
   void changedData() {
@@ -145,10 +145,10 @@ class FebricEditController extends GetxController {
   bool weftppitect = false;
   int currenttab = 0;
 
-  updatefebrickaro(costid) async {
+  updatefebrickaro(widget) async {
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> parameter = {
-      "fabric_cost_id": costid,
+      "fabric_cost_id": widget.general?.general?.id,
       "fabric_name": nameController.text,
       "warp_yarn": numberOfWarpYarnController.text,
       "weft_yarn": numberOfWeftYarnController.text,
@@ -175,6 +175,8 @@ class FebricEditController extends GetxController {
     await addfebricdetails(parameter: jsonEncode(parameter)).then((value) {
       if (value.success != false) {
         getresult.getresultcall(id: value.fabaricCostId.toString());
+      } else {
+        widget.page.jumpToPage(2);
       }
 
       FlutterToast.showCustomToast(value.message ?? "");

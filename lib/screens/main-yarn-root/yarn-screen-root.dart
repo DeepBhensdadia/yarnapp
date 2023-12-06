@@ -36,8 +36,8 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
   @override
   void initState() {
     super.initState();
-    yarnlist.fetchDataFromAPI(key: "");
     yarncategorycontroll.fetchDataFromAPI();
+    yarnlist.fetchDataFromAPI(key: "");
   }
 
   List yarnhbj = [];
@@ -404,7 +404,10 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                           : RefreshIndicator(
                               color: Colors.white,
                               onRefresh: () async {
-                                await yarnlist.fetchDataFromAPI(key: "");
+                                await yarnlist.fetchDataFromAPI(
+                                  key: "",
+                                  category: yarnhbj.toString(),
+                                );
                               },
                               child: Scrollbar(
                                 controller: _allController,

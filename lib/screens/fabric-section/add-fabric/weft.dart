@@ -129,13 +129,12 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                               child: Obx(
                                                             () =>
                                                                 CustomDropdownyarn(
-                                                              validing: (p0) {
-                                                                if (p0 ==
-                                                                    null) {
-                                                                  return "Please Select Yarn";
-                                                                }
-                                                                return null;
-                                                              },
+                                                              // validing: (p0) {
+                                                              //   if (p0 == null) {
+                                                              //     return "Please Select Yarn";
+                                                              //   }
+                                                              //   return null;
+                                                              // },
                                                               initialValue: element
                                                                   .value
                                                                   .selectedYarnID
@@ -220,8 +219,9 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                         validatorfield: (p0) {
                                                           if (p0!.isEmpty) {
                                                             return "Enter PPI";
-                                                          } else if (p0 ==
-                                                              "0") {
+                                                          } else if (double
+                                                                  .parse(p0) <
+                                                              1.0) {
                                                             return "PPI should be greater than 0";
                                                           }
                                                           return null;
@@ -265,7 +265,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                           print("done");
                                         } else {
                                           FlutterToast.showCustomToast(
-                                              "Please Select Weft Yarn");
+                                              "Select Weft Yarn");
                                         }
                                       }
                                     },
@@ -352,12 +352,12 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                             child: Obx(
                                                           () =>
                                                               CustomDropdownyarn(
-                                                            validing: (p0) {
-                                                              if (p0 == null) {
-                                                                return "Please Select Yarn";
-                                                              }
-                                                              return null;
-                                                            },
+                                                            // validing: (p0) {
+                                                            //   if (p0 == 0) {
+                                                            //     return "Please Select Yarn";
+                                                            //   }
+                                                            //   return null;
+                                                            // },
                                                             initialValue: element
                                                                 .value
                                                                 .selectedYarnID
@@ -432,15 +432,14 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                             return; // Exit the loop early if data is found
                                                           }
                                                         });
-                                                        p0.isNotEmpty
-                                                            ? feb.editedt = true
-                                                            : feb.editedt =
-                                                                false;
+                                                        feb.editedt = true;
                                                       },
                                                       validatorfield: (p0) {
                                                         if (p0!.isEmpty) {
                                                           return "Enter Repeat";
-                                                        } else if (p0 == "0") {
+                                                        } else if (double.parse(
+                                                                p0) <
+                                                            1.0) {
                                                           return "Repeat should be greater than 0";
                                                         }
                                                         return null;
@@ -492,26 +491,11 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                             return; // Exit the loop early if data is found
                                                           }
                                                         });
-                                                        p0.isNotEmpty
-                                                            ? feb.editedt = true
-                                                            : feb.editedt =
-                                                                false;
+                                                        feb.editedt = true;
                                                       },
                                                       validatorfield: (p0) {
-                                                        bool allNonZero = feb
-                                                            .weftModel
-                                                            .any((element) =>
-                                                                element.ppiController
-                                                                        .text !=
-                                                                    "0" ||
-                                                                element.ppiController
-                                                                        .text !=
-                                                                    "00");
                                                         if (p0!.isEmpty) {
                                                           return "Enter PPI";
-                                                        } else if (allNonZero ==
-                                                            false) {
-                                                          return "At least one PPI should be greater than 0";
                                                         }
                                                         return null;
                                                       },
@@ -545,14 +529,25 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                         bool done = feb.weftModel.every(
                                             (element) =>
                                                 element.selectedYarnID != 0);
+                                        bool oneppicheck = feb.weftModel
+                                            .any((element) =>
+                                                double.parse(element
+                                                    .ppiController.text) >=
+                                                1);
                                         if (done == true) {
-                                          fabricbasic = true;
-                                          feb.goToResult(widget);
-                                          print("done");
+                                          if (oneppicheck) {
+                                            fabricbasic = true;
+                                            feb.goToResult(widget);
+                                            print("done");
+                                          } else {
+                                           FlutterToast.showCustomToast("At least one PPI should be greater than 0");
+                                          }
                                         } else {
                                           FlutterToast.showCustomToast(
                                               "Select Weft Yarn");
                                         }
+                                      } else {
+                                        print("djvkjbsdlvkj");
                                       }
                                     },
                                     style: ButtonStyle(
@@ -682,6 +677,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                   element.selectedYarnID.value = 0;
                 });
                 isdataavilable = false;
+                feb.editedt = true;
                 setState(() {});
               },
               icon: Icon(

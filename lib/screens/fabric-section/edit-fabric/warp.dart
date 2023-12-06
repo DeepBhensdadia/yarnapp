@@ -102,14 +102,14 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                                       ),
                                       CommonDecimalTextField(
                                           onchange: (p0) {
-                                            p0.isNotEmpty
-                                                ? feb.editedt = true
-                                                : feb.editedt = false;
+                                            feb.editedt = true;
                                           },
                                           validatorfield: (p0) {
                                             if (p0!.isEmpty) {
                                               return "Enter Ends(taar)";
-                                            } else if (p0 == "0") {
+                                            } else if (double.parse(
+                                                p0) <
+                                                1.0) {
                                               return "Ends(taar) should be greater than 0";
                                             }
                                             return null;

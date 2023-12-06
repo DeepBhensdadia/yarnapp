@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/const/themes.dart';
+import 'package:yarn_modified/getxcontrollers/packagecontroller.dart';
 import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/screens/fabric-section/fabric-category-screen.dart';
+import 'package:yarn_modified/screens/package/packagelist.dart';
 import 'package:yarn_modified/screens/yarn-section/yarn-category-screen.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import 'package:yarn_modified/widgets/common_fields.dart';
@@ -55,185 +62,186 @@ class _HomeScreenState extends State<HomeScreen> {
                         Color(0xff107698),
                       ])),
             ),
-            ScrollConfiguration(
-              behavior: MyBehavior(),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    Container(
+            SingleChildScrollView(
+
+              child: Column(
+                children: [
+                  Container(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 0.05),
+                        Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                                height: 125,
+                                width: 150,
+                                child:
+                                    Image.asset("images/RR_Textiles-r.png"))),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            child: Center(
+                                child: Text(
+                              "WELCOME ${saveUser()?.name}",
+                              textAlign: TextAlign.center,
+                              textScaleFactor: 1.6,
+                              style: TextStyle(
+                                  color: MyTheme.scaffoldColor,
+                                  fontWeight: FontWeight.bold),
+                            ))),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: homeCardRadius),
+                      color: Colors.white,
+                      elevation: 5,
                       child: Column(
                         children: [
                           SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.05),
-                          Align(
-                              alignment: Alignment.topCenter,
-                              child: Container(
-                                  height: 125,
-                                  width: 150,
-                                  child:
-                                      Image.asset("images/RR_Textiles-r.png"))),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.95,
-                              child: Center(
-                                  child: Text(
-                                "WELCOME ${saveUser()?.name}",
-                                textAlign: TextAlign.center,
-                                textScaleFactor: 1.6,
-                                style: TextStyle(
-                                    color: MyTheme.scaffoldColor,
-                                    fontWeight: FontWeight.bold),
-                              ))),
+                            height: 20,
+                          ),
+                          Text(
+                            "YARN",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ListTile(
+                            dense: true,
+                            title: Text(
+                              "YARN CATEGORY",
+                              textScaleFactor: 1.3,
+                              style: TextStyle(color: MyTheme.appBarColor),
+                            ),
+                            trailing: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: MyTheme.appBarColor,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          YarnCategoryScreen()));
+                            },
+                          ),
+                          ListTile(
+                            dense: true,
+                            title: Text(
+                              "YARN RATE",
+                              textScaleFactor: 1.3,
+                              style: TextStyle(color: MyTheme.appBarColor),
+                            ),
+                            trailing: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: MyTheme.appBarColor,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          YarnScreenRoot()));
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: homeCardRadius),
-                        color: Colors.white,
-                        elevation: 5,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "YARN",
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: homeCardRadius),
+                      color: Colors.white,
+                      elevation: 5,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "FABRIC",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ListTile(
+                            dense: true,
+                            title: Text(
+                              "FABRIC CATEGORY",
                               textScaleFactor: 1.3,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(color: MyTheme.appBarColor),
                             ),
-                            SizedBox(
-                              height: 10,
+                            trailing: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: MyTheme.appBarColor,
                             ),
-                            ListTile(
-                              dense: true,
-                              title: Text(
-                                "YARN CATEGORY",
-                                textScaleFactor: 1.3,
-                                style: TextStyle(color: MyTheme.appBarColor),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right_rounded,
-                                color: MyTheme.appBarColor,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            YarnCategoryScreen()));
-                              },
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FabricCategoryScreen()));
+                            },
+                          ),
+                          ListTile(
+                            dense: true,
+                            title: Text(
+                              "FABRIC COST",
+                              textScaleFactor: 1.3,
+                              style: TextStyle(color: MyTheme.appBarColor),
                             ),
-                            ListTile(
-                              dense: true,
-                              title: Text(
-                                "YARN RATE",
-                                textScaleFactor: 1.3,
-                                style: TextStyle(color: MyTheme.appBarColor),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right_rounded,
-                                color: MyTheme.appBarColor,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            YarnScreenRoot()));
-                              },
+                            trailing: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: MyTheme.appBarColor,
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FabricScreenRoot()));
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: homeCardRadius),
-                        color: Colors.white,
-                        elevation: 5,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "FABRIC",
-                              textScaleFactor: 1.3,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: Text(
-                                "FABRIC CATEGORY",
-                                textScaleFactor: 1.3,
-                                style: TextStyle(color: MyTheme.appBarColor),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right_rounded,
-                                color: MyTheme.appBarColor,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            FabricCategoryScreen()));
-                              },
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: Text(
-                                "FABRIC COST",
-                                textScaleFactor: 1.3,
-                                style: TextStyle(color: MyTheme.appBarColor),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right_rounded,
-                                color: MyTheme.appBarColor,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            FabricScreenRoot()));
-                              },
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: InkWell(
+                      onTap: () {
+                        Get.put(PackageController()).PackagelistgetAPI();
+                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: homeCardRadius),
@@ -300,8 +308,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],

@@ -236,6 +236,7 @@ class Weftlist {
   int? id;
   int? fabricCostId;
   double? finalPpi;
+  dynamic rowPpi;
   int? isAdvance;
   double? lenght;
   int? repeat;
@@ -251,6 +252,7 @@ class Weftlist {
     this.id,
     this.fabricCostId,
     this.finalPpi,
+    this.rowPpi,
     this.isAdvance,
     this.lenght,
     this.repeat,
@@ -268,6 +270,7 @@ class Weftlist {
         fabricCostId: json["fabric_cost_id"],
         finalPpi:
             json["final_ppi"] != null ? json["final_ppi"].toDouble() : 0.00,
+        rowPpi: json["row_ppi"],
         isAdvance: json["is_advance"],
         lenght: json["lenght"] != null ? json["lenght"].toDouble() : 0.00,
         repeat: json["repeat"],
@@ -284,6 +287,7 @@ class Weftlist {
         "id": id,
         "fabric_cost_id": fabricCostId,
         "final_ppi": finalPpi,
+        "row_ppi": rowPpi,
         "is_advance": isAdvance,
         "lenght": lenght,
         "repeat": repeat,

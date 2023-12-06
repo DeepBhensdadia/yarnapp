@@ -58,7 +58,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
     feb.currenttab = widget.general?.weftlist?.first.isAdvance ?? 0;
     feb.weftModel.asMap().forEach((index, element) {
       element.ppiController.text =
-          widget.general?.weftlist?[index].ppi.toString() ?? "";
+          widget.general?.weftlist?[index].rowPpi.toString() ?? "";
       element.selectedYarnID.value =
           widget.general?.weftlist?[index].yarnId ?? 0;
       if (widget.general?.weftlist?[index].isAdvance == 1)
@@ -108,9 +108,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           CommonTextFormField(
                               read: true,
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -290,14 +288,12 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "Enter width in inch";
-                                } else if (p0 == "0") {
+                                } else if (double.parse(p0) < 1.0) {
                                   return "Width should be greater than 0";
                                 }
                                 return null;
@@ -312,9 +308,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -332,9 +326,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               // validatorfield: (p0) {
                               //   if (p0!.isEmpty) {
@@ -354,9 +346,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               // validatorfield: (p0) {
                               //   if (p0!.isEmpty) {
@@ -376,9 +366,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               // validatorfield: (p0) {
                               //   if (p0!.isEmpty) {
@@ -396,9 +384,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               // validatorfield: (p0) {
                               //   if (p0!.isEmpty) {

@@ -130,7 +130,7 @@ class _EditFabricRootState extends State<EditFabricRoot> {
                             child: CircularProgressIndicator(),
                           )
                     : PageView(
-                        physics: NeverScrollableScrollPhysics(),
+                        // physics: NeverScrollableScrollPhysics(),
                         controller: pageController,
                         onPageChanged: (value) {
                           setState(() {

@@ -74,9 +74,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           CommonTextFormField(
                               read: feb.isWrapDone,
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -267,14 +265,12 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
                                   return "Enter Width in Inch";
-                                }else if(p0 == "0"){
+                                } else if (double.parse(p0) < 1.0) {
                                   return "Width should be greater than 0";
                                 }
                                 return null;
@@ -289,9 +285,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
@@ -331,9 +325,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               // validatorfield: (p0) {
                               //   if (p0!.isEmpty) {
@@ -353,9 +345,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               // validatorfield: (p0) {
                               //   if (p0!.isEmpty) {
@@ -374,9 +364,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           ),
                           CommonDecimalTextField(
                               onchange: (p0) {
-                                p0.isNotEmpty
-                                    ? feb.editedt = true
-                                    : feb.editedt = false;
+                                feb.editedt = true;
                               },
                               // validatorfield: (p0) {
                               //   if (p0!.isEmpty) {
