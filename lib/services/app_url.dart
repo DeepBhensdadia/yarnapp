@@ -1,10 +1,10 @@
 import 'package:yarn_modified/services/all_api_services.dart';
 
 class URLs {
-  static String Base_url = "http://192.168.29.248:8001/api/";
-  static String image_url = "http://192.168.29.248:8001/";
-  // static String Base_url =
-  //     "https://textilediary.in/textiles/public/api/";
+  // static String Base_url = "http://192.168.29.248:8001/api/";
+  // static String image_url = "http://192.168.29.248:8001/";
+  static String image_url = "https://textilediary.in/textiles/public/";
+  static String Base_url = "https://textilediary.in/textiles/public/api/";
 
   static String yarnCategory =
       Base_url + "yarnCategory?user_id=${saveUser()?.id}";
@@ -12,8 +12,7 @@ class URLs {
   static String fabricCategory =
       Base_url + "fabricCategory?user_id=${saveUser()?.id}";
 
-  static String yarnIndex =
-      Base_url + "yarmsrc?user_id=${saveUser()?.id}";
+  static String yarnIndex = Base_url + "yarmsrc?user_id=${saveUser()?.id}";
 
   static String createYarnCategory = Base_url + "yarnCreateCategory";
 

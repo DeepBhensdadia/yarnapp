@@ -40,6 +40,7 @@ class GetFebricsModel {
 class FabricCostList {
   int? id;
   String? fabricName;
+  String? photo;
   dynamic warpYarn;
   dynamic weftYarn;
   dynamic width;
@@ -58,6 +59,7 @@ class FabricCostList {
   FabricCostList({
     this.id,
     this.fabricName,
+    this.photo,
     this.warpYarn,
     this.weftYarn,
     this.width,
@@ -77,6 +79,7 @@ class FabricCostList {
   factory FabricCostList.fromJson(Map<String, dynamic> json) => FabricCostList(
         id: json["id"],
         fabricName: json["fabric_name"],
+        photo: json["photo"] ?? "",
         warpYarn: json["warp_yarn"],
         weftYarn: json["weft_yarn"],
         width: json["width"],
@@ -96,6 +99,7 @@ class FabricCostList {
   Map<String, dynamic> toJson() => {
         "id": id,
         "fabric_name": fabricName,
+        "photo": photo,
         "warp_yarn": warpYarn,
         "weft_yarn": weftYarn,
         "width": width,

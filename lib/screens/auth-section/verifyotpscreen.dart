@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -19,9 +20,9 @@ import '../root-app.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   final String phonenumber;
-  final bool register;
+
   const VerifyOtpScreen(
-      {super.key, required this.phonenumber, this.register = false});
+      {super.key, required this.phonenumber, });
 
   @override
   State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
@@ -38,6 +39,24 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
   }
 
   AuthController authController = Get.put(AuthController());
+
+  void getDeviceId(pin) async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      String deviceId = androidInfo.androidId;
+      print('Device ID: $deviceId');
+      firebaseAuthContrller.verifyOTP(
+        pin, widget,deviceId);
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      String deviceId = iosInfo.identifierForVendor;
+      print('Device ID: $deviceId');
+      firebaseAuthContrller.verifyOTP(
+        pin, widget,deviceId);
+
+    }
+  }
 
   @override
   void dispose() {
@@ -60,10 +79,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                   TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
             ),
             actions: <Widget>[
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.white.withOpacity(0.9)),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white70),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
@@ -71,10 +91,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                     "Cancel",
                     style: TextStyle(fontSize: 15, color: Colors.black),
                   )),
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.white.withOpacity(0.9)),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white70),
+                  ),
                   onPressed: () {
                     exit(0);
                   },
@@ -143,14 +164,32 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                       physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
-                          SizedBox(height: 25),
+                          SizedBox(height: 40),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    icon: Icon(
+                                      Icons.arrow_back,
+                                      size: 30,
+                                    ))
+                              ],
+                            ),
+                          ),
                           Align(
-                              alignment: Alignment.topCenter,
-                              child: Container(
-                                  height: 125,
-                                  width: 150,
-                                  child:
-                                      Image.asset("images/RR_Textiles-r.png"))),
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              height: 120,
+                              width: 150,
+                              child: Image.asset(
+                                  "images/textilediary-logo-512-removebg-preview.png"),
+                            ),
+                          ),
                           Center(
                             child: Text(
                               'Verify Mobile Number',
@@ -226,41 +265,44 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                             RegExp('[\\.]')),
                                       ],
                                       onCompleted: (pin) async {
-                                        // context.loaderOverlay.show();
-                                        // firebaseAuthContrller.verifyOTP(
-                                        //     pin, widget);
+                                        // getDeviceId(pin);
+
+                                        context.loaderOverlay.show();
                                         log(pin);
                                         if (pin == "123456") {
-                                          if (widget.register != true) {
-                                            context.loaderOverlay.show();
-                                            await getlogindetails(
-                                                    keyword: widget.phonenumber)
-                                                .then((value) {
-                                              context.loaderOverlay.hide();
+                                          DeviceInfoPlugin deviceInfo =
+                                          DeviceInfoPlugin();
+                                          AndroidDeviceInfo androidInfo =
+                                          await deviceInfo.androidInfo;
+                                          String deviceId =
+                                              androidInfo.androidId;
+                                          context.loaderOverlay.show();
+                                          await getlogindetails(
+                                              keyword: widget.phonenumber,
+                                              deviceinfo: deviceId)
+                                              .then((value) {
+                                            context.loaderOverlay.hide();
 
-                                              if (value.success != false) {
-                                                SharedPref.save(
-                                                    value: jsonEncode(
-                                                        value.toJson()),
-                                                    prefKey:
-                                                        PrefKey.loginDetails);
-                                                Get.offAll(RootApp());
-                                                FlutterToast.showCustomToast(
-                                                    value.message ?? "");
-                                              } else {
-                                                Get.off(SignUpScreen(
-                                                    phonenumber:
-                                                        widget.phonenumber));
-                                              }
+                                            if (value.success != false) {
+                                              SharedPref.save(
+                                                  value: jsonEncode(
+                                                      value.toJson()),
+                                                  prefKey:
+                                                  PrefKey.loginDetails);
+                                              Get.offAll(RootApp());
+                                              FlutterToast.showCustomToast(
+                                                  value.message ?? "");
+                                            } else {
+                                              Get.off(SignUpScreen(
+                                                  phonenumber:
+                                                  widget.phonenumber));
+                                            }
 
-                                              print(value);
-                                            }).onError((error, stackTrace) {
-                                              context.loaderOverlay.hide();
-                                              print("error..$error");
-                                            });
-                                          } else {
-                                            authController.registerlogin();
-                                          }
+                                            print(value);
+                                          }).onError((error, stackTrace) {
+                                            context.loaderOverlay.hide();
+                                            print("error..$error");
+                                          });
                                         } else {
                                           FlutterToast.showCustomToast(
                                               "Invalid OTP");
@@ -268,73 +310,69 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                       },
                                     ),
                                     SizedBox(
-                                      height: 20,
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        TextButton(
+                                            onPressed: () async {
+                                              // await firebaseAuthContrller
+                                              //     .sendOTP(widget.phonenumber);
+                                            },
+                                            style: ButtonStyle(
+                                                overlayColor:
+                                                    MaterialStateColor.resolveWith(
+                                                        (states) => Colors.black
+                                                            .withOpacity(0.2)),
+                                                shape: MaterialStateProperty.all(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10))),
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.transparent),
+                                                foregroundColor:
+                                                    MaterialStateProperty.all(Colors.black)),
+                                            child: Text(
+                                              'Resend OTP ',
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            )),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 10),
-                                constraints: BoxConstraints(),
-                                child: TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    style: ButtonStyle(
-                                        overlayColor:
-                                            MaterialStateColor.resolveWith(
-                                                (states) => Colors.black
-                                                    .withOpacity(0.2)),
-                                        shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10))),
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.transparent),
-                                        foregroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.black)),
-                                    child: Text(
-                                      '<- Back ->',
-                                      style: TextStyle(color: Colors.black),
-                                    )),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 10),
-                                constraints: BoxConstraints(),
-                                child: TextButton(
-                                    onPressed: () async {
-                                      // await firebaseAuthContrller
-                                      //     .sendOTP(widget.phonenumber);
-                                    },
-                                    style: ButtonStyle(
-                                        overlayColor:
-                                            MaterialStateColor.resolveWith(
-                                                (states) => Colors.black
-                                                    .withOpacity(0.2)),
-                                        shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10))),
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.transparent),
-                                        foregroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.black)),
-                                    child: Text(
-                                      '<- Resend OTP ->',
-                                      style: TextStyle(color: Colors.black),
-                                    )),
-                              ),
-                            ],
+                          SizedBox(
+                            height: 10,
                           ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     Container(
+                          //       margin: EdgeInsets.only(top: 10),
+                          //       constraints: BoxConstraints(),
+                          //       child: ElevatedButton(
+                          //           onPressed: () {
+                          //             Get.back();
+                          //           },
+                          //           style: ButtonStyle(
+                          //
+                          //               backgroundColor:
+                          //                   MaterialStateProperty.all(
+                          //                       Colors.blueAccent),),
+                          //           child: Text(
+                          //             'Back',
+                          //             style: TextStyle(fontSize: 16,color: Colors.white),
+                          //           )),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     ),

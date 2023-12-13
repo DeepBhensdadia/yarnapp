@@ -104,7 +104,9 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
                           padding: const EdgeInsets.only(
                               top: 5, bottom: 5, right: 15),
                           color: Colors.transparent,
-                          child: Icon(Icons.add_rounded)),
+                          child: Icon(   Icons.add_circle,
+                            color: Colors.white,
+                            size: 30,)),
                     ),
                   ),
                 ),

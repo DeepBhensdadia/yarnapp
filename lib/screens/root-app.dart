@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:yarn_modified/screens/profile-section/profile-screen.dart';
+import '../getxcontrollers/getdetailscheckcontroller.dart';
 import 'home-screen.dart';
 import 'main-fabric root/fabric-screen-root.dart';
 import 'main-yarn-root/yarn-screen-root.dart';
@@ -19,21 +22,31 @@ class _RootAppState extends State<RootApp> {
   bool isLoading = false;
   CupertinoTabController tabController = CupertinoTabController();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       activeTab = index;
     });
   }
 
-  List<Widget> data = [const HomeScreen(), const YarnScreenRoot(), const FabricScreenRoot(), const ProfileScreen()];
+  List<Widget> data = [
+    const HomeScreen(),
+    const YarnScreenRoot(),
+    const FabricScreenRoot(),
+    const ProfileScreen()
+  ];
 
-  Future<bool> _onBackPress (BuildContext context) async {
-    if(activeTab != 0) {
+  Future<bool> _onBackPress(BuildContext context) async {
+    if (activeTab != 0) {
       setState(() {
         activeTab = 0;
       });
-    }
-    else if(activeTab == 0) {
+    } else if (activeTab == 0) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -44,14 +57,16 @@ class _RootAppState extends State<RootApp> {
                 style: TextStyle(fontSize: 20, color: Colors.black),
               ),
               content: Text(
-                "Are you sure you would like exit the application ?",
-                style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
+                "Are you sure you want to exit from the application?",
+                style: TextStyle(
+                    fontSize: 15, color: Colors.black.withOpacity(0.5)),
               ),
               actions: <Widget>[
-                TextButton(
-                    style: TextButton.styleFrom(
-                        foregroundColor: Colors.grey,
-                        backgroundColor: Colors.white.withOpacity(0.9)),
+                ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                          (states) => Colors.white70),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop(false);
                     },
@@ -59,10 +74,11 @@ class _RootAppState extends State<RootApp> {
                       "Cancel",
                       style: TextStyle(fontSize: 15, color: Colors.black),
                     )),
-                TextButton(
-                    style: TextButton.styleFrom(
-                        foregroundColor: Colors.grey,
-                        backgroundColor: Colors.white.withOpacity(0.9)),
+                ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                          (states) => Colors.white70),
+                    ),
                     onPressed: () {
                       exit(0);
                     },
@@ -92,12 +108,12 @@ class _RootAppState extends State<RootApp> {
             body: activeTab == 0
                 ? const HomeScreen()
                 : activeTab == 1
-                ? const YarnScreenRoot()
-                : activeTab == 2
-                ? const FabricScreenRoot()
-                : activeTab == 3
-                ? const ProfileScreen()
-                : Container(),
+                    ? const YarnScreenRoot()
+                    : activeTab == 2
+                        ? const FabricScreenRoot()
+                        : activeTab == 3
+                            ? const ProfileScreen()
+                            : Container(),
             bottomNavigationBar: SizedBox(
               height: 60,
               child: BottomNavigationBar(
@@ -105,9 +121,7 @@ class _RootAppState extends State<RootApp> {
                 selectedItemColor: Colors.black,
                 selectedIconTheme: const IconThemeData(color: Colors.black),
                 elevation: 0,
-                selectedLabelStyle: TextStyle(
-                  fontWeight: FontWeight.w600
-                ),
+                selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: Colors.white,
                 unselectedItemColor: Colors.grey,
@@ -117,35 +131,38 @@ class _RootAppState extends State<RootApp> {
                   BottomNavigationBarItem(
                       icon: Icon(CupertinoIcons.home),
                       label: "Home",
-                      tooltip: "Home"
-                  ),
+                      tooltip: "Home"),
                   BottomNavigationBarItem(
                       icon: Icon(CupertinoIcons.list_bullet),
                       label: "Yarn",
-                      tooltip: "Yarn"
-                  ),
+                      tooltip: "Yarn"),
                   BottomNavigationBarItem(
                       icon: Icon(CupertinoIcons.square_grid_2x2),
                       label: "Fabric",
-                      tooltip: "Fabric"
-                  ),
+                      tooltip: "Fabric"),
                   BottomNavigationBarItem(
                       icon: Icon(CupertinoIcons.profile_circled),
                       label: "Profile",
-                      tooltip: "Profile"
-                  ),
+                      tooltip: "Profile"),
                 ],
               ),
             ),
           ),
-          isLoading ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.5,),
-              CircularProgressIndicator(color: Colors.black,strokeWidth: 4,),
-            ],
-          ) : Container(),
+          isLoading
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                    ),
+                    CircularProgressIndicator(
+                      color: Colors.black,
+                      strokeWidth: 4,
+                    ),
+                  ],
+                )
+              : Container(),
         ],
       ),
     );

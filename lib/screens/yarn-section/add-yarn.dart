@@ -350,7 +350,7 @@ class _AddYarnState extends State<AddYarn> {
                                                                             AddYarnCategory()));
                                                           },
                                                           icon: Icon(Icons
-                                                              .add_rounded),
+                                                              .add_circle_outline_rounded),
                                                         ),
                                                       ),
                                                       disabledBorder:

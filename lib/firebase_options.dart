@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDrUGnzwJXjkJ9fIJxEybKajJC4HhMo9Yw',
-    appId: '1:172783685870:android:785b3d72d44058d323a3ff',
-    messagingSenderId: '172783685870',
-    projectId: 'yarnapp-bdc7c',
-    storageBucket: 'yarnapp-bdc7c.appspot.com',
+    apiKey: 'AIzaSyAPMPe1_H2mRt6O_FCPc1_QdBNyorH1Zd8',
+    appId: '1:74125807413:android:6276e99f6cf902dc26867c',
+    messagingSenderId: '74125807413',
+    projectId: 'textile-diary-yarn',
+    storageBucket: 'textile-diary-yarn.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCf7F7aa9Tw00c3dyviqQBYElzF_jVDhQQ',
-    appId: '1:172783685870:ios:d91745ff6b1cab6323a3ff',
-    messagingSenderId: '172783685870',
-    projectId: 'yarnapp-bdc7c',
-    storageBucket: 'yarnapp-bdc7c.appspot.com',
+    apiKey: 'AIzaSyDIPNPbxbhzC4ZWfTpNiDWxhJsZSBK24UU',
+    appId: '1:74125807413:ios:32dcd0a1fcffb42c26867c',
+    messagingSenderId: '74125807413',
+    projectId: 'textile-diary-yarn',
+    storageBucket: 'textile-diary-yarn.appspot.com',
     iosBundleId: 'com.example.yarnModified',
   );
 }

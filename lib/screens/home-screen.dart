@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get.dart';
@@ -7,7 +10,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/const/themes.dart';
+import 'package:yarn_modified/getxcontrollers/getdetailscheckcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/packagecontroller.dart';
+import 'package:yarn_modified/getxcontrollers/uploadphoto.dart';
 import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/screens/fabric-section/fabric-category-screen.dart';
 import 'package:yarn_modified/screens/package/packagelist.dart';
@@ -25,6 +30,36 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  PackageController packageController = Get.put(PackageController());
+  GetDetailsCheck getdetailController = Get.put(GetDetailsCheck());
+
+
+  void getDeviceId() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      String deviceId = androidInfo.androidId;
+      print('Device ID: $deviceId');
+      getdetailController.getdetailscheckcall(id: deviceId);
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      String deviceId = iosInfo.identifierForVendor;
+      print('Device ID: $deviceId');
+      getdetailController.getdetailscheckcall(id: deviceId);
+
+    }
+  }
+
+
+
+  @override
+  void initState() {
+    getDeviceId();
+    packageController.PackageSummaryAPi();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,27 +98,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       ])),
             ),
             SingleChildScrollView(
-
               child: Column(
                 children: [
                   Container(
                     child: Column(
                       children: [
                         SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.05),
+                            height: MediaQuery.of(context).size.height * 0.05),
                         Align(
                             alignment: Alignment.topCenter,
                             child: Container(
                                 height: 125,
                                 width: 150,
                                 child:
-                                    Image.asset("images/RR_Textiles-r.png"))),
+                                    Image.asset("images/textilediary-logo-512-removebg-preview.png"))),
                         Container(
                             width: MediaQuery.of(context).size.width * 0.95,
                             child: Center(
                                 child: Text(
-                              "WELCOME ${saveUser()?.name}",
+                              "Welcome ${saveUser()?.name}",
                               textAlign: TextAlign.center,
                               textScaleFactor: 1.6,
                               style: TextStyle(
@@ -99,8 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: homeCardRadius),
+                      shape:
+                          RoundedRectangleBorder(borderRadius: homeCardRadius),
                       color: Colors.white,
                       elevation: 5,
                       child: Column(
@@ -152,8 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          YarnScreenRoot()));
+                                      builder: (context) => YarnScreenRoot()));
                             },
                           ),
                           SizedBox(
@@ -169,8 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: homeCardRadius),
+                      shape:
+                          RoundedRectangleBorder(borderRadius: homeCardRadius),
                       color: Colors.white,
                       elevation: 5,
                       child: Column(
@@ -236,78 +268,95 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: InkWell(
-                      onTap: () {
-                        Get.put(PackageController()).PackagelistgetAPI();
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: homeCardRadius),
-                        color: Colors.white,
-                        elevation: 5,
-                        child: Container(
-                          width: screenwidth(context, dividedby: 1),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "SUBSCRIPTION",
-                                  textScaleFactor: 1.3,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        "Current package",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400),
-                                      ),
+                  GetBuilder<PackageController>(
+                    builder: (controller) => controller.showsummary
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: InkWell(
+                              onTap: () {
+                                controller.PackagelistgetAPI();
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: homeCardRadius),
+                                color: Colors.white,
+                                elevation: 5,
+                                child: Container(
+                                  width: screenwidth(context, dividedby: 1),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "SUBSCRIPTION",
+                                          textScaleFactor: 1.3,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                "Current package",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black,
+                                              size: 15,
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              controller.packagessummary
+                                                      ?.userPackages?.notes ??
+                                                  "",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Text(
+                                              "${controller.packagessummary?.remaningDays} days left",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            // MaterialButton(onPressed: () {
+                                            //
+                                            // },child: Text("Upgrade",style: TextStyle(color: Colors.black),),)
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-
-                                    Text(
-                                      "Basic",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Text(
-                                      "30 days left",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    // MaterialButton(onPressed: () {
-                                    //
-                                    // },child: Text("Upgrade",style: TextStyle(color: Colors.black),),)
-                                  ],
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
+                          )
+                        : SizedBox.shrink(),
+                  ),
+                  SizedBox(
+                    height: 80,
                   ),
                 ],
               ),

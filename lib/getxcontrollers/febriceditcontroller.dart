@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/const/const.dart';
+import 'package:yarn_modified/getxcontrollers/febricslistcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/getresultscontroller.dart';
 import 'package:yarn_modified/model/get-fabric-category-model.dart';
 import 'package:yarn_modified/model/get-yarn-index-model.dart';
@@ -145,6 +146,8 @@ class FebricEditController extends GetxController {
   bool weftppitect = false;
   int currenttab = 0;
 
+  FebricListControllers febricsController = Get.put(FebricListControllers());
+
   updatefebrickaro(widget) async {
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> parameter = {
@@ -178,7 +181,7 @@ class FebricEditController extends GetxController {
       } else {
         widget.page.jumpToPage(2);
       }
-
+      febricsController.getfebrics();
       FlutterToast.showCustomToast(value.message ?? "");
       Get.context!.loaderOverlay.hide();
     }).onError((error, stackTrace) {

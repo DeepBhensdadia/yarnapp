@@ -289,14 +289,14 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
-                                  return "Enter Cost of per PPI";
+                                  return "Enter Production Cost of one Pick";
                                 }
                                 return null;
                               },
                               controller: feb.costPerFinalController,
-                              labelText: 'Enter Cost of Per PPI',
+                              labelText: 'Enter Production Cost of one Pick',
                               keyboardType: TextInputType.number,
-                              hintText: 'Enter Cost of Per PPI',
+                              hintText: 'Enter Production Cost of one Pick',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,
@@ -491,7 +491,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                                           AddFabricCategory()));
                                             },
                                             icon: Icon(
-                                              Icons.add_rounded,
+                                              Icons.add_circle_outline_rounded,
                                               color: Colors.grey,
                                             ),
                                           ),

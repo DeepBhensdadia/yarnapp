@@ -72,7 +72,7 @@ class CustomDropdownyarn extends StatelessWidget {
               onSelection(value);
             },
             searchHint: Text(
-              "Select Any Yarn",
+              "Select any Yarn",
               style: TextStyle(color: Colors.black),
             ),
             searchInputDecoration: InputDecoration(
@@ -248,7 +248,7 @@ class _CustomCategoryDropdownyarnState
               widget.onSelection(value);
             },
             searchHint: Text(
-              "Select Any Yarn",
+              "Select any Yarn",
               style: TextStyle(color: Colors.black),
             ),
             searchInputDecoration: InputDecoration(

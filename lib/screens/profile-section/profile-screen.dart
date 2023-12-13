@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yarn_modified/screens/profile-section/aboutusscreen.dart';
 import 'package:yarn_modified/screens/profile-section/account-section/account.dart';
+import 'package:yarn_modified/screens/profile-section/contectus.dart';
 import 'package:yarn_modified/screens/profile-section/favourite-section/favourites.dart';
 import 'package:yarn_modified/screens/profile-section/notification-section/notifications.dart';
 import 'package:yarn_modified/screens/profile-section/orders-section/my-order.dart';
@@ -30,19 +32,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return AlertDialog(
             backgroundColor: Colors.white,
             title: Text(
-              "LOGOUT",
+              "Sign Out",
               style: TextStyle(fontSize: 20, color: Colors.black),
             ),
             content: Text(
-              "Are you sure you would like to log out ?",
+              "Are you sure you want to sign out?",
               style:
                   TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
             ),
             actions: <Widget>[
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.white.withOpacity(0.9)),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white70),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
@@ -50,10 +53,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "Cancel",
                     style: TextStyle(fontSize: 15, color: Colors.black),
                   )),
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.white.withOpacity(0.9)),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white70),
+                  ),
                   onPressed: () {
                     SharedPref.deleteAll();
                     Get.deleteAll(force: true);
@@ -118,15 +122,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        'Hello, ${saveUser()?.name}.',
-                        textScaleFactor: 1.75,
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 10),
+                    //   child: Text(
+                    //     'Hello, ${saveUser()?.name}.',
+                    //     textScaleFactor: 1.75,
+                    //     style: TextStyle(
+                    //         color: Colors.black, fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
                     Expanded(
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
@@ -168,8 +172,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     } else if (index == 2) {
                                       // Get.to()
                                     } else if (index == 3) {
-                                      // Get.to()
-                                    } else if (index == 4) {
+                                      Get.to(ContactUs());
+                                    }else if (index == 4) {
+                                      Get.to(AboutUsScreen());
+                                    } else if (index == 5) {
                                       // Get.to()
                                       _onBackButtonPressed(context);
                                     }

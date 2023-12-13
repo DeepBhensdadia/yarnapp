@@ -119,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                   height: 125,
                                   width: 150,
                                   child:
-                                      Image.asset("images/RR_Textiles-r.png"))),
+                                      Image.asset("images/textilediary-logo-512-removebg-preview.png"))),
                           Center(
                             child: Text(
                               'Create Account',
@@ -280,16 +280,6 @@ class _SignUpScreenState extends State<SignUpScreen>
                                           onPressed: () async {
                                             if (formKey.currentState!
                                                 .validate()) {
-                                              // await firebaseAuthContrller
-                                              //     .sendOTP(authController
-                                              //         .mobileController.text);
-                                              FlutterToast.showCustomToast(
-                                                  "OTP sent Successfully");
-                                              Get.to(VerifyOtpScreen(
-                                                phonenumber: authController
-                                                    .mobileController.text,
-                                                register: true,
-                                              ));
                                               authController.registerlogin();
                                               print("deep");
                                             }
@@ -309,29 +299,24 @@ class _SignUpScreenState extends State<SignUpScreen>
                                     Container(
                                       margin: EdgeInsets.only(top: 10),
                                       constraints: BoxConstraints(),
-                                      child: TextButton(
+                                      child: ElevatedButton(
                                           onPressed: () {
                                             Get.back();
                                           },
                                           style: ButtonStyle(
-                                              overlayColor:
-                                                  MaterialStateColor.resolveWith(
-                                                      (states) => Colors.black
-                                                          .withOpacity(0.2)),
-                                              shape: MaterialStateProperty.all(
-                                                  RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10))),
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                      Colors.transparent),
-                                              foregroundColor:
-                                                  MaterialStateProperty.all(Colors.black)),
-                                          child: Text(
-                                            '<- Back ->',
-                                            style:
-                                                TextStyle(color: Colors.black),
+                                            backgroundColor:
+                                                MaterialStateProperty
+                                                    .resolveWith((states) =>
+                                                        Colors.white70),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 25.0),
+                                            child: Text(
+                                              'Back',
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
                                           )),
                                     ),
                                   ],

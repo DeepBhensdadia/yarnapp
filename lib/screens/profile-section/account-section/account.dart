@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/const/themes.dart';
+import 'package:yarn_modified/getxcontrollers/updateuserdetails.dart';
+import 'package:yarn_modified/screens/auth-section/login-screen.dart';
+import 'package:yarn_modified/screens/profile-section/account-section/deleteaccoutotpscreen.dart';
+import 'package:yarn_modified/screens/profile-section/account-section/verifyotpforold.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
+import 'package:yarn_modified/shared_pref/shared_pref.dart';
 import 'package:yarn_modified/widgets/common_fields.dart';
 
 class MyAccount extends StatefulWidget {
@@ -12,70 +20,120 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
+  Future<bool> _onBackButtonPressed(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text(
+              "Delete Account",
+              style: TextStyle(fontSize: 20, color: Colors.black),
+            ),
+            content: Text(
+              "if you delete this account, next time you will not get free package",
+              style:
+                  TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white70),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                  )),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white70),
+                  ),
+                  onPressed: () async {
+                    Get.to(DeleteAccountVerifyOtp(phonenumber: saveUser()?.mobileNumber ?? "",));
+                  },
+                  child: Text(
+                    "Yes",
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                  )),
+            ],
+          );
+        });
+    return false;
+  }
+
   TextEditingController nameController =
       TextEditingController(text: saveUser()?.name);
   TextEditingController mobileController =
       TextEditingController(text: saveUser()?.mobileNumber);
   TextEditingController emailController =
       TextEditingController(text: saveUser()?.email);
-  TextEditingController businessnameController = TextEditingController();
-  TextEditingController locationController = TextEditingController();
+  TextEditingController businessnameController =
+      TextEditingController(text: saveUser()?.companyName);
+  TextEditingController locationController =
+      TextEditingController(text: saveUser()?.city);
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  UpdateUserController updateUserController = Get.put(UpdateUserController());
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: double.maxFinite,
-          width: double.maxFinite,
-          color: MyTheme.scaffoldColor,
-          child: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                  Colors.transparent,
-                  Colors.white.withOpacity(0.30),
-                  Colors.white.withOpacity(0.65),
-                  Colors.white.withOpacity(0.85)
-                ])),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                iconTheme: IconThemeData(color: Colors.white),
-                title: Text(
-                  'Profile',
-                  textScaleFactor: 1,
-                  style: TextStyle(color: MyTheme.appBarTextColor),
-                ),
-                // centerTitle: true,
-                backgroundColor: MyTheme.appBarColor,
-                elevation: 5,
-                automaticallyImplyLeading: true,
-                flexibleSpace: Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                        Colors.white.withOpacity(0.20),
-                        Colors.white.withOpacity(0.15),
-                        Colors.white.withOpacity(0.025),
-                        Colors.transparent,
-                      ])),
-                ),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        physics: BouncingScrollPhysics(),
-                        child: Card(
+    return Container(
+      height: double.maxFinite,
+      width: double.maxFinite,
+      color: MyTheme.scaffoldColor,
+      child: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+              Colors.transparent,
+              Colors.white.withOpacity(0.30),
+              Colors.white.withOpacity(0.65),
+              Colors.white.withOpacity(0.85)
+            ])),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: Colors.white),
+            title: Text(
+              'Profile',
+              textScaleFactor: 1,
+              style: TextStyle(color: MyTheme.appBarTextColor),
+            ),
+            // centerTitle: true,
+            backgroundColor: MyTheme.appBarColor,
+            elevation: 5,
+            automaticallyImplyLeading: true,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                    Colors.white.withOpacity(0.20),
+                    Colors.white.withOpacity(0.15),
+                    Colors.white.withOpacity(0.025),
+                    Colors.transparent,
+                  ])),
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Card(
                           color: Colors.white,
                           elevation: 5,
                           shape: RoundedRectangleBorder(
@@ -120,26 +178,26 @@ class _MyAccountState extends State<MyAccount> {
                                             labelText: "Mobile Number *",
                                             hintText: "Enter Mobile Number"),
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          // Get.to(chenge_phonenumber());
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Get.to(VerifyOtpOld(
+                                            phonenumber:
+                                                saveUser()?.mobileNumber ?? '',
+                                            oldnumebr: true,
+                                          ));
                                         },
-                                        child: Container(
-                                          padding: EdgeInsets.all(8),
-                                          // height: 23,
-                                          // width: 70,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: Colors.pink),
-                                          child: Center(
-                                            child: Text(
-                                              'Change Number.',
-                                              style: TextStyle(
-                                                  fontFamily: 'SF Pro Display',
-                                                  color: Colors.white,
-                                                  fontSize: 10),
-                                            ),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.resolveWith(
+                                                  (states) => Colors.white70),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            'Change Number',
+                                            style: TextStyle(
+                                                fontFamily: 'SF Pro Display',
+                                                color: Colors.black,
+                                                fontSize: 12),
                                           ),
                                         ),
                                       ),
@@ -182,7 +240,14 @@ class _MyAccountState extends State<MyAccount> {
                                     child: ElevatedButton(
                                         onPressed: () async {
                                           if (formKey.currentState!
-                                              .validate()) {}
+                                              .validate()) {
+                                            updateUserController.updateuserpost(
+                                                name: nameController.text,
+                                                email: emailController.text,
+                                                companyname:
+                                                    businessnameController.text,
+                                                city: locationController.text);
+                                          }
                                         },
                                         style: ButtonStyle(
                                             shape: MaterialStateProperty.all(
@@ -200,135 +265,32 @@ class _MyAccountState extends State<MyAccount> {
                             ),
                           ),
                         ),
-                      ),
+                        Container(
+                          margin: EdgeInsets.all(25),
+                          height: 40,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                _onBackButtonPressed(context);
+                              },
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8))),
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.red)),
+                              child: Text('Delete Account')),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }
-
-/*
-*  Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20,),
-                Text('Hello, Username.',textScaleFactor: 1.75,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                SizedBox(height: 10,),
-                Divider(
-                  thickness: 3,color: Colors.grey,
-                ),
-                Expanded(child: ListView.builder(
-                  itemCount: profileItems1.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: Icon(profileItems1[index]['icon']),
-                      title: Text(profileItems1[index]['text']),
-                      trailing: Icon(Icons.keyboard_arrow_right_rounded),
-                      onTap: () {
-                        // if(index == 0) {
-                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrders()));
-                        // }
-                        // else if(index == 1) {
-                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
-                        // }
-                        // else if(index == 2) {
-                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
-                        // }
-                        // else if(index == 3) {
-                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
-                        // }
-                        // else if(index == 4) {
-                        //   Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
-                        // }
-                      },
-                    );
-                })),
-                Divider(
-                  thickness: 3,color: Colors.grey,indent: 30,endIndent: 30,
-                ),
-                Expanded(flex: 3,child: ListView.builder(
-                    itemCount: profileItems2.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        leading: Icon(profileItems2[index]['icon']),
-                        title: Text(profileItems2[index]['text']),
-                        trailing: Icon(Icons.keyboard_arrow_right_rounded),
-                        onTap: () {
-                          // if(index == 0) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrders()));
-                          // }
-                          // else if(index == 1) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
-                          // }
-                          // else if(index == 2) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
-                          // }
-                          // else if(index == 3) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
-                          // }
-                          // else if(index == 4) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
-                          // }
-                        },
-                      );
-                    })),
-                Divider(
-                  thickness: 3,color: Colors.grey,indent: 30,endIndent: 30,
-                ),
-                Expanded(flex: 3,child: ListView.builder(
-                    itemCount: profileItems3.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        leading: Icon(profileItems3[index]['icon']),
-                        title: Text(profileItems3[index]['text']),
-                        trailing: Icon(Icons.keyboard_arrow_right_rounded),
-                        onTap: () {
-                          // if(index == 0) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrders()));
-                          // }
-                          // else if(index == 1) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavourites()));
-                          // }
-                          // else if(index == 2) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccount()));
-                          // }
-                          // else if(index == 3) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
-                          // }
-                          // else if(index == 4) {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
-                          // }
-                        },
-                      );
-                    })),
-              ],
-            ),
-            * */
-
-// class CustomListView extends StatelessWidget {
-//   const CustomListView({super.key, required this.Icondata, required this.text});
-//
-//   final  String text;
-//   final IconData Icondata;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListTile(
-//       leading: Icon(Icondata),
-//       title: Text(text),
-//       trailing: Icon(Icons.keyboard_arrow_right_rounded),
-//       onTap: () {
-//
-//       },
-//     );
-//   }
-// }
-
-//============================Rough==========================

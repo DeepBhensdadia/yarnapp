@@ -1,13 +1,17 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart' as http;
 import 'package:yarn_modified/model/addfebricresponsemodel.dart';
 import 'package:yarn_modified/model/get-fabric-category-model.dart';
+import 'package:yarn_modified/model/getdetailscheckmodel.dart';
 import 'package:yarn_modified/model/getfebricslistmodel.dart';
 import 'package:yarn_modified/model/getloginmodel.dart';
 import 'package:yarn_modified/model/getregisterresponsemodel.dart';
 import 'package:yarn_modified/model/getresultmodelresponse.dart';
 import 'package:yarn_modified/model/packagelistresponse.dart';
+import 'package:yarn_modified/model/packagesummaryresponse.dart';
 import 'package:yarn_modified/services/app_url.dart';
 import 'package:yarn_modified/shared_pref/shared_pref.dart';
 import '../model/create-fabric-category-model.dart';
@@ -29,13 +33,20 @@ Getloginresponse? saveUser() {
       : null;
   return saveuser;
 }
+
 //******************************* packages **************************//
 Future<Packagelistresponse> Packagelist() async {
-  var url =
-  Uri.parse(URLs.Base_url + "packagelist");
+  var url = Uri.parse(URLs.Base_url + "packagelist");
   var response = await http.get(url);
   print('Response Body: ${response.body}');
   return packagelistresponseFromJson(response.body);
+}
+
+Future<Packagessummaryresponse> PackageSummary() async {
+  var url = Uri.parse(URLs.Base_url + "userpackage?user_id=${saveUser()?.id}");
+  var response = await http.get(url);
+  print('Response Body: ${response.body}');
+  return packagessummaryresponseFromJson(response.body);
 }
 
 Future<YarnCategoryModel> yarnCategoryData() async {
@@ -69,10 +80,23 @@ Future<YarnIndexModel> yarnIndexData({required String keyword}) async {
   return yarnIndexModelFromJson(response.body);
 }
 
-Future<Getloginresponse> getlogindetails({required String keyword}) async {
-  var url = Uri.parse(URLs.Base_url + "userlogin?mobile_number=${keyword}");
+Future<Getloginresponse> getlogindetails({required String keyword,required String deviceinfo}) async {
+  var url = Uri.parse(URLs.Base_url + "userlogin?mobile_number=${keyword}&devices_id=$deviceinfo");
   var response = await http.post(url);
   // print('Response Body: ${response.body}');
+  return getloginresponseFromJson(response.body);
+}
+
+Future<Getloginresponse> UpdatePhonenumber({required var parameter}) async {
+  var url = Uri.parse(URLs.Base_url + "updateNumber");
+  var response = await http.post(url,body: parameter,headers: commonHeaders);
+  print('Response Body: ${response.body}');
+  return getloginresponseFromJson(response.body);
+}
+Future<Getloginresponse> Updateuserprofile({required var parameter}) async {
+  var url = Uri.parse(URLs.Base_url + "userUpadate");
+  var response = await http.post(url,body: parameter,headers: commonHeaders);
+  print('Response Body: ${response.body}');
   return getloginresponseFromJson(response.body);
 }
 
@@ -84,6 +108,14 @@ Future<GetResultModel> getResultapi({required String id}) async {
   var response = await http.get(url);
   print('Response Body: ${response.body}');
   return getResultModelFromJson(response.body);
+}
+
+Future<Getdetailscheckresponse> getDetailsChecktapi({required String deviceid}) async {
+  var url =
+      Uri.parse(URLs.Base_url + "getDetails?devices_id=$deviceid&id=${saveUser()?.id}");
+  var response = await http.get(url);
+  print('Response Body: ${response.body}');
+  return getdetailscheckresponseFromJson(response.body);
 }
 
 Future<AddfebricresponseModel> addfebricdetails({required var parameter}) {
@@ -150,6 +182,7 @@ Future<CreateAddYarnModel> addYarnIndexData({required parameter}) async {
   return createAddYarnModelFromJson(response.body);
 }
 
+
 //==============Edit Yarn & Fabric Category, Yarn & Fabric Index Api===========
 
 Future<EditModel> editYarnCategoryData(
@@ -212,6 +245,22 @@ Future<DeletionModel> deleteFabricData({required String categoryId}) async {
       URLs.Base_url + "fabricCostDelete/$categoryId?user_id=${saveUser()?.id}");
   print(url);
   var response = await http.delete(url);
+  print('Response Body: ${response.body}');
+  return deletionModelFromJson(response.body);
+}
+
+Future<DeletionModel> deleteFabricimage({required String id}) async {
+  var url = Uri.parse(URLs.Base_url + "deletePhoto?id=$id");
+  print(url);
+  var response = await http.post(url);
+  print('Response Body: ${response.body}');
+  return deletionModelFromJson(response.body);
+}
+
+Future<DeletionModel> deleteuseraccount() async {
+  var url = Uri.parse(URLs.Base_url + "deleteUser?id=${saveUser()?.id}");
+  print(url);
+  var response = await http.post(url);
   print('Response Body: ${response.body}');
   return deletionModelFromJson(response.body);
 }

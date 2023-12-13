@@ -26,10 +26,14 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: MyTheme.appBarColor,
       body: Center(
-          child: Container(
-              height: 125,
-              width: 125,
-              child: Image(image: AssetImage('images/RR_Textiles-r.png')))),
+        child: Container(
+          height: 125,
+          width: 125,
+          child: Image(
+            image: AssetImage('images/textilediary-logo-512-removebg-preview.png'),
+          ),
+        ),
+      ),
     );
   }
 }

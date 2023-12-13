@@ -87,6 +87,8 @@ class Calculation {
 class General {
   int? id;
   String? fabricName;
+  String? photo;
+
   int? warpYarn;
   int? weftYarn;
   double? width;
@@ -106,6 +108,7 @@ class General {
   General({
     this.id,
     this.fabricName,
+    this.photo,
     this.warpYarn,
     this.weftYarn,
     this.width,
@@ -126,6 +129,7 @@ class General {
   factory General.fromJson(Map<String, dynamic> json) => General(
         id: json["id"],
         fabricName: json["fabric_name"],
+        photo: json["photo"] ?? "",
         warpYarn: json["warp_yarn"],
         weftYarn: json["weft_yarn"],
         width: json["width"] != null ? json["width"].toDouble() : 0.00,
@@ -163,6 +167,7 @@ class General {
   Map<String, dynamic> toJson() => {
         "id": id,
         "fabric_name": fabricName,
+        "photo": photo,
         "warp_yarn": warpYarn,
         "weft_yarn": weftYarn,
         "width": width,

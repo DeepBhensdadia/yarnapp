@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "172783685870",
-    "project_id": "yarnapp-bdc7c",
-    "storage_bucket": "yarnapp-bdc7c.appspot.com"
+    "project_number": "74125807413",
+    "project_id": "textile-diary-yarn",
+    "storage_bucket": "textile-diary-yarn.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:172783685870:android:785b3d72d44058d323a3ff",
+        "mobilesdk_app_id": "1:74125807413:android:6276e99f6cf902dc26867c",
         "android_client_info": {
-          "package_name": "com.example.yarn_modified"
+          "package_name": "gnhub.textile.diary"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDrUGnzwJXjkJ9fIJxEybKajJC4HhMo9Yw"
+          "current_key": "AIzaSyAPMPe1_H2mRt6O_FCPc1_QdBNyorH1Zd8"
         }
       ],
       "services": {

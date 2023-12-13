@@ -105,11 +105,11 @@ class _EditFabricRootState extends State<EditFabricRoot> {
                             feb.additionalCostController.text.isNotEmpty) {
                           feb.editedt == true
                               ? showdialogboxalert(context,
-                                  "Do you want to exit without Saving?")
+                                  "Do you want to exit without updating?")
                               : Get.back();
                         } else {
                           showdialogboxalert(
-                              context, "Do you want to exit without Saving?");
+                              context, "Do you want to exit without updating?");
                         }
                       },
                       icon: Icon(
@@ -130,7 +130,7 @@ class _EditFabricRootState extends State<EditFabricRoot> {
                             child: CircularProgressIndicator(),
                           )
                     : PageView(
-                        // physics: NeverScrollableScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
                         controller: pageController,
                         onPageChanged: (value) {
                           setState(() {

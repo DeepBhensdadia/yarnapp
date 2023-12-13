@@ -179,7 +179,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 const Text(
-                                  'Sort By :',
+                                  'Sort by :',
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 SizedBox(
@@ -195,7 +195,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                         price: "desc");
                                   },
                                   title: Text(
-                                    "Sort By Price (High To Low)",
+                                    "Sort by Price (High to Low)",
                                     textScaleFactor: 1.2,
                                     style: TextStyle(color: Colors.black),
                                   ),
@@ -215,7 +215,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                         price: "asc");
                                   },
                                   title: Text(
-                                    "Sort By Price (Low To high)",
+                                    "Sort by Price (Low to High)",
                                     textScaleFactor: 1.2,
                                     style: TextStyle(color: Colors.black),
                                   ),
@@ -235,7 +235,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                         atoz: true);
                                   },
                                   title: Text(
-                                    "Sort By A to Z",
+                                    "Sort by A to Z",
                                     textScaleFactor: 1.2,
                                     style: TextStyle(color: Colors.black),
                                   ),
@@ -255,7 +255,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                         date: "desc");
                                   },
                                   title: Text(
-                                    "Sort By Date",
+                                    "Sort by Date",
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   leading: Icon(
@@ -298,7 +298,11 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => AddYarn()));
                     },
-                    icon: Icon(Icons.add_rounded)),
+                    icon: Icon(
+                      Icons.add_circle,
+                      color: Colors.white,
+                      size: 30,
+                    )),
               ),
             ],
           ),

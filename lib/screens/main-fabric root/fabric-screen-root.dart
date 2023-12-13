@@ -8,7 +8,9 @@ import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
 import 'package:yarn_modified/getxcontrollers/febricslistcontroller.dart';
 import 'package:yarn_modified/model/getfebricslistmodel.dart';
+import 'package:yarn_modified/screens/main-fabric%20root/photoscreen.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
+import 'package:yarn_modified/services/app_url.dart';
 import '../../const/const.dart';
 import '../../const/themes.dart';
 import '../fabric-section/add-fabric/add-fabric-root.dart';
@@ -177,7 +179,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         const Text(
-                                          'Sort By :',
+                                          'Sort by :',
                                           style: TextStyle(color: Colors.black),
                                         ),
                                         SizedBox(
@@ -194,7 +196,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                 price: "desc");
                                           },
                                           title: Text(
-                                            "Sort By Price (High To Low)",
+                                            "Sort by Price (High to Low)",
                                             textScaleFactor: 1.2,
                                             style:
                                                 TextStyle(color: Colors.black),
@@ -217,7 +219,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                 price: "asc");
                                           },
                                           title: Text(
-                                            "Sort By Price (Low To high)",
+                                            "Sort by Price (Low to High)",
                                             textScaleFactor: 1.2,
                                             style:
                                                 TextStyle(color: Colors.black),
@@ -240,7 +242,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                 atoz: true);
                                           },
                                           title: Text(
-                                            "Sort By A to Z",
+                                            "Sort by A to Z",
                                             textScaleFactor: 1.2,
                                             style:
                                                 TextStyle(color: Colors.black),
@@ -263,7 +265,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                 date: "desc");
                                           },
                                           title: Text(
-                                            "Sort By Date",
+                                            "Sort by Date",
                                             style:
                                                 TextStyle(color: Colors.black),
                                           ),
@@ -313,7 +315,11 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                             MaterialPageRoute(
                                 builder: (context) => AddFabricRoot()));
                       },
-                      icon: Icon(Icons.add_rounded)),
+                      icon: Icon(
+                        Icons.add_circle,
+                        color: Colors.white,
+                        size: 30,
+                      )),
                 ),
               ],
             ),
@@ -662,17 +668,27 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                         child: Row(
                                                           children: [
                                                             Flexible(
-                                                              flex: 1,
-                                                              child:
-                                                                  CircleAvatar(
-                                                                backgroundColor:
-                                                                    Colors.grey,
-                                                                radius: 27,
-                                                                foregroundImage:
-                                                                    AssetImage(
-                                                                        "images/avatar.png"),
-                                                              ),
-                                                            ),
+                                                                flex: 1,
+                                                                child:
+                                                                    PhotoScreen(
+                                                                  dobbn: 27,
+                                                                  image: URLs
+                                                                          .image_url +
+                                                                      "assets/fabric/${febric.photo}",
+                                                                  fabricid: febric
+                                                                      .id
+                                                                      .toString(),
+                                                                )
+                                                                //     CircleAvatar(
+                                                                //   backgroundColor:
+                                                                //       Colors.grey,
+                                                                //   radius: 27,
+                                                                //   foregroundImage:
+                                                                //       NetworkImage(
+                                                                //           URLs.image_url +
+                                                                //               "assets/fabric/${febric.photo}"),
+                                                                // ),
+                                                                ),
                                                             SizedBox(
                                                               width: 15,
                                                             ),
@@ -687,7 +703,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                                         .start,
                                                                 children: [
                                                                   Text(
-                                                                      "${febric?.fabricName.toString()}" ??
+                                                                      "${febric.fabricName.toString()}" ??
                                                                           "",
                                                                       textScaleFactor:
                                                                           1.25,

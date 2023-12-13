@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:device_info/device_info.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +19,8 @@ class FirebaseAuthContrller extends GetxController {
   String verificationid = "";
   AuthController authController = Get.put(AuthController());
   Future<void> sendOTP(String phoneNumber) async {
+    Get.context!.loaderOverlay.show();
+
     FirebaseAuth auth = FirebaseAuth.instance;
 
     await auth.verifyPhoneNumber(
@@ -44,10 +48,11 @@ class FirebaseAuthContrller extends GetxController {
     );
   }
 
-  Future<void> verifyOTP(String smsCode, widget) async {
+  Future<void> verifyOTP(String smsCode, widget,deviceinfo) async {
+    Get.context!.loaderOverlay.show();
+
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
-
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationid,
         smsCode: smsCode,
@@ -58,30 +63,26 @@ class FirebaseAuthContrller extends GetxController {
 
       if (userCredential.user != null) {
         FlutterToast.showCustomToast('OTP verified');
-        if (widget.register != true) {
-          Get.context!.loaderOverlay.show();
-          await getlogindetails(keyword: widget.phonenumber).then((value) {
-            Get.context!.loaderOverlay.hide();
+        await getlogindetails(keyword: widget.phonenumber,deviceinfo: deviceinfo).then((value) {
+          Get.context!.loaderOverlay.hide();
 
-            if (value.success != false) {
-              SharedPref.save(
-                  value: jsonEncode(value.toJson()),
-                  prefKey: PrefKey.loginDetails);
-              Get.offAll(RootApp());
-              FlutterToast.showCustomToast(value.message ?? "");
-            } else {
-              Get.offAll(SignUpScreen(phonenumber: widget.phonenumber));
-            }
+          if (value.success != false) {
+            SharedPref.save(
+                value: jsonEncode(value.toJson()),
+                prefKey: PrefKey.loginDetails);
+            Get.offAll(RootApp());
+            FlutterToast.showCustomToast(value.message ?? "");
+          } else {
+            Get.offAll(SignUpScreen(phonenumber: widget.phonenumber));
+          }
 
-            print(value);
-          }).onError((error, stackTrace) {
-            Get.context!.loaderOverlay.hide();
-            print("error..$error");
-          });
-        } else {
-          authController.registerlogin();
-        }
+          print(value);
+        }).onError((error, stackTrace) {
+          Get.context!.loaderOverlay.hide();
+          print("error..$error");
+        });
       } else {
+        Get.context!.loaderOverlay.hide();
         FlutterToast.showCustomToast('OTP verification failed');
       }
     } catch (e) {

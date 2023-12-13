@@ -14,9 +14,11 @@ class Getloginresponse {
   int? id;
   String? name;
   String? email;
-  String? isCustomer;
+  dynamic isCustomer;
   int? isActive;
   String? mobileNumber;
+  String? city;
+  String? companyName;
   String? message;
   bool? success;
 
@@ -27,6 +29,8 @@ class Getloginresponse {
     this.isCustomer,
     this.isActive,
     this.mobileNumber,
+    this.city,
+    this.companyName,
     this.message,
     this.success,
   });
@@ -39,6 +43,8 @@ class Getloginresponse {
         isCustomer: json["is_customer"] ?? "",
         isActive: json["is_active"] ?? 0,
         mobileNumber: json["mobile_number"] ?? "",
+        city: json["city"] ?? "",
+        companyName: json["company_name"] ?? "",
         message: json["message"] ?? "",
         success: json["success"] ?? false,
       );
@@ -50,6 +56,8 @@ class Getloginresponse {
         "is_customer": isCustomer,
         "is_active": isActive,
         "mobile_number": mobileNumber,
+        "city": city,
+        "company_name": companyName,
         "message": message,
         "success": success,
       };

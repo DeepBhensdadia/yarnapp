@@ -165,7 +165,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                                     AddYarn());
                                                               },
                                                               icon: Icon(
-                                                                Icons.add,
+
+                                                                Icons.add_circle_outline_rounded,
                                                                 color:
                                                                     Colors.grey,
                                                               ))
@@ -387,7 +388,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                               Get.to(AddYarn());
                                                             },
                                                             icon: Icon(
-                                                              Icons.add,
+                                                              Icons.add_circle_outline_rounded,
                                                               color:
                                                                   Colors.grey,
                                                             ))
@@ -450,7 +451,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                           'Enter Repeat ',
                                                       keyboardType:
                                                           TextInputType.number,
-                                                      hintText: 'Enter repeat ',
+                                                      hintText: 'Enter Repeat ',
                                                       InputAction:
                                                           TextInputAction.next),
                                                   SizedBox(

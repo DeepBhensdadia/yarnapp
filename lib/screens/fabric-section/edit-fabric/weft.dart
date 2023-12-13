@@ -190,7 +190,7 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                         },
                                                         validatorfield: (p0) {
                                                           if (p0!.isEmpty) {
-                                                            return "Enter ppi";
+                                                            return "Enter PPI";
                                                           } else if (double
                                                                   .parse(p0) <
                                                               1.0) {
@@ -389,7 +389,7 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                       },
                                                       validatorfield: (p0) {
                                                         if (p0!.isEmpty) {
-                                                          return "Enter repeat";
+                                                          return "Enter Repeat";
                                                         } else if (double.parse(
                                                                 p0) <
                                                             1.0) {
@@ -400,10 +400,10 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                       controller: element.value
                                                           .repeatController,
                                                       labelText:
-                                                          'Enter repeat ',
+                                                          'Enter Repeat ',
                                                       keyboardType:
                                                           TextInputType.number,
-                                                      hintText: 'Enter repeat ',
+                                                      hintText: 'Enter Repeat ',
                                                       InputAction:
                                                           TextInputAction.next),
                                                   SizedBox(
@@ -457,7 +457,7 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                         //                 .text !=
                                                         //             "00");
                                                         if (p0!.isEmpty) {
-                                                          return "Enter ppi";
+                                                          return "Enter PPI";
                                                         }
                                                         return null;
                                                       },

@@ -292,7 +292,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
-                                  return "Enter width in inch";
+                                  return "Enter Width in Inch";
                                 } else if (double.parse(p0) < 1.0) {
                                   return "Width should be greater than 0";
                                 }
@@ -312,14 +312,14 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                               },
                               validatorfield: (p0) {
                                 if (p0!.isEmpty) {
-                                  return "Enter cost of per ppi";
+                                  return "Enter Production Cost of one Pick";
                                 }
                                 return null;
                               },
                               controller: feb.costPerFinalController,
-                              labelText: 'Enter Cost of Per PPI',
+                              labelText: 'Enter Production Cost of one Pick',
                               keyboardType: TextInputType.number,
-                              hintText: 'Enter Cost of Per PPI',
+                              hintText: 'Enter Production Cost of one Pick',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,
@@ -375,9 +375,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                               //   return null;
                               // },
                               controller: feb.buttaCuttingController,
-                              labelText: 'Enter Butta Cutting cost Per Metre',
+                              labelText: 'Enter Butta Cutting Cost per Metre',
                               keyboardType: TextInputType.number,
-                              hintText: 'Enter Butta Cutting cost Per Metre',
+                              hintText: 'Enter Butta Cutting Cost per Metre',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,
@@ -393,9 +393,9 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                               //   return null;
                               // },
                               controller: feb.additionalCostController,
-                              labelText: 'Enter Any Additional cost Per Metre',
+                              labelText: 'Enter Any Additional Cost per Metre',
                               keyboardType: TextInputType.number,
-                              hintText: 'Enter Any Additional cost Per Metre',
+                              hintText: 'Enter Any Additional Cost per Metre',
                               InputAction: TextInputAction.next),
                           SizedBox(
                             height: 25,

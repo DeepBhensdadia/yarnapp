@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           thumbColor: MaterialStateProperty.all(Colors.black.withOpacity(0.25)),
           thickness: MaterialStateProperty.all(7.5),
         )),
-        title: 'RR Textiles',
+        title: 'Textile Diary',
         home: SplashScreen(),
       ),
     );

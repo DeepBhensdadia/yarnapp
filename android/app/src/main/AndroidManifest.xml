@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.yarn_modified">
+    package="gnhub.textile.diary">
    <application
-        android:label="RR Textiles"
+        android:label="Textile Diary"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/getxcontrollers/firebaseauthcontroller.dart';
 import 'package:yarn_modified/helper.dart';
+import 'package:yarn_modified/screens/auth-section/fekescreen.dart';
 import 'package:yarn_modified/screens/auth-section/sign-up-screen.dart';
 import '../../const/const.dart';
 import '../../const/themes.dart';
@@ -54,10 +55,11 @@ class _LoginScreenState extends State<LoginScreen>
                   TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
             ),
             actions: <Widget>[
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.white.withOpacity(0.9)),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white70),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
@@ -65,10 +67,11 @@ class _LoginScreenState extends State<LoginScreen>
                     "Cancel",
                     style: TextStyle(fontSize: 15, color: Colors.black),
                   )),
-              TextButton(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      backgroundColor: Colors.white.withOpacity(0.9)),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white70),
+                  ),
                   onPressed: () {
                     exit(0);
                   },
@@ -142,14 +145,17 @@ class _LoginScreenState extends State<LoginScreen>
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                          SizedBox(height: screenheight(context,dividedby: 10)),
+                          SizedBox(
+                              height: screenheight(context, dividedby: 15)),
                           Align(
                               alignment: Alignment.topCenter,
                               child: Container(
                                   height: 155,
                                   width: 150,
-                                  child: Image.asset(
-                                      "images/RR_Textiles-r.png"))),
+                                  child:
+                                      Image.asset("images/textilediary-logo-512-removebg-preview.png"))),
+
+                        SizedBox(height: 20,),
                           Center(
                             child: Text(
                               textAlign: TextAlign.center,
@@ -165,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                           Center(
                             child: Text(
-                              'Please Enter Your Phone Number to Get Access',
+                              'Please enter your phone number to get access',
                               textScaleFactor: 1,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -187,8 +193,7 @@ class _LoginScreenState extends State<LoginScreen>
                                 key: _formKey,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     CommonMobileTextField(
                                         validator: (p0) {
@@ -223,7 +228,6 @@ class _LoginScreenState extends State<LoginScreen>
                                           onPressed: () async {
                                             if (_formKey.currentState!
                                                 .validate()) {
-                                              // context.loaderOverlay.show();
                                               // await firebaseAuthContrller
                                               //     .sendOTP(
                                               //         mobileController.text);
@@ -235,11 +239,11 @@ class _LoginScreenState extends State<LoginScreen>
                                             }
                                           },
                                           style: ButtonStyle(
-                                              shape: MaterialStateProperty
-                                                  .all(RoundedRectangleBorder(
+                                              shape: MaterialStateProperty.all(
+                                                  RoundedRectangleBorder(
                                                       borderRadius:
-                                                          BorderRadius
-                                                              .circular(8))),
+                                                          BorderRadius.circular(
+                                                              8))),
                                               backgroundColor:
                                                   MaterialStateProperty.all(
                                                       MyTheme.appBarColor)),
@@ -251,45 +255,34 @@ class _LoginScreenState extends State<LoginScreen>
                               ),
                             ),
                           ),
-                          // SizedBox(
-                          //   height: 10,
+                          // SizedBox(height: 25),
+                          // Text(
+                          //   textAlign: TextAlign.center,
+                          //   "OR",
+                          //   textScaleFactor: 1.8,
+                          //   style: TextStyle(
+                          //       fontWeight: FontWeight.bold,
+                          //       color:Colors.black),
                           // ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   crossAxisAlignment: CrossAxisAlignment.center,
-                          //   children: [
-                          //     Text("Don't have an account?",
-                          //         style: TextStyle(color: Colors.black)),
-                          //     SizedBox(
-                          //       width: 0,
-                          //     ),
-                          //     TextButton(
-                          //         onPressed: () {
-                          //           Get.off(SignUpScreen());
-                          //         },
-                          //         style: ButtonStyle(
-                          //             overlayColor:
-                          //                 MaterialStateColor.resolveWith(
-                          //                     (states) => Colors.black
-                          //                         .withOpacity(0.2)),
-                          //             shape: MaterialStateProperty.all(
-                          //                 RoundedRectangleBorder(
-                          //                     borderRadius:
-                          //                         BorderRadius.circular(10))),
-                          //             backgroundColor: MaterialStateProperty.all(
-                          //                 Colors.transparent.withOpacity(0)),
-                          //             foregroundColor:
-                          //                 MaterialStateProperty.all(
-                          //                     Colors.transparent)),
-                          //         child: Text(
-                          //           'Register Now',
-                          //           style: TextStyle(
-                          //               color: Colors.black,
-                          //               decoration: TextDecoration.underline),
-                          //         )),
-                          //   ],
+                          // SizedBox(height: 25),
+                          // Container(
+                          //   margin: EdgeInsets.symmetric(horizontal: 20),
+                          //   height: 40,
+                          //   width: double.infinity,
+                          //   child: ElevatedButton(
+                          //       onPressed: () {
+                          //         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ,))
+                          //         Get.off(HomeScreen2());
+                          //       },
+                          //       style: ButtonStyle(
+                          //           shape: MaterialStateProperty.all(
+                          //               RoundedRectangleBorder(
+                          //                   borderRadius:
+                          //                       BorderRadius.circular(8))),
+                          //           backgroundColor: MaterialStateProperty.all(
+                          //               MyTheme.appBarColor)),
+                          //       child: Text('Continue as a guest')),
                           // ),
-                          // SizedBox(height: 10),
                         ],
                       ),
                     ),

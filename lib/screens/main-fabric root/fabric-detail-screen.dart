@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:yarn_modified/getxcontrollers/getresultscontroller.dart';
 import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/model/getfebricslistmodel.dart';
+import 'package:yarn_modified/screens/main-fabric%20root/photoscreen.dart';
+import 'package:yarn_modified/services/app_url.dart';
 import '../../const/const.dart';
 import '../../const/themes.dart';
 
@@ -116,32 +118,14 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                             },
                             tooltip: "Back",
                             icon: Icon(Icons.arrow_back_rounded)),
-                        GestureDetector(
-                          onTap: () async {
-                            await showDialog(
-                              context: context,
-                              builder: (_) => Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 50, right: 50),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image:
-                                              AssetImage("images/avatar.png"),
-                                          fit: BoxFit.contain),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                          child: CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              radius: 18,
-                              foregroundImage: AssetImage("images/avatar.png")),
-                        ),
+                        PhotoScreen(
+                          dobbn: 18,
+                          image: URLs.image_url +
+                              "assets/fabric/${controller.call == true ? controller.result.general?.photo : widget.data.photo}",
+                          fabricid: controller.call == true
+                              ? controller.result.general?.id.toString() ?? ""
+                              : widget.data.id.toString(),
+                        )
                       ],
                     ),
                   ),
@@ -1001,74 +985,74 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                         ),
                                       ],
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          child: ElevatedButton(
-                                              onPressed: () {},
-                                              style: ButtonStyle(
-                                                  shape:
-                                                      MaterialStateProperty.all(
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8))),
-                                                  elevation:
-                                                      MaterialStateProperty.all(
-                                                          0),
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          Colors.blueAccent)),
-                                              child: Row(
-                                                children: [
-                                                  Icon(Icons.arrow_back_rounded,
-                                                      color: Colors.white,
-                                                      size: 20),
-                                                  SizedBox(width: 10),
-                                                  Text('PREVIOUS'),
-                                                ],
-                                              )),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          child: ElevatedButton(
-                                              onPressed: () {},
-                                              style: ButtonStyle(
-                                                  shape:
-                                                      MaterialStateProperty.all(
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8))),
-                                                  elevation:
-                                                      MaterialStateProperty.all(
-                                                          0),
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          Colors.green)),
-                                              child: Row(
-                                                children: [
-                                                  Text('NEXT'),
-                                                  SizedBox(width: 10),
-                                                  Icon(
-                                                      Icons
-                                                          .arrow_forward_rounded,
-                                                      color: Colors.white,
-                                                      size: 20),
-                                                ],
-                                              )),
-                                        ),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceBetween,
+                                    //   crossAxisAlignment:
+                                    //       CrossAxisAlignment.center,
+                                    //   children: [
+                                    //     Container(
+                                    //       padding: const EdgeInsets.symmetric(
+                                    //           horizontal: 5),
+                                    //       child: ElevatedButton(
+                                    //           onPressed: () {},
+                                    //           style: ButtonStyle(
+                                    //               shape:
+                                    //                   MaterialStateProperty.all(
+                                    //                       RoundedRectangleBorder(
+                                    //                           borderRadius:
+                                    //                               BorderRadius
+                                    //                                   .circular(
+                                    //                                       8))),
+                                    //               elevation:
+                                    //                   MaterialStateProperty.all(
+                                    //                       0),
+                                    //               backgroundColor:
+                                    //                   MaterialStateProperty.all(
+                                    //                       Colors.blueAccent)),
+                                    //           child: Row(
+                                    //             children: [
+                                    //               Icon(Icons.arrow_back_rounded,
+                                    //                   color: Colors.white,
+                                    //                   size: 20),
+                                    //               SizedBox(width: 10),
+                                    //               Text('PREVIOUS'),
+                                    //             ],
+                                    //           )),
+                                    //     ),
+                                    //     Container(
+                                    //       padding: const EdgeInsets.symmetric(
+                                    //           horizontal: 5),
+                                    //       child: ElevatedButton(
+                                    //           onPressed: () {},
+                                    //           style: ButtonStyle(
+                                    //               shape:
+                                    //                   MaterialStateProperty.all(
+                                    //                       RoundedRectangleBorder(
+                                    //                           borderRadius:
+                                    //                               BorderRadius
+                                    //                                   .circular(
+                                    //                                       8))),
+                                    //               elevation:
+                                    //                   MaterialStateProperty.all(
+                                    //                       0),
+                                    //               backgroundColor:
+                                    //                   MaterialStateProperty.all(
+                                    //                       Colors.green)),
+                                    //           child: Row(
+                                    //             children: [
+                                    //               Text('NEXT'),
+                                    //               SizedBox(width: 10),
+                                    //               Icon(
+                                    //                   Icons
+                                    //                       .arrow_forward_rounded,
+                                    //                   color: Colors.white,
+                                    //                   size: 20),
+                                    //             ],
+                                    //           )),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                     SizedBox(
                                       height: 50,
                                     ),

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:yarn_modified/const/themes.dart';
 import 'package:yarn_modified/getxcontrollers/getresultscontroller.dart';
 import 'package:yarn_modified/helper.dart';
+import 'package:yarn_modified/screens/main-fabric%20root/photoscreen.dart';
+import 'package:yarn_modified/services/app_url.dart';
 import '../../../const/const.dart';
 
 class EditResultCategory extends StatefulWidget {
@@ -76,41 +78,10 @@ class _EditResultCategoryState extends State<EditResultCategory> {
                                             children: [
                                               Row(
                                                 children: [
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      await showDialog(
-                                                        context: context,
-                                                        builder: (_) => Center(
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 50,
-                                                                    right: 50),
-                                                            child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                image: DecorationImage(
-                                                                    image: AssetImage(
-                                                                        "images/avatar.png"),
-                                                                    fit: BoxFit
-                                                                        .contain),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: CircleAvatar(
-                                                      backgroundColor:
-                                                          Colors.grey,
-                                                      radius: 27,
-                                                      foregroundImage: AssetImage(
-                                                          "images/avatar.png"),
-                                                    ),
-                                                  ),
+                                                  PhotoScreen(image: URLs.image_url + "assets/fabric/${controller.result.general?.photo}",fabricid: controller
+                                                      .result
+                                                      .general
+                                                      ?.id.toString() ?? ""),
                                                   SizedBox(
                                                     width: 15,
                                                   ),

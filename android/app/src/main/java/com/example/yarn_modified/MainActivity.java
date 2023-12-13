@@ -1,4 +1,4 @@
-package com.example.yarn_modified;
+package gnhub.textile.diary;
 
 import io.flutter.embedding.android.FlutterActivity;
 

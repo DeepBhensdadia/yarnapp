@@ -113,7 +113,7 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                                   Get.to(AddYarn());
                                                 },
                                                 icon: Icon(
-                                                  Icons.add,
+                                                  Icons.add_circle_outline_rounded,
                                                   color: Colors.grey,
                                                 ))
                                           ],
@@ -128,11 +128,11 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                           },
                                           validatorfield: (p0) {
                                             if (p0!.isEmpty) {
-                                              return "Enter Ends (taar)";
+                                              return "Enter Ends (Taar)";
                                             } else if (double.parse(
                                                 p0) <
                                                 1.0) {
-                                              return "Ends(taar) should be greater than 0";
+                                              return "Ends (Taar) should be greater than 0";
                                             }
                                             return null;
                                           },
