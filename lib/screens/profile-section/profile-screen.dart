@@ -173,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       // Get.to()
                                     } else if (index == 3) {
                                       Get.to(ContactUs());
-                                    }else if (index == 4) {
+                                    } else if (index == 4) {
                                       Get.to(AboutUsScreen());
                                     } else if (index == 5) {
                                       // Get.to()

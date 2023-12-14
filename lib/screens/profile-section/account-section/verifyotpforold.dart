@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,8 @@ import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/const/themes.dart';
 import 'package:yarn_modified/getxcontrollers/authcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/firebaseauthcontroller.dart';
+import 'package:yarn_modified/getxcontrollers/phonenumberchangednew.dart';
+import 'package:yarn_modified/getxcontrollers/phonenumberchangeold.dart';
 import 'package:yarn_modified/getxcontrollers/updateuserdetails.dart';
 import 'package:yarn_modified/screens/auth-section/sign-up-screen.dart';
 import 'package:yarn_modified/screens/profile-section/account-section/newmobilenumber.dart';
@@ -146,24 +149,22 @@ class _VerifyOtpOldState extends State<VerifyOtpOld>
                                     RegExp('[\\.]')),
                               ],
                               onCompleted: (pin) async {
-                                // context.loaderOverlay.show();
-                                // firebaseAuthContrller.verifyOTP(
-                                //     pin, widget);
                                 log(pin);
-                                if (pin == "123456") {
+                                // if (pin == "123456") {
                                   if (widget.oldnumebr != true) {
-                                    updateUserController.updatemobilenumberpost(
-                                        mobilenumber: widget.phonenumber);
+                                    // updateUserController.updatemobilenumberpost(
+                                    //     mobilenumber: widget.phonenumber);
+                                    Get.put(PhoneNumberChangenew()).verifyOTP(smsCode: pin,phonenumber: widget.phonenumber);
                                     // FlutterToast.showCustomToast(
                                     //     "Mobile Number Changed Successfully");
                                     // Get.back();
                                     // Get.back();
                                   } else {
-                                    Get.off(NewMobileNumber());
+                                    Get.put(PhoneNumberChangeold()).verifyOTP(smsCode: pin);
                                   }
-                                } else {
-                                  FlutterToast.showCustomToast("Invalid OTP");
-                                }
+                                // } else {
+                                //   FlutterToast.showCustomToast("Invalid OTP");
+                                // }
                               },
                             ),
                             SizedBox(
@@ -174,6 +175,11 @@ class _VerifyOtpOldState extends State<VerifyOtpOld>
                               children: [
                                 TextButton(
                                     onPressed: () async {
+                                      if (widget.oldnumebr != true){
+                                        Get.put(PhoneNumberChangenew()).ResendOTP(widget.phonenumber);
+                                      }else{
+                                        Get.put(PhoneNumberChangeold()).ResendOTP(widget.phonenumber);
+                                      }
                                       // await firebaseAuthContrller
                                       //     .sendOTP(widget.phonenumber);
                                     },

@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/const/themes.dart';
+import 'package:yarn_modified/getxcontrollers/deleteaccountotpverify.dart';
+
+import 'package:yarn_modified/getxcontrollers/phonenumberchangeold.dart';
 import 'package:yarn_modified/getxcontrollers/updateuserdetails.dart';
 import 'package:yarn_modified/screens/auth-section/login-screen.dart';
 import 'package:yarn_modified/screens/profile-section/account-section/deleteaccoutotpscreen.dart';
@@ -54,7 +57,8 @@ class _MyAccountState extends State<MyAccount> {
                         (states) => Colors.white70),
                   ),
                   onPressed: () async {
-                    Get.to(DeleteAccountVerifyOtp(phonenumber: saveUser()?.mobileNumber ?? "",));
+                    Get.put(DeleteAccountotpverification()).sendOTP(saveUser()?.mobileNumber ?? "",);
+                    // Get.to(DeleteAccountVerifyOtp(phonenumber: saveUser()?.mobileNumber ?? "",));
                   },
                   child: Text(
                     "Yes",
@@ -180,11 +184,8 @@ class _MyAccountState extends State<MyAccount> {
                                       ),
                                       ElevatedButton(
                                         onPressed: () {
-                                          Get.to(VerifyOtpOld(
-                                            phonenumber:
-                                                saveUser()?.mobileNumber ?? '',
-                                            oldnumebr: true,
-                                          ));
+                                          Get.put(PhoneNumberChangeold()).sendOTP( saveUser()?.mobileNumber ?? "");
+
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:

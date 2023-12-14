@@ -80,8 +80,10 @@ Future<YarnIndexModel> yarnIndexData({required String keyword}) async {
   return yarnIndexModelFromJson(response.body);
 }
 
-Future<Getloginresponse> getlogindetails({required String keyword,required String deviceinfo}) async {
-  var url = Uri.parse(URLs.Base_url + "userlogin?mobile_number=${keyword}&devices_id=$deviceinfo");
+Future<Getloginresponse> getlogindetails(
+    {required String keyword, required String deviceinfo}) async {
+  var url = Uri.parse(URLs.Base_url +
+      "userlogin?mobile_number=${keyword}&devices_id=$deviceinfo");
   var response = await http.post(url);
   // print('Response Body: ${response.body}');
   return getloginresponseFromJson(response.body);
@@ -89,13 +91,14 @@ Future<Getloginresponse> getlogindetails({required String keyword,required Strin
 
 Future<Getloginresponse> UpdatePhonenumber({required var parameter}) async {
   var url = Uri.parse(URLs.Base_url + "updateNumber");
-  var response = await http.post(url,body: parameter,headers: commonHeaders);
+  var response = await http.post(url, body: parameter, headers: commonHeaders);
   print('Response Body: ${response.body}');
   return getloginresponseFromJson(response.body);
 }
+
 Future<Getloginresponse> Updateuserprofile({required var parameter}) async {
   var url = Uri.parse(URLs.Base_url + "userUpadate");
-  var response = await http.post(url,body: parameter,headers: commonHeaders);
+  var response = await http.post(url, body: parameter, headers: commonHeaders);
   print('Response Body: ${response.body}');
   return getloginresponseFromJson(response.body);
 }
@@ -110,9 +113,10 @@ Future<GetResultModel> getResultapi({required String id}) async {
   return getResultModelFromJson(response.body);
 }
 
-Future<Getdetailscheckresponse> getDetailsChecktapi({required String deviceid}) async {
-  var url =
-      Uri.parse(URLs.Base_url + "getDetails?devices_id=$deviceid&id=${saveUser()?.id}");
+Future<Getdetailscheckresponse> getDetailsChecktapi(
+    {required String deviceid}) async {
+  var url = Uri.parse(
+      URLs.Base_url + "getDetails?devices_id=$deviceid&id=${saveUser()?.id}");
   var response = await http.get(url);
   print('Response Body: ${response.body}');
   return getdetailscheckresponseFromJson(response.body);
@@ -181,7 +185,6 @@ Future<CreateAddYarnModel> addYarnIndexData({required parameter}) async {
   print('Response Body: ${response.body}');
   return createAddYarnModelFromJson(response.body);
 }
-
 
 //==============Edit Yarn & Fabric Category, Yarn & Fabric Index Api===========
 

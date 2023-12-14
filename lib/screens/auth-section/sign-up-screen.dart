@@ -182,7 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                     SizedBox(height: 20),
                                     CommonTextField(
                                       controller:
-                                          authController.businessnameController,
+                                          authController.emailController,
                                       labelText: 'Email',
                                       keyboardType: TextInputType.emailAddress,
                                       hintText: 'Enter Your Email Address',
@@ -193,7 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                                     SizedBox(height: 20),
                                     CommonTextField(
                                       controller:
-                                          authController.emailController,
+                                          authController.businessnameController,
                                       labelText: 'Business Name',
                                       keyboardType: TextInputType.emailAddress,
                                       hintText: 'Enter Your Email Address',

@@ -10,6 +10,7 @@ import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/const/themes.dart';
 import 'package:yarn_modified/getxcontrollers/authcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/firebaseauthcontroller.dart';
+import 'package:yarn_modified/getxcontrollers/phonenumberchangednew.dart';
 import 'package:yarn_modified/screens/auth-section/sign-up-screen.dart';
 import 'package:yarn_modified/screens/profile-section/account-section/verifyotpforold.dart';
 import 'package:yarn_modified/screens/root-app.dart';
@@ -134,11 +135,7 @@ class _NewMobileNumberState extends State<NewMobileNumber>
                                       // await firebaseAuthContrller
                                       //     .sendOTP(
                                       //         mobileController.text);
-                                      FlutterToast.showCustomToast(
-                                          "OTP sent Successfully");
-                                      Get.off(VerifyOtpOld(
-                                          phonenumber:
-                                          mobileController.text));
+                                      Get.put(PhoneNumberChangenew()).sendOTP( saveUser()?.mobileNumber ?? "");
                                     }
                                   },
                                   style: ButtonStyle(

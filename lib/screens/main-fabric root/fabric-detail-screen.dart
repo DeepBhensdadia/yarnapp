@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yarn_modified/getxcontrollers/febriceditcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/getresultscontroller.dart';
 import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/model/getfebricslistmodel.dart';
@@ -688,10 +689,11 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                       e.value.value?.toDouble().toStringAsFixed(2) ==
                                                                               "0.00"
                                                                           ? "NA"
-                                                                          : e.value
-                                                                              .value
-                                                                              ?.toDouble()
-                                                                              .toStringAsFixed(2),
+                                                                          : controller.result.weftlist?.first.isAdvance == 0
+                                                                              ? e.key == 7
+                                                                                  ? "NA"
+                                                                                  : e.value.value?.toDouble().toStringAsFixed(2)
+                                                                              : e.value.value?.toDouble().toStringAsFixed(2),
                                                                       style: TextStyle(
                                                                           fontWeight: e.key == 6 || e.key == 7
                                                                               ? FontWeight.w600
@@ -964,7 +966,11 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                         : e.value.value?.toDouble().toStringAsFixed(2) ==
                                                                                 "0.00"
                                                                             ? "NA"
-                                                                            : e.value.value?.toDouble().toStringAsFixed(2),
+                                                                            : controller.result.weftlist?.first.isAdvance == 0
+                                                                                ? e.key == 3 || e.key == 4
+                                                                                    ? "NA"
+                                                                                    : e.value.value?.toDouble().toStringAsFixed(2)
+                                                                                : e.value.value?.toDouble().toStringAsFixed(2),
                                                                     style: TextStyle(
                                                                         // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
                                                                         color: Colors.black.withOpacity(0.8)),

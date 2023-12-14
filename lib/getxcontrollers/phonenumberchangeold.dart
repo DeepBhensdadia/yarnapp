@@ -11,13 +11,15 @@ import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/getxcontrollers/authcontroller.dart';
 import 'package:yarn_modified/screens/auth-section/sign-up-screen.dart';
 import 'package:yarn_modified/screens/auth-section/verifyotpscreen.dart';
+import 'package:yarn_modified/screens/profile-section/account-section/newmobilenumber.dart';
+import 'package:yarn_modified/screens/profile-section/account-section/verifyotpforold.dart';
 import 'package:yarn_modified/screens/root-app.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import 'package:yarn_modified/shared_pref/shared_pref.dart';
 
-class FirebaseAuthContrller extends GetxController {
+class PhoneNumberChangeold extends GetxController {
   String verificationid = "";
-  AuthController authController = Get.put(AuthController());
+
   Future<void> sendOTP(String phoneNumber) async {
     Get.context!.loaderOverlay.show();
 
@@ -37,7 +39,11 @@ class FirebaseAuthContrller extends GetxController {
         Get.context!.loaderOverlay.hide();
         verificationid = verificationId;
         FlutterToast.showCustomToast("OTP sent Successfully");
-        Get.to(VerifyOtpScreen(phonenumber: phoneNumber));
+        Get.to(VerifyOtpOld(
+          phonenumber:
+          saveUser()?.mobileNumber ?? '',
+          oldnumebr: true,
+        ));
         print('Verification ID: $verificationId');
         print('Verification ID: $resendToken');
       },
@@ -67,7 +73,11 @@ class FirebaseAuthContrller extends GetxController {
         Get.context!.loaderOverlay.hide();
         verificationid = verificationId;
         FlutterToast.showCustomToast("OTP sent Successfully");
-        // Get.to(VerifyOtpScreen(phonenumber: phoneNumber));
+        // Get.to(VerifyOtpOld(
+        //   phonenumber:
+        //   saveUser()?.mobileNumber ?? '',
+        //   oldnumebr: true,
+        // ));
         print('Verification ID: $verificationId');
         print('Verification ID: $resendToken');
       },
@@ -78,7 +88,7 @@ class FirebaseAuthContrller extends GetxController {
     );
   }
 
-  Future<void> verifyOTP(String smsCode, widget, deviceinfo) async {
+  Future<void> verifyOTP({required String smsCode}) async {
     Get.context!.loaderOverlay.show();
 
     try {
@@ -89,30 +99,12 @@ class FirebaseAuthContrller extends GetxController {
       );
 
       UserCredential userCredential =
-          await auth.signInWithCredential(credential);
+      await auth.signInWithCredential(credential);
 
       if (userCredential.user != null) {
+        Get.context!.loaderOverlay.hide();
         FlutterToast.showCustomToast('OTP verified');
-        await getlogindetails(
-                keyword: widget.phonenumber, deviceinfo: deviceinfo)
-            .then((value) {
-          Get.context!.loaderOverlay.hide();
-
-          if (value.success != false) {
-            SharedPref.save(
-                value: jsonEncode(value.toJson()),
-                prefKey: PrefKey.loginDetails);
-            Get.offAll(RootApp());
-            FlutterToast.showCustomToast(value.message ?? "");
-          } else {
-            Get.offAll(SignUpScreen(phonenumber: widget.phonenumber));
-          }
-
-          print(value);
-        }).onError((error, stackTrace) {
-          Get.context!.loaderOverlay.hide();
-          print("error..$error");
-        });
+        Get.off(NewMobileNumber());
       } else {
         Get.context!.loaderOverlay.hide();
         FlutterToast.showCustomToast('OTP verification failed');

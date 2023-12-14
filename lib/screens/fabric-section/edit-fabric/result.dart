@@ -681,7 +681,7 @@ class _EditResultCategoryState extends State<EditResultCategory> {
                                                               e.value.value?.toDouble().toStringAsFixed(2) ==
                                                                   "0.00"
                                                                   ? "NA"
-                                                                  : e.value.value?.toDouble().toStringAsFixed(2),
+                                                                  : controller.result.weftlist?.first.isAdvance == 0 ? e.key == 7 ? "NA" : e.value.value?.toDouble().toStringAsFixed(2) : e.value.value?.toDouble().toStringAsFixed(2),
                                                               style: TextStyle(
                                                                   fontWeight: e.key == 6 || e.key == 7
                                                                       ? FontWeight.w600
@@ -954,7 +954,7 @@ class _EditResultCategoryState extends State<EditResultCategory> {
                                                                 : e.value.value?.toDouble().toStringAsFixed(2) ==
                                                                 "0.00"
                                                                 ? "NA"
-                                                                : e.value.value?.toDouble().toStringAsFixed(2),
+                                                                : controller.result.weftlist?.first.isAdvance == 0 ? e.key == 3 || e.key == 4  ? "NA" : e.value.value?.toDouble().toStringAsFixed(2) : e.value.value?.toDouble().toStringAsFixed(2),
                                                             style: TextStyle(
                                                               // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
                                                                 color: Colors.black.withOpacity(0.8)),

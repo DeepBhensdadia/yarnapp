@@ -9,6 +9,7 @@ import 'package:pinput/pinput.dart';
 import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/const/themes.dart';
 import 'package:yarn_modified/getxcontrollers/authcontroller.dart';
+import 'package:yarn_modified/getxcontrollers/deleteaccountotpverify.dart';
 import 'package:yarn_modified/getxcontrollers/firebaseauthcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/updateuserdetails.dart';
 import 'package:yarn_modified/screens/auth-section/login-screen.dart';
@@ -142,25 +143,16 @@ class _DeleteAccountVerifyOtpState extends State<DeleteAccountVerifyOtp>
                                     RegExp('[\\.]')),
                               ],
                               onCompleted: (pin) async {
+                                Get.put(DeleteAccountotpverification()).verifyOTP(smsCode: pin,);
                                 // context.loaderOverlay.show();
                                 // firebaseAuthContrller.verifyOTP(
                                 //     pin, widget);
                                 log(pin);
-                                if (pin == "123456") {
-                                  context.loaderOverlay.show();
-                                  await deleteuseraccount().then((value) {
-                                    FlutterToast.showCustomToast(value.message);
-                                    SharedPref.deleteAll();
-                                    Get.deleteAll(force: true);
-                                    Get.offAll(LoginScreen());
-                                    context.loaderOverlay.hide();
-                                  }).onError((error, stackTrace) {
-                                    context.loaderOverlay.hide();
-                                    print("errorr...$error");
-                                  });
-                                } else {
-                                  FlutterToast.showCustomToast("Invalid OTP");
-                                }
+                                // if (pin == "123456") {
+                                //
+                                // } else {
+                                //   FlutterToast.showCustomToast("Invalid OTP");
+                                // }
                               },
                             ),
                             SizedBox(
@@ -171,8 +163,7 @@ class _DeleteAccountVerifyOtpState extends State<DeleteAccountVerifyOtp>
                               children: [
                                 TextButton(
                                     onPressed: () async {
-                                      // await firebaseAuthContrller
-                                      //     .sendOTP(widget.phonenumber);
+                                      Get.put(DeleteAccountotpverification()).ResendOTP(widget.phonenumber);
                                     },
                                     style: ButtonStyle(
                                         overlayColor:

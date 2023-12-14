@@ -152,10 +152,12 @@ class _LoginScreenState extends State<LoginScreen>
                               child: Container(
                                   height: 155,
                                   width: 150,
-                                  child:
-                                      Image.asset("images/textilediary-logo-512-removebg-preview.png"))),
+                                  child: Image.asset(
+                                      "images/textilediary-logo-512-removebg-preview.png"))),
 
-                        SizedBox(height: 20,),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Center(
                             child: Text(
                               textAlign: TextAlign.center,
@@ -228,14 +230,14 @@ class _LoginScreenState extends State<LoginScreen>
                                           onPressed: () async {
                                             if (_formKey.currentState!
                                                 .validate()) {
-                                              // await firebaseAuthContrller
-                                              //     .sendOTP(
-                                              //         mobileController.text);
-                                              FlutterToast.showCustomToast(
-                                                  "OTP sent Successfully");
-                                              Get.to(VerifyOtpScreen(
-                                                  phonenumber:
-                                                      mobileController.text));
+                                              await firebaseAuthContrller
+                                                  .sendOTP(
+                                                      mobileController.text);
+                                              // FlutterToast.showCustomToast(
+                                              //     "OTP sent Successfully");
+                                              // Get.to(VerifyOtpScreen(
+                                              //     phonenumber:
+                                              //         mobileController.text));
                                             }
                                           },
                                           style: ButtonStyle(

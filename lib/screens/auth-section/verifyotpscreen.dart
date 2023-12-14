@@ -21,8 +21,10 @@ import '../root-app.dart';
 class VerifyOtpScreen extends StatefulWidget {
   final String phonenumber;
 
-  const VerifyOtpScreen(
-      {super.key, required this.phonenumber, });
+  const VerifyOtpScreen({
+    super.key,
+    required this.phonenumber,
+  });
 
   @override
   State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
@@ -46,15 +48,12 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       String deviceId = androidInfo.androidId;
       print('Device ID: $deviceId');
-      firebaseAuthContrller.verifyOTP(
-        pin, widget,deviceId);
+      firebaseAuthContrller.verifyOTP(pin, widget, deviceId);
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       String deviceId = iosInfo.identifierForVendor;
       print('Device ID: $deviceId');
-      firebaseAuthContrller.verifyOTP(
-        pin, widget,deviceId);
-
+      firebaseAuthContrller.verifyOTP(pin, widget, deviceId);
     }
   }
 
@@ -169,6 +168,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 IconButton(
                                     onPressed: () {
@@ -177,18 +178,30 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                     icon: Icon(
                                       Icons.arrow_back,
                                       size: 30,
-                                    ))
+                                    )),
+                                Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    height: 150,
+                                    width: 150,
+                                    child: Image.asset(
+                                        "images/textilediary-logo-512-removebg-preview.png"),
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      // Get.back();
+                                    },
+                                    icon: Icon(
+                                      Icons.arrow_back,
+                                      size: 30,
+                                      color: Colors.transparent,
+                                    )),
                               ],
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Container(
-                              height: 120,
-                              width: 150,
-                              child: Image.asset(
-                                  "images/textilediary-logo-512-removebg-preview.png"),
-                            ),
+                          SizedBox(
+                            height: 20,
                           ),
                           Center(
                             child: Text(
@@ -265,48 +278,49 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                             RegExp('[\\.]')),
                                       ],
                                       onCompleted: (pin) async {
-                                        // getDeviceId(pin);
-
-                                        context.loaderOverlay.show();
+                                         getDeviceId(pin);
                                         log(pin);
-                                        if (pin == "123456") {
-                                          DeviceInfoPlugin deviceInfo =
-                                          DeviceInfoPlugin();
-                                          AndroidDeviceInfo androidInfo =
-                                          await deviceInfo.androidInfo;
-                                          String deviceId =
-                                              androidInfo.androidId;
-                                          context.loaderOverlay.show();
-                                          await getlogindetails(
-                                              keyword: widget.phonenumber,
-                                              deviceinfo: deviceId)
-                                              .then((value) {
-                                            context.loaderOverlay.hide();
 
-                                            if (value.success != false) {
-                                              SharedPref.save(
-                                                  value: jsonEncode(
-                                                      value.toJson()),
-                                                  prefKey:
-                                                  PrefKey.loginDetails);
-                                              Get.offAll(RootApp());
-                                              FlutterToast.showCustomToast(
-                                                  value.message ?? "");
-                                            } else {
-                                              Get.off(SignUpScreen(
-                                                  phonenumber:
-                                                  widget.phonenumber));
-                                            }
-
-                                            print(value);
-                                          }).onError((error, stackTrace) {
-                                            context.loaderOverlay.hide();
-                                            print("error..$error");
-                                          });
-                                        } else {
-                                          FlutterToast.showCustomToast(
-                                              "Invalid OTP");
-                                        }
+                                        // if (pin == "123456") {
+                                        //   context.loaderOverlay.show();
+                                        //   DeviceInfoPlugin deviceInfo =
+                                        //       DeviceInfoPlugin();
+                                        //   AndroidDeviceInfo androidInfo =
+                                        //       await deviceInfo.androidInfo;
+                                        //   String deviceId =
+                                        //       androidInfo.androidId;
+                                        //   context.loaderOverlay.show();
+                                        //   await getlogindetails(
+                                        //           keyword: widget.phonenumber,
+                                        //           deviceinfo: deviceId)
+                                        //       .then((value) {
+                                        //     context.loaderOverlay.hide();
+                                        //
+                                        //     if (value.success != false) {
+                                        //       SharedPref.save(
+                                        //           value: jsonEncode(
+                                        //               value.toJson()),
+                                        //           prefKey:
+                                        //               PrefKey.loginDetails);
+                                        //       Get.offAll(RootApp());
+                                        //       FlutterToast.showCustomToast(
+                                        //           value.message ?? "");
+                                        //     } else {
+                                        //       Get.off(SignUpScreen(
+                                        //           phonenumber:
+                                        //               widget.phonenumber));
+                                        //     }
+                                        //
+                                        //     print(value);
+                                        //   }).onError((error, stackTrace) {
+                                        //     context.loaderOverlay.hide();
+                                        //     print("error..$error");
+                                        //   });
+                                        // } else {
+                                        //   context.loaderOverlay.hide();
+                                        //   FlutterToast.showCustomToast(
+                                        //       "Invalid OTP");
+                                        // }
                                       },
                                     ),
                                     SizedBox(
@@ -318,8 +332,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                       children: [
                                         TextButton(
                                             onPressed: () async {
-                                              // await firebaseAuthContrller
-                                              //     .sendOTP(widget.phonenumber);
+                                              await firebaseAuthContrller
+                                                  .ResendOTP(widget.phonenumber);
                                             },
                                             style: ButtonStyle(
                                                 overlayColor:
