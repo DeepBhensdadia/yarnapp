@@ -434,7 +434,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Text('Per Meter',
+                                        Text('Per Metre',
                                             textScaleFactor: 1.15,
                                             textAlign: TextAlign.end,
                                             style: TextStyle(

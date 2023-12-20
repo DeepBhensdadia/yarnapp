@@ -13,12 +13,11 @@ import '../../services/all_api_services.dart';
 import '../../widgets/common_fields.dart';
 
 class EditYarn extends StatefulWidget {
-  EditYarn({super.key, this.yarnAllItemsData, this.yarnCategoryData});
+  EditYarn({super.key, this.yarnAllItemsData, });
 
   // final yarnItem? allData;
   yarnIndexDatum? yarnAllItemsData;
   // final yarnLowTwistItemsData;
-  yarnCategoryDatum? yarnCategoryData;
 
   @override
   State<EditYarn> createState() => _EditYarnState();

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info/device_info.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/const/const.dart';
@@ -29,4 +32,20 @@ class GetDetailsCheck extends GetxController {
       print("error...$error");
     });
   }
+
+  void getDeviceId() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      String deviceId = androidInfo.androidId;
+      print('Device ID: $deviceId');
+      getdetailscheckcall(id: deviceId);
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      String deviceId = iosInfo.identifierForVendor;
+      print('Device ID: $deviceId');
+      getdetailscheckcall(id: deviceId);
+    }
+  }
+
 }

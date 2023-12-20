@@ -97,7 +97,7 @@ class _DeleteAccountVerifyOtpState extends State<DeleteAccountVerifyOtp>
                     padding: const EdgeInsets.symmetric(
                         horizontal: 25.0, vertical: 20),
                     child: Text(
-                    'Please enter the OTP sent to your  mobile number',
+                    'Please enter the OTP sent to your mobile number',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,

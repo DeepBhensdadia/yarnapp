@@ -278,7 +278,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                             RegExp('[\\.]')),
                                       ],
                                       onCompleted: (pin) async {
-                                         getDeviceId(pin);
+                                        getDeviceId(pin);
                                         log(pin);
 
                                         // if (pin == "123456") {
@@ -333,7 +333,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                         TextButton(
                                             onPressed: () async {
                                               await firebaseAuthContrller
-                                                  .ResendOTP(widget.phonenumber);
+                                                  .ResendOTP(
+                                                      widget.phonenumber);
                                             },
                                             style: ButtonStyle(
                                                 overlayColor:

@@ -455,10 +455,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                                                         .yarnData[
                                                                     index],
                                                             // yarnLowTwistItemsData: yarnLowTwistItems[index],
-                                                            yarnCategoryData:
-                                                                yarncategorycontroll
-                                                                        .getData[
-                                                                    index],
+                                                            // yarnCategoryData: yarncategorycontroll.getData[index],
                                                           )));
                                             },
                                           ),

@@ -517,7 +517,9 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                           if (!feb.isWrapDone) {
                             context.loaderOverlay.show();
                             Map<String, dynamic> params = {
-                              "fabric_name": feb.nameController.text
+                              "fabric_name": feb.nameController.text,
+                              "user_id" : saveUser()?.id
+
                             };
 
                             await febricvalidation(

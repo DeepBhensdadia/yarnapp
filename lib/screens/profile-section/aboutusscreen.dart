@@ -34,7 +34,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               appBar: AppBar(
                 iconTheme: IconThemeData(color: Colors.white),
                 title: Text(
-                  'About Us',
+                  'About us',
                   textScaleFactor: 1,
                   style: TextStyle(color: MyTheme.appBarTextColor),
                 ),
@@ -102,5 +102,6 @@ Lastly, you can also include an image of your fabric.''',style: TextStyle(color:
         ),
       ],
     );
+
   }
 }

@@ -34,7 +34,7 @@ class _MyAccountState extends State<MyAccount> {
               style: TextStyle(fontSize: 20, color: Colors.black),
             ),
             content: Text(
-              "if you delete this account, next time you will not get free package",
+              "If you delete this account, you will not receive a free package next time and you will lose all your data.",
               style:
                   TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
             ),

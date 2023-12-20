@@ -83,7 +83,7 @@ Future<YarnIndexModel> yarnIndexData({required String keyword}) async {
 Future<Getloginresponse> getlogindetails(
     {required String keyword, required String deviceinfo}) async {
   var url = Uri.parse(URLs.Base_url +
-      "userlogin?mobile_number=${keyword}&devices_id=$deviceinfo");
+      "userlogin?mobile_number=${keyword}&device_id=$deviceinfo");
   var response = await http.post(url);
   // print('Response Body: ${response.body}');
   return getloginresponseFromJson(response.body);
@@ -116,7 +116,7 @@ Future<GetResultModel> getResultapi({required String id}) async {
 Future<Getdetailscheckresponse> getDetailsChecktapi(
     {required String deviceid}) async {
   var url = Uri.parse(
-      URLs.Base_url + "getDetails?devices_id=$deviceid&id=${saveUser()?.id}");
+      URLs.Base_url + "getDetails?device_id=$deviceid&id=${saveUser()?.id}");
   var response = await http.get(url);
   print('Response Body: ${response.body}');
   return getdetailscheckresponseFromJson(response.body);

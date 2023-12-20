@@ -169,7 +169,7 @@ class _ContactUsState extends State<ContactUs> {
                 ),
                 InkWell(
                   onTap: () async {
-                    final whatsappUrl = "mailto:rrtextile@gmail.com";
+                    final whatsappUrl = "mailto:info@textilediary.in";
                     await launchUrl(Uri.parse(whatsappUrl));
                   },
                   child: Card(
@@ -202,7 +202,7 @@ class _ContactUsState extends State<ContactUs> {
                               ),
                               SizedBox(height: 3,),
                               Text(
-                                "rrtextile@gmail.com",
+                                "info@textilediary.in",
                                 textScaleFactor: 1,
                                 style: TextStyle(
                                     color: Colors.black,

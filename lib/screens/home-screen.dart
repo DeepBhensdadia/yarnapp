@@ -34,27 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
   GetDetailsCheck getdetailController = Get.put(GetDetailsCheck());
 
 
-  void getDeviceId() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      String deviceId = androidInfo.androidId;
-      print('Device ID: $deviceId');
-      getdetailController.getdetailscheckcall(id: deviceId);
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      String deviceId = iosInfo.identifierForVendor;
-      print('Device ID: $deviceId');
-      getdetailController.getdetailscheckcall(id: deviceId);
-
-    }
-  }
-
-
 
   @override
   void initState() {
-    getDeviceId();
+    getdetailController.getDeviceId();
     packageController.PackageSummaryAPi();
     // TODO: implement initState
     super.initState();
@@ -110,8 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Container(
                                 height: 125,
                                 width: 150,
-                                child:
-                                    Image.asset("images/textilediary-logo-512-removebg-preview.png"))),
+                                child: Image.asset(
+                                    "images/textilediary-logo-512-removebg-preview.png"))),
                         Container(
                             width: MediaQuery.of(context).size.width * 0.95,
                             child: Center(
@@ -154,15 +137,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ListTile(
                             dense: true,
                             title: Text(
-                              "YARN CATEGORY",
-                              textScaleFactor: 1.3,
-                              style: TextStyle(color: MyTheme.appBarColor),
+                              "Yarn Category",
+                              textScaleFactor: 1.4,
+                              style: TextStyle(
+                                  color: MyTheme.appBarColor,
+                                  fontWeight: FontWeight.w500),
                             ),
                             trailing: Icon(
                               Icons.keyboard_arrow_right_rounded,
                               color: MyTheme.appBarColor,
                             ),
                             onTap: () {
+                              getdetailController.getDeviceId();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -173,15 +159,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           ListTile(
                             dense: true,
                             title: Text(
-                              "YARN RATE",
-                              textScaleFactor: 1.3,
-                              style: TextStyle(color: MyTheme.appBarColor),
+                              "Yarn Rate",
+                              textScaleFactor: 1.4,
+                              style: TextStyle(
+                                  color: MyTheme.appBarColor,
+                                  fontWeight: FontWeight.w500),
                             ),
                             trailing: Icon(
+
                               Icons.keyboard_arrow_right_rounded,
                               color: MyTheme.appBarColor,
                             ),
                             onTap: () {
+                              getdetailController.getDeviceId();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -223,15 +213,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ListTile(
                             dense: true,
                             title: Text(
-                              "FABRIC CATEGORY",
-                              textScaleFactor: 1.3,
-                              style: TextStyle(color: MyTheme.appBarColor),
+                              "Fabric Category",
+                              textScaleFactor: 1.4,
+                              style: TextStyle(
+                                  color: MyTheme.appBarColor,
+                                  fontWeight: FontWeight.w500),
                             ),
                             trailing: Icon(
                               Icons.keyboard_arrow_right_rounded,
                               color: MyTheme.appBarColor,
                             ),
                             onTap: () {
+                              getdetailController.getDeviceId();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -242,15 +235,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ListTile(
                             dense: true,
                             title: Text(
-                              "FABRIC COST",
-                              textScaleFactor: 1.3,
-                              style: TextStyle(color: MyTheme.appBarColor),
+                              "Fabric Cost",
+                              textScaleFactor: 1.4,
+                              style: TextStyle(
+                                  color: MyTheme.appBarColor,
+                                  fontWeight: FontWeight.w500),
                             ),
                             trailing: Icon(
                               Icons.keyboard_arrow_right_rounded,
                               color: MyTheme.appBarColor,
                             ),
                             onTap: () {
+                              getdetailController.getDeviceId();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -274,6 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.only(left: 20, right: 20),
                             child: InkWell(
                               onTap: () {
+                                getdetailController.getDeviceId();
                                 controller.PackagelistgetAPI();
                               },
                               child: Card(
@@ -283,71 +280,46 @@ class _HomeScreenState extends State<HomeScreen> {
                                 elevation: 5,
                                 child: Container(
                                   width: screenwidth(context, dividedby: 1),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "SUBSCRIPTION",
-                                          textScaleFactor: 1.3,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 20,),
+                                      Text(
+                                        "SUBSCRIPTION",
+                                        textScaleFactor: 1.3,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+
+                                      ListTile(
+                                        dense: true,
+                                        title: Text(
+                                          "Current Package",
+                                          textScaleFactor: 1.4,
                                           style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600),
+                                              color: MyTheme.appBarColor,
+                                              fontWeight: FontWeight.w500),
                                         ),
-                                        SizedBox(
-                                          height: 20,
+                                        // trailing: Icon(
+                                        //   Icons.keyboard_arrow_right_rounded,
+                                        //   color: MyTheme.appBarColor,
+                                        // ),
+                                      ),  ListTile(
+                                        dense: true,
+                                        title:   Text(
+                                          "${controller.packagessummary?.remaningDays} days left",
+                                          textScaleFactor: 1.4,
+                                          style: TextStyle(color: MyTheme.appBarColor,fontWeight: FontWeight.w500),
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              child: Text(
-                                                "Current package",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.black,
-                                              size: 15,
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              controller.packagessummary
-                                                      ?.userPackages?.notes ??
-                                                  "",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            Text(
-                                              "${controller.packagessummary?.remaningDays} days left",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            // MaterialButton(onPressed: () {
-                                            //
-                                            // },child: Text("Upgrade",style: TextStyle(color: Colors.black),),)
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                         trailing: Icon(
+                                           Icons.keyboard_arrow_right_rounded,
+                                           color: MyTheme.appBarColor,
+                                         ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

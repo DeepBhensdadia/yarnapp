@@ -36,7 +36,7 @@ class DeleteAccountotpverification extends GetxController {
       },
       verificationFailed: (FirebaseAuthException e) {
         Get.context!.loaderOverlay.hide();
-        FlutterToast.showCustomToast("Something Wrong Please Try Again");
+        FlutterToast.showCustomToast(e.message ?? "");
         print(e.message);
       },
       codeSent: (String verificationId, int? resendToken) {
@@ -68,7 +68,7 @@ class DeleteAccountotpverification extends GetxController {
       },
       verificationFailed: (FirebaseAuthException e) {
         Get.context!.loaderOverlay.hide();
-        FlutterToast.showCustomToast("Something Wrong Please Try Again");
+        FlutterToast.showCustomToast(e.message ?? "");
         print(e.message);
       },
       codeSent: (String verificationId, int? resendToken) {
