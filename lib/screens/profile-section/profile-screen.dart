@@ -201,7 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   CircularProgressIndicator(
                     color: Colors.black,
-                    strokeWidth: 4,
+                    strokeWidth: 3,
                   ),
                 ],
               )

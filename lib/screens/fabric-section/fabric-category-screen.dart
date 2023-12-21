@@ -288,7 +288,7 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
                     )
                   : Center(
                       child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
+                        strokeWidth: 3,
                         color: Colors.black,
                       ),
                     ),

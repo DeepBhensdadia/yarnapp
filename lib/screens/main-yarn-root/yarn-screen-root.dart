@@ -36,8 +36,8 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
   @override
   void initState() {
     super.initState();
-    yarncategorycontroll.fetchDataFromAPI();
     yarnlist.fetchDataFromAPI(key: "");
+    yarncategorycontroll.fetchDataFromAPI();
   }
 
   List yarnhbj = [];
@@ -659,11 +659,12 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                             )
                       : Center(
                           child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
+                            strokeWidth: 3,
                             color: Colors.black,
                           ),
                         ),
                 )),
+                SizedBox(height: 50,)
               ],
             ),
           ),

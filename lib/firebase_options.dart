@@ -50,11 +50,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAPMPe1_H2mRt6O_FCPc1_QdBNyorH1Zd8',
-    appId: '1:74125807413:android:6276e99f6cf902dc26867c',
-    messagingSenderId: '74125807413',
-    projectId: 'textile-diary-yarn',
-    storageBucket: 'textile-diary-yarn.appspot.com',
+    apiKey: 'AIzaSyB4hgZC20M4cZ4fSDM5RIV_H7-jroPwaqA',
+    appId: '1:79714298905:android:b01d88ad93ef161222ce88',
+    messagingSenderId: '79714298905',
+    projectId: 'textile-diary-gn',
+    storageBucket: 'textile-diary-gn.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

@@ -25,7 +25,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GlobalLoaderOverlay(
       useDefaultLoading: false,
-      overlayWidget: Center(child: CircularProgressIndicator()),
+      overlayWidget: Center(
+          child: CircularProgressIndicator(
+        color: Colors.black,
+        strokeWidth: 3,
+      )),
       overlayColor: Colors.grey.withOpacity(0.5),
       overlayOpacity: 0.2,
       child: GetMaterialApp(

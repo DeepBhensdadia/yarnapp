@@ -28,7 +28,7 @@ class FebricListControllers extends GetxController {
       params += "&priceSort=" + price;
     }
     // Get.context!.loaderOverlay.show();
-    febriclistbool = false;
+    // febriclistbool = false;
     await febricindexlist(para: params).then((value) {
       febriclist = value.fabricCostList ?? [];
       febriclistbool = true;

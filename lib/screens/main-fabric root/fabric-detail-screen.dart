@@ -135,7 +135,8 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                     return MediaQuery(
                       data: data.copyWith(textScaleFactor: 1),
                       child: controller.call == false
-                          ? Center(child: CircularProgressIndicator())
+                          ? Center(child: CircularProgressIndicator(    color: Colors.black,
+                        strokeWidth: 3,))
                           : SingleChildScrollView(
                               controller: _controller4,
                               physics: BouncingScrollPhysics(),

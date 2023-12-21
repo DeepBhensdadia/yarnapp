@@ -68,13 +68,13 @@ class UserPackages {
         id: json["id"],
         userId: json["user_id"],
         packageId: json["package_id"],
-        amount: json["amount"],
+        amount: json["amount"].toString(),
         startingDate: DateTime.parse(json["starting_date"]),
         endingDate: DateTime.parse(json["ending_date"]),
-        notes: json["notes"],
-        paymentMethod: json["payment_method"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        notes: json["notes"].toString(),
+        paymentMethod: json["payment_method"]??"",
+        createdAt: json["created_at"] != null ?  DateTime.parse(json["created_at"]) : DateTime.now(),
+        updatedAt:json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : DateTime.now(),
       );
 
   Map<String, dynamic> toJson() => {

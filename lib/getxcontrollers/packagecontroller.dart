@@ -38,14 +38,14 @@ class PackageController extends GetxController{
   Packagessummaryresponse? packagessummary;
   bool  showsummary = false;
   Future<void> PackageSummaryAPi() async {
-    Get.context!.loaderOverlay.show();
+    // Get.context!.loaderOverlay.show();
     await PackageSummary().then((value) {
       packagessummary = value;
      showsummary = true;
-      Get.context!.loaderOverlay.hide();
+      // Get.context!.loaderOverlay.hide();
       update();
     }).onError((error, stackTrace) {
-      Get.context!.loaderOverlay.hide();
+      // Get.context!.loaderOverlay.hide();
       print(error);
     });
   }

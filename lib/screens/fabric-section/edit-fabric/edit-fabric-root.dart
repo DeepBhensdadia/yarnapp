@@ -127,7 +127,8 @@ class _EditFabricRootState extends State<EditFabricRoot> {
                                 style: TextStyle(fontSize: 18)),
                           )
                         : Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(    color: Colors.black,
+                              strokeWidth: 3,),
                           )
                     : PageView(
                         physics: NeverScrollableScrollPhysics(),

@@ -158,7 +158,7 @@ class _RootAppState extends State<RootApp> {
                     ),
                     CircularProgressIndicator(
                       color: Colors.black,
-                      strokeWidth: 4,
+                      strokeWidth: 3,
                     ),
                   ],
                 )

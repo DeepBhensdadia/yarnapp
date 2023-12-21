@@ -12,8 +12,6 @@ import 'package:yarn_modified/shared_pref/shared_pref.dart';
 class GetDetailsCheck extends GetxController {
   PackageController packagelist = Get.put(PackageController());
   getdetailscheckcall({required String id}) async {
-    Get.context!.loaderOverlay.show();
-
     await getDetailsChecktapi(deviceid: id).then((value) {
       if (value.name!.isEmpty) {
         FlutterToast.showCustomToast(value.message ?? "");
@@ -26,9 +24,7 @@ class GetDetailsCheck extends GetxController {
         // Get.deleteAll(force: true);
         packagelist.PackagelistgetAPI2();
       }
-      Get.context!.loaderOverlay.hide();
     }).onError((error, stackTrace) {
-      Get.context!.loaderOverlay.hide();
       print("error...$error");
     });
   }

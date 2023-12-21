@@ -35,8 +35,10 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
 
   @override
   void initState() {
-    febricscategory.fetchDataFromAPI();
+    final stopwatch = Stopwatch()..start();
     febricsController.getfebrics();
+    print('doSomething() executed in ${stopwatch.elapsed}');
+    febricscategory.fetchDataFromAPI();
     // TODO: implement initState
     super.initState();
   }
@@ -326,9 +328,11 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
             body: Padding(
               padding: const EdgeInsets.all(5),
               child: GetBuilder<FebricListControllers>(
-                builder: (controller) => controller.febriclistbool == false
+                builder: (controller) =>
+                controller.febriclistbool == false
                     ? Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(    color: Colors.black,
+                          strokeWidth: 3,),
                       )
                     : Column(
                         mainAxisSize: MainAxisSize.max,
@@ -455,11 +459,12 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.w400),
                                     ),
                                   ),
                                 )
-                              : Expanded(
+                              :
+                          Expanded(
                                   child: RefreshIndicator(
                                   color: Colors.white,
                                   onRefresh: () async {
@@ -467,25 +472,28 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                       category: fabricsselected.toString(),
                                     );
                                   },
-                                  child: Scrollbar(
+                                  child: ListView.builder(
+primary: false,
+                                    addAutomaticKeepAlives: false,
+                                    addRepaintBoundaries: false,
+                                    // physics: BouncingScrollPhysics(),
+                                    padding: const EdgeInsets.only(
+                                        top: 0,
+                                        left: 10,
+                                        right: 10,
+                                        bottom: 20),
+                                    shrinkWrap: true,
                                     controller: _allController,
-                                    child: ListView.separated(
-                                      // physics: BouncingScrollPhysics(),
-                                      padding: const EdgeInsets.only(
-                                          top: 0,
-                                          left: 10,
-                                          right: 10,
-                                          bottom: 20),
-                                      shrinkWrap: true,
-                                      controller: _allController,
 
-                                      itemCount:
-                                          controller.febriclist.length ?? 0,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        FabricCostList? febric =
-                                            controller.febriclist[index];
-                                        return Slidable(
+                                    itemCount:
+                                        controller.febriclist.length ?? 0,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      FabricCostList? febric =
+                                          controller.febriclist[index];
+                                      return Padding(
+                                        padding: const EdgeInsets.only(bottom: 10.0),
+                                        child: Slidable(
                                           // key: UniqueKey(),
                                           endActionPane: ActionPane(
                                             motion: ScrollMotion(),
@@ -646,7 +654,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                                   index])));
                                             },
                                             child: Card(
-                                              elevation: 2.5,
+                                              // elevation: 2.5,
                                               color: Colors.white,
                                               margin: EdgeInsets.zero,
                                               shape: RoundedRectangleBorder(
@@ -760,15 +768,9 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                               ),
                                             ),
                                           ),
-                                        );
-                                      },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) {
-                                        return SizedBox(
-                                          height: 10,
-                                        );
-                                      },
-                                    ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 )
 
@@ -780,6 +782,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                   //       : ,
                                   // )
                                   ),
+                          SizedBox(height: 50,)
                         ],
                       ),
               ),

@@ -11,6 +11,9 @@ import '../../const/const.dart';
 import '../../const/themes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../shared_pref/shared_pref.dart';
+import '../auth-section/login-screen.dart';
+
 class packageListScreen extends StatefulWidget {
   final Packagelistresponse package;
   const packageListScreen({super.key, required  this.package});
@@ -53,6 +56,16 @@ class _packageListScreenState extends State<packageListScreen> {
               textScaleFactor: 1,
               style: TextStyle(color: MyTheme.appBarTextColor),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextButton(onPressed: () {
+                  SharedPref.deleteAll();
+                  Get.deleteAll(force: true);
+                  Get.offAll(LoginScreen());
+                }, child: Text("Sign Out",style: TextStyle(color: Colors.white),)),
+              )
+            ],
             // centerTitle: true,
             backgroundColor: MyTheme.appBarColor,
             elevation: 5,

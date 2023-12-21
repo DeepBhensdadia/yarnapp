@@ -22,7 +22,7 @@ class FirebaseAuthContrller extends GetxController {
     Get.context!.loaderOverlay.show();
 
     FirebaseAuth auth = FirebaseAuth.instance;
-
+auth.signInWithPhoneNumber(phoneNumber);
     await auth.verifyPhoneNumber(
       phoneNumber: "+91 $phoneNumber",
       verificationCompleted: (PhoneAuthCredential credential) {

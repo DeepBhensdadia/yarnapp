@@ -286,7 +286,7 @@ class _YarnCategoryScreenState extends State<YarnCategoryScreen> {
                         ))
                     : Center(
                         child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
+                          strokeWidth: 3,
                           color: Colors.black,
                         ),
                       ),
