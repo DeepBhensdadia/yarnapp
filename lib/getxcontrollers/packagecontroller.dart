@@ -49,4 +49,20 @@ class PackageController extends GetxController{
       print(error);
     });
   }
+
+
+  List<Packageavailable>? packageslistactive;
+RxBool packageactive = false.obs;
+  Future<void> PackageSummaryAPi2() async {
+    // Get.context!.loaderOverlay.show();
+    await PackageSummary().then((value) {
+     if(value.packages!.isNotEmpty){
+       packageslistactive = value.packages;
+       packageactive.value = true;
+     }
+    }).onError((error, stackTrace) {
+      // Get.context!.loaderOverlay.hide();
+      print(error);
+    });
+  }
 }

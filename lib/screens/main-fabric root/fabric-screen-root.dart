@@ -328,11 +328,12 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
             body: Padding(
               padding: const EdgeInsets.all(5),
               child: GetBuilder<FebricListControllers>(
-                builder: (controller) =>
-                controller.febriclistbool == false
+                builder: (controller) => controller.febriclistbool == false
                     ? Center(
-                        child: CircularProgressIndicator(    color: Colors.black,
-                          strokeWidth: 3,),
+                        child: CircularProgressIndicator(
+                          color: Colors.black,
+                          strokeWidth: 3,
+                        ),
                       )
                     : Column(
                         mainAxisSize: MainAxisSize.max,
@@ -463,8 +464,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                     ),
                                   ),
                                 )
-                              :
-                          Expanded(
+                              : Expanded(
                                   child: RefreshIndicator(
                                   color: Colors.white,
                                   onRefresh: () async {
@@ -473,7 +473,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                     );
                                   },
                                   child: ListView.builder(
-primary: false,
+                                    primary: false,
                                     addAutomaticKeepAlives: false,
                                     addRepaintBoundaries: false,
                                     // physics: BouncingScrollPhysics(),
@@ -492,7 +492,8 @@ primary: false,
                                       FabricCostList? febric =
                                           controller.febriclist[index];
                                       return Padding(
-                                        padding: const EdgeInsets.only(bottom: 10.0),
+                                        padding:
+                                            const EdgeInsets.only(bottom: 10.0),
                                         child: Slidable(
                                           // key: UniqueKey(),
                                           endActionPane: ActionPane(
@@ -782,7 +783,9 @@ primary: false,
                                   //       : ,
                                   // )
                                   ),
-                          SizedBox(height: 50,)
+                          SizedBox(
+                            height: 50,
+                          )
                         ],
                       ),
               ),

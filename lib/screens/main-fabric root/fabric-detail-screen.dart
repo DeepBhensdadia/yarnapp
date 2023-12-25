@@ -257,7 +257,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                     child: Column(
                                                                         children: [
                                                                           Text(
-                                                                            e.value.weight.toString(),
+                                                                            e.value.weight?.toStringAsFixed(4) ?? "0.0000",
                                                                             style:
                                                                                 TextStyle(color: Colors.black.withOpacity(0.8)),
                                                                           ),
@@ -271,8 +271,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                     child: Column(
                                                                         children: [
                                                                           Text(
-                                                                            "${e.value.yarnRate.toString()}" ??
-                                                                                "",
+                                                                            "${e.value.yarnRate} ${e.value.tpmCost.toString() !=  "0" ? "+ ${e.value.tpmCost}" : "" }" ?? "",
                                                                             style:
                                                                                 TextStyle(color: Colors.black.withOpacity(0.8)),
                                                                           ),
@@ -485,8 +484,7 @@ class _FabricDetailScreenState extends State<FabricDetailScreen> {
                                                                     child: Column(
                                                                         children: [
                                                                           Text(
-                                                                            e.value.yarnRate.toString() ??
-                                                                                "",
+                                                                            "${e.value.yarnRate} ${e.value.tpmCost.toString() !=  "0" ? "+ ${e.value.tpmCost}" : "" }" ?? "",
                                                                             style:
                                                                                 TextStyle(color: Colors.black.withOpacity(0.8)),
                                                                           ),

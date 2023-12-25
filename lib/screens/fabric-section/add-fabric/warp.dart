@@ -113,7 +113,8 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                                   Get.to(AddYarn());
                                                 },
                                                 icon: Icon(
-                                                  Icons.add_circle_outline_rounded,
+                                                  Icons
+                                                      .add_circle_outline_rounded,
                                                   color: Colors.grey,
                                                 ))
                                           ],
@@ -129,9 +130,7 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                           validatorfield: (p0) {
                                             if (p0!.isEmpty) {
                                               return "Enter Ends (Taar)";
-                                            } else if (double.parse(
-                                                p0) <
-                                                1.0) {
+                                            } else if (double.parse(p0) < 1.0) {
                                               return "Ends (Taar) should be greater than 0";
                                             }
                                             return null;
@@ -140,6 +139,26 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                           labelText: 'Enter Ends (Taar)',
                                           keyboardType: TextInputType.number,
                                           hintText: 'Enter Ends (Taar)',
+                                          InputAction: TextInputAction.next),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      CommonDecimalTextField(
+                                          onchange: (p0) {
+                                            feb.editedt = true;
+                                          },
+                                          // validatorfield: (p0) {
+                                          //   if (p0!.isEmpty) {
+                                          //     return "Enter TPM";
+                                          //   } else if (double.parse(p0) < 1.0) {
+                                          //     return "Ends (Taar) should be greater than 0";
+                                          //   }
+                                          //   return null;
+                                          // },
+                                          controller: element.value.controller2,
+                                          labelText: 'Enter TPM Cost per kg (optional)',
+                                          keyboardType: TextInputType.number,
+                                          hintText: 'Enter TPM Cost per kg (optional)',
                                           InputAction: TextInputAction.next),
                                     ],
                                   ),
@@ -160,12 +179,12 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                         if (_formKey.currentState!.validate()) {
                           bool done = feb.wrapModel
                               .every((element) => element.selectedYarnID != 0);
-                          if(done == true){
+                          if (done == true) {
                             forvalidation = true;
                             Get.find<FebricAddController>().isWeftDone = true;
                             // feb.changedData();
                             widget.page.jumpToPage(2);
-                          }else{
+                          } else {
                             FlutterToast.showCustomToast("Select Warp Yarn");
                           }
                         }

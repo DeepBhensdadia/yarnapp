@@ -190,6 +190,7 @@ class Warplist {
   int? id;
   int? fabricCostId;
   int? ends;
+  int? tpmCost;
   String? yarnName;
   int? yarnId;
   int? yarnDenier;
@@ -197,11 +198,13 @@ class Warplist {
   int? denier;
   double? weight;
   double? amount;
+  dynamic tpm;
 
   Warplist({
     this.id,
     this.fabricCostId,
     this.ends,
+    this.tpmCost,
     this.yarnName,
     this.yarnId,
     this.yarnDenier,
@@ -209,24 +212,28 @@ class Warplist {
     this.denier,
     this.weight,
     this.amount,
+    this.tpm,
   });
 
   factory Warplist.fromJson(Map<String, dynamic> json) => Warplist(
       id: json["id"],
       fabricCostId: json["fabric_cost_id"],
       ends: json["ends"],
+      tpmCost: json["tpm_cost"] != null ? json["tpm_cost"] : 0,
       yarnName: json["yarn_name"],
       yarnId: json["yarn_id"],
       yarnDenier: json["yarn_denier"],
       yarnRate: json["yarn_rate"],
       denier: json["denier"],
       weight: json["weight"] != null ? json["weight"].toDouble() : 0.00,
-      amount: json["amount"] != null ? json["amount"].toDouble() : 0.00);
+      amount: json["amount"] != null ? json["amount"].toDouble() : 0.00,
+      tpm: json["tpm"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "fabric_cost_id": fabricCostId,
         "ends": ends,
+        "tpm_cost": tpmCost,
         "yarn_name": yarnName,
         "yarn_id": yarnId,
         "yarn_denier": yarnDenier,
@@ -234,6 +241,7 @@ class Warplist {
         "denier": denier,
         "weight": weight,
         "amount": amount,
+        "tpm": tpm,
       };
 }
 
@@ -243,6 +251,7 @@ class Weftlist {
   double? finalPpi;
   dynamic rowPpi;
   int? isAdvance;
+  int? tpmCost;
   double? lenght;
   int? repeat;
   int? yarnDenier;
@@ -252,6 +261,7 @@ class Weftlist {
   double? weight;
   double? rate;
   double? ppi;
+  dynamic tpm;
 
   Weftlist({
     this.id,
@@ -259,6 +269,7 @@ class Weftlist {
     this.finalPpi,
     this.rowPpi,
     this.isAdvance,
+    this.tpmCost,
     this.lenght,
     this.repeat,
     this.yarnDenier,
@@ -268,6 +279,7 @@ class Weftlist {
     this.weight,
     this.rate,
     this.ppi,
+    this.tpm,
   });
 
   factory Weftlist.fromJson(Map<String, dynamic> json) => Weftlist(
@@ -277,6 +289,7 @@ class Weftlist {
             json["final_ppi"] != null ? json["final_ppi"].toDouble() : 0.00,
         rowPpi: json["row_ppi"],
         isAdvance: json["is_advance"],
+        tpmCost: json["tpm_cost"] != null ? json["tpm_cost"] : 0,
         lenght: json["lenght"] != null ? json["lenght"].toDouble() : 0.00,
         repeat: json["repeat"],
         yarnDenier: json["yarn_denier"],
@@ -284,8 +297,9 @@ class Weftlist {
         yarnName: json["yarn_name"],
         yarnId: json["yarn_id"],
         weight: json["weight"] != null ? json["weight"].toDouble() : 0.00,
-        rate: json["rate"] != null ? json["rate"].toDouble() : 0.00,
+        rate: json["amount"] != null ? json["amount"].toDouble() : 0.00,
         ppi: json["ppi"] != null ? json["ppi"].toDouble() : 0.00,
+        tpm: json["tpm"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -294,6 +308,7 @@ class Weftlist {
         "final_ppi": finalPpi,
         "row_ppi": rowPpi,
         "is_advance": isAdvance,
+        "tpm_cost": tpmCost,
         "lenght": lenght,
         "repeat": repeat,
         "yarn_denier": yarnDenier,
@@ -301,7 +316,8 @@ class Weftlist {
         "yarn_name": yarnName,
         "yarn_id": yarnId,
         "weight": weight,
-        "rate": rate,
+        "amount": rate,
         "ppi": ppi,
+        "tpm": tpm,
       };
 }

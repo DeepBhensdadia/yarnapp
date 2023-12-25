@@ -2,10 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yarn_modified/getxcontrollers/packagecontroller.dart';
 import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/model/packagelistresponse.dart';
+import 'package:yarn_modified/model/packagesummaryresponse.dart';
 import 'package:yarn_modified/services/app_url.dart';
 import '../../const/const.dart';
 import '../../const/themes.dart';
@@ -16,7 +18,7 @@ import '../auth-section/login-screen.dart';
 
 class packageListScreen extends StatefulWidget {
   final Packagelistresponse package;
-  const packageListScreen({super.key, required  this.package});
+  const packageListScreen({super.key, required this.package});
 
   @override
   State<packageListScreen> createState() => _packageListScreenState();
@@ -28,6 +30,14 @@ class _packageListScreenState extends State<packageListScreen> {
   void _copyToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
     FlutterToast.showCustomToast("Copied UPI ID to clipboard");
+  }
+
+  PackageController packageController = Get.put(PackageController());
+  @override
+  void initState() {
+    packageController.PackageSummaryAPi2();
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -59,11 +69,16 @@ class _packageListScreenState extends State<packageListScreen> {
             actions: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: TextButton(onPressed: () {
-                  SharedPref.deleteAll();
-                  Get.deleteAll(force: true);
-                  Get.offAll(LoginScreen());
-                }, child: Text("Sign Out",style: TextStyle(color: Colors.white),)),
+                child: TextButton(
+                    onPressed: () {
+                      SharedPref.deleteAll();
+                      Get.deleteAll(force: true);
+                      Get.offAll(LoginScreen());
+                    },
+                    child: Text(
+                      "Sign Out",
+                      style: TextStyle(color: Colors.white),
+                    )),
               )
             ],
             // centerTitle: true,
@@ -86,6 +101,108 @@ class _packageListScreenState extends State<packageListScreen> {
           body: SingleChildScrollView(
             child: Column(
               children: [
+                Obx(
+                  () => packageController.packageactive.isFalse
+                      ? SizedBox.shrink()
+                      : packageController.packageslistactive?.length == 1
+                          ? SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 15),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: homeCardRadius),
+                                color: Colors.white,
+                                elevation: 5,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      "Active Packages",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: packageController
+                                          .packageslistactive?.length,
+                                      itemBuilder: (context, index) {
+                                        Packageavailable package =
+                                            packageController
+                                                .packageslistactive![index];
+                                        String startdate = DateFormat('dd-MM')
+                                            .format(package.startingDate ??
+                                                DateTime.now());
+                                        String enddate = DateFormat('dd-MM')
+                                            .format(package.endingDate ??
+                                                DateTime.now());
+
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 5),
+                                          child: InkWell(
+                                            onTap: () {
+                                              // Get.to(PaymentCartScreen(packagedetails :package));
+                                            },
+                                            child: Container(
+                                              width: screenwidth(context,
+                                                  dividedby: 1),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(12),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Flexible(
+                                                      flex: 1,
+                                                      child: Text(
+                                                        "${package.packageName}(₹${package.packageAmount})",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                    ),
+                                                    Flexible(
+                                                      flex: 1,
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            "${startdate} to ${enddate}",
+                                                            textScaleFactor:
+                                                                1.05,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 15),
@@ -127,7 +244,8 @@ class _packageListScreenState extends State<packageListScreen> {
                                   Column(
                                     children: [
                                       Text(
-                                        widget.package.paymentDetails?.first.name ??
+                                        widget.package.paymentDetails?.first
+                                                .name ??
                                             "",
                                         textScaleFactor: 1.5,
                                         style: TextStyle(

@@ -17,6 +17,7 @@ class FebricEditController extends GetxController {
 
   List<int> wrapyarnids = <int>[];
   List<String> wrapyarntaar = <String>[];
+  List<String> wraptpm = <String>[];
 
   void goToResult(widget) {
     editedt = false;
@@ -28,15 +29,18 @@ class FebricEditController extends GetxController {
   }
 
   void changedData() {
-    // weftModel.clear();
+    wraptpm.clear();
     wrapyarnids.clear();
+    wrapyarntaar.clear();
     wrapyarntaar.clear();
     wrapModel.forEach((element) {
       wrapyarnids.add(element.selectedYarnID.value);
       wrapyarntaar.add(element.taar);
+      wraptpm.add(element.tpm != "" ? element.tpm : "0");
     });
     print("wrap yarn id ${wrapyarnids}");
     print("wrap yarn taar ${wrapyarntaar}");
+    print("wrap yarn taar ${wraptpm}");
   }
 
   void fillModel() {
@@ -44,6 +48,7 @@ class FebricEditController extends GetxController {
     for (int i = 0; i < val; i++) {
       wrapModel.add(
         WrapModel(
+          controller2: TextEditingController(),
           controller: TextEditingController(),
           selectedYarnID: 0.obs,
           key: UniqueKey(),
@@ -56,6 +61,7 @@ class FebricEditController extends GetxController {
 
   List<int> weftyarnids = [];
   List<String> weftppi = [];
+  List<String> wefttpm = [];
   List<String> weftrepeat = [];
 
   bool isWrapDone = false;
@@ -66,14 +72,17 @@ class FebricEditController extends GetxController {
   void changedDataweft() {
     weftyarnids.clear();
     weftppi.clear();
+    wefttpm.clear();
     weftrepeat.clear();
     weftModel.forEach((element) {
       weftyarnids.add(element.selectedYarnID.value);
       weftppi.add(element.ppi);
+      wefttpm.add(element.tpm != "" ? element.tpm : "0");
       if (currenttab != 0) weftrepeat.add(element.repeat);
     });
     print("weft yarn ids ${weftyarnids}");
     print("weft yarn ppi ${weftppi}");
+    print("weft yarn ppi ${wefttpm}");
   }
 
   void fillModelweftBasic() {
@@ -82,6 +91,7 @@ class FebricEditController extends GetxController {
       weftModel.add(
         WeftModel(
           repeatController: TextEditingController(),
+          tpmController: TextEditingController(),
           ppiController: TextEditingController(),
           selectedYarnID: 0.obs,
           key: UniqueKey(),
@@ -166,6 +176,8 @@ class FebricEditController extends GetxController {
       "warp_id": wrapyarnupdateid,
       "weft_id": weftyarnupdateid,
       "yarn_id_warp": wrapyarnids,
+      "tpm_cost_warp": wraptpm,
+      "tpm_cost_weft":wefttpm,
       "ends": wrapyarntaar,
       "yarn_id_weft": weftyarnids,
       "ppi": weftppi
@@ -215,21 +227,29 @@ class FebricEditController extends GetxController {
 class WrapModel {
   WrapModel({
     required this.controller,
+    required this.controller2,
     required this.selectedYarnID,
     required this.key,
   });
 
   TextEditingController controller;
+  TextEditingController controller2;
   Rx<int> selectedYarnID;
   Key key;
 
   String get taar => controller.text.trim();
+  String get tpm => controller2.text.trim();
 
-  void dispose() => controller.dispose();
+  void dispose() {
+    controller.dispose();
+    controller2.dispose();
+  }
+
 
   Map<String, dynamic> toJson() {
     return {
       "enteredTaar": controller.text,
+      "enteredtpm": controller2.text,
       "yarnID": selectedYarnID,
     };
   }
@@ -241,26 +261,31 @@ class WeftModel {
   WeftModel({
     required this.repeatController,
     required this.ppiController,
+    required this.tpmController,
     required this.selectedYarnID,
     required this.key,
   });
 
   TextEditingController repeatController;
   TextEditingController ppiController;
+  TextEditingController tpmController;
   Rx<int> selectedYarnID;
   Key key;
 
   String get ppi => ppiController.text.trim();
+  String get tpm => tpmController.text.trim();
   String get repeat => repeatController.text.trim();
 
   void dispose() {
     ppiController.dispose();
+    tpmController.dispose();
     repeatController.dispose();
   }
 
   Map<String, dynamic> toJson() {
     return {
       "enteredppi": ppiController.text,
+      "enteredtpm": tpmController.text,
       "enteredrepet": repeatController.text,
       "yarnID": selectedYarnID,
     };

@@ -51,14 +51,17 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                     return MediaQuery(
                       data: data.copyWith(textScaleFactor: 1),
                       child: controller.call == false
-                          ? Center(child: CircularProgressIndicator(    color: Colors.black,
-                        strokeWidth: 3,))
+                          ? Center(
+                              child: CircularProgressIndicator(
+                              color: Colors.black,
+                              strokeWidth: 3,
+                            ))
                           : SingleChildScrollView(
                               controller: _controller4,
                               physics: BouncingScrollPhysics(),
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
-                                child:   Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
@@ -73,36 +76,41 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                         padding: const EdgeInsets.all(10.0),
                                         child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Row(
                                                 children: [
-                                                  PhotoScreen(image: URLs.image_url + "assets/fabric/${controller.result.general?.photo}",fabricid: controller
-                                                      .result
-                                                      .general
-                                                      ?.id.toString() ?? ""),
+                                                  PhotoScreen(
+                                                      image: URLs.image_url +
+                                                          "assets/fabric/${controller.result.general?.photo}",
+                                                      fabricid: controller
+                                                              .result
+                                                              .general
+                                                              ?.id
+                                                              .toString() ??
+                                                          ""),
                                                   SizedBox(
                                                     width: 15,
                                                   ),
                                                   Column(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                           controller.call ==
-                                                              false
+                                                                  false
                                                               ? "Febric"
                                                               : controller
-                                                              .result
-                                                              .general
-                                                              ?.fabricName ??
-                                                              "",
+                                                                      .result
+                                                                      .general
+                                                                      ?.fabricName ??
+                                                                  "",
                                                           textScaleFactor: 1.3,
                                                           style: TextStyle(
                                                             color: Colors.black,
@@ -115,17 +123,17 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                       ),
                                                       Text(
                                                           controller.call ==
-                                                              false
+                                                                  false
                                                               ? "Febric Category"
                                                               : controller
-                                                              .result
-                                                              .general
-                                                              ?.categoryName ??
-                                                              "",
+                                                                      .result
+                                                                      .general
+                                                                      ?.categoryName ??
+                                                                  "",
                                                           textScaleFactor: 1,
                                                           style: TextStyle(
                                                               color:
-                                                              Colors.grey)),
+                                                                  Colors.grey)),
                                                     ],
                                                   ),
                                                 ],
@@ -249,7 +257,7 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                             child: Column(
                                                                 children: [
                                                                   Text(
-                                                                    e.value.weight.toString(),
+                                                                    e.value.weight?.toStringAsFixed(4) ?? "0.0000",
                                                                     style:
                                                                     TextStyle(color: Colors.black.withOpacity(0.8)),
                                                                   ),
@@ -263,8 +271,7 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                             child: Column(
                                                                 children: [
                                                                   Text(
-                                                                    "${e.value.yarnRate.toString()}" ??
-                                                                        "",
+                                                                    "${e.value.yarnRate} ${e.value.tpmCost.toString() !=  "0" ? "+ ${e.value.tpmCost}" : "" }" ?? "",
                                                                     style:
                                                                     TextStyle(color: Colors.black.withOpacity(0.8)),
                                                                   ),
@@ -477,8 +484,7 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                             child: Column(
                                                                 children: [
                                                                   Text(
-                                                                    e.value.yarnRate.toString() ??
-                                                                        "",
+                                                                    "${e.value.yarnRate} ${e.value.tpmCost.toString() !=  "0" ? "+ ${e.value.tpmCost}" : "" }" ?? "",
                                                                     style:
                                                                     TextStyle(color: Colors.black.withOpacity(0.8)),
                                                                   ),
@@ -682,7 +688,11 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                               e.value.value?.toDouble().toStringAsFixed(2) ==
                                                                   "0.00"
                                                                   ? "NA"
-                                                                  : controller.result.weftlist?.first.isAdvance == 0 ? e.key == 7 ? "NA" : e.value.value?.toDouble().toStringAsFixed(2) : e.value.value?.toDouble().toStringAsFixed(2),
+                                                                  : controller.result.weftlist?.first.isAdvance == 0
+                                                                  ? e.key == 7
+                                                                  ? "NA"
+                                                                  : e.value.value?.toDouble().toStringAsFixed(2)
+                                                                  : e.value.value?.toDouble().toStringAsFixed(2),
                                                               style: TextStyle(
                                                                   fontWeight: e.key == 6 || e.key == 7
                                                                       ? FontWeight.w600
@@ -955,7 +965,11 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                                 : e.value.value?.toDouble().toStringAsFixed(2) ==
                                                                 "0.00"
                                                                 ? "NA"
-                                                                : controller.result.weftlist?.first.isAdvance == 0 ? e.key == 3 || e.key == 4  ? "NA" : e.value.value?.toDouble().toStringAsFixed(2) : e.value.value?.toDouble().toStringAsFixed(2),
+                                                                : controller.result.weftlist?.first.isAdvance == 0
+                                                                ? e.key == 3 || e.key == 4
+                                                                ? "NA"
+                                                                : e.value.value?.toDouble().toStringAsFixed(2)
+                                                                : e.value.value?.toDouble().toStringAsFixed(2),
                                                             style: TextStyle(
                                                               // fontWeight: e.key == 0 ? FontWeight.bold :FontWeight.w400,
                                                                 color: Colors.black.withOpacity(0.8)),

@@ -238,6 +238,63 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                         InputAction:
                                                             TextInputAction
                                                                 .next),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    CommonDecimalTextField(
+                                                        onchange: (p0) {
+                                                          setState(() {
+                                                            p0.isNotEmpty ||
+                                                                element
+                                                                    .value
+                                                                    .selectedYarnID
+                                                                    .value !=
+                                                                    0
+                                                                ? isdataavilable =
+                                                            true
+                                                                : isdataavilable =
+                                                            false;
+                                                          });
+                                                          feb.weftModel.forEach(
+                                                                  (element) {
+                                                                if (element
+                                                                    .ppiController
+                                                                    .text
+                                                                    .isNotEmpty ||
+                                                                     element.TpmController.text.isNotEmpty ||
+                                                                    element.selectedYarnID !=
+                                                                        0) {
+                                                                  setState(() {
+                                                                    isdataavilable =
+                                                                    true;
+                                                                  });
+                                                                  return; // Exit the loop early if data is found
+                                                                }
+                                                              });
+                                                          p0.isNotEmpty ||
+                                                              element
+                                                                  .value
+                                                                  .selectedYarnID
+                                                                  .value !=
+                                                                  0
+                                                              ? feb.editedt =
+                                                          true
+                                                              : feb.editedt =
+                                                          false;
+                                                        },
+                                                        // validatorfield: (p0) {
+                                                        //   if (p0!.isEmpty) {
+                                                        //     return "Enter TPM";
+                                                        //   } else if (double.parse(p0) < 1.0) {
+                                                        //     return "Ends (Taar) should be greater than 0";
+                                                        //   }
+                                                        //   return null;
+                                                        // },
+                                                        controller: element.value.TpmController,
+                                                        labelText: 'Enter TPM Cost per kg (optional)',
+                                                        keyboardType: TextInputType.number,
+                                                        hintText: 'Enter TPM Cost per kg (optional)',
+                                                        InputAction: TextInputAction.next),
                                                   ],
                                                 ),
                                               ),
@@ -508,6 +565,63 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                       hintText: 'Enter PPI ',
                                                       InputAction:
                                                           TextInputAction.next),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  CommonDecimalTextField(
+                                                      onchange: (p0) {
+                                                        setState(() {
+                                                          p0.isNotEmpty ||
+                                                              element
+                                                                  .value
+                                                                  .selectedYarnID
+                                                                  .value !=
+                                                                  0
+                                                              ? isdataavilable =
+                                                          true
+                                                              : isdataavilable =
+                                                          false;
+                                                        });
+                                                        feb.weftModel.forEach(
+                                                                (element) {
+                                                              if (element
+                                                                  .ppiController
+                                                                  .text
+                                                                  .isNotEmpty ||
+                                                                  element.TpmController.text.isNotEmpty ||
+                                                                  element.selectedYarnID !=
+                                                                      0) {
+                                                                setState(() {
+                                                                  isdataavilable =
+                                                                  true;
+                                                                });
+                                                                return; // Exit the loop early if data is found
+                                                              }
+                                                            });
+                                                        p0.isNotEmpty ||
+                                                            element
+                                                                .value
+                                                                .selectedYarnID
+                                                                .value !=
+                                                                0
+                                                            ? feb.editedt =
+                                                        true
+                                                            : feb.editedt =
+                                                        false;
+                                                      },
+                                                      // validatorfield: (p0) {
+                                                      //   if (p0!.isEmpty) {
+                                                      //     return "Enter TPM";
+                                                      //   } else if (double.parse(p0) < 1.0) {
+                                                      //     return "Ends (Taar) should be greater than 0";
+                                                      //   }
+                                                      //   return null;
+                                                      // },
+                                                      controller: element.value.TpmController,
+                                                      labelText: 'Enter TPM Cost per kg (optional)',
+                                                      keyboardType: TextInputType.number,
+                                                      hintText: 'Enter TPM Cost per kg (optional)',
+                                                      InputAction: TextInputAction.next),
                                                 ],
                                               ),
                                             ),

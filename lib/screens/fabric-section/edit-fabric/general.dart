@@ -52,6 +52,8 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
     feb.wrapModel.asMap().forEach((index, element) {
       element.controller.text =
           widget.general?.warplist?[index].ends.toString() ?? "";
+      element.controller2.text =
+          widget.general?.warplist?[index].tpmCost.toString() ?? "";
       element.selectedYarnID.value =
           widget.general?.warplist?[index].yarnId ?? 0;
     });
@@ -59,6 +61,8 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
     feb.weftModel.asMap().forEach((index, element) {
       element.ppiController.text =
           widget.general?.weftlist?[index].rowPpi.toString() ?? "";
+      element.tpmController.text =
+          widget.general?.weftlist?[index].tpmCost.toString() ?? "";
       element.selectedYarnID.value =
           widget.general?.weftlist?[index].yarnId ?? 0;
       if (widget.general?.weftlist?[index].isAdvance == 1)

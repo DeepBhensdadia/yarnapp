@@ -107,9 +107,7 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                                           validatorfield: (p0) {
                                             if (p0!.isEmpty) {
                                               return "Enter Ends (Taar)";
-                                            } else if (double.parse(
-                                                p0) <
-                                                1.0) {
+                                            } else if (double.parse(p0) < 1.0) {
                                               return "Ends (Taar) should be greater than 0";
                                             }
                                             return null;
@@ -118,6 +116,26 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                                           labelText: 'Enter Ends (Taar)',
                                           keyboardType: TextInputType.number,
                                           hintText: 'Enter Ends (Taar)',
+                                          InputAction: TextInputAction.next),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      CommonDecimalTextField(
+                                          onchange: (p0) {
+                                            feb.editedt = true;
+                                          },
+                                          // validatorfield: (p0) {
+                                          //   if (p0!.isEmpty) {
+                                          //     return "Enter Ends (Taar)";
+                                          //   } else if (double.parse(p0) < 1.0) {
+                                          //     return "Ends (Taar) should be greater than 0";
+                                          //   }
+                                          //   return null;
+                                          // },
+                                          controller: element.value.controller2,
+                                          labelText: 'Enter TPM Cost per kg (optional)',
+                                          keyboardType: TextInputType.number,
+                                          hintText: 'Enter TPM Cost per kg (optional)',
                                           InputAction: TextInputAction.next),
                                     ],
                                   ),
@@ -135,9 +153,7 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
-
                         if (_formKey.currentState!.validate()) {
-
                           Get.find<FebricEditController>().isWeftDone = true;
                           // feb.changedData();
                           widget.page.jumpToPage(2);
