@@ -257,7 +257,7 @@ class _AddResultCategoryState extends State<AddResultCategory> {
                                                             child: Column(
                                                                 children: [
                                                                   Text(
-                                                                    e.value.weight?.toStringAsFixed(4) ?? "0.0000",
+                                                                    e.value.weight?.toString() ?? "0.0000",
                                                                     style:
                                                                     TextStyle(color: Colors.black.withOpacity(0.8)),
                                                                   ),

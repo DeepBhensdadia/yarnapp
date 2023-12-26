@@ -212,6 +212,8 @@ class FebricAddController extends GetxController {
       "weft_id": weftyarnupdateid,
       "yarn_id_warp": wrapyarnids,
       "ends": wrapyarntaar,
+      "tpm_cost_warp": wraptpm,
+      "tpm_cost_weft":wefttpm ,
       "yarn_id_weft": weftyarnids,
       "ppi": weftppi
     };

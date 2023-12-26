@@ -196,7 +196,7 @@ class Warplist {
   int? yarnDenier;
   int? yarnRate;
   int? denier;
-  double? weight;
+  dynamic weight;
   double? amount;
   dynamic tpm;
 
@@ -225,7 +225,7 @@ class Warplist {
       yarnDenier: json["yarn_denier"],
       yarnRate: json["yarn_rate"],
       denier: json["denier"],
-      weight: json["weight"] != null ? json["weight"].toDouble() : 0.00,
+      weight: json["weight"] != null ? json["weight"] : "0.0000",
       amount: json["amount"] != null ? json["amount"].toDouble() : 0.00,
       tpm: json["tpm"]);
 
