@@ -17,6 +17,7 @@ class Getdetailscheckresponse {
   String? isCustomer;
   int? isActive;
   int? isDelete;
+  int? isExpired;
   String? mobileNumber;
 
   Getdetailscheckresponse({
@@ -28,6 +29,7 @@ class Getdetailscheckresponse {
     this.isCustomer,
     this.isActive,
     this.isDelete,
+    this.isExpired,
     this.mobileNumber,
   });
 
@@ -40,6 +42,7 @@ class Getdetailscheckresponse {
     isCustomer: json["is_customer"] ?? "",
     isActive: json["is_active"] ?? 0,
     isDelete: json["is_delete"]??0,
+    isExpired: json["is_expired"]??0,
     mobileNumber: json["mobile_number"] ?? "",
   );
 
@@ -52,6 +55,7 @@ class Getdetailscheckresponse {
     "is_customer": isCustomer,
     "is_active": isActive,
     "is_delete": isDelete,
+    "is_expired": isExpired,
     "mobile_number": mobileNumber,
   };
 }

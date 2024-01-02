@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:yarn_modified/const/themes.dart';
+import 'package:yarn_modified/getxcontrollers/getdetailscheckcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/yarncategorydata.dart';
 import '../../const/const.dart';
 import '../../model/get-yarn-category-model.dart';
 import '../../services/all_api_services.dart';
+import '../../services/app_url.dart';
 import 'add-yarn-category.dart';
 import 'edit-yarn-category.dart';
 
@@ -21,6 +23,7 @@ class _YarnCategoryScreenState extends State<YarnCategoryScreen> {
   TextEditingController editDialogController = TextEditingController();
   TextEditingController floatingDialogController = TextEditingController();
   final ScrollController _allController = ScrollController();
+  GetDetailsCheck getdetailsController = Get.put(GetDetailsCheck());
 
   @override
   void dispose() {
@@ -92,18 +95,21 @@ class _YarnCategoryScreenState extends State<YarnCategoryScreen> {
                           borderRadius: BorderRadius.circular(5)),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddYarnCategory()));
+                          if (getdetailsController.exprired.isFalse) {
+                            Get.to(AddYarnCategory());
+                          } else {
+                            FlutterToast.showCustomToast(URLs.expiredtoast);
+                          }
                         },
                         child: Container(
                             padding: const EdgeInsets.only(
                                 top: 5, bottom: 5, right: 15),
                             color: Colors.transparent,
-                            child: Icon(   Icons.add_circle,
+                            child: Icon(
+                              Icons.add_circle,
                               color: Colors.white,
-                              size: 30,)),
+                              size: 30,
+                            )),
                       ),
                     ),
                   ),
@@ -143,14 +149,15 @@ class _YarnCategoryScreenState extends State<YarnCategoryScreen> {
                                       label: "Edit",
                                       spacing: 10,
                                       onPressed: (context) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EditYarnCategory(
-                                                        yarnCategoryData:
-                                                            controller.getData[
-                                                                index])));
+                                        if (getdetailsController
+                                            .exprired.isFalse) {
+                                          Get.to(EditYarnCategory(
+                                              yarnCategoryData:
+                                                  controller.getData[index]));
+                                        } else {
+                                          FlutterToast.showCustomToast(
+                                              URLs.expiredtoast);
+                                        }
                                       },
                                     ),
                                     SlidableAction(
@@ -164,96 +171,105 @@ class _YarnCategoryScreenState extends State<YarnCategoryScreen> {
                                       label: "Delete",
                                       spacing: 10,
                                       onPressed: (context) {
+                                        if (getdetailsController
+                                            .exprired.isFalse) {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor:
+                                                      Colors.grey.shade200,
+                                                  title: Text(
+                                                    "Alert",
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.red),
+                                                  ),
+                                                  content: Text(
+                                                    "Do you want to Delete this Yarn Category?",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        // fontWeight: FontWeight.w600,
+                                                        color: Colors.black
+                                                            .withOpacity(0.6)),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    ElevatedButton(
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                                elevation: 5,
+                                                                surfaceTintColor:
+                                                                    Colors.grey,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white70),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop(false);
+                                                        },
+                                                        child: Text(
+                                                          "Cancel",
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color:
+                                                                  Colors.black),
+                                                        )),
+                                                    ElevatedButton(
+                                                        style: TextButton.styleFrom(
+                                                            elevation: 5,
+                                                            surfaceTintColor:
+                                                                Colors
+                                                                    .red
+                                                                    .withOpacity(
+                                                                        0.3),
+                                                            foregroundColor:
+                                                                Colors.red,
+                                                            backgroundColor:
+                                                                Colors.red),
+                                                        onPressed: () async {
+                                                          await deleteYarnCategoryData(
+                                                                  categoryId: controller
+                                                                          .getData[
+                                                                              index]
+                                                                          ?.id
+                                                                          .toString() ??
+                                                                      "")
+                                                              .then((value) {
+                                                            if (value.success !=
+                                                                false) {
+                                                              controller.getData
+                                                                  .clear();
+                                                              controller
+                                                                  .fetchDataFromAPI();
+                                                            }
+                                                            FlutterToast
+                                                                .showCustomToast(
+                                                                    value
+                                                                        .message);
+                                                            print(value);
+                                                          }).onError((error,
+                                                                  stackTrace) {
+                                                            print(error);
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Text(
+                                                          "Delete",
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: Colors
+                                                                  .white70),
+                                                        )),
+                                                  ],
+                                                );
+                                              });
+                                        } else {
+                                          FlutterToast.showCustomToast(
+                                              URLs.expiredtoast);
+                                        }
                                         // if(yarnLowTwistItems[index] == 0 || yarnLowTwistItems[index] > 0) {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor:
-                                                    Colors.grey.shade200,
-                                                title: Text(
-                                                  "Alert",
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.red),
-                                                ),
-                                                content: Text(
-                                                  "Do you want to Delete this Yarn Category?",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      // fontWeight: FontWeight.w600,
-                                                      color: Colors.black
-                                                          .withOpacity(0.6)),
-                                                ),
-                                                actions: <Widget>[
-                                                  ElevatedButton(
-                                                      style:
-                                                          TextButton.styleFrom(
-                                                              elevation: 5,
-                                                              surfaceTintColor:
-                                                                  Colors.grey,
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .white70),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop(false);
-                                                      },
-                                                      child: Text(
-                                                        "Cancel",
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            color:
-                                                                Colors.black),
-                                                      )),
-                                                  ElevatedButton(
-                                                      style: TextButton.styleFrom(
-                                                          elevation: 5,
-                                                          surfaceTintColor:
-                                                              Colors.red
-                                                                  .withOpacity(
-                                                                      0.3),
-                                                          foregroundColor:
-                                                              Colors.red,
-                                                          backgroundColor:
-                                                              Colors.red),
-                                                      onPressed: () async {
-                                                        await deleteYarnCategoryData(
-                                                                categoryId: controller
-                                                                        .getData[
-                                                                            index]
-                                                                        ?.id
-                                                                        .toString() ??
-                                                                    "")
-                                                            .then((value) {
-                                                          if (value.success !=
-                                                              false) {
-                                                            controller.getData
-                                                                .clear();
-                                                            controller
-                                                                .fetchDataFromAPI();
-                                                          }
-                                                          FlutterToast
-                                                              .showCustomToast(
-                                                                  value
-                                                                      .message);
-                                                          print(value);
-                                                        }).onError((error,
-                                                                stackTrace) {
-                                                          print(error);
-                                                        });
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Text(
-                                                        "Delete",
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            color:
-                                                                Colors.white70),
-                                                      )),
-                                                ],
-                                              );
-                                            });
+
                                         // }
                                       },
                                     ),

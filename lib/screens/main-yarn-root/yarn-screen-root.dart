@@ -8,12 +8,14 @@ import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:yarn_modified/const/const.dart';
+import 'package:yarn_modified/getxcontrollers/getdetailscheckcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/yarncategorydata.dart';
 import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
 import 'package:yarn_modified/model/get-yarn-category-model.dart';
 import 'package:yarn_modified/model/get-yarn-index-model.dart';
 import 'package:yarn_modified/screens/yarn-section/edit-yarn.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
+import 'package:yarn_modified/services/app_url.dart';
 import '../../const/themes.dart';
 import '../../static_json/category-json.dart';
 import '../yarn-section/add-yarn.dart';
@@ -28,6 +30,7 @@ class YarnScreenRoot extends StatefulWidget {
 class _YarnScreenRootState extends State<YarnScreenRoot> {
   TextEditingController searchController = TextEditingController();
   final ScrollController _allController = ScrollController();
+  GetDetailsCheck getdetailsController = Get.put(GetDetailsCheck());
 
   YarnListController yarnlist = Get.put(YarnListController());
   YarnCategoryController yarncategorycontroll =
@@ -295,8 +298,11 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                     splashRadius: 25,
                     tooltip: "Add Yarn",
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AddYarn()));
+                      if (getdetailsController.exprired.isFalse) {
+                        Get.to(AddYarn());
+                      } else {
+                        FlutterToast.showCustomToast(URLs.expiredtoast);
+                      }
                     },
                     icon: Icon(
                       Icons.add_circle,
@@ -445,18 +451,18 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                             label: "Edit",
                                             spacing: 10,
                                             onPressed: (context) {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditYarn(
-                                                            yarnAllItemsData:
-                                                                controller
-                                                                        .yarnData[
-                                                                    index],
-                                                            // yarnLowTwistItemsData: yarnLowTwistItems[index],
-                                                            // yarnCategoryData: yarncategorycontroll.getData[index],
-                                                          )));
+                                              if (getdetailsController
+                                                  .exprired.isFalse) {
+                                                Get.to(EditYarn(
+                                                  yarnAllItemsData: controller
+                                                      .yarnData[index],
+                                                  // yarnLowTwistItemsData: yarnLowTwistItems[index],
+                                                  // yarnCategoryData: yarncategorycontroll.getData[index],
+                                                ));
+                                              } else {
+                                                FlutterToast.showCustomToast(
+                                                    URLs.expiredtoast);
+                                              }
                                             },
                                           ),
                                           SlidableAction(
@@ -471,109 +477,122 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                             label: "Delete",
                                             spacing: 10,
                                             onPressed: (context) {
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
-                                                      backgroundColor:
-                                                          Colors.grey.shade200,
-                                                      title: Text(
-                                                        "Alert",
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            color: Colors.red),
-                                                      ),
-                                                      content: Text(
-                                                        "Do you want to Delete this Yarn?",
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            // fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    0.6)),
-                                                      ),
-                                                      actions: <Widget>[
-                                                        ElevatedButton(
-                                                            style: TextButton.styleFrom(
-                                                                elevation: 5,
-                                                                surfaceTintColor:
-                                                                    Colors.grey,
-                                                                backgroundColor:
-                                                                    Colors
+                                              if (getdetailsController
+                                                  .exprired.isFalse) {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        backgroundColor: Colors
+                                                            .grey.shade200,
+                                                        title: Text(
+                                                          "Alert",
+                                                          style: TextStyle(
+                                                              fontSize: 20,
+                                                              color:
+                                                                  Colors.red),
+                                                        ),
+                                                        content: Text(
+                                                          "Do you want to Delete this Yarn?",
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              // fontWeight: FontWeight.w600,
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.6)),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          ElevatedButton(
+                                                              style: TextButton.styleFrom(
+                                                                  elevation: 5,
+                                                                  surfaceTintColor:
+                                                                      Colors
+                                                                          .grey,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white70),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop(false);
+                                                              },
+                                                              child: Text(
+                                                                "Cancel",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .black),
+                                                              )),
+                                                          ElevatedButton(
+                                                              style: TextButton.styleFrom(
+                                                                  elevation: 5,
+                                                                  surfaceTintColor: Colors
+                                                                      .red
+                                                                      .withOpacity(
+                                                                          0.3),
+                                                                  foregroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red),
+                                                              onPressed:
+                                                                  () async {
+                                                                // context
+                                                                //     .loaderOverlay
+                                                                //     .show();
+                                                                Get.back();
+                                                                await deleteYarnIndexData(
+                                                                        categoryId:
+                                                                            controller.yarnData[index]?.id.toString() ??
+                                                                                "")
+                                                                    .then(
+                                                                        (value) {
+                                                                  if (value
+                                                                          .success !=
+                                                                      false) {
+                                                                    controller
+                                                                        .yarnData
+                                                                        .clear();
+                                                                    controller
+                                                                        .fetchDataFromAPI(
+                                                                            key:
+                                                                                '');
+                                                                  }
+                                                                  // context
+                                                                  //     .loaderOverlay
+                                                                  //     .hide();
+                                                                  FlutterToast
+                                                                      .showCustomToast(
+                                                                          value
+                                                                              .message);
+                                                                  print(value);
+                                                                }).onError((error,
+                                                                        stackTrace) {
+                                                                  // context
+                                                                  //     .loaderOverlay
+                                                                  //     .hide();
+                                                                  print(error);
+                                                                });
+                                                              },
+                                                              child: Text(
+                                                                "Delete",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
                                                                         .white70),
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop(false);
-                                                            },
-                                                            child: Text(
-                                                              "Cancel",
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  color: Colors
-                                                                      .black),
-                                                            )),
-                                                        ElevatedButton(
-                                                            style: TextButton.styleFrom(
-                                                                elevation: 5,
-                                                                surfaceTintColor:
-                                                                    Colors.red
-                                                                        .withOpacity(
-                                                                            0.3),
-                                                                foregroundColor:
-                                                                    Colors.red,
-                                                                backgroundColor:
-                                                                    Colors.red),
-                                                            onPressed:
-                                                                () async {
-                                                              // context
-                                                              //     .loaderOverlay
-                                                              //     .show();
-                                                              Get.back();
-                                                              await deleteYarnIndexData(
-                                                                      categoryId:
-                                                                          controller.yarnData[index]?.id.toString() ??
-                                                                              "")
-                                                                  .then(
-                                                                      (value) {
-                                                                if (value
-                                                                        .success !=
-                                                                    false) {
-                                                                  controller
-                                                                      .yarnData
-                                                                      .clear();
-                                                                  controller
-                                                                      .fetchDataFromAPI(
-                                                                          key:
-                                                                              '');
-                                                                }
-                                                                // context
-                                                                //     .loaderOverlay
-                                                                //     .hide();
-                                                                FlutterToast
-                                                                    .showCustomToast(
-                                                                        value
-                                                                            .message);
-                                                                print(value);
-                                                              }).onError((error,
-                                                                      stackTrace) {
-                                                                // context
-                                                                //     .loaderOverlay
-                                                                //     .hide();
-                                                                print(error);
-                                                              });
-                                                            },
-                                                            child: Text(
-                                                              "Delete",
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  color: Colors
-                                                                      .white70),
-                                                            )),
-                                                      ],
-                                                    );
-                                                  });
+                                                              )),
+                                                        ],
+                                                      );
+                                                    });
+                                              } else {
+                                                FlutterToast.showCustomToast(
+                                                    URLs.expiredtoast);
+                                              }
                                             },
                                           ),
                                         ],
@@ -664,7 +683,9 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                           ),
                         ),
                 )),
-                SizedBox(height: 50,)
+                SizedBox(
+                  height: 50,
+                )
               ],
             ),
           ),

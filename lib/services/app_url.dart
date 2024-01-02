@@ -5,6 +5,7 @@ class URLs {
   // static String image_url = "http://192.168.29.248:8001/";
   static String image_url = "https://textilediary.in/textiles/public/";
   static String Base_url = "https://textilediary.in/textiles/public/api/";
+  static String expiredtoast = "Please active package";
 
   static String yarnCategory =
       Base_url + "yarnCategory?user_id=${saveUser()?.id}";

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:yarn_modified/getxcontrollers/febriccategory.dart';
+import 'package:yarn_modified/getxcontrollers/getdetailscheckcontroller.dart';
 import 'package:yarn_modified/screens/fabric-section/add-fabric-category.dart';
 import 'package:yarn_modified/screens/fabric-section/edit-fabric-category.dart';
+import 'package:yarn_modified/services/app_url.dart';
 import '../../const/const.dart';
 import '../../const/themes.dart';
 import '../../model/get-fabric-category-model.dart';
@@ -21,6 +23,7 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
   TextEditingController editDialogController = TextEditingController();
   TextEditingController floatingDialogController = TextEditingController();
   final ScrollController _allController = ScrollController();
+  GetDetailsCheck getdetailsController = Get.put(GetDetailsCheck());
 
   SlidableController? slidableController;
   bool slideOn = true;
@@ -95,18 +98,21 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
                         borderRadius: BorderRadius.circular(5)),
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddFabricCategory()));
+                        if (getdetailsController.exprired.isFalse) {
+                          Get.to(AddFabricCategory());
+                        } else {
+                          FlutterToast.showCustomToast(URLs.expiredtoast);
+                        }
                       },
                       child: Container(
                           padding: const EdgeInsets.only(
                               top: 5, bottom: 5, right: 15),
                           color: Colors.transparent,
-                          child: Icon(   Icons.add_circle,
+                          child: Icon(
+                            Icons.add_circle,
                             color: Colors.white,
-                            size: 30,)),
+                            size: 30,
+                          )),
                     ),
                   ),
                 ),
@@ -146,14 +152,15 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
                                     label: "Edit",
                                     spacing: 10,
                                     onPressed: (context) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EditFabricCategory(
-                                                      fabricCategoryData:
-                                                          controller.getData[
-                                                              index])));
+                                      if (getdetailsController
+                                          .exprired.isFalse) {
+                                        Get.to(EditFabricCategory(
+                                            fabricCategoryData:
+                                                controller.getData[index]));
+                                      } else {
+                                        FlutterToast.showCustomToast(
+                                            URLs.expiredtoast);
+                                      }
                                     },
                                   ),
                                   SlidableAction(
@@ -168,91 +175,102 @@ class _FabricCategoryScreenState extends State<FabricCategoryScreen> {
                                     spacing: 10,
                                     onPressed: (context) {
                                       // if(yarnLowTwistItems[index] == 0 || yarnLowTwistItems[index] > 0) {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              backgroundColor:
-                                                  Colors.grey.shade200,
-                                              title: Text(
-                                                "Alert",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.red),
-                                              ),
-                                              content: Text(
-                                                "Do you want to Delete this Fabric Category?",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    // fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                        .withOpacity(0.6)),
-                                              ),
-                                              actions: <Widget>[
-                                                ElevatedButton(
-                                                    style: TextButton.styleFrom(
-                                                        elevation: 5,
-                                                        surfaceTintColor:
-                                                            Colors.grey,
-                                                        backgroundColor:
-                                                            Colors.white70),
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop(false);
-                                                    },
-                                                    child: Text(
-                                                      "Cancel",
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors.black),
-                                                    )),
-                                                ElevatedButton(
-                                                    style: TextButton.styleFrom(
-                                                        elevation: 5,
-                                                        surfaceTintColor: Colors
-                                                            .red
-                                                            .withOpacity(0.3),
-                                                        foregroundColor:
-                                                            Colors.red,
-                                                        backgroundColor:
-                                                            Colors.red),
-                                                    onPressed: () async {
-                                                      await deleteFabricCategoryData(
-                                                              categoryId: controller
-                                                                      .getData[
-                                                                          index]
-                                                                      ?.id
-                                                                      .toString() ??
-                                                                  "")
-                                                          .then((value) {
-                                                        if (value.success !=
-                                                            false) {
-                                                          controller.getData
-                                                              .clear();
-                                                          controller
-                                                              .fetchDataFromAPI();
-                                                          setState(() {});
-                                                        }
-                                                        FlutterToast
-                                                            .showCustomToast(
-                                                                value.message);
-                                                        print(value);
-                                                      }).onError((error,
-                                                              stackTrace) {
-                                                        print(error);
-                                                      });
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text(
-                                                      "Delete",
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color:
-                                                              Colors.white70),
-                                                    )),
-                                              ],
-                                            );
-                                          });
+                                      if (getdetailsController
+                                          .exprired.isFalse) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                backgroundColor:
+                                                    Colors.grey.shade200,
+                                                title: Text(
+                                                  "Alert",
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.red),
+                                                ),
+                                                content: Text(
+                                                  "Do you want to Delete this Fabric Category?",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      // fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                          .withOpacity(0.6)),
+                                                ),
+                                                actions: <Widget>[
+                                                  ElevatedButton(
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                              elevation: 5,
+                                                              surfaceTintColor:
+                                                                  Colors.grey,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .white70),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop(false);
+                                                      },
+                                                      child: Text(
+                                                        "Cancel",
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            color:
+                                                                Colors.black),
+                                                      )),
+                                                  ElevatedButton(
+                                                      style: TextButton.styleFrom(
+                                                          elevation: 5,
+                                                          surfaceTintColor:
+                                                              Colors.red
+                                                                  .withOpacity(
+                                                                      0.3),
+                                                          foregroundColor:
+                                                              Colors.red,
+                                                          backgroundColor:
+                                                              Colors.red),
+                                                      onPressed: () async {
+                                                        await deleteFabricCategoryData(
+                                                                categoryId: controller
+                                                                        .getData[
+                                                                            index]
+                                                                        ?.id
+                                                                        .toString() ??
+                                                                    "")
+                                                            .then((value) {
+                                                          if (value.success !=
+                                                              false) {
+                                                            controller.getData
+                                                                .clear();
+                                                            controller
+                                                                .fetchDataFromAPI();
+                                                            setState(() {});
+                                                          }
+                                                          FlutterToast
+                                                              .showCustomToast(
+                                                                  value
+                                                                      .message);
+                                                          print(value);
+                                                        }).onError((error,
+                                                                stackTrace) {
+                                                          print(error);
+                                                        });
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        "Delete",
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            color:
+                                                                Colors.white70),
+                                                      )),
+                                                ],
+                                              );
+                                            });
+                                      } else {
+                                        FlutterToast.showCustomToast(
+                                            URLs.expiredtoast);
+                                      }
                                       // }
                                     },
                                   ),
