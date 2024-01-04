@@ -135,7 +135,7 @@ class _NewMobileNumberState extends State<NewMobileNumber>
                                       // await firebaseAuthContrller
                                       //     .sendOTP(
                                       //         mobileController.text);
-                                      Get.put(PhoneNumberChangenew()).sendOTP( saveUser()?.mobileNumber ?? "");
+                                      Get.put(PhoneNumberChangenew()).sendOTP( mobileController.text);
                                     }
                                   },
                                   style: ButtonStyle(

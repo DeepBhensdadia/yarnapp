@@ -33,8 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
   PackageController packageController = Get.put(PackageController());
   GetDetailsCheck getdetailController = Get.put(GetDetailsCheck());
 
-
-
   @override
   void initState() {
     getdetailController.getDeviceId();

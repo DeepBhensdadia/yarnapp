@@ -19,6 +19,7 @@ class UpdateUserController extends GetxController {
             value: jsonEncode(value.toJson()), prefKey: PrefKey.loginDetails);
         Get.back();
         Get.back();
+        Get.back();
       }
       Fluttertoast.showToast(msg: value.message ?? "");
       Get.context!.loaderOverlay.hide();

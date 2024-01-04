@@ -105,6 +105,7 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                                   feb.editedt = true;
                                                   element.value.selectedYarnID
                                                       .value = val!;
+                                                  element.value.focusNode.requestFocus();
                                                 },
                                               ),
                                             )),
@@ -124,6 +125,7 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                                         height: 20,
                                       ),
                                       CommonDecimalTextField(
+                                          focusnode: element.value.focusNode,
                                           onchange: (p0) {
                                             feb.editedt = true;
                                           },

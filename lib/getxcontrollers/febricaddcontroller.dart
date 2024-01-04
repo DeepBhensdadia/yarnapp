@@ -6,8 +6,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/getxcontrollers/febricslistcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/getresultscontroller.dart';
-import 'package:yarn_modified/model/get-fabric-category-model.dart';
-import 'package:yarn_modified/model/get-yarn-index-model.dart';
 import '../model/addfebricresponsemodel.dart';
 import '../services/all_api_services.dart';
 
@@ -277,6 +275,7 @@ class WrapModel {
   TextEditingController controller;
   TextEditingController controller2;
   Rx<int> selectedYarnID;
+  FocusNode focusNode = FocusNode();
   Key key;
 
   String get taar => controller.text.trim();
@@ -302,12 +301,15 @@ class WeftModel {
     required this.ppiController,
     required this.selectedYarnID,
     required this.key,
+
+
   });
 
   TextEditingController repeatController;
   TextEditingController TpmController;
   TextEditingController ppiController;
   Rx<int> selectedYarnID;
+  FocusNode focusNode = FocusNode();
   Key key;
 
   String get ppi => ppiController.text.trim();

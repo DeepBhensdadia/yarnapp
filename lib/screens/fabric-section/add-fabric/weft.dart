@@ -156,6 +156,9 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                                     .value
                                                                     .selectedYarnID
                                                                     .value = val!;
+                                                                element.value
+                                                                    .focusNode
+                                                                    .requestFocus();
                                                               },
                                                             ),
                                                           )),
@@ -165,8 +168,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                                     AddYarn());
                                                               },
                                                               icon: Icon(
-
-                                                                Icons.add_circle_outline_rounded,
+                                                                Icons
+                                                                    .add_circle_outline_rounded,
                                                                 color:
                                                                     Colors.grey,
                                                               ))
@@ -177,6 +180,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                       height: 20,
                                                     ),
                                                     CommonDecimalTextField(
+                                                        focusnode: element
+                                                            .value.focusNode,
                                                         onchange: (p0) {
                                                           setState(() {
                                                             p0.isNotEmpty ||
@@ -245,42 +250,42 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                         onchange: (p0) {
                                                           setState(() {
                                                             p0.isNotEmpty ||
-                                                                element
-                                                                    .value
-                                                                    .selectedYarnID
-                                                                    .value !=
-                                                                    0
+                                                                    element
+                                                                            .value
+                                                                            .selectedYarnID
+                                                                            .value !=
+                                                                        0
                                                                 ? isdataavilable =
-                                                            true
+                                                                    true
                                                                 : isdataavilable =
-                                                            false;
+                                                                    false;
                                                           });
                                                           feb.weftModel.forEach(
-                                                                  (element) {
-                                                                if (element
-                                                                    .ppiController
+                                                              (element) {
+                                                            if (element.ppiController.text.isNotEmpty ||
+                                                                element
+                                                                    .TpmController
                                                                     .text
                                                                     .isNotEmpty ||
-                                                                     element.TpmController.text.isNotEmpty ||
-                                                                    element.selectedYarnID !=
-                                                                        0) {
-                                                                  setState(() {
-                                                                    isdataavilable =
+                                                                element.selectedYarnID !=
+                                                                    0) {
+                                                              setState(() {
+                                                                isdataavilable =
                                                                     true;
-                                                                  });
-                                                                  return; // Exit the loop early if data is found
-                                                                }
                                                               });
+                                                              return; // Exit the loop early if data is found
+                                                            }
+                                                          });
                                                           p0.isNotEmpty ||
-                                                              element
-                                                                  .value
-                                                                  .selectedYarnID
-                                                                  .value !=
-                                                                  0
+                                                                  element
+                                                                          .value
+                                                                          .selectedYarnID
+                                                                          .value !=
+                                                                      0
                                                               ? feb.editedt =
-                                                          true
+                                                                  true
                                                               : feb.editedt =
-                                                          false;
+                                                                  false;
                                                         },
                                                         // validatorfield: (p0) {
                                                         //   if (p0!.isEmpty) {
@@ -290,11 +295,19 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                         //   }
                                                         //   return null;
                                                         // },
-                                                        controller: element.value.TpmController,
-                                                        labelText: 'Enter TPM Cost per kg (optional)',
-                                                        keyboardType: TextInputType.number,
-                                                        hintText: 'Enter TPM Cost per kg (optional)',
-                                                        InputAction: TextInputAction.next),
+                                                        controller: element
+                                                            .value
+                                                            .TpmController,
+                                                        labelText:
+                                                            'Enter TPM Cost per kg (optional)',
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        hintText:
+                                                            'Enter TPM Cost per kg (optional)',
+                                                        InputAction:
+                                                            TextInputAction
+                                                                .next),
                                                   ],
                                                 ),
                                               ),
@@ -437,6 +450,9 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                                   .value
                                                                   .selectedYarnID
                                                                   .value = val!;
+                                                              element.value
+                                                                  .focusNode
+                                                                  .requestFocus();
                                                             },
                                                           ),
                                                         )),
@@ -445,7 +461,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                               Get.to(AddYarn());
                                                             },
                                                             icon: Icon(
-                                                              Icons.add_circle_outline_rounded,
+                                                              Icons
+                                                                  .add_circle_outline_rounded,
                                                               color:
                                                                   Colors.grey,
                                                             ))
@@ -456,6 +473,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                     height: 20,
                                                   ),
                                                   CommonDecimalTextField(
+                                                      focusnode: element
+                                                          .value.focusNode,
                                                       onchange: (p0) {
                                                         setState(() {
                                                           p0.isNotEmpty ||
@@ -572,42 +591,41 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                       onchange: (p0) {
                                                         setState(() {
                                                           p0.isNotEmpty ||
-                                                              element
-                                                                  .value
-                                                                  .selectedYarnID
-                                                                  .value !=
-                                                                  0
+                                                                  element
+                                                                          .value
+                                                                          .selectedYarnID
+                                                                          .value !=
+                                                                      0
                                                               ? isdataavilable =
-                                                          true
+                                                                  true
                                                               : isdataavilable =
-                                                          false;
+                                                                  false;
                                                         });
-                                                        feb.weftModel.forEach(
-                                                                (element) {
-                                                              if (element
-                                                                  .ppiController
+                                                        feb.weftModel
+                                                            .forEach((element) {
+                                                          if (element.ppiController.text.isNotEmpty ||
+                                                              element
+                                                                  .TpmController
                                                                   .text
                                                                   .isNotEmpty ||
-                                                                  element.TpmController.text.isNotEmpty ||
-                                                                  element.selectedYarnID !=
-                                                                      0) {
-                                                                setState(() {
-                                                                  isdataavilable =
+                                                              element.selectedYarnID !=
+                                                                  0) {
+                                                            setState(() {
+                                                              isdataavilable =
                                                                   true;
-                                                                });
-                                                                return; // Exit the loop early if data is found
-                                                              }
                                                             });
+                                                            return; // Exit the loop early if data is found
+                                                          }
+                                                        });
                                                         p0.isNotEmpty ||
-                                                            element
-                                                                .value
-                                                                .selectedYarnID
-                                                                .value !=
-                                                                0
-                                                            ? feb.editedt =
-                                                        true
+                                                                element
+                                                                        .value
+                                                                        .selectedYarnID
+                                                                        .value !=
+                                                                    0
+                                                            ? feb.editedt = true
                                                             : feb.editedt =
-                                                        false;
+                                                                false;
                                                       },
                                                       // validatorfield: (p0) {
                                                       //   if (p0!.isEmpty) {
@@ -617,11 +635,16 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                                       //   }
                                                       //   return null;
                                                       // },
-                                                      controller: element.value.TpmController,
-                                                      labelText: 'Enter TPM Cost per kg (optional)',
-                                                      keyboardType: TextInputType.number,
-                                                      hintText: 'Enter TPM Cost per kg (optional)',
-                                                      InputAction: TextInputAction.next),
+                                                      controller: element
+                                                          .value.TpmController,
+                                                      labelText:
+                                                          'Enter TPM Cost per kg (optional)',
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      hintText:
+                                                          'Enter TPM Cost per kg (optional)',
+                                                      InputAction:
+                                                          TextInputAction.next),
                                                 ],
                                               ),
                                             ),
@@ -644,8 +667,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                         bool done = feb.weftModel.every(
                                             (element) =>
                                                 element.selectedYarnID != 0);
-                                        bool oneppicheck = feb.weftModel
-                                            .any((element) =>
+                                        bool oneppicheck = feb.weftModel.any(
+                                            (element) =>
                                                 double.parse(element
                                                     .ppiController.text) >=
                                                 1);
@@ -655,7 +678,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                             feb.goToResult(widget);
                                             print("done");
                                           } else {
-                                           FlutterToast.showCustomToast("At least one PPI should be greater than 0");
+                                            FlutterToast.showCustomToast(
+                                                "At least one PPI should be greater than 0");
                                           }
                                         } else {
                                           FlutterToast.showCustomToast(
@@ -789,6 +813,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                 feb.weftModel.forEach((element) {
                   element.ppiController.clear();
                   element.repeatController.clear();
+                  element.TpmController.clear();
                   element.selectedYarnID.value = 0;
                 });
                 isdataavilable = false;

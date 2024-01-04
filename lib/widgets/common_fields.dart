@@ -318,7 +318,7 @@ class CommonDecimalTextField extends StatefulWidget {
     required this.InputAction,
     this.validatorfield,
     this.ontaps,
-    this.onchange,
+    this.onchange, this.focusnode,
   });
 
   final String labelText;
@@ -326,6 +326,7 @@ class CommonDecimalTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final TextInputAction InputAction;
   final String hintText;
+  final FocusNode? focusnode;
 
   @override
   State<CommonDecimalTextField> createState() => _CommonDecimalTextFieldState();
@@ -351,6 +352,7 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
           height: 2,
         ),
         TextFormField(
+          focusNode: widget.focusnode,
           onChanged: widget.onchange,
           textCapitalization: TextCapitalization.words,
           validator: widget.validatorfield,

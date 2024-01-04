@@ -42,7 +42,7 @@ class PhoneNumberChangenew extends GetxController {
         FlutterToast.showCustomToast("OTP sent Successfully");
         Get.to(VerifyOtpOld(
           phonenumber:
-          saveUser()?.mobileNumber ?? '',
+          phoneNumber,
           oldnumebr: false,
         ));
         print('Verification ID: $verificationId');

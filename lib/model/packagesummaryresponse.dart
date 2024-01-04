@@ -31,7 +31,10 @@ class Packagessummaryresponse {
         message: json["message"],
         userPackages: UserPackages.fromJson(json["User Packages"]),
         remaningDays: json["Remaning Days"],
-        packages: json["packages"] == null ? []:  List<Packageavailable>.from(json["packages"].map((x) => Packageavailable.fromJson(x))),
+        packages: json["packages"] == null
+            ? []
+            : List<Packageavailable>.from(
+                json["packages"].map((x) => Packageavailable.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -39,7 +42,7 @@ class Packagessummaryresponse {
         "message": message,
         "User Packages": userPackages!.toJson(),
         "Remaning Days": remaningDays,
-    "packages": List<dynamic>.from(packages!.map((x) => x.toJson())),
+        "packages": List<dynamic>.from(packages!.map((x) => x.toJson())),
       };
 }
 
@@ -76,9 +79,13 @@ class UserPackages {
         startingDate: DateTime.parse(json["starting_date"]),
         endingDate: DateTime.parse(json["ending_date"]),
         notes: json["notes"].toString(),
-        paymentMethod: json["payment_method"]??"",
-        createdAt: json["created_at"] != null ?  DateTime.parse(json["created_at"]) : DateTime.now(),
-        updatedAt:json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : DateTime.now(),
+        paymentMethod: json["payment_method"] ?? "",
+        createdAt: json["created_at"] != null
+            ? DateTime.parse(json["created_at"])
+            : DateTime.now(),
+        updatedAt: json["updated_at"] != null
+            ? DateTime.parse(json["updated_at"])
+            : DateTime.now(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -110,21 +117,20 @@ class Packageavailable {
     this.packageAmount,
   });
 
-  factory Packageavailable.fromJson(Map<String, dynamic> json) => Packageavailable(
-    startingDate: DateTime.parse(json["starting_date"]),
-    endingDate: DateTime.parse(json["ending_date"]),
-    name: json["name"],
-    packageName: json["package_name"],
-    packageAmount: json["package_amount"],
-  );
+  factory Packageavailable.fromJson(Map<String, dynamic> json) =>
+      Packageavailable(
+        startingDate: DateTime.parse(json["starting_date"]),
+        endingDate: DateTime.parse(json["ending_date"]),
+        name: json["name"],
+        packageName: json["package_name"],
+        packageAmount: json["package_amount"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "starting_date": startingDate?.toIso8601String(),
-    "ending_date": endingDate?.toIso8601String(),
-    "name": name,
-    "package_name": packageName,
-    "package_amount": packageAmount,
-  };
+        "starting_date": startingDate?.toIso8601String(),
+        "ending_date": endingDate?.toIso8601String(),
+        "name": name,
+        "package_name": packageName,
+        "package_amount": packageAmount,
+      };
 }
-
-
