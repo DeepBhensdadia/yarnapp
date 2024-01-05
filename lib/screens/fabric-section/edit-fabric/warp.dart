@@ -95,12 +95,14 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                                               feb.editedt = true;
                                               element.value.selectedYarnID
                                                   .value = val!;
+                                              element.value.focusNode.requestFocus();
                                             },
                                           )),
                                       SizedBox(
                                         height: 20,
                                       ),
                                       CommonDecimalTextField(
+                                        focusnode: element.value.focusNode,
                                           onchange: (p0) {
                                             feb.editedt = true;
                                           },

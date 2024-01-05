@@ -153,12 +153,17 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                                 .value
                                                                 .selectedYarnID
                                                                 .value = val!;
+                                                            element
+                                                                .value.focusNode
+                                                                .requestFocus();
                                                           },
                                                         )),
                                                     SizedBox(
                                                       height: 20,
                                                     ),
                                                     CommonDecimalTextField(
+                                                        focusnode: element
+                                                            .value.focusNode,
                                                         onchange: (p0) {
                                                           setState(() {
                                                             p0.isNotEmpty ||
@@ -255,11 +260,13 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                         controller: element
                                                             .value
                                                             .tpmController,
-                                                        labelText: 'Enter TPM Cost per kg (optional) ',
+                                                        labelText:
+                                                            'Enter TPM Cost per kg (optional) ',
                                                         keyboardType:
                                                             TextInputType
                                                                 .number,
-                                                        hintText: 'Enter TPM Cost per kg (optional)',
+                                                        hintText:
+                                                            'Enter TPM Cost per kg (optional)',
                                                         InputAction:
                                                             TextInputAction
                                                                 .next),
@@ -399,12 +406,17 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                               .value
                                                               .selectedYarnID
                                                               .value = val!;
+                                                          element
+                                                              .value.focusNode
+                                                              .requestFocus();
                                                         },
                                                       )),
                                                   SizedBox(
                                                     height: 20,
                                                   ),
                                                   CommonDecimalTextField(
+                                                      focusnode: element
+                                                          .value.focusNode,
                                                       onchange: (p0) {
                                                         setState(() {
                                                           p0.isNotEmpty ||
@@ -568,10 +580,12 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                       // },
                                                       controller: element
                                                           .value.tpmController,
-                                                      labelText: 'Enter TPM Cost per kg (optional)',
+                                                      labelText:
+                                                          'Enter TPM Cost per kg (optional)',
                                                       keyboardType:
                                                           TextInputType.number,
-                                                      hintText: 'Enter TPM Cost per kg (optional)',
+                                                      hintText:
+                                                          'Enter TPM Cost per kg (optional)',
                                                       InputAction:
                                                           TextInputAction.next),
                                                 ],

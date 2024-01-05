@@ -234,6 +234,7 @@ class WrapModel {
 
   TextEditingController controller;
   TextEditingController controller2;
+  FocusNode focusNode = FocusNode();
   Rx<int> selectedYarnID;
   Key key;
 
@@ -269,6 +270,7 @@ class WeftModel {
   TextEditingController repeatController;
   TextEditingController ppiController;
   TextEditingController tpmController;
+  FocusNode focusNode = FocusNode();
   Rx<int> selectedYarnID;
   Key key;
 
