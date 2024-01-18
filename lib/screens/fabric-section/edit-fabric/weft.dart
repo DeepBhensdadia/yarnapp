@@ -288,6 +288,8 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                     onPressed: () {
                                       fabricbasic = true;
                                       if (_formKey.currentState!.validate()) {
+                                        FocusScope.of(context).requestFocus(FocusNode());
+
                                         bool done = feb.weftModel.every(
                                             (element) =>
                                                 element.selectedYarnID != 0);
@@ -607,6 +609,8 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                     onPressed: () {
                                       fabricbasic = true;
                                       if (_formKey.currentState!.validate()) {
+                                        FocusScope.of(context).requestFocus(FocusNode());
+
                                         bool done = feb.weftModel.every(
                                             (element) =>
                                                 element.selectedYarnID != 0);

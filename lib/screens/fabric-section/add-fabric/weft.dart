@@ -325,6 +325,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                 child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
+                                        FocusScope.of(context).requestFocus(FocusNode());
+
                                         bool done = feb.weftModel.every(
                                             (element) =>
                                                 element.selectedYarnID != 0);
@@ -663,6 +665,7 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                 child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
+                                        FocusScope.of(context).requestFocus(FocusNode());
                                         print("hablja,bjcm");
                                         bool done = feb.weftModel.every(
                                             (element) =>

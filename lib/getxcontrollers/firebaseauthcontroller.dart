@@ -22,7 +22,7 @@ class FirebaseAuthContrller extends GetxController {
     Get.context!.loaderOverlay.show();
 
     FirebaseAuth auth = FirebaseAuth.instance;
-auth.signInWithPhoneNumber(phoneNumber);
+    auth.signInWithPhoneNumber(phoneNumber);
     await auth.verifyPhoneNumber(
       phoneNumber: "+91 $phoneNumber",
       verificationCompleted: (PhoneAuthCredential credential) {
@@ -105,7 +105,7 @@ auth.signInWithPhoneNumber(phoneNumber);
             Get.offAll(RootApp());
             FlutterToast.showCustomToast(value.message ?? "");
           } else {
-            Get.offAll(SignUpScreen(phonenumber: widget.phonenumber));
+            Get.off(SignUpScreen(phonenumber: widget.phonenumber));
           }
           print(value);
         }).onError((error, stackTrace) {

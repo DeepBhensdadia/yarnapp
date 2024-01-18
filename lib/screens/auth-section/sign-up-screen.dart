@@ -118,8 +118,8 @@ class _SignUpScreenState extends State<SignUpScreen>
                               child: Container(
                                   height: 125,
                                   width: 150,
-                                  child:
-                                      Image.asset("images/textilediary-logo-512-removebg-preview.png"))),
+                                  child: Image.asset(
+                                      "images/textilediary-logo-512-removebg-preview.png"))),
                           Center(
                             child: Text(
                               'Create Account',
