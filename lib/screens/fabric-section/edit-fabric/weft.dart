@@ -378,7 +378,8 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                       horizontal: 15),
                                               child: Column(
                                                 children: [
-                                                  Obx(() => CustomDropdownyarn(
+                                                  Obx(() =>
+                                                      CustomDropdownyarn(
                                                         validing: (p0) {
                                                           if (p0 == null &&
                                                               fabricbasic ==
