@@ -193,7 +193,7 @@ class FebricEditController extends GetxController {
       } else {
         widget.page.jumpToPage(2);
       }
-      febricsController.getfebrics();
+      febricsController.getfebrics(key: febricsController.searchController.text);
       FlutterToast.showCustomToast(value.message ?? "");
       Get.context!.loaderOverlay.hide();
     }).onError((error, stackTrace) {

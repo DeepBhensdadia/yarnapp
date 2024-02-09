@@ -526,6 +526,7 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                                     parameter: jsonEncode(params))
                                 .then((value) {
                               if (value.success == true) {
+                                FocusScope.of(context).requestFocus(FocusNode());
                                 Get.find<FebricAddController>().isWrapDone =
                                     true;
                                 widget.page.jumpToPage(1);

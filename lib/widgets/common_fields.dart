@@ -142,52 +142,67 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
         SizedBox(
           height: 2,
         ),
-        TextFormField(
-          readOnly: widget.read,
-          validator: widget.validator,
-          textCapitalization: TextCapitalization.words,
-          autocorrect: false,
-          textAlign: TextAlign.start,
-          cursorColor: Colors.black,
-          textInputAction: TextInputAction.next,
-          controller: widget.controller,
-          keyboardType: TextInputType.numberWithOptions(decimal: false),
-          style: TextStyle(
-            color: widget.read ? Colors.black45 : Colors.black,
-            fontSize: MediaQuery.of(context).textScaleFactor * 15,
-          ),
-          maxLength: 10,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            FilteringTextInputFormatter.deny(RegExp('[\\.]')),
+        Row(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "+91",
+              // textScaleFactor: 1.3,
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).textScaleFactor * 15,
+                  fontWeight: FontWeight.w400, color:Colors.black),
+            ),
+            SizedBox(width: 10,),
+            Expanded(
+              child: TextFormField(
+                readOnly: widget.read,
+                validator: widget.validator,
+                textCapitalization: TextCapitalization.words,
+                autocorrect: false,
+                textAlign: TextAlign.start,
+                cursorColor: Colors.black,
+                textInputAction: TextInputAction.next,
+                controller: widget.controller,
+                keyboardType: TextInputType.numberWithOptions(decimal: false),
+                style: TextStyle(
+                  color: widget.read ? Colors.black45 : Colors.black,
+                  fontSize: MediaQuery.of(context).textScaleFactor * 15,
+                ),
+                maxLength: 10,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  FilteringTextInputFormatter.deny(RegExp('[\\.]')),
+                ],
+                decoration: InputDecoration(
+                  counter: Offstage(),
+                  // hintText: widget.hintText,
+                  // hintStyle: TextStyle(
+                  //   color: Colors.grey,
+                  //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
+                  // ),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 0,
+                  ),
+                  disabledBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
+                  ),
+                  border: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
+                  ),
+                ),
+              ),
+            ),
           ],
-          decoration: InputDecoration(
-            counter: Offstage(),
-            // hintText: widget.hintText,
-            // hintStyle: TextStyle(
-            //   color: Colors.grey,
-            //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
-            // ),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 0,
-            ),
-            disabledBorder: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
-            ),
-            enabledBorder: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
-            ),
-            border: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
-            ),
-          ),
         ),
       ],
     );

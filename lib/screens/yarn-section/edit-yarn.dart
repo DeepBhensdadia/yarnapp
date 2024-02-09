@@ -66,7 +66,7 @@ class _EditYarnState extends State<EditYarn> {
             parameter: jsonEncode(parameter), categoryId: yarnid)
         .then((value) {
       if (value.success != false) {
-        yarnlist.fetchDataFromAPI(key: '');
+        yarnlist.fetchDataFromAPI(key: yarnlist.searchController.text);
         Get.back();
       }
       // print(value);

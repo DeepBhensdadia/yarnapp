@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yarn_modified/screens/profile-section/aboutusscreen.dart';
 import 'package:yarn_modified/screens/profile-section/account-section/account.dart';
 import 'package:yarn_modified/screens/profile-section/contectus.dart';
@@ -8,6 +9,7 @@ import 'package:yarn_modified/screens/profile-section/favourite-section/favourit
 import 'package:yarn_modified/screens/profile-section/notification-section/notifications.dart';
 import 'package:yarn_modified/screens/profile-section/orders-section/my-order.dart';
 import 'package:yarn_modified/screens/profile-section/settings-section/settings.dart';
+import 'package:yarn_modified/screens/profile-section/termsandconditionscreen.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import 'package:yarn_modified/shared_pref/shared_pref.dart';
 import '../../const/const.dart';
@@ -168,9 +170,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     if (index == 0) {
                                       Get.to(MyAccount());
                                     } else if (index == 1) {
-                                      // Get.to()
+                                      Get.to(TermsConditionScreen());
                                     } else if (index == 2) {
-                                      // Get.to()
+                                      launchUrl(Uri.parse(
+                                          "https://www.termsfeed.com/live/3f527e16-40a2-4cab-b9ee-63558ec0a3af"));
                                     } else if (index == 3) {
                                       Get.to(ContactUs());
                                     } else if (index == 4) {

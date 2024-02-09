@@ -26,7 +26,6 @@ class FabricScreenRoot extends StatefulWidget {
 }
 
 class _FabricScreenRootState extends State<FabricScreenRoot> {
-  TextEditingController searchController = TextEditingController();
   final ScrollController _allController = ScrollController();
   int activeTab = 0;
 
@@ -143,7 +142,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                     ),
 
                                     onConfirm: (value) {
-                                      searchController.clear();
+                                      febricsController.searchController
+                                          .clear();
                                       if (value.isNotEmpty) {
                                         fabricsselected.clear();
                                         fabricsselected = value;
@@ -191,7 +191,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                         ),
                                         ListTile(
                                           onTap: () {
-                                            searchController.clear();
+                                            febricsController.searchController
+                                                .clear();
                                             Navigator.pop(context);
                                             febricsController.getfebrics(
                                                 key: "",
@@ -213,7 +214,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                         ),
                                         ListTile(
                                           onTap: () {
-                                            searchController.clear();
+                                            febricsController.searchController
+                                                .clear();
 
                                             Navigator.pop(context);
                                             febricsController.getfebrics(
@@ -236,7 +238,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                         ),
                                         ListTile(
                                           onTap: () {
-                                            searchController.clear();
+                                            febricsController.searchController
+                                                .clear();
 
                                             Navigator.pop(context);
                                             febricsController.getfebrics(
@@ -259,7 +262,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                         ),
                                         ListTile(
                                           onTap: () {
-                                            searchController.clear();
+                                            febricsController.searchController
+                                                .clear();
 
                                             Navigator.pop(context);
                                             febricsController.getfebrics(
@@ -366,7 +370,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                 .textScaleFactor *
                                             15,
                                       ),
-                                      controller: searchController,
+                                      controller:
+                                          febricsController.searchController,
                                       onChanged: (text) {
                                         if (text != "") {
                                           febricsController.getfebrics(
@@ -389,12 +394,16 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                             color: Colors.grey.shade600,
                                             size: 30,
                                           ),
-                                          suffixIcon: searchController
-                                                  .text.isNotEmpty
+                                          suffixIcon: febricsController
+                                                  .searchController
+                                                  .text
+                                                  .isNotEmpty
                                               ? IconButton(
                                                   splashRadius: 0.1,
                                                   onPressed: () {
-                                                    searchController.clear();
+                                                    febricsController
+                                                        .searchController
+                                                        .clear();
                                                     febricsController
                                                         .getfebrics(
                                                       category: fabricsselected
@@ -410,9 +419,9 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                               : null,
                                           hintText: "Search Fabric Cost...",
                                           hintStyle: TextStyle(
-                                              fontSize: MediaQuery.of(context)
-                                                      .textScaleFactor *
-                                                  13,
+                                              fontSize:
+                                                  MediaQuery.of(context).textScaleFactor *
+                                                      13,
                                               color: Colors.grey),
                                           disabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -425,14 +434,9 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                               borderRadius:
                                                   BorderRadius.circular(5)),
                                           border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.transparent),
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: Colors.transparent),
-                                              borderRadius: BorderRadius.circular(5)))),
+                                              borderSide: BorderSide(color: Colors.transparent),
+                                              borderRadius: BorderRadius.circular(5)),
+                                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(5)))),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +29,19 @@ showFlutterToast({required String message}) {
     // backgroundColor: Colors.white,
     // textColor: Colors.black
   );
+}
+
+Future<String> getDeviceId() async {
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  if (Platform.isAndroid) {
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.androidId; // Using Android ID as an example
+  } else if (Platform.isIOS) {
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    return iosInfo
+        .identifierForVendor; // Using Identifier for Vendor as an example
+  }
+  return '';
 }
 
 final BorderRadius homeCardRadius = BorderRadius.all(Radius.circular(8));

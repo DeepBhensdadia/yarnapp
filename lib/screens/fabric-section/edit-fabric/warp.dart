@@ -156,6 +156,7 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                   child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           Get.find<FebricEditController>().isWeftDone = true;
                           // feb.changedData();
                           widget.page.jumpToPage(2);

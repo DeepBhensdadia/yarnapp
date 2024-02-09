@@ -28,7 +28,6 @@ class YarnScreenRoot extends StatefulWidget {
 }
 
 class _YarnScreenRootState extends State<YarnScreenRoot> {
-  TextEditingController searchController = TextEditingController();
   final ScrollController _allController = ScrollController();
   GetDetailsCheck getdetailsController = Get.put(GetDetailsCheck());
 
@@ -143,7 +142,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   ),
 
                                   onConfirm: (value) {
-                                    searchController.clear();
+                                    yarnlist.searchController.clear();
                                     yarnhbj.clear();
                                     if (value.isNotEmpty) {
                                       setState(() {
@@ -190,7 +189,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                 ),
                                 ListTile(
                                   onTap: () {
-                                    searchController.clear();
+                                    yarnlist.searchController.clear();
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
                                         key: "",
@@ -210,7 +209,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                 ),
                                 ListTile(
                                   onTap: () {
-                                    searchController.clear();
+                                    yarnlist.searchController.clear();
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
                                         key: "",
@@ -230,7 +229,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                 ),
                                 ListTile(
                                   onTap: () {
-                                    searchController.clear();
+                                    yarnlist.searchController.clear();
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
                                         category: yarnhbj.toString(),
@@ -250,7 +249,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                 ),
                                 ListTile(
                                   onTap: () {
-                                    searchController.clear();
+                                    yarnlist.searchController.clear();
                                     Navigator.pop(context);
                                     yarnlist.fetchDataFromAPI(
                                         category: yarnhbj.toString(),
@@ -338,7 +337,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                               fontSize:
                                   MediaQuery.of(context).textScaleFactor * 15,
                             ),
-                            controller: searchController,
+                            controller: yarnlist.searchController,
                             onChanged: (text) {
                               yarnlist.fetchDataFromAPI(
                                 key: text,
@@ -353,12 +352,12 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   color: Colors.grey.shade600,
                                   size: 30,
                                 ),
-                                suffixIcon: searchController.text.isNotEmpty
+                                suffixIcon: yarnlist.searchController.text.isNotEmpty
                                     ? IconButton(
                                         splashRadius: 0.1,
                                         onPressed: () {
                                           setState(() {
-                                            searchController.text = "";
+                                            yarnlist.searchController.text = "";
                                           });
                                           yarnlist.fetchDataFromAPI(
                                             key: "",

@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    getdetailController.getDeviceId();
+    getdetailController.getDeviceId13();
     packageController.PackageSummaryAPi();
     // TODO: implement initState
     super.initState();
@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: MyTheme.appBarColor,
                             ),
                             onTap: () {
-                              getdetailController.getDeviceId();
+                              getdetailController.getDeviceId13();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -164,12 +164,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontWeight: FontWeight.w500),
                             ),
                             trailing: Icon(
-
                               Icons.keyboard_arrow_right_rounded,
                               color: MyTheme.appBarColor,
                             ),
                             onTap: () {
-                              getdetailController.getDeviceId();
+                              getdetailController.getDeviceId13();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -222,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: MyTheme.appBarColor,
                             ),
                             onTap: () {
-                              getdetailController.getDeviceId();
+                              getdetailController.getDeviceId13();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -244,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: MyTheme.appBarColor,
                             ),
                             onTap: () {
-                              getdetailController.getDeviceId();
+                              getdetailController.getDeviceId13();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -268,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.only(left: 20, right: 20),
                             child: InkWell(
                               onTap: () {
-                                getdetailController.getDeviceId();
+                                getdetailController.getDeviceId13();
                                 controller.PackagelistgetAPI();
                               },
                               child: Card(
@@ -280,7 +279,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: screenwidth(context, dividedby: 1),
                                   child: Column(
                                     children: [
-                                      SizedBox(height: 20,),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
                                       Text(
                                         "SUBSCRIPTION",
                                         textScaleFactor: 1.3,
@@ -288,7 +289,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             color: Colors.black,
                                             fontWeight: FontWeight.w600),
                                       ),
-
                                       ListTile(
                                         dense: true,
                                         title: Text(
@@ -302,17 +302,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                         //   Icons.keyboard_arrow_right_rounded,
                                         //   color: MyTheme.appBarColor,
                                         // ),
-                                      ),  ListTile(
+                                      ),
+                                      ListTile(
                                         dense: true,
-                                        title:   Text(
+                                        title: Text(
                                           "${controller.packagessummary?.remaningDays} days left",
                                           textScaleFactor: 1.4,
-                                          style: TextStyle(color: MyTheme.appBarColor,fontWeight: FontWeight.w500),
+                                          style: TextStyle(
+                                              color: MyTheme.appBarColor,
+                                              fontWeight: FontWeight.w500),
                                         ),
-                                         trailing: Icon(
-                                           Icons.keyboard_arrow_right_rounded,
-                                           color: MyTheme.appBarColor,
-                                         ),
+                                        trailing: Icon(
+                                          Icons.keyboard_arrow_right_rounded,
+                                          color: MyTheme.appBarColor,
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 10,

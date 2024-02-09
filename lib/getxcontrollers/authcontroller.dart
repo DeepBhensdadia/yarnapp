@@ -17,19 +17,6 @@ class AuthController extends GetxController {
   TextEditingController businessnameController = TextEditingController();
   TextEditingController locationController = TextEditingController();
 
-  Future<String> getDeviceId() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      return androidInfo.androidId; // Using Android ID as an example
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      return iosInfo
-          .identifierForVendor; // Using Identifier for Vendor as an example
-    }
-    return '';
-  }
-
   registerlogin() async {
     String deviceId = await getDeviceId();
     Get.context!.loaderOverlay.show();

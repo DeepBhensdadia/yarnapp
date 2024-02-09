@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/model/getfebricslistmodel.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 
 class FebricListControllers extends GetxController {
+  TextEditingController searchController = TextEditingController();
   List<FabricCostList> febriclist = <FabricCostList>[];
   bool febriclistbool = false;
   getfebrics(

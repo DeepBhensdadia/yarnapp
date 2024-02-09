@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yarn_modified/model/get-yarn-index-model.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 
 class YarnListController extends GetxController {
+  TextEditingController searchController = TextEditingController();
+
   List<yarnIndexDatum?> yarnData = [];
   bool yarnlistbool = false;
 

@@ -39,19 +39,23 @@ class GetDetailsCheck extends GetxController {
     });
   }
 
-  void getDeviceId() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      String deviceId = androidInfo.androidId;
-      print('Device ID: $deviceId');
-      getdetailscheckcall(id: deviceId);
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      String deviceId = iosInfo.identifierForVendor;
-      print('Device ID: $deviceId');
-      getdetailscheckcall(id: deviceId);
-    }
+  void getDeviceId13() async {
+    String deviceId = await getDeviceId();
+    getdetailscheckcall(id: deviceId);
+
+    // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    // if (Platform.isAndroid) {
+    //   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    //   String deviceId = androidInfo.androidId;
+    //   print('Device ID: $deviceId');
+    //   getdetailscheckcall(id: deviceId);
+    //
+    // } else if (Platform.isIOS) {
+    //   IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    //   String deviceId = iosInfo.identifierForVendor;
+    //   print('Device ID: $deviceId');
+    //   getdetailscheckcall(id: deviceId);
+    // }
   }
 
 }

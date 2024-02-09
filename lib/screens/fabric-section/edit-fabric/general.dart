@@ -534,6 +534,7 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                   child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           Get.find<FebricEditController>().isWrapDone = true;
                           widget.page.jumpToPage(1);
                         }

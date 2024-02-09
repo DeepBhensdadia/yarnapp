@@ -179,6 +179,7 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                   child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           bool done = feb.wrapModel
                               .every((element) => element.selectedYarnID != 0);
                           if (done == true) {

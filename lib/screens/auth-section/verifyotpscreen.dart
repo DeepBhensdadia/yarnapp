@@ -42,19 +42,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
 
   AuthController authController = Get.put(AuthController());
 
-  void getDeviceId(pin) async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      String deviceId = androidInfo.androidId;
-      print('Device ID: $deviceId');
-      firebaseAuthContrller.verifyOTP(pin, widget, deviceId);
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      String deviceId = iosInfo.identifierForVendor;
-      print('Device ID: $deviceId');
-      firebaseAuthContrller.verifyOTP(pin, widget, deviceId);
-    }
+  void getDeviceId12(pin) async {
+    String deviceId = await getDeviceId();
+    firebaseAuthContrller.verifyOTP(pin, widget, deviceId);
   }
 
   @override
@@ -278,7 +268,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
                                             RegExp('[\\.]')),
                                       ],
                                       onCompleted: (pin) async {
-                                        getDeviceId(pin);
+                                        getDeviceId12(pin);
                                         log(pin);
 
                                         // if (pin == "123456") {

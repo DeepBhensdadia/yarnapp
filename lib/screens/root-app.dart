@@ -4,6 +4,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/screens/profile-section/profile-screen.dart';
 import '../getxcontrollers/getdetailscheckcontroller.dart';
 import 'home-screen.dart';
@@ -115,13 +116,13 @@ class _RootAppState extends State<RootApp> {
                             ? const ProfileScreen()
                             : Container(),
             bottomNavigationBar: SizedBox(
-              height: 60,
+              height: screenheight(context,dividedby: 15),
               child: BottomNavigationBar(
-                iconSize: 25,
+                iconSize:  screenheight(context,dividedby: 35),
                 selectedItemColor: Colors.black,
                 selectedIconTheme: const IconThemeData(color: Colors.black),
                 elevation: 0,
-                selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+                selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600,fontSize: screenheight(context,dividedby: 80)),
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: Colors.white,
                 unselectedItemColor: Colors.grey,
