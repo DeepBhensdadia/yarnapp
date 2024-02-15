@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yarn_modified/cricketscreens/player/addplayerdetails.dart';
 import 'admin/adminrootscreen.dart';
+import 'admin/tournament/tornamenttab.dart';
 import 'admin/tournament/tournamentpage.dart';
 import 'player/playerrootscreen.dart';
 
@@ -22,7 +23,7 @@ class _SelectionPageState extends State<SelectionPage> {
           children: [
             ListTile(
               onTap: () {
-                Get.to(TournamentPage());
+                Get.to(TournamentTabs());
               },
               title: Text("As a Organizer"),
             ),  ListTile(

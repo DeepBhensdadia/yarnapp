@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yarn_modified/cricketscreens/getx/matchcontroller.dart';
 
 import '../../../constcolor.dart';
 import '../../player/playerprofilescreen.dart';
@@ -14,6 +15,7 @@ class PlayersListScreen extends StatefulWidget {
 }
 
 class _PlayersListScreenState extends State<PlayersListScreen> {
+  MatchController matchController = Get.put(MatchController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,7 +24,6 @@ class _PlayersListScreenState extends State<PlayersListScreen> {
           // automaticallyImplyLeading: false,
           backgroundColor: kthemecolor,
           title: Text("Team Name"),
-
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -55,14 +56,20 @@ class _PlayersListScreenState extends State<PlayersListScreen> {
                               color: CupertinoColors.black,
                               fontWeight: FontWeight.bold),
                         ),
-                        trailing: IconButton(
-                          onPressed: () {
-                            showSortBySheet();
-                          },
-                          icon: Icon(
-                            Icons.more_vert_outlined,
-                            color: CupertinoColors.black,
-                          ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Obx(() =>  Text("${matchController.selectedindex.value == 1 ? "Captain" : "mjur"}"),),
+                            IconButton(
+                              onPressed: () {
+                                showSortBySheet();
+                              },
+                              icon: Icon(
+                                Icons.more_vert_outlined,
+                                color: CupertinoColors.black,
+                              ),
+                            ),
+                          ],
                         )),
                   ),
                 ),
@@ -188,322 +195,725 @@ class _PlayersListScreenState extends State<PlayersListScreen> {
                             fontWeight: FontWeight.w600,
                             fontSize: 16),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 100,
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(
+                      //         child: Container(
+                      //           height: 100,
+                      //           decoration: BoxDecoration(
+                      //             border: Border.all(color: Colors.grey),
+                      //             borderRadius: BorderRadius.circular(2.5),
+                      //           ),
+                      //           child: Center(
+                      //             child: Column(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.center,
+                      //               children: [
+                      //                 CircleAvatar(
+                      //                   radius: 25,
+                      //                   backgroundColor:
+                      //                       Colors.grey.withOpacity(0.25),
+                      //                   child: Center(
+                      //                     child: Text(
+                      //                       "A",
+                      //                       style: TextStyle(
+                      //                           color: Colors.white,
+                      //                           fontWeight: FontWeight.bold,
+                      //                           fontSize: 30),
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: 5,
+                      //                 ),
+                      //                 Text(
+                      //                   "Admin",
+                      //                   style: TextStyle(
+                      //                       color: Colors.black,
+                      //                       fontWeight: FontWeight.w600,
+                      //                       fontSize: 12),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 10,
+                      //       ),
+                      //       Expanded(
+                      //         child: Container(
+                      //           height: 100,
+                      //           decoration: BoxDecoration(
+                      //             border: Border.all(color: Colors.grey),
+                      //             borderRadius: BorderRadius.circular(2.5),
+                      //           ),
+                      //           child: Center(
+                      //             child: Column(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.center,
+                      //               children: [
+                      //                 CircleAvatar(
+                      //                   radius: 25,
+                      //                   backgroundColor: Colors.teal,
+                      //                   child: Center(
+                      //                     child: Text(
+                      //                       "C",
+                      //                       style: TextStyle(
+                      //                           color: Colors.white,
+                      //                           fontWeight: FontWeight.bold,
+                      //                           fontSize: 30),
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: 5,
+                      //                 ),
+                      //                 Text(
+                      //                   "Captain",
+                      //                   style: TextStyle(
+                      //                       color: Colors.black,
+                      //                       fontWeight: FontWeight.w600,
+                      //                       fontSize: 12),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 10,
+                      //       ),
+                      //       Expanded(
+                      //         child: Container(
+                      //           height: 100,
+                      //           decoration: BoxDecoration(
+                      //             border: Border.all(color: Colors.grey),
+                      //             borderRadius: BorderRadius.circular(2.5),
+                      //           ),
+                      //           child: Center(
+                      //             child: Column(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.center,
+                      //               children: [
+                      //                 CircleAvatar(
+                      //                   radius: 25,
+                      //                   backgroundColor:
+                      //                       Colors.grey.withOpacity(0.25),
+                      //                   child: Center(
+                      //                     child: Stack(
+                      //                       children: [
+                      //                         Center(
+                      //                             child: Icon(
+                      //                           CupertinoIcons.hand_raised_fill,
+                      //                           color: Colors.black,
+                      //                           size: 35,
+                      //                         )),
+                      //                         Center(
+                      //                             child: Text(
+                      //                           "WK",
+                      //                           style: TextStyle(
+                      //                               color: Colors.white,
+                      //                               fontWeight: FontWeight.bold,
+                      //                               fontSize: 15),
+                      //                         )),
+                      //                       ],
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: 5,
+                      //                 ),
+                      //                 Text(
+                      //                   "Wicket Keeper",
+                      //                   style: TextStyle(
+                      //                       color: Colors.black,
+                      //                       fontWeight: FontWeight.w600,
+                      //                       fontSize: 12),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(
+                      //         child: Container(
+                      //           height: 100,
+                      //           decoration: BoxDecoration(
+                      //             border: Border.all(color: Colors.grey),
+                      //             borderRadius: BorderRadius.circular(2.5),
+                      //           ),
+                      //           child: Center(
+                      //             child: Column(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.center,
+                      //               children: [
+                      //                 CircleAvatar(
+                      //                   radius: 25,
+                      //                   backgroundColor:
+                      //                       Colors.grey.withOpacity(0.25),
+                      //                   child: Center(
+                      //                     child: Icon(
+                      //                         Icons.sports_football_rounded,
+                      //                         color: Colors.white),
+                      //                   ),
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: 5,
+                      //                 ),
+                      //                 Text(
+                      //                   "Batter",
+                      //                   style: TextStyle(
+                      //                       color: Colors.black,
+                      //                       fontWeight: FontWeight.w600,
+                      //                       fontSize: 12),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 10,
+                      //       ),
+                      //       Expanded(
+                      //         child: Container(
+                      //           height: 100,
+                      //           decoration: BoxDecoration(
+                      //             border: Border.all(color: Colors.grey),
+                      //             borderRadius: BorderRadius.circular(2.5),
+                      //           ),
+                      //           child: Center(
+                      //             child: Column(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.center,
+                      //               children: [
+                      //                 CircleAvatar(
+                      //                   radius: 25,
+                      //                   backgroundColor:
+                      //                       Colors.grey.withOpacity(0.25),
+                      //                   child: Center(
+                      //                     child: Icon(Icons.sports_basketball,
+                      //                         color: Colors.white),
+                      //                   ),
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: 5,
+                      //                 ),
+                      //                 Text(
+                      //                   "Bowler",
+                      //                   style: TextStyle(
+                      //                       color: Colors.black,
+                      //                       fontWeight: FontWeight.w600,
+                      //                       fontSize: 12),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 10,
+                      //       ),
+                      //       Expanded(
+                      //         child: Container(
+                      //           height: 100,
+                      //           decoration: BoxDecoration(
+                      //             border: Border.all(color: Colors.grey),
+                      //             borderRadius: BorderRadius.circular(2.5),
+                      //           ),
+                      //           child: Center(
+                      //             child: Column(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.center,
+                      //               children: [
+                      //                 CircleAvatar(
+                      //                   radius: 25,
+                      //                   backgroundColor:
+                      //                       Colors.grey.withOpacity(0.25),
+                      //                   child: Center(
+                      //                     child: Row(
+                      //                       mainAxisAlignment:
+                      //                           MainAxisAlignment.center,
+                      //                       crossAxisAlignment:
+                      //                           CrossAxisAlignment.center,
+                      //                       children: [
+                      //                         Icon(
+                      //                           Icons.sports_football_rounded,
+                      //                           color: Colors.white,
+                      //                           size: 15,
+                      //                         ),
+                      //                         SizedBox(
+                      //                           width: 2.5,
+                      //                         ),
+                      //                         Icon(
+                      //                           Icons.sports_basketball,
+                      //                           color: Colors.white,
+                      //                           size: 15,
+                      //                         ),
+                      //                       ],
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: 5,
+                      //                 ),
+                      //                 Text(
+                      //                   "All Rounder",
+                      //                   style: TextStyle(
+                      //                       color: Colors.black,
+                      //                       fontWeight: FontWeight.w600,
+                      //                       fontSize: 12),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemCount: 6,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              matchController.updateSelectedIndex(index);
+                            },
+                            child: Obx(
+                              () => Container(
+                                padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(2.5),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor:
-                                            Colors.grey.withOpacity(0.25),
-                                        child: Center(
-                                          child: Text(
-                                            "A",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 30),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Admin",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12),
-                                      ),
-                                    ],
+                                  border: Border.all(
+                                    width:
+                                        matchController.selectedindex.value ==
+                                                index
+                                            ? 1
+                                            : 0.5,
+                                    color:
+                                        matchController.selectedindex.value ==
+                                                index
+                                            ? kthemecolor
+                                            : Colors.grey,
                                   ),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(2.5),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor: Colors.teal,
-                                        child: Center(
-                                          child: Text(
-                                            "C",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 30),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Captain",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(2.5),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor:
-                                            Colors.grey.withOpacity(0.25),
-                                        child: Center(
-                                          child: Stack(
-                                            children: [
-                                              Center(
-                                                  child: Icon(
-                                                CupertinoIcons.hand_raised_fill,
-                                                color: Colors.black,
-                                                size: 35,
-                                              )),
-                                              Center(
-                                                  child: Text(
-                                                "WK",
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 25,
+                                      backgroundColor:
+                                          Colors.grey.withOpacity(0.25),
+                                      child: Center(
+                                        child: Stack(
+                                          children: [
+                                            Center(
+                                              child: Text(
+                                                "A",
                                                 style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15),
-                                              )),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Wicket Keeper",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(2.5),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor:
-                                            Colors.grey.withOpacity(0.25),
-                                        child: Center(
-                                          child: Icon(
-                                              Icons.sports_football_rounded,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Batter",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(2.5),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor:
-                                            Colors.grey.withOpacity(0.25),
-                                        child: Center(
-                                          child: Icon(Icons.sports_basketball,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Bowler",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(2.5),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor:
-                                            Colors.grey.withOpacity(0.25),
-                                        child: Center(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.sports_football_rounded,
-                                                color: Colors.white,
-                                                size: 15,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                ),
                                               ),
-                                              SizedBox(
-                                                width: 2.5,
-                                              ),
-                                              Icon(
-                                                Icons.sports_basketball,
-                                                color: Colors.white,
-                                                size: 15,
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 5,
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Batsman",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12,
                                       ),
-                                      Text(
-                                        "All Rounder",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                     ],
                   ),
                 ),
               ),
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              //   child: Container(
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //         border: Border.all(color: Colors.grey),
+              //         borderRadius: BorderRadius.circular(5)),
+              //     child: Column(
+              //       mainAxisSize: MainAxisSize.max,
+              //       mainAxisAlignment: MainAxisAlignment.start,
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Text(
+              //           "Assign Roles",
+              //           style: TextStyle(
+              //               color: Colors.black,
+              //               fontWeight: FontWeight.w600,
+              //               fontSize: 16),
+              //         ),
+              //         Padding(
+              //           padding: const EdgeInsets.symmetric(vertical: 5.0),
+              //           child: Row(
+              //             children: [
+              //               Expanded(
+              //                 child: Container(
+              //                   height: 100,
+              //                   decoration: BoxDecoration(
+              //                     border: Border.all(color: Colors.grey),
+              //                     borderRadius: BorderRadius.circular(2.5),
+              //                   ),
+              //                   child: Center(
+              //                     child: Column(
+              //                       mainAxisAlignment: MainAxisAlignment.center,
+              //                       crossAxisAlignment:
+              //                           CrossAxisAlignment.center,
+              //                       children: [
+              //                         CircleAvatar(
+              //                           radius: 25,
+              //                           backgroundColor:
+              //                               Colors.grey.withOpacity(0.25),
+              //                           child: Center(
+              //                             child: Text(
+              //                               "A",
+              //                               style: TextStyle(
+              //                                   color: Colors.white,
+              //                                   fontWeight: FontWeight.bold,
+              //                                   fontSize: 30),
+              //                             ),
+              //                           ),
+              //                         ),
+              //                         SizedBox(
+              //                           height: 5,
+              //                         ),
+              //                         Text(
+              //                           "Admin",
+              //                           style: TextStyle(
+              //                               color: Colors.black,
+              //                               fontWeight: FontWeight.w600,
+              //                               fontSize: 12),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 width: 10,
+              //               ),
+              //               Expanded(
+              //                 child: Container(
+              //                   height: 100,
+              //                   decoration: BoxDecoration(
+              //                     border: Border.all(color: Colors.grey),
+              //                     borderRadius: BorderRadius.circular(2.5),
+              //                   ),
+              //                   child: Center(
+              //                     child: Column(
+              //                       mainAxisAlignment: MainAxisAlignment.center,
+              //                       crossAxisAlignment:
+              //                           CrossAxisAlignment.center,
+              //                       children: [
+              //                         CircleAvatar(
+              //                           radius: 25,
+              //                           backgroundColor: Colors.teal,
+              //                           child: Center(
+              //                             child: Text(
+              //                               "C",
+              //                               style: TextStyle(
+              //                                   color: Colors.white,
+              //                                   fontWeight: FontWeight.bold,
+              //                                   fontSize: 30),
+              //                             ),
+              //                           ),
+              //                         ),
+              //                         SizedBox(
+              //                           height: 5,
+              //                         ),
+              //                         Text(
+              //                           "Captain",
+              //                           style: TextStyle(
+              //                               color: Colors.black,
+              //                               fontWeight: FontWeight.w600,
+              //                               fontSize: 12),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 width: 10,
+              //               ),
+              //               Expanded(
+              //                 child: Container(
+              //                   height: 100,
+              //                   decoration: BoxDecoration(
+              //                     border: Border.all(color: Colors.grey),
+              //                     borderRadius: BorderRadius.circular(2.5),
+              //                   ),
+              //                   child: Center(
+              //                     child: Column(
+              //                       mainAxisAlignment: MainAxisAlignment.center,
+              //                       crossAxisAlignment:
+              //                           CrossAxisAlignment.center,
+              //                       children: [
+              //                         CircleAvatar(
+              //                           radius: 25,
+              //                           backgroundColor:
+              //                               Colors.grey.withOpacity(0.25),
+              //                           child: Center(
+              //                             child: Stack(
+              //                               children: [
+              //                                 Center(
+              //                                     child: Icon(
+              //                                   CupertinoIcons.hand_raised_fill,
+              //                                   color: Colors.black,
+              //                                   size: 35,
+              //                                 )),
+              //                                 Center(
+              //                                     child: Text(
+              //                                   "WK",
+              //                                   style: TextStyle(
+              //                                       color: Colors.white,
+              //                                       fontWeight: FontWeight.bold,
+              //                                       fontSize: 15),
+              //                                 )),
+              //                               ],
+              //                             ),
+              //                           ),
+              //                         ),
+              //                         SizedBox(
+              //                           height: 5,
+              //                         ),
+              //                         Text(
+              //                           "Wicket Keeper",
+              //                           style: TextStyle(
+              //                               color: Colors.black,
+              //                               fontWeight: FontWeight.w600,
+              //                               fontSize: 12),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //         Padding(
+              //           padding: const EdgeInsets.symmetric(vertical: 5.0),
+              //           child: Row(
+              //             children: [
+              //               Expanded(
+              //                 child: Container(
+              //                   height: 100,
+              //                   decoration: BoxDecoration(
+              //                     border: Border.all(color: Colors.grey),
+              //                     borderRadius: BorderRadius.circular(2.5),
+              //                   ),
+              //                   child: Center(
+              //                     child: Column(
+              //                       mainAxisAlignment: MainAxisAlignment.center,
+              //                       crossAxisAlignment:
+              //                           CrossAxisAlignment.center,
+              //                       children: [
+              //                         CircleAvatar(
+              //                           radius: 25,
+              //                           backgroundColor:
+              //                               Colors.grey.withOpacity(0.25),
+              //                           child: Center(
+              //                             child: Icon(
+              //                                 Icons.sports_football_rounded,
+              //                                 color: Colors.white),
+              //                           ),
+              //                         ),
+              //                         SizedBox(
+              //                           height: 5,
+              //                         ),
+              //                         Text(
+              //                           "Batter",
+              //                           style: TextStyle(
+              //                               color: Colors.black,
+              //                               fontWeight: FontWeight.w600,
+              //                               fontSize: 12),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 width: 10,
+              //               ),
+              //               Expanded(
+              //                 child: Container(
+              //                   height: 100,
+              //                   decoration: BoxDecoration(
+              //                     border: Border.all(color: Colors.grey),
+              //                     borderRadius: BorderRadius.circular(2.5),
+              //                   ),
+              //                   child: Center(
+              //                     child: Column(
+              //                       mainAxisAlignment: MainAxisAlignment.center,
+              //                       crossAxisAlignment:
+              //                           CrossAxisAlignment.center,
+              //                       children: [
+              //                         CircleAvatar(
+              //                           radius: 25,
+              //                           backgroundColor:
+              //                               Colors.grey.withOpacity(0.25),
+              //                           child: Center(
+              //                             child: Icon(Icons.sports_basketball,
+              //                                 color: Colors.white),
+              //                           ),
+              //                         ),
+              //                         SizedBox(
+              //                           height: 5,
+              //                         ),
+              //                         Text(
+              //                           "Bowler",
+              //                           style: TextStyle(
+              //                               color: Colors.black,
+              //                               fontWeight: FontWeight.w600,
+              //                               fontSize: 12),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 width: 10,
+              //               ),
+              //               Expanded(
+              //                 child: Container(
+              //                   height: 100,
+              //                   decoration: BoxDecoration(
+              //                     border: Border.all(color: Colors.grey),
+              //                     borderRadius: BorderRadius.circular(2.5),
+              //                   ),
+              //                   child: Center(
+              //                     child: Column(
+              //                       mainAxisAlignment: MainAxisAlignment.center,
+              //                       crossAxisAlignment:
+              //                           CrossAxisAlignment.center,
+              //                       children: [
+              //                         CircleAvatar(
+              //                           radius: 25,
+              //                           backgroundColor:
+              //                               Colors.grey.withOpacity(0.25),
+              //                           child: Center(
+              //                             child: Row(
+              //                               mainAxisAlignment:
+              //                                   MainAxisAlignment.center,
+              //                               crossAxisAlignment:
+              //                                   CrossAxisAlignment.center,
+              //                               children: [
+              //                                 Icon(
+              //                                   Icons.sports_football_rounded,
+              //                                   color: Colors.white,
+              //                                   size: 15,
+              //                                 ),
+              //                                 SizedBox(
+              //                                   width: 2.5,
+              //                                 ),
+              //                                 Icon(
+              //                                   Icons.sports_basketball,
+              //                                   color: Colors.white,
+              //                                   size: 15,
+              //                                 ),
+              //                               ],
+              //                             ),
+              //                           ),
+              //                         ),
+              //                         SizedBox(
+              //                           height: 5,
+              //                         ),
+              //                         Text(
+              //                           "All Rounder",
+              //                           style: TextStyle(
+              //                               color: Colors.black,
+              //                               fontWeight: FontWeight.w600,
+              //                               fontSize: 12),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //
+              //       ],
+              //     ),
+              //   ),
+              // ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: SizedBox(
-                      height: 40,
+                    child: Container(
+                      color: Colors.redAccent,
+                      height: 45,
                       child: MaterialButton(
                         onPressed: () {},
-                        child: Center(child: Text("CANCEL")),
+                        child: Center(
+                            child: Text(
+                          "CANCEL",
+                          style: TextStyle(color: kwhite),
+                        )),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: SizedBox(
-                      height: 40,
+                    child: Container(
+                      color: kthemecolor,
+                      height: 45,
                       child: MaterialButton(
                         onPressed: () {},
-                        child: Center(child: Text("OK")),
+                        child: Center(
+                            child: Text(
+                          "OK",
+                          style: TextStyle(color: kwhite),
+                        )),
                       ),
                     ),
                   )

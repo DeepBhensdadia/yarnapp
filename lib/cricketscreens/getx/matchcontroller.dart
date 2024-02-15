@@ -20,6 +20,11 @@ class MatchController extends GetxController {
 
   // RxBool machloading = false.obs;
   RxList<MatchList> matchllist = <MatchList>[].obs;
+  RxInt selectedindex = 10.obs;
+
+  void updateSelectedIndex(int index) {
+    selectedindex.value = index;
+  }
 
   getmatchlistCall() async {
 
