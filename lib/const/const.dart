@@ -6,6 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constcolor.dart';
+
 class FlutterToast {
   static showCustomToast(String message) {
     Fluttertoast.showToast(
@@ -42,6 +44,48 @@ Future<String> getDeviceId() async {
         .identifierForVendor; // Using Identifier for Vendor as an example
   }
   return '';
+}
+
+TextStyle primaryTextStyle({
+  int? size,
+  Color? color,
+  FontWeight? weight,
+  String? fontFamily,
+  double? letterSpacing,
+  FontStyle? fontStyle,
+  double? wordSpacing,
+  TextDecoration? decoration,
+  TextDecorationStyle? textDecorationStyle,
+  TextBaseline? textBaseline,
+  Color? decorationColor,
+  Color? backgroundColor,
+  double? height,
+}) {
+  return TextStyle(
+    fontSize: size != null ? size.toDouble() : 14,
+    color: color ?? Colors.black,
+    fontWeight: weight ?? FontWeight.w500,
+    fontFamily: fontFamily ?? "",
+    letterSpacing: letterSpacing,
+    fontStyle: fontStyle,
+    decoration: decoration,
+    decorationStyle: textDecorationStyle,
+    decorationColor: decorationColor,
+    wordSpacing: wordSpacing,
+    textBaseline: textBaseline,
+    backgroundColor: backgroundColor,
+    height: height,
+  );
+}
+
+
+BoxDecoration PCboxDecoration({double radius = 1.0, Color color = Colors.transparent, Color bgColor = Cricket_white, double borderWidth = 1.0, var showShadow = false}) {
+  return BoxDecoration(
+      color: bgColor,
+      //gradient: LinearGradient(colors: [bgColor, whiteColor]),
+      boxShadow: showShadow ? [ BoxShadow(color: Cricket_ShadowColor, blurRadius: 10, spreadRadius: 3)] : [const BoxShadow(color: Colors.transparent)],
+      border: Border.all(color: color, width: borderWidth),
+      borderRadius: BorderRadius.all(Radius.circular(radius)));
 }
 
 final BorderRadius homeCardRadius = BorderRadius.all(Radius.circular(8));

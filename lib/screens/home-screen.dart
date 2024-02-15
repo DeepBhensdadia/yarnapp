@@ -19,6 +19,8 @@ import 'package:yarn_modified/screens/package/packagelist.dart';
 import 'package:yarn_modified/screens/yarn-section/yarn-category-screen.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import 'package:yarn_modified/widgets/common_fields.dart';
+import '../cricketscreens/getx/usercontroller.dart';
+import '../cricketscreens/selection page.dart';
 import 'main-fabric root/fabric-screen-root.dart';
 import 'main-yarn-root/yarn-screen-root.dart';
 
@@ -258,75 +260,123 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
                   GetBuilder<PackageController>(
                     builder: (controller) => controller.showsummary
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            child: InkWell(
-                              onTap: () {
-                                getdetailController.getDeviceId13();
-                                controller.PackagelistgetAPI();
-                              },
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: homeCardRadius),
-                                color: Colors.white,
-                                elevation: 5,
-                                child: Container(
-                                  width: screenwidth(context, dividedby: 1),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        "SUBSCRIPTION",
-                                        textScaleFactor: 1.3,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      ListTile(
-                                        dense: true,
-                                        title: Text(
-                                          "Current Package",
-                                          textScaleFactor: 1.4,
+                        ? Visibility(
+                            visible:
+                                controller.packagessummary?.Packagevisible ??
+                                    false,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: InkWell(
+                                onTap: () {
+                                  getdetailController.getDeviceId13();
+                                  controller.PackagelistgetAPI();
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: homeCardRadius),
+                                  color: Colors.white,
+                                  elevation: 5,
+                                  child: Container(
+                                    width: screenwidth(context, dividedby: 1),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          "SUBSCRIPTION",
+                                          textScaleFactor: 1.3,
                                           style: TextStyle(
-                                              color: MyTheme.appBarColor,
-                                              fontWeight: FontWeight.w500),
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600),
                                         ),
-                                        // trailing: Icon(
-                                        //   Icons.keyboard_arrow_right_rounded,
-                                        //   color: MyTheme.appBarColor,
-                                        // ),
-                                      ),
-                                      ListTile(
-                                        dense: true,
-                                        title: Text(
-                                          "${controller.packagessummary?.remaningDays} days left",
-                                          textScaleFactor: 1.4,
-                                          style: TextStyle(
-                                              color: MyTheme.appBarColor,
-                                              fontWeight: FontWeight.w500),
+                                        ListTile(
+                                          dense: true,
+                                          title: Text(
+                                            "Current Package",
+                                            textScaleFactor: 1.4,
+                                            style: TextStyle(
+                                                color: MyTheme.appBarColor,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          // trailing: Icon(
+                                          //   Icons.keyboard_arrow_right_rounded,
+                                          //   color: MyTheme.appBarColor,
+                                          // ),
                                         ),
-                                        trailing: Icon(
-                                          Icons.keyboard_arrow_right_rounded,
-                                          color: MyTheme.appBarColor,
+                                        ListTile(
+                                          dense: true,
+                                          title: Text(
+                                            "${controller.packagessummary?.remaningDays} days left",
+                                            textScaleFactor: 1.4,
+                                            style: TextStyle(
+                                                color: MyTheme.appBarColor,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          trailing: Icon(
+                                            Icons.keyboard_arrow_right_rounded,
+                                            color: MyTheme.appBarColor,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           )
                         : SizedBox.shrink(),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Visibility(
+                    visible: true,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: InkWell(
+                        onTap: () {
+                          // Get.put(UserController()).getuserconrollerCall();
+                          Get.to(SelectionPage());
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: homeCardRadius),
+                          color: Colors.white,
+                          elevation: 5,
+                          child: Container(
+                            width: screenwidth(context, dividedby: 1),
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  dense: true,
+                                  title: Text(
+                                    "Cricket Hub",
+                                    textScaleFactor: 1.4,
+                                    style: TextStyle(
+                                        color: MyTheme.appBarColor,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.keyboard_arrow_right_rounded,
+                                    color: MyTheme.appBarColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 80,

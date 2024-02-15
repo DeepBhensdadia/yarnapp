@@ -13,20 +13,19 @@ import 'package:yarn_modified/shared_pref/shared_pref.dart';
 class GetDetailsCheck extends GetxController {
   PackageController packagelist = Get.put(PackageController());
 
-
   Getdetailscheckresponse? getdetails;
   RxBool exprired = false.obs;
 
   getdetailscheckcall({required String id}) async {
     await getDetailsChecktapi(deviceid: id).then((value) {
-    getdetails = value;
+      getdetails = value;
       if (value.name!.isEmpty) {
         FlutterToast.showCustomToast(value.message ?? "");
         SharedPref.deleteAll();
         Get.deleteAll(force: true);
         Get.offAll(LoginScreen());
       }
-      if(value.isExpired == 0)
+      if (value.isExpired == 0)
         exprired.value = value.isExpired == 0 ? true : false;
       // else if (value.isExpired == 0) {
       //   FlutterToast.showCustomToast(value.message ?? "");
@@ -57,5 +56,4 @@ class GetDetailsCheck extends GetxController {
     //   getdetailscheckcall(id: deviceId);
     // }
   }
-
 }

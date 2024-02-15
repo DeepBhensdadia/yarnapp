@@ -170,7 +170,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     if (index == 0) {
                                       Get.to(MyAccount());
                                     } else if (index == 1) {
-                                      Get.to(TermsConditionScreen());
+                                      // Get.to(TermsConditionScreen());
+                                      launchUrl(Uri.parse(
+                                          "https://www.termsfeed.com/live/3f527e16-40a2-4cab-b9ee-63558ec0a3af"));
                                     } else if (index == 2) {
                                       launchUrl(Uri.parse(
                                           "https://www.termsfeed.com/live/3f527e16-40a2-4cab-b9ee-63558ec0a3af"));

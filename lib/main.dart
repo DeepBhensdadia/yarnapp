@@ -40,14 +40,6 @@ class MyApp extends StatelessWidget {
           );
         },
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark().copyWith(
-            scrollbarTheme: ScrollbarThemeData(
-          interactive: true,
-          thumbVisibility: MaterialStateProperty.all(false),
-          radius: const Radius.circular(10),
-          thumbColor: MaterialStateProperty.all(Colors.black.withOpacity(0.25)),
-          thickness: MaterialStateProperty.all(7.5),
-        )),
         title: 'Textile Diary',
         home: SplashScreen(),
       ),

@@ -14,6 +14,7 @@ class Packagessummaryresponse {
   bool? success;
   String? message;
   UserPackages? userPackages;
+  bool? Packagevisible;
   int? remaningDays;
   List<Packageavailable>? packages;
 
@@ -21,6 +22,7 @@ class Packagessummaryresponse {
     this.success,
     this.message,
     this.userPackages,
+    this.Packagevisible,
     this.remaningDays,
     this.packages,
   });
@@ -30,6 +32,7 @@ class Packagessummaryresponse {
         success: json["success"],
         message: json["message"],
         userPackages: UserPackages.fromJson(json["User Packages"]),
+        Packagevisible: json["Package_visible"],
         remaningDays: json["Remaning Days"],
         packages: json["packages"] == null
             ? []
@@ -41,6 +44,7 @@ class Packagessummaryresponse {
         "success": success,
         "message": message,
         "User Packages": userPackages!.toJson(),
+    "Package_visible" :Packagevisible,
         "Remaning Days": remaningDays,
         "packages": List<dynamic>.from(packages!.map((x) => x.toJson())),
       };
