@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCf7F7aa9Tw00c3dyviqQBYElzF_jVDhQQ</string>
+	<string>AIzaSyDBm7p-Xm5G30-qQb2caMCXuaD02cl1e2E</string>
 	<key>GCM_SENDER_ID</key>
-	<string>172783685870</string>
+	<string>79714298905</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.yarnModified</string>
+	<string>gnhub.textile.diary</string>
 	<key>PROJECT_ID</key>
-	<string>yarnapp-bdc7c</string>
+	<string>textile-diary-gn</string>
 	<key>STORAGE_BUCKET</key>
-	<string>yarnapp-bdc7c.appspot.com</string>
+	<string>textile-diary-gn.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:172783685870:ios:d91745ff6b1cab6323a3ff</string>
+	<string>1:79714298905:ios:61fc9d2f0eec708322ce88</string>
 </dict>
 </plist>
