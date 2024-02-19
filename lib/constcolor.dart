@@ -16,3 +16,15 @@ const Cricket_color1 = Color(0xFF8f93d6);
 const Cricket_SkyBlue_Color = Color(0xFF65f7ff);
 const Cricket_app_Background = Color(0xFFf3f5f9);
 const Cricket_BlackColor = Color(0xFF000000);
+
+BoxDecoration decration = BoxDecoration(
+    gradient: LinearGradient(
+
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          MyTheme.scaffoldColor,
+          Colors.white.withOpacity(0.30),
+          Colors.white.withOpacity(0.65),
+          Colors.white.withOpacity(0.85)
+        ]));

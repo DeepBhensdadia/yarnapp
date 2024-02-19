@@ -288,7 +288,8 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                     onPressed: () {
                                       fabricbasic = true;
                                       if (_formKey.currentState!.validate()) {
-                                        FocusScope.of(context).requestFocus(FocusNode());
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
 
                                         bool done = feb.weftModel.every(
                                             (element) =>
@@ -378,8 +379,7 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                                       horizontal: 15),
                                               child: Column(
                                                 children: [
-                                                  Obx(() =>
-                                                      CustomDropdownyarn(
+                                                  Obx(() => CustomDropdownyarn(
                                                         validing: (p0) {
                                                           if (p0 == null &&
                                                               fabricbasic ==
@@ -610,7 +610,8 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
                                     onPressed: () {
                                       fabricbasic = true;
                                       if (_formKey.currentState!.validate()) {
-                                        FocusScope.of(context).requestFocus(FocusNode());
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
 
                                         bool done = feb.weftModel.every(
                                             (element) =>
@@ -675,7 +676,14 @@ class _EditWeftCategoryState extends State<EditWeftCategory>
       padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5),
       child: Row(
         children: [
-          SizedBox(width: screenwidth(context, dividedby: 10)),
+          IconButton(
+              onPressed: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              icon: Icon(
+                Icons.keyboard_alt_outlined,
+                color: Colors.black,
+              )),
           Expanded(
             child: Container(
               padding: EdgeInsets.all(0),

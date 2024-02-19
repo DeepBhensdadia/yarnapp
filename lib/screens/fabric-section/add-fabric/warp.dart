@@ -4,6 +4,7 @@ import 'package:yarn_modified/getxcontrollers/febricaddcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
 import 'package:yarn_modified/widgets/customdropdown.dart';
 import '../../../const/const.dart';
+import '../../../const/themes.dart';
 import '../../../widgets/common_fields.dart';
 import '../../yarn-section/add-yarn.dart';
 
@@ -172,34 +173,54 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
                     .toList(),
               ),
               Center(
-                child: Container(
-                  padding:
-                      EdgeInsets.only(left: 5, right: 5, top: 25, bottom: 50),
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          bool done = feb.wrapModel
-                              .every((element) => element.selectedYarnID != 0);
-                          if (done == true) {
-                            forvalidation = true;
-                            Get.find<FebricAddController>().isWeftDone = true;
-                            // feb.changedData();
-                            widget.page.jumpToPage(2);
-                          } else {
-                            FlutterToast.showCustomToast("Select Warp Yarn");
-                          }
-                        }
-                      },
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8))),
-                          elevation: MaterialStateProperty.all(0),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.blueAccent)),
-                      child: Text('NEXT')),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                              MaterialStateProperty.all(MyTheme.appBarColor)),
+                          child: Text('Keyboard Down')),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 50),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              bool done = feb.wrapModel
+                                  .every((element) => element.selectedYarnID != 0);
+                              if (done == true) {
+                                forvalidation = true;
+                                Get.find<FebricAddController>().isWeftDone = true;
+                                // feb.changedData();
+                                widget.page.jumpToPage(2);
+                              } else {
+                                FlutterToast.showCustomToast("Select Warp Yarn");
+                              }
+                            }
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.blueAccent)),
+                          child: Text('NEXT')),
+                    ),
+                  ],
                 ),
               ),
             ],

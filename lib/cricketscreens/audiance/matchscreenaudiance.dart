@@ -1,46 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yarn_modified/helper.dart';
-import '../../const/themes.dart';
-import '../../constcolor.dart';
-import '../getx/matchcontroller.dart';
-import '../model/matchlistmode.dart';
-import '../audiance/matchdetails/cricketdetailscreen.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:yarn_modified/const/themes.dart';
 
-class MatchesScreen extends StatefulWidget {
-  const MatchesScreen({super.key});
+import '../../constcolor.dart';
+import '../../helper.dart';
+import 'matchdetails/cricketdetailscreen.dart';
+
+class MatchScreenAudiance extends StatefulWidget {
+  const MatchScreenAudiance({super.key});
 
   @override
-  State<MatchesScreen> createState() => _MatchesScreenState();
+  State<MatchScreenAudiance> createState() => _MatchScreenAudianceState();
 }
 
-class _MatchesScreenState extends State<MatchesScreen> {
-  MatchController matchController = Get.put(MatchController());
-
-  @override
-  void initState() {
-    matchController.getmatchlistCall();
-    // TODO: implement initState
-    super.initState();
-  }
-
+class _MatchScreenAudianceState extends State<MatchScreenAudiance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyTheme.scaffoldColor,
-
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: kthemecolor,
-        title: Text("Matches"),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   backgroundColor: kthemecolor,
+      //   title: Text("Matches"),
+      // ),
       body: Container(
         height: double.maxFinite,
         width: double.maxFinite,
         decoration: decration,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -74,7 +63,8 @@ class _MatchesScreenState extends State<MatchesScreen> {
                         return InkWell(
                           onTap: () => Get.to(DetailsScreen()),
                           child: Card(
-                            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 8),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -100,7 +90,8 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Text("Tournament Name",
                                             style: TextStyle(
@@ -120,7 +111,8 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                   ),
                                   SizedBox(height: 8),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Row(
                                         children: <Widget>[
@@ -135,11 +127,13 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: ClipOval(
-                                                      clipBehavior: Clip.antiAlias,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
                                                       child: Align(
-                                                        alignment:
-                                                            Alignment.centerLeft,
-                                                        child: FractionalTranslation(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child:
+                                                            FractionalTranslation(
                                                           translation:
                                                               Offset(-0.2, 0),
                                                           child: Image.asset(
@@ -154,12 +148,15 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                                     child: Container(
                                                       decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
-                                                        gradient: RadialGradient(
+                                                        gradient:
+                                                            RadialGradient(
                                                           colors: [
                                                             Colors.white
-                                                                .withOpacity(0.9),
+                                                                .withOpacity(
+                                                                    0.9),
                                                             Colors.white
-                                                                .withOpacity(0.5),
+                                                                .withOpacity(
+                                                                    0.5),
                                                           ],
                                                           radius: 1.0,
                                                         ),
@@ -199,14 +196,18 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                         ],
                                       ),
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Container(
                                             padding: EdgeInsets.all(2),
                                             decoration: BoxDecoration(
-                                              color: Colors.red.withOpacity(0.1),
-                                              borderRadius: BorderRadius.circular(5),
+                                              color:
+                                                  Colors.red.withOpacity(0.1),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                             ),
                                             child: Text("24-04-24",
                                                 style: TextStyle(
@@ -253,12 +254,15 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: ClipOval(
-                                                      clipBehavior: Clip.antiAlias,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
                                                       child: Align(
-                                                        alignment:
-                                                            Alignment.centerRight,
-                                                        child: FractionalTranslation(
-                                                          translation: Offset(0.2, 0),
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child:
+                                                            FractionalTranslation(
+                                                          translation:
+                                                              Offset(0.2, 0),
                                                           child: Image.asset(
                                                             "images/textilediary-applogo.png",
                                                             fit: BoxFit.cover,
@@ -271,12 +275,15 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                                     child: Container(
                                                       decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
-                                                        gradient: RadialGradient(
+                                                        gradient:
+                                                            RadialGradient(
                                                           colors: [
                                                             Colors.white
-                                                                .withOpacity(0.9),
+                                                                .withOpacity(
+                                                                    0.9),
                                                             Colors.white
-                                                                .withOpacity(0.5),
+                                                                .withOpacity(
+                                                                    0.5),
                                                           ],
                                                           radius: 1.0,
                                                         ),
@@ -311,8 +318,8 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                   ),
                                   SizedBox(height: 8),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -346,7 +353,8 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Text("ENG needs 1002 runs to win",
                                             style: TextStyle(

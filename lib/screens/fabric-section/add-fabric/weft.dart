@@ -325,7 +325,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                 child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        FocusScope.of(context).requestFocus(FocusNode());
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
 
                                         bool done = feb.weftModel.every(
                                             (element) =>
@@ -665,7 +666,8 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
                                 child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        FocusScope.of(context).requestFocus(FocusNode());
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
                                         print("hablja,bjcm");
                                         bool done = feb.weftModel.every(
                                             (element) =>
@@ -728,7 +730,14 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
       padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5),
       child: Row(
         children: [
-          SizedBox(width: screenwidth(context, dividedby: 10)),
+          IconButton(
+              onPressed: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              icon: Icon(
+                Icons.keyboard_alt_outlined,
+                color: Colors.black,
+              )),
           Expanded(
             child: Container(
               padding: EdgeInsets.all(0),

@@ -4,7 +4,7 @@ import 'package:yarn_modified/cricketscreens/player/playerprofilescreen.dart';
 import 'package:yarn_modified/cricketscreens/player/tournamentscreen.dart';
 import 'package:yarn_modified/helper.dart';
 import '../../screens/profile-section/profile-screen.dart';
-import 'mymatches.dart';
+import '../admin/matchesscreen.dart';
 
 class PlayerRootApp extends StatefulWidget {
   const PlayerRootApp({super.key});
@@ -31,7 +31,7 @@ class _PlayerRootAppState extends State<PlayerRootApp> {
   }
 
   List<Widget> data = [
-    MyMatches(),
+    MatchesScreen(),
     TournamentScreenPlayer(),
     PlayerProfileScreen(),
     // const HomeScreen(),

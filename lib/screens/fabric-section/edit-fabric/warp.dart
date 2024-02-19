@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yarn_modified/const/themes.dart';
 import 'package:yarn_modified/getxcontrollers/febriceditcontroller.dart';
 import 'package:yarn_modified/widgets/customdropdown.dart';
 import '../../../const/const.dart';
@@ -17,8 +18,16 @@ class EditWarpCategory extends StatefulWidget {
 
 class _EditWarpCategoryState extends State<EditWarpCategory>
     with AutomaticKeepAliveClientMixin {
-  ScrollController _controller2 = ScrollController();
+  ScrollController _scrollController = ScrollController();
   FebricEditController feb = Get.put(FebricEditController());
+
+  void _scrollBy10Pixels() {
+    _scrollController.animateTo(
+      _scrollController.offset + 10.0,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   void initState() {
@@ -33,6 +42,7 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
+        controller: _scrollController,
         physics: BouncingScrollPhysics(),
         child: Form(
           key: _formKey,
@@ -149,27 +159,47 @@ class _EditWarpCategoryState extends State<EditWarpCategory>
                     .toList(),
               ),
               Center(
-                child: Container(
-                  padding:
-                      EdgeInsets.only(left: 5, right: 5, top: 25, bottom: 50),
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          Get.find<FebricEditController>().isWeftDone = true;
-                          // feb.changedData();
-                          widget.page.jumpToPage(2);
-                        }
-                      },
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8))),
-                          elevation: MaterialStateProperty.all(0),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.blueAccent)),
-                      child: Text('NEXT')),
+                child: Column(
+                  children: [
+                    Container(
+padding: EdgeInsets.symmetric(horizontal: 10),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                                  MaterialStateProperty.all(MyTheme.appBarColor)),
+                          child: Text('Keyboard Down')),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 50),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              Get.find<FebricEditController>().isWeftDone = true;
+                              // feb.changedData();
+                              widget.page.jumpToPage(2);
+                            }
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.blueAccent)),
+                          child: Text('NEXT')),
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -508,53 +508,74 @@ class _AddGeneralCategoryState extends State<AddGeneralCategory>
                 SizedBox(
                   height: 50,
                 ),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          if (!feb.isWrapDone) {
-                            context.loaderOverlay.show();
-                            Map<String, dynamic> params = {
-                              "fabric_name": feb.nameController.text,
-                              "user_id" : saveUser()?.id
+                Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                              MaterialStateProperty.all(MyTheme.appBarColor)),
+                          child: Text('Keyboard Down')),
+                    ),
+                    Container(
 
-                            };
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              if (!feb.isWrapDone) {
+                                context.loaderOverlay.show();
+                                Map<String, dynamic> params = {
+                                  "fabric_name": feb.nameController.text,
+                                  "user_id" : saveUser()?.id
 
-                            await febricvalidation(
-                                    parameter: jsonEncode(params))
-                                .then((value) {
-                              if (value.success == true) {
-                                FocusScope.of(context).requestFocus(FocusNode());
-                                Get.find<FebricAddController>().isWrapDone =
-                                    true;
-                                widget.page.jumpToPage(1);
+                                };
+
+                                await febricvalidation(
+                                        parameter: jsonEncode(params))
+                                    .then((value) {
+                                  if (value.success == true) {
+                                    FocusScope.of(context).requestFocus(FocusNode());
+                                    Get.find<FebricAddController>().isWrapDone =
+                                        true;
+                                    widget.page.jumpToPage(1);
+                                  } else {
+                                    FlutterToast.showCustomToast(
+                                        value.message ?? "");
+                                  }
+                                  context.loaderOverlay.hide();
+                                }).onError((error, stackTrace) {
+                                  print("error..$error");
+                                  context.loaderOverlay.hide();
+                                });
                               } else {
-                                FlutterToast.showCustomToast(
-                                    value.message ?? "");
+                                Get.find<FebricAddController>().isWrapDone = true;
+                                widget.page.jumpToPage(1);
                               }
-                              context.loaderOverlay.hide();
-                            }).onError((error, stackTrace) {
-                              print("error..$error");
-                              context.loaderOverlay.hide();
-                            });
-                          } else {
-                            Get.find<FebricAddController>().isWrapDone = true;
-                            widget.page.jumpToPage(1);
-                          }
-                        }
-                      },
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          elevation: MaterialStateProperty.all(0),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.blueAccent)),
-                      child: Text('NEXT')),
+                            }
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.blueAccent)),
+                          child: Text('NEXT')),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 50,

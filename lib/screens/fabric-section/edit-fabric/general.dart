@@ -528,27 +528,47 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                 SizedBox(
                   height: 50,
                 ),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          Get.find<FebricEditController>().isWrapDone = true;
-                          widget.page.jumpToPage(1);
-                        }
-                      },
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          elevation: MaterialStateProperty.all(0),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.blueAccent)),
-                      child: Text('NEXT')),
+                Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                              MaterialStateProperty.all(MyTheme.appBarColor)),
+                          child: Text('Keyboard Down')),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              Get.find<FebricEditController>().isWrapDone = true;
+                              widget.page.jumpToPage(1);
+                            }
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.blueAccent)),
+                          child: Text('NEXT')),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 50,

@@ -51,6 +51,8 @@ class TournamentController extends GetxController {
   TextEditingController location = TextEditingController();
   TextEditingController adress = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController startdate = TextEditingController();
+  TextEditingController enddate = TextEditingController();
   TextEditingController tournamnettype = TextEditingController();
 
 

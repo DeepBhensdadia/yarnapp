@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:yarn_modified/const/themes.dart';
+import 'package:yarn_modified/constcolor.dart';
 import 'package:yarn_modified/screens/splash_screen.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/shared_pref/shared_pref.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'const/const.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -40,6 +43,14 @@ class MyApp extends StatelessWidget {
           );
         },
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            cardTheme: CardTheme(
+                elevation: 2.5,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: defaultCardRadius)),
+            backgroundColor: MyTheme.scaffoldColor,
+            appBarTheme: AppBarTheme(color: kthemecolor),
+            primaryColor: kthemecolor),
         title: 'Textile Diary',
         home: SplashScreen(),
       ),

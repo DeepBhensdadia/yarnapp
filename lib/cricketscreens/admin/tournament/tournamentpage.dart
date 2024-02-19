@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../const/themes.dart';
 import '../../../constcolor.dart';
 import '../../getx/tournamentcontroller.dart';
 import '../../model/tournamentlist.dart';
@@ -26,63 +27,91 @@ class _TournamentPageState extends State<TournamentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundcolor,
+      backgroundColor: MyTheme.scaffoldColor,
+
       appBar: AppBar(
         backgroundColor: kthemecolor,
         title: Text("Tournaments"),
       ),
-      body:  GetBuilder<TournamentController>(
-        builder: (controller) => controller.tournamentbool == false
-            ? Center(child: CircularProgressIndicator())
-            : Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  itemCount: controller.getData.length,
-                  itemBuilder: (context, index) {
-                    Tournamentdetails data = controller.getData[index];
-                    return Card(
-                      elevation: 5,
-                      margin: EdgeInsets.all(10),
-                      child: Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: ListTile(
-                          onTap: () {
-                            Get.to(TournamentTabs());
-                          },
-                          // visualDensity: VisualDensity.compact,
-                          // dense: true,
-                          leading: CircleAvatar(radius: 30),
-                          title: Text(data.tournamentName ?? ''),
-                          subtitle:
-                          Text(data.tournamenttype?.name ?? ''),
+      body:  Container(
+        height: double.maxFinite,
+        width: double.maxFinite,
+        decoration: decration,
+        child: GetBuilder<TournamentController>(
+          builder: (controller) => controller.tournamentbool == false
+              ? Center(child: CircularProgressIndicator())
+              : Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: controller.getData.length,
+                    itemBuilder: (context, index) {
+                      Tournamentdetails data = controller.getData[index];
+                      return Card(
+                        elevation: 5,
+                        margin: EdgeInsets.all(10),
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: ListTile(
+                            onTap: () {
+                              Get.to(TournamentTabs());
+                            },
+                            // visualDensity: VisualDensity.compact,
+                            // dense: true,
+                            leading: CircleAvatar(radius: 30),
+                            title: Text(data.tournamentName ?? ''),
+                            subtitle:
+                            Text(data.tournamenttype?.name ?? ''),
+                            trailing:  PopupMenuButton(
+
+                              // offset: Offset(0, 50), // Adjust the offset as needed
+                              icon: Icon(Icons.more_vert_outlined,),
+                              onSelected: (value) {
+                                // Handle the selected menu item
+                                // You can use the 'value' parameter to determine which item was selected
+                              },
+                              itemBuilder: (BuildContext context) => [
+                                PopupMenuItem(
+                                  value: 'item1',
+                                  child: Text('Edit'),
+                                ),
+                                PopupMenuItem(
+                                  value: 'item2',
+                                  child: Text('Delete'),
+                                ),
+                                // Add more menu items as needed
+                              ],
+                              // iconSize: 20,
+                              padding: EdgeInsets.zero,
+                            ),
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Get.to(addtournament());
-              },
-              child: Container(
-                height: 50,
-                color: kthemecolor,
-                child: Center(
-                  child: Text(
-                    "Add Tournament",
-                    style: TextStyle(
-                        color: kwhite, fontSize: 16, fontWeight: FontWeight.w500),
+                      );
+                    },
                   ),
                 ),
               ),
-            )
-          ],
+              InkWell(
+                onTap: () {
+                  Get.to(addtournament());
+                },
+                child: Container(
+                  height: 50,
+                  color: kthemecolor,
+                  child: Center(
+                    child: Text(
+                      "Add Tournament",
+                      style: TextStyle(
+                          color: kwhite, fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

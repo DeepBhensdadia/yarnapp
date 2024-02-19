@@ -7,6 +7,7 @@ import '../cricketscreens/model/gettournamenttype.dart';
 class TournamentTextFormField extends StatefulWidget {
   final String? Function(String?)? validatorfield;
   final void Function(String)? onchange;
+  final void Function()? ontap;
 
   final bool read;
 
@@ -19,6 +20,7 @@ class TournamentTextFormField extends StatefulWidget {
     this.InputAction,
     this.validatorfield,
     this.onchange,
+    this.ontap,
     this.read = false,
   });
 
@@ -56,6 +58,7 @@ class _TournamentTextFormFieldState extends State<TournamentTextFormField> {
           readOnly: widget.read,
           textCapitalization: TextCapitalization.words,
           onChanged: widget.onchange,
+          onTap: widget.ontap,
           validator: widget.validatorfield,
           autocorrect: false,
           textAlign: TextAlign.start,
@@ -70,11 +73,11 @@ class _TournamentTextFormFieldState extends State<TournamentTextFormField> {
           maxLength: 25,
           decoration: InputDecoration(
             counter: Offstage(),
-            hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: Colors.grey,
-              fontSize: MediaQuery.of(context).textScaleFactor * 13,
-            ),
+            // hintText: widget.hintText,
+            // hintStyle: TextStyle(
+            //   color: Colors.grey,
+            //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
+            // ),
             contentPadding: EdgeInsets.symmetric(horizontal: 0),
             disabledBorder: UnderlineInputBorder(
               borderSide:
@@ -120,7 +123,6 @@ class _TournamentDropdownState extends State<TournamentDropdown> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         Align(
           alignment: AlignmentDirectional.topStart,
           child: Text(
@@ -143,42 +145,42 @@ class _TournamentDropdownState extends State<TournamentDropdown> {
                 hintColor: Colors.grey,
                 colorScheme: ColorScheme.dark()),
             child: DropdownButtonFormField<String>(
-                validator: widget.validator,
-                onChanged: widget.onchange,
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.grey,
+              validator: widget.validator,
+              onChanged: widget.onchange,
+              icon: Icon(
+                Icons.arrow_drop_down,
+                color: Colors.grey,
+              ),
+              decoration: InputDecoration(
+                // enabled: false,
+                isDense: true,
+                disabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.black.withOpacity(0.5), width: 0.25),
                 ),
-                decoration: InputDecoration(
-                  // enabled: false,
-                  isDense: true,
-                  disabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.black.withOpacity(0.5), width: 0.25),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.black.withOpacity(0.5), width: 0.25),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.black.withOpacity(0.5), width: 0.25),
-                  ),
-                  border: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.black.withOpacity(0.5), width: 0.25),
-                  ),
-                  floatingLabelAlignment: FloatingLabelAlignment.center,
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.black.withOpacity(0.5), width: 0.25),
                 ),
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 13.5,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.black.withOpacity(0.5), width: 0.25),
                 ),
-                // value: sub_Category_Data.first!.catId,
-                items: widget.count,
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.black.withOpacity(0.5), width: 0.25),
+                ),
+                floatingLabelAlignment: FloatingLabelAlignment.center,
+              ),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: MediaQuery.of(context).textScaleFactor * 13.5,
+              ),
+              // value: sub_Category_Data.first!.catId,
+              items: widget.count,
+            ),
           ),
-        ),)
-
+        )
       ],
     );
   }

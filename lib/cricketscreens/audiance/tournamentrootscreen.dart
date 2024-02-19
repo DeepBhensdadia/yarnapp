@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:yarn_modified/constcolor.dart';
-import '../match/matchschedualscreen.dart';
-import '../teams/teamscreen.dart';
 
-class TournamentTabs extends StatefulWidget {
+import '../../constcolor.dart';
+import 'aboutscreen.dart';
+import 'matchscreenaudiance.dart';
+import 'pointstablescreen.dart';
+import 'teamlistaudiance.dart';
+
+class TournamentRootAudiance extends StatefulWidget {
+  const TournamentRootAudiance({super.key});
+
   @override
-  _TournamentTabsState createState() => _TournamentTabsState();
+  State<TournamentRootAudiance> createState() => _TournamentRootAudianceState();
 }
 
-class _TournamentTabsState extends State<TournamentTabs>
+class _TournamentRootAudianceState extends State<TournamentRootAudiance>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -23,22 +28,22 @@ class _TournamentTabsState extends State<TournamentTabs>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kthemecolor,
-        title: Text('Tournament Name'),
-        actions: [IconButton(onPressed: () {
-          
-        }, icon: Icon(Icons.edit))],
+        title: Text('Indian Premier League'),
       ),
       body: Column(
         children: [
           Container(
             height: 45,
             child: TabBar(
+              isScrollable: true,
               controller: _tabController,
               dividerColor: kthemecolor,
               labelColor: Colors.black,
               tabs: [
-                Tab(text: 'Team'),
-                Tab(text: "Match"),
+                Tab(text: 'Matches'),
+                Tab(text: "Point Table"),
+                Tab(text: "Teams"),
+                Tab(text: "About"),
               ],
             ),
           ),
@@ -46,7 +51,12 @@ class _TournamentTabsState extends State<TournamentTabs>
             child: TabBarView(
               physics: NeverScrollableScrollPhysics(),
               controller: _tabController,
-              children: [ TeamScreen(),matchlScreen()],
+              children: [
+                MatchScreenAudiance(),
+                PointTableScreen(),
+                TeamListAudiance(),
+                AboutScreen(),
+              ],
             ),
           ),
         ],

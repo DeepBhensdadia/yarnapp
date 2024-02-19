@@ -340,7 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 20,
                   ),
                   Visibility(
-                    visible: true,
+                    visible: false,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: InkWell(

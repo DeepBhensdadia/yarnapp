@@ -149,10 +149,13 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
               "+91",
               // textScaleFactor: 1.3,
               style: TextStyle(
-                fontSize: MediaQuery.of(context).textScaleFactor * 15,
-                  fontWeight: FontWeight.w400, color:Colors.black),
+                  fontSize: MediaQuery.of(context).textScaleFactor * 15,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black),
             ),
-            SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Expanded(
               child: TextFormField(
                 readOnly: widget.read,
@@ -163,7 +166,7 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
                 cursorColor: Colors.black,
                 textInputAction: TextInputAction.next,
                 controller: widget.controller,
-                keyboardType: TextInputType.numberWithOptions(decimal: false),
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 style: TextStyle(
                   color: widget.read ? Colors.black45 : Colors.black,
                   fontSize: MediaQuery.of(context).textScaleFactor * 15,
@@ -184,20 +187,20 @@ class _CommonMobileTextFieldState extends State<CommonMobileTextField> {
                     horizontal: 0,
                   ),
                   disabledBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
+                    borderSide: BorderSide(
+                        color: Colors.black.withOpacity(0.5), width: 0.25),
                   ),
                   enabledBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
+                    borderSide: BorderSide(
+                        color: Colors.black.withOpacity(0.5), width: 0.25),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
+                    borderSide: BorderSide(
+                        color: Colors.blue.withOpacity(0.5), width: 1),
                   ),
                   border: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
+                    borderSide: BorderSide(
+                        color: Colors.black.withOpacity(0.5), width: 1),
                   ),
                 ),
               ),
@@ -333,7 +336,8 @@ class CommonDecimalTextField extends StatefulWidget {
     required this.InputAction,
     this.validatorfield,
     this.ontaps,
-    this.onchange, this.focusnode,
+    this.onchange,
+    this.focusnode,
   });
 
   final String labelText;
@@ -376,7 +380,7 @@ class _CommonDecimalTextFieldState extends State<CommonDecimalTextField> {
           cursorColor: Colors.black,
           textInputAction: widget.InputAction,
           controller: widget.controller,
-          keyboardType: widget.keyboardType,
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
           style: TextStyle(
             color: Colors.black,
             fontSize: MediaQuery.of(context).textScaleFactor * 15,
