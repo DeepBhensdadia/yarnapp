@@ -38,8 +38,8 @@ class _SelectionPageState extends State<SelectionPage> {
               children: [
                 InkWell(
                   onTap: () {
-                    // Get.to(TournamentTabs());
-                    Get.to(TournamentPage());
+                    Get.to(TournamentTabs());
+                    // Get.to(TournamentPage());
                   },
                   borderRadius: BorderRadius.circular(10),
                   splashColor: Colors.red.withOpacity(0.5),

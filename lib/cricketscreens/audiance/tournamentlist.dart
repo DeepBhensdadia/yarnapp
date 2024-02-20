@@ -58,7 +58,8 @@ class _TournamentAudianceState extends State<TournamentAudiance>
                       itemCount: 5,
                       itemBuilder: (context, index) => Card(
                         elevation: 5,
-                        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         child: Padding(
                           padding: const EdgeInsets.all(0.0),
                           child: ListTile(
@@ -83,7 +84,8 @@ class _TournamentAudianceState extends State<TournamentAudiance>
                       itemCount: 5,
                       itemBuilder: (context, index) => Card(
                         elevation: 5,
-                        margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                         child: Padding(
                           padding: const EdgeInsets.all(0.0),
                           child: ListTile(

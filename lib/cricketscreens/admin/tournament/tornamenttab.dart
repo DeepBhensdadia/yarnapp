@@ -24,9 +24,28 @@ class _TournamentTabsState extends State<TournamentTabs>
       appBar: AppBar(
         backgroundColor: kthemecolor,
         title: Text('Tournament Name'),
-        actions: [IconButton(onPressed: () {
-          
-        }, icon: Icon(Icons.edit))],
+        actions: [PopupMenuButton(
+
+          // offset: Offset(0, 50), // Adjust the offset as needed
+          icon: Icon(Icons.more_vert_outlined,),
+          onSelected: (value) {
+            // Handle the selected menu item
+            // You can use the 'value' parameter to determine which item was selected
+          },
+          itemBuilder: (BuildContext context) => [
+            PopupMenuItem(
+              value: 'item1',
+              child: Text('Edit'),
+            ),
+            PopupMenuItem(
+              value: 'item2',
+              child: Text('Delete'),
+            ),
+            // Add more menu items as needed
+          ],
+          // iconSize: 20,
+          padding: EdgeInsets.zero,
+        )],
       ),
       body: Column(
         children: [

@@ -7,6 +7,7 @@ import '../../const/themes.dart';
 import '../../constcolor.dart';
 import '../../widgets/tournamenttextfield.dart';
 import '../getx/usercontroller.dart';
+import 'tournamentscreen.dart';
 
 class AddPlayerDetails extends StatefulWidget {
   const AddPlayerDetails({super.key});
@@ -161,10 +162,12 @@ class _AddPlayerDetailsState extends State<AddPlayerDetails> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(PlayerProfileScreen());
+                          Get.to(TournamentScreenPlayer());
                         },
                         child: Container(
-                          color: kthemecolor,
+                          decoration: BoxDecoration(
+                              color: kthemecolor,
+                              borderRadius: BorderRadius.circular(5)),
                           height: 45,
                           padding: EdgeInsets.all(10),
                           child: Center(

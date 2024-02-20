@@ -29,46 +29,54 @@ class _TeamScreenState extends State<TeamScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
-              child: ListView.builder(
-                itemCount: 10,
-                // shrinkWrap: true,
-                padding: EdgeInsets.symmetric(horizontal: 10, ),
-                // physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 5,top: 10),
-                  child: Card(
-                    margin: EdgeInsets.zero,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListView.builder(
+                      itemCount: 10,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.symmetric(horizontal: 10, ),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 0,top: 10),
+                        child: Card(
+                          margin: EdgeInsets.zero,
 
-                    child: ListTile(
-                      onTap: () {
-                        Get.to(PlayersListScreen());
-                      },
-                      // minVerticalPadding: 20,
-                      leading: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: CupertinoColors.black)),
-                      ),
-                      title: Text(
-                        "India",
-                        style: TextStyle(
-                            color: CupertinoColors.black,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      subtitle: Text(
-                        "IND",
-                        style: TextStyle(
-                            color: CupertinoColors.black,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      trailing: Icon(
-                        Icons.keyboard_arrow_right_rounded,
-                        color: CupertinoColors.black,
+                          child: ListTile(
+                            visualDensity: VisualDensity.compact,
+                            onTap: () {
+                              Get.to(PlayersListScreen());
+                            },
+                            // minVerticalPadding: 20,
+                            leading: Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: CupertinoColors.black)),
+                            ),
+                            title: Text(
+                              "India",
+                              style: TextStyle(
+                                  color: CupertinoColors.black,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            subtitle: Text(
+                              "IND",
+                              style: TextStyle(
+                                  color: CupertinoColors.black,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            trailing: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: CupertinoColors.black,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 10,)
+                  ],
                 ),
               ),
             ),

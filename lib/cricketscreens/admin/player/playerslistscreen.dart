@@ -17,19 +17,43 @@ class PlayersListScreen extends StatefulWidget {
 
 class _PlayersListScreenState extends State<PlayersListScreen> {
   MatchController matchController = Get.put(MatchController());
+
+  final List<int> _items = List<int>.generate(10, (int index) => index);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: MyTheme.scaffoldColor,
-
         appBar: AppBar(
           // automaticallyImplyLeading: false,
           backgroundColor: kthemecolor,
           title: Text("Team Name"),
-          actions: [IconButton(onPressed: () {
-
-          }, icon: Icon(Icons.edit))],
+          actions: [
+            PopupMenuButton(
+              // offset: Offset(0, 50), // Adjust the offset as needed
+              icon: Icon(
+                Icons.more_vert_outlined,
+              ),
+              onSelected: (value) {
+                // Handle the selected menu item
+                // You can use the 'value' parameter to determine which item was selected
+              },
+              itemBuilder: (BuildContext context) => [
+                PopupMenuItem(
+                  value: 'item1',
+                  child: Text('Edit'),
+                ),
+                PopupMenuItem(
+                  value: 'item2',
+                  child: Text('Delete'),
+                ),
+                // Add more menu items as needed
+              ],
+              // iconSize: 20,
+              padding: EdgeInsets.zero,
+            )
+          ],
         ),
         body: Container(
           height: double.maxFinite,
@@ -39,70 +63,119 @@ class _PlayersListScreenState extends State<PlayersListScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Expanded(
-                child: ListView.builder(
-                  itemCount: 10,
-                  // shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  // physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Card(
-
-                      child: ListTile(
-                          onTap: () {
-                            Get.to(PlayerProfileScreen());
-                          },
-                          minVerticalPadding: 20,
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: CupertinoColors.black)),
-                          ),
-                          title: Text(
-                            "Player ${index + 1}",
-                            style: TextStyle(
-                                color: CupertinoColors.black,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          subtitle: Text(
-                            index == 0
-                                ? "Captain"
-                                : index == 1
-                                    ? "Vice Captain"
-                                    : index == 3
-                                        ? "Bowler"
-                                        : index == 5
-                                            ? "Bowler"
-                                            : "Batsman",
-                            style: TextStyle(
-                                color: (index == 0 || index == 1)
-                                    ? kthemecolor
-                                    : Colors.grey,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "${index == 1 ? "Not Confirm" : "Confirm"}",
-                                style: TextStyle(
-                                    color:
-                                        index == 1 ? Colors.red : Colors.green),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  _showBottomSheet(context);
-                                },
-                                icon: Icon(
-                                  Icons.more_vert_outlined,
-                                  color: CupertinoColors.black,
-                                ),
-                              ),
-                            ],
-                          )),
-                    ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ReorderableListView(
+                        shrinkWrap: true,
+                        onReorder: (int oldIndex, int newIndex) {
+                          // setState(() {
+                          //   // if (oldIndex < newIndex) {
+                          //   //   newIndex -= 1;
+                          //   // }
+                          //   // final int item = _items.removeAt(oldIndex);
+                          //   // _items.insert(newIndex, item);
+                          // });
+                        },
+                        physics: NeverScrollableScrollPhysics(),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                        children: [
+                          for (int index = 0; index < _items.length; index += 1)
+                            ListTile(
+                              horizontalTitleGap: 0,
+                              contentPadding: EdgeInsets.zero,
+                              minVerticalPadding: 0,
+                              key: ValueKey(index),
+                              title: Card(
+                                  margin: EdgeInsets.symmetric(vertical: 5),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                    color:
+                                                        CupertinoColors.black),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Player ${index + 1}",
+                                                  style: TextStyle(
+                                                    color:
+                                                        CupertinoColors.black,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  index == 0
+                                                      ? "Captain"
+                                                      : index == 1
+                                                          ? "Vice Captain"
+                                                          : index == 3
+                                                              ? "Bowler"
+                                                              : index == 5
+                                                                  ? "Bowler"
+                                                                  : "Batsman",
+                                                  style: TextStyle(
+                                                    color: (index == 0 ||
+                                                            index == 1)
+                                                        ? kthemecolor
+                                                        : Colors.grey,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "${index == 1 ? "Not Confirm" : "Confirm"}",
+                                              style: TextStyle(
+                                                color: index == 1
+                                                    ? Colors.red
+                                                    : Colors.green,
+                                              ),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                _showBottomSheet(context);
+                                              },
+                                              icon: Icon(
+                                                Icons.more_vert_outlined,
+                                                color: CupertinoColors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      )
+                    ],
                   ),
                 ),
               ),

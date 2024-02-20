@@ -62,7 +62,6 @@ class _addtournamentState extends State<addtournament> {
     }
   }
 
-
   bool status = false;
   @override
   Widget build(BuildContext context) {
@@ -125,12 +124,14 @@ class _addtournamentState extends State<addtournament> {
                             hintText: "Enter Tournament description",
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Expanded(
                           child: TournamentTextFormField(
                             read: true,
                             ontap: () {
-                               _selectEndDate(context);
+                              _selectEndDate(context);
                             },
                             controller: tournamentController.enddate,
                             labelText: "End Date",
@@ -181,11 +182,29 @@ class _addtournamentState extends State<addtournament> {
                         )
                       ],
                     ),
-                    TextButton(
-                        onPressed: () {
-                          tournamentController.AddTournamentFromAPI();
-                        },
-                        child: Text("Updated"))
+                    SizedBox(
+                      height: 10,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // Get.to(TournamentScreenPlayer());
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: kthemecolor,
+                            borderRadius: BorderRadius.circular(5)),
+                        height: 40,
+                        padding: EdgeInsets.all(10),
+                        child: Center(
+                            child: Text(
+                          "Save",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: kwhite),
+                        )),
+                      ),
+                    )
                   ],
                 ),
               )),

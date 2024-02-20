@@ -61,16 +61,6 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
         appBar: AppBar(
           backgroundColor: kthemecolor,
           title: Text("Add Match"),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  // tournamentController.AddTournamentFromAPI();
-                },
-                child: Text(
-                  "Save",
-                  style: TextStyle(color: kwhite),
-                ))
-          ],
         ),
         body: Container(
           height: double.maxFinite,
@@ -151,6 +141,29 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
                         keyboardType: TextInputType.text,
                         hintText: "Enter Description",
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          // Get.to(TournamentScreenPlayer());
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: kthemecolor,
+                              borderRadius: BorderRadius.circular(5)),
+                          height: 40,
+                          padding: EdgeInsets.all(10),
+                          child: Center(
+                              child: Text(
+                                "Save",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: kwhite),
+                              )),
+                        ),
+                      )
                     ],
                   ),
                 )),

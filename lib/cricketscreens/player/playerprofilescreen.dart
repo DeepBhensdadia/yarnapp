@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yarn_modified/constcolor.dart';
+import 'package:yarn_modified/helper.dart';
 
 import '../../const/themes.dart';
 
@@ -29,16 +30,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
       child: Scaffold(
         backgroundColor: MyTheme.scaffoldColor,
         appBar: AppBar(
-          leadingWidth: 25,
           toolbarHeight: 70,
           title: Row(
             children: [
-              // Your logo goes here
-              CircleAvatar(
-                  radius: 22, backgroundImage: AssetImage("images/avatar.png")),
-              SizedBox(
-                width: 20,
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,16 +63,16 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                 labelColor: kthemecolor,
                 tabs: [
                   Tab(
+                    text: 'PROFILE',
+                  ),
+                  Tab(
                     text: "MATCHES",
                   ),
                   Tab(
                     text: 'TEAMS',
                   ),
                   Tab(
-                    text: 'AWARDS',
-                  ),
-                  Tab(
-                    text: 'PROFILE',
+                    text: 'STATE',
                   ),
                 ],
               ),
@@ -90,16 +84,225 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                   controller: _tabController,
                   physics: NeverScrollableScrollPhysics(),
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                                child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 100,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "images/avatar.png"))),
+                                      ),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Deep Bhensdadia",
+                                            style: TextStyle(fontSize: 16),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            "DOB :- 05/09/2001",
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            "Player Type :- Batsman",
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          InkWell(
+                                            onTap: () {},
+                                            child: Card(
+                                              margin: EdgeInsets.zero,
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 0),
+                                                decoration: BoxDecoration(
+                                                    color: MyTheme.appBarColor),
+                                                height: 30,
+                                                child: Center(
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.add,
+                                                        color: kwhite,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "Follow",
+                                                        style: TextStyle(
+                                                            color: kwhite),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ]),
+                              ),
+                            )),
+                            Container(
+                              width: screenwidth(context, dividedby: 1),
+                              child: Card(
+                                elevation: 5,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "LOCATION",
+                                            style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "Surat",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "PLAYING ROLE",
+                                            style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "----",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "BATTING STYLE",
+                                            style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "RHB (Right Handed Barbaros)",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "BOWLING STYLE",
+                                            style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "----",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                            CupertinoIcons.creditcard,
-                            color: Colors.black,
-                            size: 100,
-                          ),
+                          // Icon(
+                          //   CupertinoIcons.creditcard,
+                          //   color: Colors.black,
+                          //   size: 100,
+                          // ),
                           SizedBox(
                             height: 15,
                           ),
@@ -113,11 +316,11 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(
-                          CupertinoIcons.creditcard,
-                          color: Colors.black,
-                          size: 100,
-                        ),
+                        // Icon(
+                        //   CupertinoIcons.er,
+                        //   color: Colors.black,
+                        //   size: 100,
+                        // ),
                         SizedBox(
                           height: 15,
                         ),
@@ -129,131 +332,17 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.wine_bar_rounded,
-                          color: Colors.black,
-                          size: 100,
-                        ),
+                        // Icon(
+                        //   Icons.wine_bar_rounded,
+                        //   color: Colors.black,
+                        //   size: 100,
+                        // ),
                         SizedBox(
                           height: 15,
                         ),
-                        Text("Player has not won any awards yet.",
+                        Text("No Data.",
                             style: TextStyle(color: Colors.black, fontSize: 16))
                       ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: SingleChildScrollView(
-                        child: Card(
-                          elevation: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "LOCATION",
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "Surat",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "PLAYING ROLE",
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "----",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "BATTING STYLE",
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "RHB (Right Handed Barbaros)",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "BOWLING STYLE",
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "----",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
                     ),
                   ],
                 ),

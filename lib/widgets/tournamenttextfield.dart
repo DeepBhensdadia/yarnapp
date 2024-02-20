@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yarn_modified/constcolor.dart';
 
 import '../const/themes.dart';
-import '../cricketscreens/model/gettournamenttype.dart';
+// import '../cricketscreens/model/gettournamenttype.dart';
 
 class TournamentTextFormField extends StatefulWidget {
   final String? Function(String?)? validatorfield;

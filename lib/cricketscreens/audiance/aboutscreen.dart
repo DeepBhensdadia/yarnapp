@@ -40,6 +40,30 @@ class _AboutScreenState extends State<AboutScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(height: 80,width: 80,"images/avatar.png"),
+                              ElevatedButton(
+                                style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => MyTheme.appBarColor)),
+                                onPressed: () {
+                                  
+                                },
+                                child: Container(
+                                  height: 50,
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.add),
+                                        Text("Follow")
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 15,),
                           Text(
                             "Tournament Name",
                             style: TextStyle(

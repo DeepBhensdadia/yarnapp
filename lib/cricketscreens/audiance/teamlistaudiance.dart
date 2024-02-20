@@ -28,46 +28,57 @@ class _TeamListAudianceState extends State<TeamListAudiance> {
         decoration: decration,
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: ListView.builder(
-            itemCount: 10,
-            // shrinkWrap: true,
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            // physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) => Padding(
-              padding: const EdgeInsets.only(bottom: 5, top: 10),
-              child: Card(
-                margin: EdgeInsets.zero,
-                // color: ,
-                child: ListTile(
-                  onTap: () {
-                    Get.to(PlayersListAudiance());
-                  },
-                  // minVerticalPadding: 20,
-                  leading: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: CupertinoColors.black)),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  // shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15,
                   ),
-                  title: Text(
-                    "India",
-                    style: TextStyle(
-                        color: CupertinoColors.black, fontWeight: FontWeight.w600),
-                  ),
-                  subtitle: Text(
-                    "IND",
-                    style: TextStyle(
-                        color: CupertinoColors.black, fontWeight: FontWeight.w400),
-                  ),
-                  trailing: Icon(
-                    Icons.keyboard_arrow_right_rounded,
-                    color: CupertinoColors.black,
+                  // physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) => Padding(
+                    padding: const EdgeInsets.only(bottom: 0, top: 15),
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      // color: ,
+                      child: ListTile(
+                        // dense: true,
+                        visualDensity: VisualDensity.compact,
+                        onTap: () {
+                          Get.to(PlayersListAudiance());
+                        },
+                        // minVerticalPadding: 20,
+                        leading: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: CupertinoColors.black)),
+                        ),
+                        title: Text(
+                          "India",
+                          style: TextStyle(
+                              color: CupertinoColors.black, fontWeight: FontWeight.w600),
+                        ),
+                        subtitle: Text(
+                          "IND",
+                          style: TextStyle(
+                              color: CupertinoColors.black, fontWeight: FontWeight.w400),
+                        ),
+                        trailing: Icon(
+                          Icons.keyboard_arrow_right_rounded,
+                          color: CupertinoColors.black,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(height: 15,)
+              ],
             ),
           ),
         ),

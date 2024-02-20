@@ -44,53 +44,59 @@ class _TournamentPageState extends State<TournamentPage> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    itemCount: controller.getData.length,
-                    itemBuilder: (context, index) {
-                      Tournamentdetails data = controller.getData[index];
-                      return Card(
-                        elevation: 5,
-                        margin: EdgeInsets.all(10),
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: ListTile(
-                            onTap: () {
-                              Get.to(TournamentTabs());
-                            },
-                            // visualDensity: VisualDensity.compact,
-                            // dense: true,
-                            leading: CircleAvatar(radius: 30),
-                            title: Text(data.tournamentName ?? ''),
-                            subtitle:
-                            Text(data.tournamenttype?.name ?? ''),
-                            trailing:  PopupMenuButton(
+                  child: Column(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: controller.getData.length,
+                        itemBuilder: (context, index) {
+                          Tournamentdetails data = controller.getData[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: Card(
+                              elevation: 5,
+                              margin: EdgeInsets.symmetric(horizontal: 15,),
+                              child: ListTile(
+                                visualDensity: VisualDensity.compact,
+                                onTap: () {
+                                  Get.to(TournamentTabs());
+                                },
+                                // visualDensity: VisualDensity.compact,
+                                // dense: true,
+                                leading: CircleAvatar(radius: 30),
+                                title: Text(data.tournamentName ?? ''),
+                                subtitle:
+                                Text(data.tournamenttype?.name ?? ''),
+                                trailing:  PopupMenuButton(
 
-                              // offset: Offset(0, 50), // Adjust the offset as needed
-                              icon: Icon(Icons.more_vert_outlined,),
-                              onSelected: (value) {
-                                // Handle the selected menu item
-                                // You can use the 'value' parameter to determine which item was selected
-                              },
-                              itemBuilder: (BuildContext context) => [
-                                PopupMenuItem(
-                                  value: 'item1',
-                                  child: Text('Edit'),
+                                  // offset: Offset(0, 50), // Adjust the offset as needed
+                                  icon: Icon(Icons.more_vert_outlined,),
+                                  onSelected: (value) {
+                                    // Handle the selected menu item
+                                    // You can use the 'value' parameter to determine which item was selected
+                                  },
+                                  itemBuilder: (BuildContext context) => [
+                                    PopupMenuItem(
+                                      value: 'item1',
+                                      child: Text('Edit'),
+                                    ),
+                                    PopupMenuItem(
+                                      value: 'item2',
+                                      child: Text('Delete'),
+                                    ),
+                                    // Add more menu items as needed
+                                  ],
+                                  // iconSize: 20,
+                                  padding: EdgeInsets.zero,
                                 ),
-                                PopupMenuItem(
-                                  value: 'item2',
-                                  child: Text('Delete'),
-                                ),
-                                // Add more menu items as needed
-                              ],
-                              // iconSize: 20,
-                              padding: EdgeInsets.zero,
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    },
+                          );
+                        },
+                      ),
+SizedBox(height: 15,)
+                    ],
                   ),
                 ),
               ),

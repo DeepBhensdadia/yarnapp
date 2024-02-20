@@ -37,7 +37,7 @@ class _matchlScreenState extends State<matchlScreen> {
                     child: Column(
                       children: [
                         Container(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Colors.grey.shade300,
                           padding: const EdgeInsets.only(
                               left: 5, right: 5, top: 10, bottom: 10),
                           width: context.width,
@@ -122,8 +122,8 @@ class _matchlScreenState extends State<matchlScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 10),
                                     color: (index.isEven
-                                        ? Cricket_white.withOpacity(0.5)
-                                        : Colors.grey.withOpacity(0.2)),
+                                        ? Cricket_white
+                                        : Colors.grey.shade200),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -224,6 +224,9 @@ class _matchlScreenState extends State<matchlScreen> {
                                               PopupMenuItem(
                                                 value: 'item2',
                                                 child: Text('Delete'),
+                                              ),  PopupMenuItem(
+                                                value: 'item2',
+                                                child: Text('View'),
                                               ),
                                               // Add more menu items as needed
                                             ],
