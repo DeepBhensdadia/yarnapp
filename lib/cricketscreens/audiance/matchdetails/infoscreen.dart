@@ -24,16 +24,16 @@ class _InfoScreenState extends State<InfoScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      "Summary",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  //   child: Text(
+                  //     "Summary",
+                  //     style: TextStyle(
+                  //       fontSize: 16,
+                  //       fontWeight: FontWeight.w500,
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 10,
                   ),

@@ -175,22 +175,22 @@ class _AddWarpCategoryState extends State<AddWarpCategory>
               Center(
                 child: Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                          },
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8))),
-                              elevation: MaterialStateProperty.all(0),
-                              backgroundColor:
-                              MaterialStateProperty.all(MyTheme.appBarColor)),
-                          child: Text('Keyboard Down')),
-                    ),
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(horizontal: 10),
+                    //   width: double.infinity,
+                    //   child: ElevatedButton(
+                    //       onPressed: () {
+                    //         FocusScope.of(context).requestFocus(FocusNode());
+                    //       },
+                    //       style: ButtonStyle(
+                    //           shape: MaterialStateProperty.all(
+                    //               RoundedRectangleBorder(
+                    //                   borderRadius: BorderRadius.circular(8))),
+                    //           elevation: MaterialStateProperty.all(0),
+                    //           backgroundColor:
+                    //           MaterialStateProperty.all(MyTheme.appBarColor)),
+                    //       child: Text('Keyboard Down')),
+                    // ),
                     Container(
                       padding:
                           EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 50),

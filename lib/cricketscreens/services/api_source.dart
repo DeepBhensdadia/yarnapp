@@ -120,6 +120,7 @@ class WebService {
       return right(ErrorModel(message: err.toString()));
     }
   }
+
   Future<Either<Response, ErrorModel>> postStringRequest({
     required String url,
     Map<String, dynamic>? header,

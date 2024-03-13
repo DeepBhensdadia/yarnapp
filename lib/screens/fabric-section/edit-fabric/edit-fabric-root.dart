@@ -127,8 +127,10 @@ class _EditFabricRootState extends State<EditFabricRoot> {
                                 style: TextStyle(fontSize: 18)),
                           )
                         : Center(
-                            child: CircularProgressIndicator(    color: Colors.black,
-                              strokeWidth: 3,),
+                            child: CircularProgressIndicator(
+                              color: Colors.black,
+                              strokeWidth: 3,
+                            ),
                           )
                     : PageView(
                         physics: NeverScrollableScrollPhysics(),
@@ -155,91 +157,82 @@ class _EditFabricRootState extends State<EditFabricRoot> {
   }
 
   Widget getHeader() {
-    return SingleChildScrollView(
-      controller: _allController,
-      scrollDirection: Axis.horizontal,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Container(
-          padding: EdgeInsets.all(0),
-          decoration: BoxDecoration(
-            color: Colors.white70,
-            borderRadius: BorderRadius.circular(7.5),
-          ),
-          // color: Colors.white70,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 3),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(headerAddFabricItems.length, (index) {
-                return GestureDetector(
-                  onTap: () {
-                    // final controller = Get.find<FebricEditController>();
-                    if (activeTab >= index) {
-                      pageController.jumpToPage(index);
-                    }
-                    // if (index != 3) {
-                    //   pageController.jumpToPage(index);
-                    // } else {
-                    //   if (activeTab != index)
-                    //     feb.goToResult(widget.febricdata?.id);
-                    //   pageController.jumpToPage(index);
-                    // }
-                    // if (controller.isWrapDone) {
-                    //   if (index == 0 || index == 1) {
-                    //     pageController.jumpToPage(index);
-                    //   }
-                    //   // return;
-                    // }
-                    //
-                    // if (controller.isWeftDone) {
-                    //   if (index == 0 || index == 2 || index == 1) {
-                    //     pageController.jumpToPage(index);
-                    //     return;
-                    //   }
-                    // }
-                    // if (controller.isResultDone && index != activeTab) {
-                    //   feb.goToResult(pageController);
-                    //   pageController.jumpToPage(index);
-                    // }
-                    // if (activeTab >= index) {
-                    //   pageController.jumpToPage(index);
-                    // }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenwidth(context, dividedby: 80)),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: activeTab == index
-                            ? MyTheme.appBarColor.withOpacity(1)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(7.5),
-                        // border: Border.all(
-                        //   color: activeTab == index
-                        //       ? Colors.grey
-                        //       : Colors.transparent,
-                        // ),
-                      ),
-                      child: Text(
-                        headerAddFabricItems[index]['text'],
-                        textScaleFactor: 1.1,
-                        style: TextStyle(
-                            color: activeTab == index
-                                ? Colors.white
-                                : activeTab >= index
-                                    ? Colors.black
-                                    : Colors.grey,
-                            fontWeight: activeTab == index
-                                ? FontWeight.w500
-                                : FontWeight.w500),
-                      ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 8,bottom: 8,right: 8),
+      child: Container(
+        // height: ,
+        padding: EdgeInsets.all(0),
+        decoration: BoxDecoration(
+          color: Colors.white70,
+          borderRadius: BorderRadius.circular(7.5),
+        ),
+        // color: Colors.white70,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 3),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(headerAddFabricItems.length, (index) {
+              return GestureDetector(
+                onTap: () {
+                  // final controller = Get.find<FebricEditController>();
+                  if (activeTab >= index) {
+                    pageController.jumpToPage(index);
+                  }
+                  // if (index != 3) {
+                  //   pageController.jumpToPage(index);
+                  // } else {
+                  //   if (activeTab != index)
+                  //     feb.goToResult(widget.febricdata?.id);
+                  //   pageController.jumpToPage(index);
+                  // }
+                  // if (controller.isWrapDone) {
+                  //   if (index == 0 || index == 1) {
+                  //     pageController.jumpToPage(index);
+                  //   }
+                  //   // return;
+                  // }
+                  //
+                  // if (controller.isWeftDone) {
+                  //   if (index == 0 || index == 2 || index == 1) {
+                  //     pageController.jumpToPage(index);
+                  //     return;
+                  //   }
+                  // }
+                  // if (controller.isResultDone && index != activeTab) {
+                  //   feb.goToResult(pageController);
+                  //   pageController.jumpToPage(index);
+                  // }
+                  // if (activeTab >= index) {
+                  //   pageController.jumpToPage(index);
+                  // }
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: activeTab == index
+                          ? MyTheme.appBarColor.withOpacity(1)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(7.5),
+                    ),
+                    child: Text(
+                      headerAddFabricItems[index]['text'],
+                      textScaleFactor: 0.95,
+                      style: TextStyle(
+                          color: activeTab == index
+                              ? Colors.white
+                              : activeTab >= index
+                                  ? Colors.black
+                                  : Colors.grey,
+                          fontWeight: activeTab == index
+                              ? FontWeight.w500
+                              : FontWeight.w500),
                     ),
                   ),
-                );
-              }),
-            ),
+                ),
+              );
+            }),
           ),
         ),
       ),

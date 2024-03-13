@@ -1,10 +1,15 @@
 import 'package:yarn_modified/services/all_api_services.dart';
 
 class URLs {
-  // static String Base_url = "http://192.168.29.248:8001/api/";
-  // static String image_url = "http://192.168.29.248:8001/";
-  static String image_url = "https://textilediary.in/textiles/public/";
-  static String Base_url = "https://textilediary.in/textiles/public/api/";
+  static String main = "https://textilediary.in/textiles/public";
+  // static String main = "192.168.29.198:8001";
+  static String Base_url = "$main/api/";
+  static String image_url = "$main/";
+  static String image_url_tournament = "$main/assets/tournament/";
+  static String image_url_team = "$main/assets/team/";
+  static String image_url_player = "$main/assets/player/";
+  // static String image_url = "https://textilediary.in/textiles/public/";
+  // static String Base_url = "https://textilediary.in/textiles/public/api/";
   static String expiredtoast = "Please activate the package";
 
   static String yarnCategory =

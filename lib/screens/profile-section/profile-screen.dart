@@ -62,6 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   onPressed: () {
                     SharedPref.deleteAll();
+
                     Get.deleteAll(force: true);
                     Get.offAll(LoginScreen());
                   },

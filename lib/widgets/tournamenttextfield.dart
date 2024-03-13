@@ -22,6 +22,7 @@ class TournamentTextFormField extends StatefulWidget {
     this.onchange,
     this.ontap,
     this.read = false,
+    this.maxlength =25 ,
   });
 
   final String? labelText;
@@ -29,6 +30,7 @@ class TournamentTextFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   final TextInputAction? InputAction;
   final String? hintText;
+  final int maxlength;
 
   @override
   State<TournamentTextFormField> createState() =>
@@ -38,66 +40,69 @@ class TournamentTextFormField extends StatefulWidget {
 class _TournamentTextFormFieldState extends State<TournamentTextFormField> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 10,
-        ),
-        Align(
-          alignment: AlignmentDirectional.topStart,
-          child: Text(
-            widget.labelText ?? "",
-            textScaleFactor: 1.3,
-            style: TextStyle(fontWeight: FontWeight.w500, color: kthemecolor),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10,
           ),
-        ),
-        SizedBox(
-          height: 2,
-        ),
-        TextFormField(
-          readOnly: widget.read,
-          textCapitalization: TextCapitalization.words,
-          onChanged: widget.onchange,
-          onTap: widget.ontap,
-          validator: widget.validatorfield,
-          autocorrect: false,
-          textAlign: TextAlign.start,
-          cursorColor: Colors.black,
-          textInputAction: widget.InputAction,
-          controller: widget.controller,
-          keyboardType: widget.keyboardType,
-          style: TextStyle(
-            color: widget.read ? Colors.black45 : Colors.black,
-            fontSize: MediaQuery.of(context).textScaleFactor * 15,
-          ),
-          maxLength: 25,
-          decoration: InputDecoration(
-            counter: Offstage(),
-            // hintText: widget.hintText,
-            // hintStyle: TextStyle(
-            //   color: Colors.grey,
-            //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
-            // ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 0),
-            disabledBorder: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
-            ),
-            enabledBorder: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
-            ),
-            border: UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
+          Align(
+            alignment: AlignmentDirectional.topStart,
+            child: Text(
+              widget.labelText ?? "",
+              textScaleFactor: 1.3,
+              style: TextStyle(fontWeight: FontWeight.w500, color: kthemecolor),
             ),
           ),
-        ),
-      ],
+          SizedBox(
+            height: 2,
+          ),
+          TextFormField(
+            readOnly: widget.read,
+            textCapitalization: TextCapitalization.words,
+            onChanged: widget.onchange,
+            onTap: widget.ontap,
+            validator: widget.validatorfield,
+            autocorrect: false,
+            textAlign: TextAlign.start,
+            cursorColor: Colors.black,
+            textInputAction: widget.InputAction,
+            controller: widget.controller,
+            keyboardType: widget.keyboardType,
+            style: TextStyle(
+              color: widget.read ? Colors.black45 : Colors.black,
+              fontSize: MediaQuery.of(context).textScaleFactor * 15,
+            ),
+            maxLength: widget.maxlength,
+            decoration: InputDecoration(
+              counter: Offstage(),
+              // hintText: widget.hintText,
+              // hintStyle: TextStyle(
+              //   color: Colors.grey,
+              //   fontSize: MediaQuery.of(context).textScaleFactor * 13,
+              // ),
+              contentPadding: EdgeInsets.symmetric(horizontal: 0),
+              disabledBorder: UnderlineInputBorder(
+                borderSide:
+                    BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
+              ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide:
+                    BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide:
+                    BorderSide(color: Colors.blue.withOpacity(0.5), width: 1),
+              ),
+              border: UnderlineInputBorder(
+                borderSide:
+                    BorderSide(color: Colors.black.withOpacity(0.5), width: 1),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -110,9 +115,10 @@ class TournamentDropdown extends StatefulWidget {
   final void Function(String?)? onchange;
 
   final String? Function(String?)? validator;
+  final String? initialValue;
 
   const TournamentDropdown(
-      {super.key, this.lable, this.count, this.validator, this.onchange});
+      {super.key, this.lable, this.count, this.validator, this.onchange, this.initialValue,});
 
   @override
   State<TournamentDropdown> createState() => _TournamentDropdownState();
@@ -121,67 +127,70 @@ class TournamentDropdown extends StatefulWidget {
 class _TournamentDropdownState extends State<TournamentDropdown> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Align(
-          alignment: AlignmentDirectional.topStart,
-          child: Text(
-            widget.lable ?? "",
-            textScaleFactor: 1.3,
-            style: TextStyle(
-                fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          // height: 40,
-          child: Theme(
-            data: ThemeData(
-                canvasColor: Colors.white,
-                primaryColor: Colors.grey,
-                accentColor: Colors.grey,
-                hintColor: Colors.grey,
-                colorScheme: ColorScheme.dark()),
-            child: DropdownButtonFormField<String>(
-              validator: widget.validator,
-              onChanged: widget.onchange,
-              icon: Icon(
-                Icons.arrow_drop_down,
-                color: Colors.grey,
-              ),
-              decoration: InputDecoration(
-                // enabled: false,
-                isDense: true,
-                disabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.black.withOpacity(0.5), width: 0.25),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.black.withOpacity(0.5), width: 0.25),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.black.withOpacity(0.5), width: 0.25),
-                ),
-                border: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.black.withOpacity(0.5), width: 0.25),
-                ),
-                floatingLabelAlignment: FloatingLabelAlignment.center,
-              ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 15.0,bottom: 15),
+      child: Column(
+        children: [
+          Align(
+            alignment: AlignmentDirectional.topStart,
+            child: Text(
+              widget.lable ?? "",
+              textScaleFactor: 1.3,
               style: TextStyle(
-                color: Colors.black,
-                fontSize: MediaQuery.of(context).textScaleFactor * 13.5,
-              ),
-              // value: sub_Category_Data.first!.catId,
-              items: widget.count,
+                  fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
             ),
           ),
-        )
-      ],
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            // height: 40,
+            child: Theme(
+              data: ThemeData(
+                  canvasColor: Colors.white,
+                  primaryColor: Colors.grey,
+                  accentColor: Colors.grey,
+                  hintColor: Colors.grey,
+                  colorScheme: ColorScheme.dark()),
+              child: DropdownButtonFormField<String>(
+                validator: widget.validator,
+                onChanged: widget.onchange,
+                icon: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.grey,
+                ),
+                decoration: InputDecoration(
+                  // enabled: false,
+                  isDense: true,
+                  disabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.black.withOpacity(0.5), width: 0.25),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.black.withOpacity(0.5), width: 0.25),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.black.withOpacity(0.5), width: 0.25),
+                  ),
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.black.withOpacity(0.5), width: 0.25),
+                  ),
+                  floatingLabelAlignment: FloatingLabelAlignment.center,
+                ),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: MediaQuery.of(context).textScaleFactor * 13.5,
+                ),
+                value: widget.initialValue,
+                items: widget.count,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

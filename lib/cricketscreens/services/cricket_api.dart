@@ -16,7 +16,7 @@ Future<GetTournamenttype> gettournamenttypelist() async {
 }
 
 Future<GetTournamentlist> gettournamentlistapi() async {
-  var url = Uri.parse(URLs.Base_url + "index_tournament");
+  var url = Uri.parse(URLs.Base_url + "index_tournament?user_id=${saveUser()?.id}");
   var response = await http.get(url);
   print('Response Body: ${response.body}');
   return getTournamentlistFromJson(response.body);

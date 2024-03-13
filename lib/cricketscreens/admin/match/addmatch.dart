@@ -1,19 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:yarn_modified/cricketscreens/model/matchlistmode.dart';
 
 import '../../../const/const.dart';
 import '../../../const/themes.dart';
 import '../../../constcolor.dart';
 import '../../../widgets/tournamenttextfield.dart';
+import '../../getx/matchcontroller.dart';
+import '../../getx/teamcontroller.dart';
+import '../../model/tournamentlist.dart';
 
 class AddMatchScreen extends StatefulWidget {
-  const AddMatchScreen({super.key});
+  final Tournamentdetails tournametid;
+  final MatchList? matchdetail;
+  const AddMatchScreen(
+      {super.key, required this.tournametid, this.matchdetail});
 
   @override
   State<AddMatchScreen> createState() => _AddMatchScreenState();
 }
 
 class _AddMatchScreenState extends State<AddMatchScreen> {
+  TeamController teamcontroller = Get.put(TeamController());
+  MatchController matchController = Get.put(MatchController());
+
+  @override
+  void initState() {
+    matchController.team1.clear();
+    matchController.team2.clear();
+    matchController.Location.clear();
+    matchController.upmire.clear();
+    matchController.matchdate.clear();
+    matchController.matchtime.clear();
+    matchController.description.clear();
+
+    if (widget.matchdetail != null) {
+      matchController.team1.text =
+          widget.matchdetail?.team1?.id.toString() ?? "";
+      matchController.team2.text =
+          widget.matchdetail?.team2?.id.toString() ?? "";
+      matchController.Location.text =
+          widget.matchdetail?.venue?.toString() ?? "";
+      matchController.description.text =
+          widget.matchdetail?.description?.toString() ?? "";
+      matchController.matchtime.text =
+          widget.matchdetail?.matchTime?.toString() ?? "";
+      matchController.matchdate.text =
+          widget.matchdetail?.matchdateformat().toString() ?? "";
+      matchController.upmire.text =
+          widget.matchdetail?.umpires?.toString() ?? "";
+      matchController.overs.text =
+          widget.matchdetail?.overseas?.toString() ?? "";
+    } else {
+      matchController.Location.text =
+          widget.tournametid.location.toString() ?? "";
+    }
+    teamcontroller.getTeamDataFromAPI(id: widget.tournametid.id.toString());
+    // TODO: implement initState
+    super.initState();
+  }
+
   DateTime selectedStartDate = DateTime.now();
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -25,9 +72,10 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
 
     if (picked != null) {
       setState(() {
+        editedt = true;
         selectedStartDate = picked;
-        String formattedDate = DateFormat('yyyy-MM-dd').format(picked);
-        date.text = formattedDate;
+        String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+        matchController.matchdate.text = formattedDate;
       });
     }
   }
@@ -42,25 +90,61 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
 
     if (picked != null) {
       setState(() {
+        editedt = true;
         selectedTime = picked;
-        String formattedTime = "${picked.hour}:${picked.minute}";
-        time.text = formattedTime;
+
+        // Format the selected time as "15:26:00"
+        String formattedTime = DateFormat('HH:mm').format(
+          DateTime(2024, 2, 2, picked.hour, picked.minute),
+        );
+
+        matchController.matchtime.text = formattedTime;
       });
     }
   }
 
-
-  TextEditingController date = TextEditingController();
-  TextEditingController time = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool editedt = false;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return WillPopScope(
+      onWillPop: () {
+        return editedt == true
+            ? showdialogboxalert(
+                context,
+                widget.matchdetail != null
+                    ? "Do you want to exit without Updating?"
+                    : "Do you want to exit without Saving?")
+            : Future.value(true);
+      },
       child: Scaffold(
         backgroundColor: MyTheme.scaffoldColor,
-
         appBar: AppBar(
-          backgroundColor: kthemecolor,
-          title: Text("Add Match"),
+          iconTheme: IconThemeData(color: Colors.white),
+          title: Text(
+            widget.matchdetail != null ? "Edit Match" : "Add Match",
+            textScaleFactor: 1,
+            style:
+                TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+          ),
+          // centerTitle: true,
+          backgroundColor: MyTheme.appBarColor,
+          elevation: 5,
+          automaticallyImplyLeading: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.white.withOpacity(0.20),
+                  Colors.white.withOpacity(0.15),
+                  Colors.white.withOpacity(0.025),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+          ),
         ),
         body: Container(
           height: double.maxFinite,
@@ -74,97 +158,219 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
                 shape: RoundedRectangleBorder(borderRadius: defaultCardRadius),
                 child: Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      TournamentDropdown(
-                        count: List.generate(
-                          8,
-                          (index) => DropdownMenuItem<String>(
-                              value: "Team ${index + 1}",
-                              child: Text("Team ${index + 1}")),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Obx(
+                          () => TournamentDropdown(
+                            initialValue:
+                                widget.matchdetail?.team1?.id.toString(),
+                            count: teamcontroller.getteams
+                                .where((p0) =>
+                                    p0.id.toString() !=
+                                    matchController.team2.text)
+                                .map((e) => DropdownMenuItem<String>(
+                                    value: "${e.id}",
+                                    child: Text("${e.teamName}")))
+                                .toList(),
+                            onchange: (p0) {
+                              setState(() {
+                                editedt = true;
+                              });
+                              matchController.team1.text = p0.toString();
+                            },
+                            validator: (p0) {
+                              if (p0?.isEmpty ?? true) {
+                                return "Select First Team";
+                              }
+                              return null;
+                            },
+                            lable: "Select First Team",
+                          ),
                         ),
-                        onchange: (p0) {},
-                        validator: (p0) {},
-                        lable: "Select First Team",
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TournamentDropdown(
-                        count: List.generate(
-                          8,
-                          (index) => DropdownMenuItem<String>(
-                              value: "Team ${index + 1}",
-                              child: Text("Team ${index + 1}")),
+                        SizedBox(
+                          height: 10,
                         ),
-                        onchange: (p0) {},
-                        validator: (p0) {},
-                        lable: "Select Second Team",
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TournamentTextFormField(
-                        labelText: "Selct Match Location",
-                        keyboardType: TextInputType.text,
-                        hintText: "",
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TournamentTextFormField(
-                        read: true,
-                        ontap: () {
-                          _selectStartDate(context);
-                        },
-                        controller: date,
-                        labelText: "Selct Match Date",
-                        keyboardType: TextInputType.text,
-                        hintText: "",
-                      ),
-                      TournamentTextFormField(
-                        read: true,
-                        ontap: () {
-                          _selectTime(context);
-                        },
-                        controller: time,
-                        labelText: "Selct Match Time",
-                        keyboardType: TextInputType.text,
-                        hintText: "",
-                      ),
-                      TournamentTextFormField(
-                        labelText: "Umpire Name",
-                        keyboardType: TextInputType.text,
-                        hintText: "Enter Umpire Name",
-                      ),    TournamentTextFormField(
-                        labelText: "Description",
-                        keyboardType: TextInputType.text,
-                        hintText: "Enter Description",
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // Get.to(TournamentScreenPlayer());
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: kthemecolor,
-                              borderRadius: BorderRadius.circular(5)),
-                          height: 40,
-                          padding: EdgeInsets.all(10),
-                          child: Center(
-                              child: Text(
-                                "Save",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: kwhite),
-                              )),
+                        Obx(
+                          () => TournamentDropdown(
+                            initialValue:
+                                widget.matchdetail?.team2?.id.toString(),
+                            count: teamcontroller.getteams
+                                .where((p0) =>
+                                    p0.id.toString() !=
+                                    matchController.team1.text)
+                                .map((e) => DropdownMenuItem<String>(
+                                    value: "${e.id}",
+                                    child: Text("${e.teamName}")))
+                                .toList(),
+                            onchange: (p0) {
+                              setState(() {
+                                editedt = true;
+                              });
+                              matchController.team2.text = p0.toString();
+                            },
+                            validator: (p0) {
+                              if (p0?.isEmpty ?? true) {
+                                return "Select Second Team";
+                              }
+                              return null;
+                            },
+                            lable: "Select Second Team",
+                          ),
                         ),
-                      )
-                    ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TournamentTextFormField(
+                          onchange: (p0) {
+                            setState(() {
+                              editedt = true;
+                            });
+                          },
+                          validatorfield: (p0) {
+                            if (p0!.isEmpty) {
+                              return "Enter Match Location";
+                            }
+                            return null;
+                          },
+                          controller: matchController.Location,
+                          labelText: "Select Match Location",
+                          keyboardType: TextInputType.text,
+                          hintText: "",
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TournamentTextFormField(
+                          onchange: (p0) {
+                            setState(() {
+                              editedt = true;
+                            });
+                          },
+                          validatorfield: (p0) {
+                            if (p0!.isEmpty) {
+                              return "Enter Match Date";
+                            }
+                            return null;
+                          },
+                          read: true,
+                          ontap: () {
+                            _selectStartDate(context);
+                          },
+                          controller: matchController.matchdate,
+                          labelText: "Select Match Date",
+                          keyboardType: TextInputType.text,
+                          hintText: "",
+                        ),
+                        TournamentTextFormField(
+                          onchange: (p0) {
+                            setState(() {
+                              editedt = true;
+                            });
+                          },
+                          validatorfield: (p0) {
+                            if (p0!.isEmpty) {
+                              return "Enter Match Time";
+                            }
+                            return null;
+                          },
+                          read: true,
+                          ontap: () {
+                            _selectTime(context);
+                          },
+                          controller: matchController.matchtime,
+                          labelText: "Select Match Time",
+                          keyboardType: TextInputType.text,
+                          hintText: "",
+                        ),
+                        TournamentTextFormField(
+                          onchange: (p0) {
+                            setState(() {
+                              editedt = true;
+                            });
+                          },
+                          validatorfield: (p0) {
+                            if (p0!.isEmpty) {
+                              return "Enter Match Umpire";
+                            }
+                            return null;
+                          },
+                          controller: matchController.upmire,
+                          labelText: "Umpire Name",
+                          keyboardType: TextInputType.text,
+                          hintText: "Enter Umpire Name",
+                        ),
+                        TournamentTextFormField(
+                          onchange: (p0) {
+                            setState(() {
+                              editedt = true;
+                            });
+                          },
+                          // validatorfield: (p0) {
+                          //   if (p0!.isEmpty) {
+                          //     return "Enter Match Description";
+                          //   }
+                          //   return null;
+                          // },
+                          controller: matchController.description,
+                          labelText: "Description",
+                          keyboardType: TextInputType.text,
+                          hintText: "Enter Description",
+                        ),
+                        TournamentTextFormField(
+                          onchange: (p0) {
+                            setState(() {
+                              editedt = true;
+                            });
+                          },
+                          // validatorfield: (p0) {
+                          //   if (p0!.isEmpty) {
+                          //     return "Enter Match Description";
+                          //   }
+                          //   return null;
+                          // },
+                          controller: matchController.overs,
+                          labelText: "Match Overs",
+                          keyboardType: TextInputType.number,
+                          hintText: "Enter Description",
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              widget.matchdetail != null
+                                  ? matchController.EditmatchFromAPI(
+                                      tournamentid:
+                                          widget.tournametid.id.toString(),
+                                      id: widget.matchdetail?.id.toString() ??
+                                          "")
+                                  : matchController.AddmatchFromAPI(
+                                      tournamentid:
+                                          widget.tournametid.id.toString());
+                            }
+                            // Get.to(TournamentScreenPlayer());
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: darkBlue,
+                                borderRadius: BorderRadius.circular(5)),
+                            height: 40,
+                            padding: EdgeInsets.all(10),
+                            child: Center(
+                                child: Text(
+                              widget.matchdetail != null ? "Update" : "Save",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: kwhite),
+                            )),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 )),
           ),

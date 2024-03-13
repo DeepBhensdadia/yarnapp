@@ -54,7 +54,6 @@ class FirebaseAuthContrller extends GetxController {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     await auth.verifyPhoneNumber(
-
       phoneNumber: "+91 $phoneNumber",
       verificationCompleted: (PhoneAuthCredential credential) {
         print(credential);

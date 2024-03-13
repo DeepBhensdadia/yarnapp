@@ -732,11 +732,11 @@ class _AddWeftCategoryState extends State<AddWeftCategory>
         children: [
           IconButton(
               onPressed: () {
-                FocusScope.of(context).requestFocus(FocusNode());
+                // FocusScope.of(context).requestFocus(FocusNode());
               },
               icon: Icon(
                 Icons.keyboard_alt_outlined,
-                color: Colors.black,
+                color: Colors.transparent,
               )),
           Expanded(
             child: Container(

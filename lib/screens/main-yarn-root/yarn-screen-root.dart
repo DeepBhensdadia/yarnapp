@@ -2,22 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:multi_select_flutter/chip_display/multi_select_chip_display.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
-import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:yarn_modified/const/const.dart';
 import 'package:yarn_modified/getxcontrollers/getdetailscheckcontroller.dart';
 import 'package:yarn_modified/getxcontrollers/yarncategorydata.dart';
 import 'package:yarn_modified/getxcontrollers/yarnlistcontroller.dart';
-import 'package:yarn_modified/model/get-yarn-category-model.dart';
-import 'package:yarn_modified/model/get-yarn-index-model.dart';
 import 'package:yarn_modified/screens/yarn-section/edit-yarn.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import 'package:yarn_modified/services/app_url.dart';
 import '../../const/themes.dart';
-import '../../static_json/category-json.dart';
 import '../yarn-section/add-yarn.dart';
 
 class YarnScreenRoot extends StatefulWidget {
@@ -38,6 +33,7 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
   @override
   void initState() {
     super.initState();
+    yarnlist.searchController.clear();
     yarnlist.fetchDataFromAPI(key: "");
     yarncategorycontroll.fetchDataFromAPI();
   }
@@ -352,7 +348,8 @@ class _YarnScreenRootState extends State<YarnScreenRoot> {
                                   color: Colors.grey.shade600,
                                   size: 30,
                                 ),
-                                suffixIcon: yarnlist.searchController.text.isNotEmpty
+                                suffixIcon: yarnlist
+                                        .searchController.text.isNotEmpty
                                     ? IconButton(
                                         splashRadius: 0.1,
                                         onPressed: () {

@@ -526,26 +526,26 @@ class _EditGeneralCategoryState extends State<EditGeneralCategory>
                   ),
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 15,
                 ),
                 Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                          },
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8))),
-                              elevation: MaterialStateProperty.all(0),
-                              backgroundColor:
-                              MaterialStateProperty.all(MyTheme.appBarColor)),
-                          child: Text('Keyboard Down')),
-                    ),
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(horizontal: 10),
+                    //   width: double.infinity,
+                    //   child: ElevatedButton(
+                    //       onPressed: () {
+                    //         FocusScope.of(context).requestFocus(FocusNode());
+                    //       },
+                    //       style: ButtonStyle(
+                    //           shape: MaterialStateProperty.all(
+                    //               RoundedRectangleBorder(
+                    //                   borderRadius: BorderRadius.circular(8))),
+                    //           elevation: MaterialStateProperty.all(0),
+                    //           backgroundColor:
+                    //           MaterialStateProperty.all(MyTheme.appBarColor)),
+                    //       child: Text('Keyboard Down')),
+                    // ),
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),

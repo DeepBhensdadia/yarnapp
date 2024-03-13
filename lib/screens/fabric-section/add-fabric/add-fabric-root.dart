@@ -88,6 +88,14 @@ class _AddFabricRootState extends State<AddFabricRoot> {
                     color: Colors.black,
                   )),
               Expanded(child: getHeader()),
+              // IconButton(
+              //     onPressed: () {
+              //       FocusScope.of(context).requestFocus(FocusNode());
+              //     },
+              //     icon: Icon(
+              //       Icons.keyboard_alt_outlined,
+              //       color: Colors.black,
+              //     )),
             ],
           ),
           Expanded(
@@ -113,81 +121,75 @@ class _AddFabricRootState extends State<AddFabricRoot> {
   }
 
   Widget getHeader() {
-    return SingleChildScrollView(
-      controller: _allController,
-      scrollDirection: Axis.horizontal,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Container(
-          padding: EdgeInsets.all(0),
-          decoration: BoxDecoration(
-            color: Colors.white70,
-            borderRadius: BorderRadius.circular(7.5),
-          ),
-          // color: Colors.white70,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 3),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(headerAddFabricItems.length, (index) {
-                return GestureDetector(
-                  onTap: () {
-                    final controller = Get.find<FebricAddController>();
-                    if (activeTab >= index) {
-                      pageController.jumpToPage(index);
-                    }
-                    // if (controller.isWrapDone) {
-                    //   if (index == 0 || index == 1) {
-                    //     pageController.jumpToPage(index);
-                    //   }
-                    //   // return;
-                    // }
-                    //
-                    // if (controller.isWeftDone) {
-                    //   if (index == 0 || index == 2 || index == 1) {
-                    //     pageController.jumpToPage(index);
-                    //     return;
-                    //   }
-                    // }
-                    // if (controller.isResultDone && index != activeTab) {
-                    //   feb.goToResult(pageController);
-                    //   pageController.jumpToPage(index);
-                    // }
-                    // if (activeTab >= index) {
-                    //   pageController.jumpToPage(index);
-                    // }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: activeTab == index
-                            ? MyTheme.appBarColor
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(7.5),
-                        // border: Border.all(
-                        //   color: activeTab == index
-                        //       ? Colors.grey
-                        //       : Colors.transparent,
-                        // ),
-                      ),
-                      child: Text(
-                        headerAddFabricItems[index]['text'],
-                        textScaleFactor: 1.1,
-                        style: TextStyle(
-                            color: activeTab == index
-                                ? Colors.white
-                                :activeTab >= index ?  Colors.black : Colors.grey,
-                            fontWeight: activeTab == index
-                                ? FontWeight.w500
-                                : FontWeight.w500),
-                      ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 8, right: 8),
+      child: Container(
+        padding: EdgeInsets.all(0),
+        decoration: BoxDecoration(
+          color: Colors.white70,
+          borderRadius: BorderRadius.circular(7.5),
+        ),
+        // color: Colors.white70,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 3),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(headerAddFabricItems.length, (index) {
+              return GestureDetector(
+                onTap: () {
+                  final controller = Get.find<FebricAddController>();
+                  if (activeTab >= index) {
+                    pageController.jumpToPage(index);
+                  }
+                  // if (controller.isWrapDone) {
+                  //   if (index == 0 || index == 1) {
+                  //     pageController.jumpToPage(index);
+                  //   }
+                  //   // return;
+                  // }
+                  //
+                  // if (controller.isWeftDone) {
+                  //   if (index == 0 || index == 2 || index == 1) {
+                  //     pageController.jumpToPage(index);
+                  //     return;
+                  //   }
+                  // }
+                  // if (controller.isResultDone && index != activeTab) {
+                  //   feb.goToResult(pageController);
+                  //   pageController.jumpToPage(index);
+                  // }
+                  // if (activeTab >= index) {
+                  //   pageController.jumpToPage(index);
+                  // }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: activeTab == index
+                          ? MyTheme.appBarColor.withOpacity(1)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(7.5),
+                    ),
+                    child: Text(
+                      headerAddFabricItems[index]['text'],
+                      textScaleFactor: 0.95,
+                      style: TextStyle(
+                          color: activeTab == index
+                              ? Colors.white
+                              : activeTab >= index
+                                  ? Colors.black
+                                  : Colors.grey,
+                          fontWeight: activeTab == index
+                              ? FontWeight.w500
+                              : FontWeight.w500),
                     ),
                   ),
-                );
-              }),
-            ),
+                ),
+              );
+            }),
           ),
         ),
       ),

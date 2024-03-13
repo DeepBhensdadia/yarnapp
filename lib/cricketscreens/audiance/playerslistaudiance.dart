@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../const/themes.dart';
 import '../../constcolor.dart';
-import '../player/playerprofilescreen.dart';
+import '../admin/player/playerprofileadmin.dart';
 
 class PlayersListAudiance extends StatefulWidget {
   const PlayersListAudiance({super.key});
@@ -41,7 +41,7 @@ class _PlayersListAudianceState extends State<PlayersListAudiance> {
                     child: ListTile(
                       visualDensity: VisualDensity.compact,
                       onTap: () {
-                        Get.to(PlayerProfileScreen());
+                        Get.to(PlayerProfileAdmin());
                       },
                       minVerticalPadding: 0,
                       leading: Container(

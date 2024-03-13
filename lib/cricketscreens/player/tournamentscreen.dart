@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import '../../const/themes.dart';
 import '../../constcolor.dart';
 import '../admin/matchesscreen.dart';
+import '../admin/player/playerprofileadmin.dart';
 import '../audiance/tournamentrootscreen.dart';
-import 'playerprofilescreen.dart';
 
 class TournamentScreenPlayer extends StatefulWidget {
   const TournamentScreenPlayer({super.key});
@@ -33,7 +33,7 @@ class _TournamentScreenPlayerState extends State<TournamentScreenPlayer>
         actions: [
           IconButton(
               onPressed: () {
-                Get.to(PlayerProfileScreen());
+                Get.to(PlayerProfileAdmin());
               },
               icon: Icon(
                 Icons.account_circle_outlined,

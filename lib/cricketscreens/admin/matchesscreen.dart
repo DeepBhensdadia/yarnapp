@@ -16,11 +16,10 @@ class MatchesScreen extends StatefulWidget {
 }
 
 class _MatchesScreenState extends State<MatchesScreen> {
-  MatchController matchController = Get.put(MatchController());
 
   @override
   void initState() {
-    matchController.getmatchlistCall();
+    // matchController.getmatchlistCall();
     // TODO: implement initState
     super.initState();
   }

@@ -4,7 +4,7 @@ import 'package:yarn_modified/const/themes.dart';
 final kwhite = Colors.white;
 final kthemecolor = MyTheme.appBarColor;
 final backgroundcolor = Colors.grey.shade100;
-final darkBlue = Colors.blue;
+final darkBlue = MyTheme.appBarColor;
 const Cricket_white = Color(0xFFffffff);
 const Cricket_Primary = Color(0xFF232883);
 const Cricket_Gradient_color1 = Color(0xFFF92C5B);

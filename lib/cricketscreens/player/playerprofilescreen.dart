@@ -1,14 +1,22 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yarn_modified/constcolor.dart';
 import 'package:yarn_modified/helper.dart';
-
-import '../../const/themes.dart';
+import 'package:yarn_modified/services/all_api_services.dart';
+import '../../../const/themes.dart';
+import '../../../services/app_url.dart';
+import '../getx/usercontroller.dart';
+import '../model/searchplayerresponse.dart';
+import '../photoscreen.dart';
+import 'addplayerdetails.dart';
 
 class PlayerProfileScreen extends StatefulWidget {
-  const PlayerProfileScreen({super.key});
+  const PlayerProfileScreen({
+    super.key,
+  });
 
   @override
   State<PlayerProfileScreen> createState() => _PlayerProfileScreenState();
@@ -16,65 +24,99 @@ class PlayerProfileScreen extends StatefulWidget {
 
 class _PlayerProfileScreenState extends State<PlayerProfileScreen>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  UserController userController = Get.put(UserController());
 
+  late TabController _tabController;
+  bool dataall = false;
   @override
   void initState() {
+    playerdata = userController.playerdata.value;
+    if (userController.playerdata != null) dataall = true;
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
   }
 
+  late PlayerDetails playerdata;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Obx(() {
+      playerdata = userController.playerdata.value;
+      return Scaffold(
         backgroundColor: MyTheme.scaffoldColor,
         appBar: AppBar(
-          toolbarHeight: 70,
-          title: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Deep Bhensdadia',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    'Batsman',
-                    style: TextStyle(fontSize: 12, color: Colors.white),
-                  ),
+          iconTheme: IconThemeData(color: Colors.white),
+          title: Text(
+            dataall ? playerdata.playerName ?? '' : 'Deep Bhensdadia',
+            textScaleFactor: 1,
+            style:
+                TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+          ),
+          // centerTitle: true,
+          backgroundColor: MyTheme.appBarColor,
+          elevation: 5,
+          automaticallyImplyLeading: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.white.withOpacity(0.20),
+                  Colors.white.withOpacity(0.15),
+                  Colors.white.withOpacity(0.025),
+                  Colors.transparent,
                 ],
               ),
-            ],
+            ),
           ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Get.to(AddPlayerDetails(data: playerdata));
+                },
+                icon: Icon(Icons.edit))
+          ],
         ),
         body: Column(
           children: [
             Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+              color: Cricket_SkyBlue_Color,
               height: 45,
-              child: TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                dividerColor: kthemecolor,
-                labelColor: kthemecolor,
-                tabs: [
-                  Tab(
-                    text: 'PROFILE',
-                  ),
-                  Tab(
-                    text: "MATCHES",
-                  ),
-                  Tab(
-                    text: 'TEAMS',
-                  ),
-                  Tab(
-                    text: 'STATE',
-                  ),
-                ],
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(7.5),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                child: TabBar(
+                  controller: _tabController,
+                  isScrollable: true,
+                  dividerColor: kthemecolor,
+                  indicatorColor: kthemecolor,
+                  indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7.5),
+                      color: kthemecolor),
+                  labelColor: kwhite,
+                  unselectedLabelColor: kthemecolor,
+                  labelStyle:
+                      TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                  tabs: [
+                    Tab(
+                      text: 'PROFILE',
+                    ),
+                    Tab(
+                      text: "MATCHES",
+                    ),
+                    Tab(
+                      text: 'TEAMS',
+                    ),
+                    Tab(
+                      text: 'STATS',
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -97,66 +139,61 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                 child: Row(
                                     // crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        height: 100,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    "images/avatar.png"))),
+                                      Flexible(
+                                        flex: 1,
+                                        child: PhotoScreencric(
+                                          dobbn: 35,
+                                          image: URLs.image_url_player +
+                                              "${playerdata.logo}",
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 15,
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Deep Bhensdadia",
-                                            style: TextStyle(fontSize: 16),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Text(
-                                            "DOB :- 05/09/2001",
-                                            style: TextStyle(fontSize: 14),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            "Player Type :- Batsman",
-                                            style: TextStyle(fontSize: 14),
-                                          ),
-                                          SizedBox(
-                                            height: 8,
-                                          ),
-                                          InkWell(
-                                            onTap: () {},
-                                            child: Card(
-                                              margin: EdgeInsets.zero,
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 0),
-                                                decoration: BoxDecoration(
-                                                    color: MyTheme.appBarColor),
-                                                height: 30,
-                                                child: Center(
+                                      Flexible(
+                                        flex: 2,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              dataall
+                                                  ? playerdata.playerName ?? ''
+                                                  : "Deep Bhensdadia",
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                            // SizedBox(height: 5),
+                                            // Text(
+                                            //   "Age :-  ${dataall ? playerdata.age ?? '   ---' : "23"}",
+                                            //   style: TextStyle(fontSize: 14,color:Cricket_textColorSecondary ),
+                                            // ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+
+                                            InkWell(
+                                              onTap: () {},
+                                              child: Card(
+                                                margin: EdgeInsets.zero,
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 0),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      color: darkBlue),
+                                                  height: 25,
+                                                  width: 100,
                                                   child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
-                                                      Icon(
-                                                        Icons.add,
-                                                        color: kwhite,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
                                                       Text(
                                                         "Follow",
                                                         style: TextStyle(
@@ -167,8 +204,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ]),
                               ),
@@ -188,7 +225,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "LOCATION",
+                                            "Age",
                                             style: TextStyle(
                                                 color: Colors.blueGrey,
                                                 fontWeight: FontWeight.bold,
@@ -198,7 +235,11 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                             height: 10,
                                           ),
                                           Text(
-                                            "Surat",
+                                            dataall
+                                                ? playerdata.calAge
+                                                        .toString() ??
+                                                    ''
+                                                : "23",
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.w500,
@@ -206,15 +247,16 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 20,
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
                                       ),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "PLAYING ROLE",
+                                            "Location",
                                             style: TextStyle(
                                                 color: Colors.blueGrey,
                                                 fontWeight: FontWeight.bold,
@@ -224,7 +266,10 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                             height: 10,
                                           ),
                                           Text(
-                                            "----",
+                                            dataall
+                                                ? playerdata.city.toString() ??
+                                                    ''
+                                                : "surat",
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.w500,
@@ -232,15 +277,16 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 20,
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
                                       ),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "BATTING STYLE",
+                                            "Playing Role",
                                             style: TextStyle(
                                                 color: Colors.blueGrey,
                                                 fontWeight: FontWeight.bold,
@@ -250,7 +296,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                             height: 10,
                                           ),
                                           Text(
-                                            "RHB (Right Handed Barbaros)",
+                                            dataall
+                                                ? playerdata.skills ?? ''
+                                                : "----",
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.w500,
@@ -258,15 +306,16 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 20,
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
                                       ),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "BOWLING STYLE",
+                                            "Batting Style",
                                             style: TextStyle(
                                                 color: Colors.blueGrey,
                                                 fontWeight: FontWeight.bold,
@@ -276,7 +325,67 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                                             height: 10,
                                           ),
                                           Text(
-                                            "----",
+                                            dataall
+                                                ? playerdata.battingStyle ?? ''
+                                                : "RHB (Right Handed Batsman)",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Bowling Style",
+                                            style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            dataall
+                                                ? playerdata.bowlingStyle ?? ''
+                                                : "----",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Wicket Keeping",
+                                            style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            dataall
+                                                ? playerdata.wicketKeeper ?? ''
+                                                : "Yes",
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.w500,
@@ -306,7 +415,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                           SizedBox(
                             height: 15,
                           ),
-                          Text("Player has not played any matches yet.",
+                          Text(
+                              "This player has not participated in any matches yet.",
+                              textAlign: TextAlign.center,
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16))
                         ],
@@ -324,7 +435,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                         SizedBox(
                           height: 15,
                         ),
-                        Text("Player has not Join any Team yet.",
+                        Text("This player has not joined any team yet.",
                             style: TextStyle(color: Colors.black, fontSize: 16))
                       ],
                     ),
@@ -350,8 +461,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
             ),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

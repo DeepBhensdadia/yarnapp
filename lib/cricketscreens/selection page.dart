@@ -3,11 +3,10 @@ import 'package:get/get.dart';
 import 'package:yarn_modified/cricketscreens/player/addplayerdetails.dart';
 import '../const/themes.dart';
 import '../constcolor.dart';
-import 'admin/adminrootscreen.dart';
 import 'admin/tournament/tornamenttab.dart';
 import 'admin/tournament/tournamentpage.dart';
 import 'audiance/tournamentlist.dart';
-import 'player/playerrootscreen.dart';
+import 'getx/usercontroller.dart';
 
 class SelectionPage extends StatefulWidget {
   const SelectionPage({super.key});
@@ -21,9 +20,32 @@ class _SelectionPageState extends State<SelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyTheme.scaffoldColor,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: kthemecolor,
-        title: Text('Selection Screen'),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          'Selection Screen',
+          textScaleFactor: 1,
+          style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+        ),
+        // centerTitle: true,
+        backgroundColor: MyTheme.appBarColor,
+        elevation: 5,
+        automaticallyImplyLeading: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white.withOpacity(0.20),
+                Colors.white.withOpacity(0.15),
+                Colors.white.withOpacity(0.025),
+                Colors.transparent,
+              ],
+            ),
+          ),
+        ),
       ),
       body: Container(
         height: double.maxFinite,
@@ -38,8 +60,8 @@ class _SelectionPageState extends State<SelectionPage> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(TournamentTabs());
-                    // Get.to(TournamentPage());
+                    // Get.to(TournamentTabs());
+
                   },
                   borderRadius: BorderRadius.circular(10),
                   splashColor: Colors.red.withOpacity(0.5),
@@ -53,15 +75,7 @@ class _SelectionPageState extends State<SelectionPage> {
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          foregroundImage: AssetImage("images/avatar.png"),
-                          radius: 45,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text("I am Organizer"),
+                        Text("I am an Organizer"),
                       ],
                     ),
                   ),
@@ -71,7 +85,7 @@ class _SelectionPageState extends State<SelectionPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(AddPlayerDetails());
+
                   },
                   borderRadius: BorderRadius.circular(10),
                   splashColor: Colors.red.withOpacity(0.5),
@@ -85,15 +99,7 @@ class _SelectionPageState extends State<SelectionPage> {
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          foregroundImage: AssetImage("images/avatar.png"),
-                          radius: 45,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text("I am Player"),
+                        Text("I am a Player"),
                       ],
                     ),
                   ),
@@ -117,15 +123,7 @@ class _SelectionPageState extends State<SelectionPage> {
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          foregroundImage: AssetImage("images/avatar.png"),
-                          radius: 45,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text("I am Audience"),
+                        Text("I am an Audience"),
                       ],
                     ),
                   ),

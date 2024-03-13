@@ -36,6 +36,8 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
 
   @override
   void initState() {
+    febricsController.searchController
+        .clear();
     final stopwatch = Stopwatch()..start();
     febricsController.getfebrics();
     print('doSomething() executed in ${stopwatch.elapsed}');
@@ -473,7 +475,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                 )
                               : Expanded(
                                   child: RefreshIndicator(
-                                  color: Colors.white,
+                                  color: Colors.blue,
                                   onRefresh: () async {
                                     await febricsController.getfebrics(
                                       category: fabricsselected.toString(),
@@ -500,7 +502,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                           controller.febriclist[index];
                                       return Padding(
                                         padding:
-                                            const EdgeInsets.only(bottom: 10.0),
+                                             EdgeInsets.only(bottom: (index + 1 != controller.febriclist.length) ? 10 :50),
                                         child: Slidable(
                                           // key: UniqueKey(),
                                           endActionPane: ActionPane(
@@ -746,7 +748,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                                     height: 10,
                                                                   ),
                                                                   Text(
-                                                                      febric?.categoryName ??
+                                                                      febric.categoryName ??
                                                                           "",
                                                                       textScaleFactor:
                                                                           1.1,
@@ -768,7 +770,7 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                                                   vertical:
                                                                       5.0),
                                                           child: Text(
-                                                              febric?.fabricCost
+                                                              febric.fabricCost
                                                                       ?.toDouble()
                                                                       .toStringAsFixed(
                                                                           2) ??
@@ -801,9 +803,9 @@ class _FabricScreenRootState extends State<FabricScreenRoot> {
                                   //       : ,
                                   // )
                                   ),
-                          SizedBox(
-                            height: 50,
-                          )
+                          // SizedBox(
+                          //   height: 50,
+                          // )
                         ],
                       ),
               ),

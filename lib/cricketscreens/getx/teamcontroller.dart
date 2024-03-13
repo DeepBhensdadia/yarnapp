@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -10,42 +9,39 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:yarn_modified/cricketscreens/services/api_source.dart';
+import 'package:yarn_modified/services/all_api_services.dart';
 
 import '../../const/const.dart';
-import '../../services/all_api_services.dart';
 import '../../services/app_url.dart';
-
-import '../model/matchlistmode.dart';
+import '../model/getteamslistresponse.dart';
+import '../model/gettournamenttype.dart';
+import '../model/tournamentlist.dart';
 import '../model/updateresponse.dart';
+import '../services/cricket_api.dart';
 
-class MatchController extends GetxController {
+class TeamController extends GetxController {
   WebService webService = WebService(dio: Dio(), connectivity: Connectivity());
 
-  RxBool machloading = false.obs;
-  RxList<MatchList> matchllist = <MatchList>[].obs;
+  RxList<Teams> getteams = <Teams>[].obs;
+  RxBool tournamenttypebool = false.obs;
 
-  getmatchlistCall({required String id}) async {
+  Future<void> getTeamDataFromAPI({required String id}) async {
+    if (getteams.isEmpty) tournamenttypebool.value = false;
+
     Get.context!.loaderOverlay.show();
-    // charChaCall.value = false;
-    if (matchllist.isEmpty) machloading.value = false;
-
-    // EasyLoading.show();
-
     final response = await webService.getRequest(
-      url: "${URLs.Base_url}index_match_info/$id?user_id=${saveUser()?.id}",
+      url: "${URLs.Base_url}index_team/$id?user_id=${saveUser()?.id}",
     );
     response.fold(
       (l) {
-        Matchlistmodel data = matchlistmodelFromJson(l.toString());
-        matchllist.value = data.data ?? [];
+        var data = getteamslistFromJson(l.toString());
+        print(jsonEncode(data));
+        getteams.value = data.data ?? [];
+        tournamenttypebool.value = true;
         Get.context!.loaderOverlay.hide();
-
-        machloading.value = true;
-        // update();
       },
       (r) {
         Get.context!.loaderOverlay.hide();
@@ -54,54 +50,40 @@ class MatchController extends GetxController {
     );
   }
 
-  TextEditingController team1 = TextEditingController();
-  TextEditingController team2 = TextEditingController();
-  TextEditingController Location = TextEditingController();
-  TextEditingController upmire = TextEditingController();
-  TextEditingController matchdate = TextEditingController();
-  TextEditingController matchtime = TextEditingController();
-  TextEditingController description = TextEditingController();
-  TextEditingController overs = TextEditingController();
-  Future<void> AddmatchFromAPI({required String tournamentid}) async {
-    String matchdateformat() {
-      DateTime originalDate = DateFormat("dd-MM-yyyy").parse(matchdate.text);
-      return DateFormat("yyyy-MM-dd").format(originalDate);
-    }
+  TextEditingController teamname = TextEditingController();
+  TextEditingController shortname = TextEditingController();
+  RxBool status = true.obs;
 
+  Future<void> AddTeamFromAPI(
+      {File? logo, required String tournamentid}) async {
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> formFields = {
+      'team_name': teamname.text,
       'created_by': saveUser()?.id,
+      'short_name': shortname.text,
       'tournament_id': tournamentid,
-      'team_1': team1.text,
-      'team_2': team2.text,
-      'match_date': matchdateformat(),
-      'umpires': upmire.text,
-      'match_time': matchtime.text,
-      'venue': Location.text,
-      'description': description.text,
-      'overseas': overs.text
+      'status': status.value ? "1" : "0"
     };
-    print(formFields);
+    if (logo != null) {
+      formFields['logo'] = await MultipartFile.fromFile(logo.path,
+          filename: 'imageFileName.jpg');
+    }
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
     print(formData);
     final response = await webService.postFormRequest(
       formData: formData,
-      url: "${URLs.Base_url}create_match_info",
+      url: "${URLs.Base_url}create_team",
     );
     response.fold(
       (l) {
         Updateresponse data = updateresponseFromJson(l.toString());
         FlutterToast.showCustomToast(data.message ?? '');
-        log(jsonEncode(l.toString()));
-        getmatchlistCall(id: tournamentid);
-        team1.clear();
-        team2.clear();
-        Location.clear();
-        upmire.clear();
-        matchdate.clear();
-        matchtime.clear();
-        description.clear();
+        // var data = getTournamentlistFromJson(l.toString());
+        print(jsonEncode(data));
+        getTeamDataFromAPI(id: tournamentid);
+        shortname.clear();
+        teamname.clear();
         Get.back();
         Get.context!.loaderOverlay.hide();
       },
@@ -112,47 +94,36 @@ class MatchController extends GetxController {
     );
   }
 
-  Future<void> EditmatchFromAPI(
-      {required String tournamentid, required String id}) async {
-    String matchdateformat() {
-      DateTime originalDate = DateFormat("dd-MM-yyyy").parse(matchdate.text);
-      return DateFormat("yyyy-MM-dd").format(originalDate);
-    }
-
+  Future<void> EditTeamFromAPI(
+      {File? logo, required String tournamentid, required String id}) async {
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> formFields = {
+      'team_name': teamname.text,
       'created_by': saveUser()?.id,
+      'short_name': shortname.text,
       'tournament_id': tournamentid,
-      'team_1': team1.text,
-      'team_2': team2.text,
-      'match_date': matchdateformat(),
-      'umpires': upmire.text,
-      'match_time': matchtime.text,
-      'venue': Location.text,
-      'description': description.text,
-      'overseas': overs.text
+      'status': status.value ? "1" : "0"
     };
-    print(formFields);
+    if (logo != null) {
+      formFields['logo'] = await MultipartFile.fromFile(logo.path,
+          filename: 'imageFileName.jpg');
+    }
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
     print(formData);
     final response = await webService.postFormRequest(
       formData: formData,
-      url: "${URLs.Base_url}update_match_info/$id",
+      url: "${URLs.Base_url}update_team/$id",
     );
     response.fold(
       (l) {
-        log(jsonEncode(l.toString()));
         Updateresponse data = updateresponseFromJson(l.toString());
         FlutterToast.showCustomToast(data.message ?? '');
-        getmatchlistCall(id: tournamentid);
-        team1.clear();
-        team2.clear();
-        Location.clear();
-        upmire.clear();
-        matchdate.clear();
-        matchtime.clear();
-        description.clear();
+        print(jsonEncode(data));
+        getTeamDataFromAPI(id: tournamentid);
+
+        shortname.clear();
+        teamname.clear();
         Get.back();
         Get.context!.loaderOverlay.hide();
       },
@@ -163,16 +134,16 @@ class MatchController extends GetxController {
     );
   }
 
-  Future<void> DeletematchFromAPI(
+  Future<void> DeleteTeamFromAPI(
       {required String id, required String tournamentid}) async {
     Get.context!.loaderOverlay.show();
-    Map<String, dynamic> formFields = {'match_id': id, 'is_delete': '0'};
+    Map<String, dynamic> formFields = {'team_id': id, 'is_delete': '0'};
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
 
     final response = await webService.postFormRequest(
       formData: formData,
-      url: "${URLs.Base_url}match_delete",
+      url: "${URLs.Base_url}team_delete",
     );
     response.fold(
       (l) {
@@ -180,7 +151,7 @@ class MatchController extends GetxController {
         FlutterToast.showCustomToast(data.message ?? '');
         Get.back();
         // print(jsonEncode(data));
-        getmatchlistCall(id: tournamentid);
+        getTeamDataFromAPI(id: tournamentid);
         Get.context!.loaderOverlay.hide();
       },
       (r) {

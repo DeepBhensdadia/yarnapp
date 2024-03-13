@@ -19,6 +19,7 @@ import 'package:yarn_modified/screens/package/packagelist.dart';
 import 'package:yarn_modified/screens/yarn-section/yarn-category-screen.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import 'package:yarn_modified/widgets/common_fields.dart';
+import '../cricketscreens/admin/tournament/tournamentpage.dart';
 import '../cricketscreens/getx/usercontroller.dart';
 import '../cricketscreens/selection page.dart';
 import 'main-fabric root/fabric-screen-root.dart';
@@ -34,6 +35,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PackageController packageController = Get.put(PackageController());
   GetDetailsCheck getdetailController = Get.put(GetDetailsCheck());
+  UserController userController = Get.put(UserController());
 
   @override
   void initState() {
@@ -260,6 +262,89 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Card(
+                      shape:
+                          RoundedRectangleBorder(borderRadius: homeCardRadius),
+                      color: Colors.white,
+                      elevation: 5,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "CRICKET",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ListTile(
+                            dense: true,
+                            title: Text(
+                              "Player Registration",
+                              textScaleFactor: 1.4,
+                              style: TextStyle(
+                                  color: MyTheme.appBarColor,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            trailing: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: MyTheme.appBarColor,
+                            ),
+                            onTap: () {
+                              userController.getuserconrollerCall();
+                            },
+                          ),
+                          ListTile(
+                            dense: true,
+                            title: Text(
+                              "View Tournaments",
+                              textScaleFactor: 1.4,
+                              style: TextStyle(
+                                  color: MyTheme.appBarColor,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            trailing: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: MyTheme.appBarColor,
+                            ),
+                            onTap: () {
+                              FlutterToast.showCustomToast("Coming Soon....");
+                            },
+                          ),
+                          ListTile(
+                            dense: true,
+                            title: Text(
+                              "Organize a Tournament",
+                              textScaleFactor: 1.4,
+                              style: TextStyle(
+                                  color: MyTheme.appBarColor,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            trailing: Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: MyTheme.appBarColor,
+                            ),
+                            onTap: () {
+                              Get.to(TournamentPage());
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   // SizedBox(
                   //   height: 20,
                   // ),
@@ -335,48 +420,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           )
                         : SizedBox.shrink(),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Visibility(
-                    visible: false,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: InkWell(
-                        onTap: () {
-                          // Get.put(UserController()).getuserconrollerCall();
-                          Get.to(SelectionPage());
-                        },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: homeCardRadius),
-                          color: Colors.white,
-                          elevation: 5,
-                          child: Container(
-                            width: screenwidth(context, dividedby: 1),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  dense: true,
-                                  title: Text(
-                                    "Cricket Hub",
-                                    textScaleFactor: 1.4,
-                                    style: TextStyle(
-                                        color: MyTheme.appBarColor,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  trailing: Icon(
-                                    Icons.keyboard_arrow_right_rounded,
-                                    color: MyTheme.appBarColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                   ),
                   SizedBox(
                     height: 80,
