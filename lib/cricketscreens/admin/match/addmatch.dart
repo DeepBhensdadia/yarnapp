@@ -9,11 +9,12 @@ import '../../../constcolor.dart';
 import '../../../widgets/tournamenttextfield.dart';
 import '../../getx/matchcontroller.dart';
 import '../../getx/teamcontroller.dart';
+import '../../model/tournamentdetailresponse.dart';
 import '../../model/tournamentlist.dart';
 
 class AddMatchScreen extends StatefulWidget {
   final Tournamentdetails tournametid;
-  final MatchList? matchdetail;
+  final Matchinfo? matchdetail;
   const AddMatchScreen(
       {super.key, required this.tournametid, this.matchdetail});
 
@@ -52,9 +53,11 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
           widget.matchdetail?.umpires?.toString() ?? "";
       matchController.overs.text =
           widget.matchdetail?.overseas?.toString() ?? "";
+      matchController.matchtype.text =
+          widget.matchdetail?.match?.toString() ?? "";
     } else {
       matchController.Location.text =
-          widget.tournametid.location.toString() ?? "";
+          widget.tournametid.address.toString() ?? "";
     }
     teamcontroller.getTeamDataFromAPI(id: widget.tournametid.id.toString());
     // TODO: implement initState
@@ -223,6 +226,7 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
                           height: 10,
                         ),
                         TournamentTextFormField(
+                          maxlength: 50,
                           onchange: (p0) {
                             setState(() {
                               editedt = true;
@@ -230,12 +234,12 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
                           },
                           validatorfield: (p0) {
                             if (p0!.isEmpty) {
-                              return "Enter Match Location";
+                              return "Enter Match Address";
                             }
                             return null;
                           },
                           controller: matchController.Location,
-                          labelText: "Select Match Location",
+                          labelText: "Match Address",
                           keyboardType: TextInputType.text,
                           hintText: "",
                         ),
@@ -283,6 +287,33 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
                           labelText: "Select Match Time",
                           keyboardType: TextInputType.text,
                           hintText: "",
+                        ),
+                        TournamentDropdown(
+                          initialValue: widget.matchdetail?.match.toString(),
+                          count: [
+                            DropdownMenuItem<String>(
+                                value: "Early", child: Text("Early")),
+                            DropdownMenuItem<String>(
+                                value: "Quaterfinal",
+                                child: Text("Quaterfinal")),
+                            DropdownMenuItem<String>(
+                                value: "Semifinal", child: Text("Semifinal")),
+                            DropdownMenuItem<String>(
+                                value: "Final", child: Text("Final")),
+                          ],
+                          onchange: (p0) {
+                            setState(() {
+                              editedt = true;
+                            });
+                            matchController.matchtype.text = p0.toString();
+                          },
+                          validator: (p0) {
+                            if (p0?.isEmpty ?? true) {
+                              return "Select Match Type";
+                            }
+                            return null;
+                          },
+                          lable: "Select Match Type",
                         ),
                         TournamentTextFormField(
                           onchange: (p0) {

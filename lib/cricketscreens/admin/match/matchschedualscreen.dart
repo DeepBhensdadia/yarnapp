@@ -153,7 +153,11 @@ class _matchlScreenState extends State<matchlScreen>
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+
+                                                  Get.to(DetailsScreen(match: matchController
+                                                      .matchllist[index],isadmin:1));
+                                                },
                                                 child: Container(
                                                   height: 40,
                                                   padding: const EdgeInsets

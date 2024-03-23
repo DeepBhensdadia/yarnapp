@@ -5,8 +5,7 @@ import 'package:yarn_modified/model/packagesummaryresponse.dart';
 import 'package:yarn_modified/screens/package/packagelist.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 
-class PackageController extends GetxController{
-
+class PackageController extends GetxController {
   List<Package>? getData = [];
   List<PaymentDetail>? paymentdetails = [];
 
@@ -15,19 +14,22 @@ class PackageController extends GetxController{
     await Packagelist().then((value) {
       getData = value.package;
       paymentdetails = value.paymentDetails;
-      Get.to(packageListScreen(package:value));
+      Get.to(packageListScreen(package: value));
       Get.context!.loaderOverlay.hide();
     }).onError((error, stackTrace) {
       Get.context!.loaderOverlay.hide();
       print(error);
     });
   }
+
   Future<void> PackagelistgetAPI2() async {
     Get.context!.loaderOverlay.show();
     await Packagelist().then((value) {
       getData = value.package;
       paymentdetails = value.paymentDetails;
-      Get.offAll(packageListScreen(package:value,));
+      Get.offAll(packageListScreen(
+        package: value,
+      ));
       Get.context!.loaderOverlay.hide();
     }).onError((error, stackTrace) {
       Get.context!.loaderOverlay.hide();
@@ -36,12 +38,12 @@ class PackageController extends GetxController{
   }
 
   Packagessummaryresponse? packagessummary;
-  bool  showsummary = false;
+  bool showsummary = false;
   Future<void> PackageSummaryAPi() async {
     // Get.context!.loaderOverlay.show();
     await PackageSummary().then((value) {
       packagessummary = value;
-     showsummary = true;
+      showsummary = true;
       // Get.context!.loaderOverlay.hide();
       update();
     }).onError((error, stackTrace) {
@@ -50,16 +52,15 @@ class PackageController extends GetxController{
     });
   }
 
-
   List<Packageavailable>? packageslistactive;
-RxBool packageactive = false.obs;
+  RxBool packageactive = false.obs;
   Future<void> PackageSummaryAPi2() async {
     // Get.context!.loaderOverlay.show();
     await PackageSummary().then((value) {
-     if(value.packages!.isNotEmpty){
-       packageslistactive = value.packages;
-       packageactive.value = true;
-     }
+      if (value.packages!.isNotEmpty) {
+        packageslistactive = value.packages;
+        packageactive.value = true;
+      }
     }).onError((error, stackTrace) {
       // Get.context!.loaderOverlay.hide();
       print(error);

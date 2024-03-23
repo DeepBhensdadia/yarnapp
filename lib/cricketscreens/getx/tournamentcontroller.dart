@@ -66,6 +66,8 @@ class TournamentController extends GetxController {
   TextEditingController startdate = TextEditingController();
   TextEditingController enddate = TextEditingController();
   TextEditingController Organizedname = TextEditingController();
+  TextEditingController balltype = TextEditingController();
+  TextEditingController crickettype = TextEditingController();
 
   Future<void> AddTournamentFromAPI({File? logo, ints}) async {
     String startmatchdateformat() {
@@ -91,6 +93,8 @@ class TournamentController extends GetxController {
       'strat_date': startmatchdateformat(),
       'end_date': endmatchdateformat(),
       "organization_name": Organizedname.text,
+      "ball_type": balltype.text,
+      "cricket_type": crickettype.text,
       'status': ints
     };
 
@@ -150,6 +154,8 @@ class TournamentController extends GetxController {
       "organization_name": Organizedname.text,
       'strat_date': startmatchdateformat(),
       'end_date': endmatchdateformat(),
+      "ball_type": balltype.text,
+      "cricket_type": crickettype.text,
       'status': ints
     };
     if (logo != null) {

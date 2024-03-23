@@ -355,11 +355,10 @@ class _PlayersListScreenState extends State<PlayersListScreen> {
                                         children: [
                                           Row(
                                             children: [
-                                              CircleAvatar(
-                                                  radius: 25,
-                                                  backgroundImage: NetworkImage(
-                                                      URLs.image_url_player +
-                                                          "${playerController.getextralist[index].player?.logo}")),
+                                              PhotoScreencric(
+                                                  dobbn: 25,
+                                                  image: URLs.image_url_player +
+                                                      "${playerController.getextralist[index].player?.logo}"),
                                               SizedBox(
                                                 width: 10,
                                               ),

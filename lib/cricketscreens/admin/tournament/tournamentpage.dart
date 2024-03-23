@@ -124,7 +124,7 @@ class _TournamentPageState extends State<TournamentPage> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                          maxLines: 2,
+                                                          // maxLines: 2,
                                                           data.tournamentName ??
                                                               '',
                                                           textScaleFactor: 1.15,
@@ -146,6 +146,11 @@ class _TournamentPageState extends State<TournamentPage> {
                                                           '${data.startdateformat()}  to  ${data.enddateformat()}',
                                                           textScaleFactor: 0.9,
                                                           style: TextStyle(
+                                                              fontSize:
+                                                                  screenwidth(
+                                                                      context,
+                                                                      dividedby:
+                                                                          25),
                                                               color:
                                                                   Colors.grey)),
                                                     ],

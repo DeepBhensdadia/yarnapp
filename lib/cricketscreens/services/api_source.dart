@@ -22,7 +22,8 @@ class WebService {
   var headers = {
     // 'Content-Type': 'application/json; charset=UTF-8',
     "content-type": "application/x-www-form-urlencoded",
-    'Cookie': getCookie().toString()};
+    'Cookie': getCookie().toString()
+  };
 
   Future<Either<Response, ErrorModel>> getRequest({
     required String url,
@@ -45,7 +46,6 @@ class WebService {
           options: Options(
             responseType: ResponseType.plain,
             contentType: 'application/json',
-
             headers: headers,
             receiveTimeout: const Duration(seconds: 60),
             sendTimeout: const Duration(seconds: 60),
@@ -61,8 +61,8 @@ class WebService {
           logger.d(err.toString());
         }
         return _getTrueResponse(response).fold(
-              (l) => left(l),
-              (r) => right(r),
+          (l) => left(l),
+          (r) => right(r),
         );
       } else {
         return right(
@@ -108,8 +108,8 @@ class WebService {
           logger.d(err.toString());
         }
         return _getTrueResponse(response).fold(
-              (l) => left(l),
-              (r) => right(r),
+          (l) => left(l),
+          (r) => right(r),
         );
       } else {
         return right(
@@ -155,8 +155,8 @@ class WebService {
           logger.d(err.toString());
         }
         return _getTrueResponse(response).fold(
-              (l) => left(l),
-              (r) => right(r),
+          (l) => left(l),
+          (r) => right(r),
         );
       } else {
         return right(
@@ -204,8 +204,8 @@ class WebService {
           logger.d(err.toString());
         }
         return _getTrueResponse(response).fold(
-              (l) => left(l),
-              (r) => right(r),
+          (l) => left(l),
+          (r) => right(r),
         );
       } else {
         return right(
@@ -229,7 +229,7 @@ class WebService {
     } else if (statusCode == 401) {
       /// Set Here your logout method
       ModelCommonAuthorised streams =
-      ModelCommonAuthorised.fromJson(json.decode(response.data));
+          ModelCommonAuthorised.fromJson(json.decode(response.data));
       return right(
         ErrorModel(
           status: 'false',
@@ -238,7 +238,7 @@ class WebService {
       );
     } else if (statusCode == 403) {
       ModelCommonAuthorised streams =
-      ModelCommonAuthorised.fromJson(json.decode(response.data));
+          ModelCommonAuthorised.fromJson(json.decode(response.data));
       return right(
         ErrorModel(
           status: 'false',

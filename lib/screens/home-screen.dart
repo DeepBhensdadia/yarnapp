@@ -20,6 +20,7 @@ import 'package:yarn_modified/screens/yarn-section/yarn-category-screen.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import 'package:yarn_modified/widgets/common_fields.dart';
 import '../cricketscreens/admin/tournament/tournamentpage.dart';
+import '../cricketscreens/audiance/tournamentlist.dart';
 import '../cricketscreens/getx/usercontroller.dart';
 import '../cricketscreens/selection page.dart';
 import 'main-fabric root/fabric-screen-root.dart';
@@ -265,140 +266,53 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Card(
-                      shape:
-                          RoundedRectangleBorder(borderRadius: homeCardRadius),
-                      color: Colors.white,
-                      elevation: 5,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "CRICKET",
-                            textScaleFactor: 1.3,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ListTile(
-                            dense: true,
-                            title: Text(
-                              "Player Registration",
-                              textScaleFactor: 1.4,
-                              style: TextStyle(
-                                  color: MyTheme.appBarColor,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            trailing: Icon(
-                              Icons.keyboard_arrow_right_rounded,
-                              color: MyTheme.appBarColor,
-                            ),
-                            onTap: () {
-                              userController.getuserconrollerCall();
-                            },
-                          ),
-                          ListTile(
-                            dense: true,
-                            title: Text(
-                              "View Tournaments",
-                              textScaleFactor: 1.4,
-                              style: TextStyle(
-                                  color: MyTheme.appBarColor,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            trailing: Icon(
-                              Icons.keyboard_arrow_right_rounded,
-                              color: MyTheme.appBarColor,
-                            ),
-                            onTap: () {
-                              FlutterToast.showCustomToast("Coming Soon....");
-                            },
-                          ),
-                          ListTile(
-                            dense: true,
-                            title: Text(
-                              "Organize a Tournament",
-                              textScaleFactor: 1.4,
-                              style: TextStyle(
-                                  color: MyTheme.appBarColor,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            trailing: Icon(
-                              Icons.keyboard_arrow_right_rounded,
-                              color: MyTheme.appBarColor,
-                            ),
-                            onTap: () {
-                              Get.to(TournamentPage());
-                            },
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+
                   // SizedBox(
                   //   height: 20,
                   // ),
                   GetBuilder<PackageController>(
                     builder: (controller) => controller.showsummary
-                        ? Visibility(
-                            visible:
-                                controller.packagessummary?.Packagevisible ??
-                                    false,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: InkWell(
-                                onTap: () {
-                                  getdetailController.getDeviceId13();
-                                  controller.PackagelistgetAPI();
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: homeCardRadius),
-                                  color: Colors.white,
-                                  elevation: 5,
-                                  child: Container(
-                                    width: screenwidth(context, dividedby: 1),
+                        ? Column(
+                            children: [
+                              Visibility(
+                                visible: Platform.isAndroid
+                                    ? controller.packagessummary?.userPackages
+                                                ?.cricketAndroid !=
+                                            0
+                                        ? true
+                                        : false
+                                    : controller.packagessummary?.userPackages
+                                                ?.cricketIos !=
+                                            0
+                                        ? true
+                                        : false,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: homeCardRadius),
+                                    color: Colors.white,
+                                    elevation: 5,
                                     child: Column(
                                       children: [
                                         SizedBox(
                                           height: 20,
                                         ),
                                         Text(
-                                          "SUBSCRIPTION",
+                                          "CRICKET",
                                           textScaleFactor: 1.3,
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontWeight: FontWeight.w600),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
                                         ),
                                         ListTile(
                                           dense: true,
                                           title: Text(
-                                            "Current Package",
-                                            textScaleFactor: 1.4,
-                                            style: TextStyle(
-                                                color: MyTheme.appBarColor,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          // trailing: Icon(
-                                          //   Icons.keyboard_arrow_right_rounded,
-                                          //   color: MyTheme.appBarColor,
-                                          // ),
-                                        ),
-                                        ListTile(
-                                          dense: true,
-                                          title: Text(
-                                            "${controller.packagessummary?.remaningDays} days left",
+                                            "Player Registration",
                                             textScaleFactor: 1.4,
                                             style: TextStyle(
                                                 color: MyTheme.appBarColor,
@@ -408,6 +322,46 @@ class _HomeScreenState extends State<HomeScreen> {
                                             Icons.keyboard_arrow_right_rounded,
                                             color: MyTheme.appBarColor,
                                           ),
+                                          onTap: () {
+                                            userController
+                                                .getuserconrollerCall();
+                                          },
+                                        ),
+                                        ListTile(
+                                          dense: true,
+                                          title: Text(
+                                            "View Tournaments",
+                                            textScaleFactor: 1.4,
+                                            style: TextStyle(
+                                                color: MyTheme.appBarColor,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          trailing: Icon(
+                                            Icons.keyboard_arrow_right_rounded,
+                                            color: MyTheme.appBarColor,
+                                          ),
+                                          onTap: () {
+                                            Get.to(TournamentAudiance());
+                                            // FlutterToast.showCustomToast(
+                                            //     "Coming Soon....");
+                                          },
+                                        ),
+                                        ListTile(
+                                          dense: true,
+                                          title: Text(
+                                            "Organize a Tournament",
+                                            textScaleFactor: 1.4,
+                                            style: TextStyle(
+                                                color: MyTheme.appBarColor,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          trailing: Icon(
+                                            Icons.keyboard_arrow_right_rounded,
+                                            color: MyTheme.appBarColor,
+                                          ),
+                                          onTap: () {
+                                            Get.to(TournamentPage());
+                                          },
                                         ),
                                         SizedBox(
                                           height: 10,
@@ -417,7 +371,80 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-                            ),
+                              Visibility(
+                                visible: controller
+                                        .packagessummary?.packageVisible ??
+                                    false,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
+                                  child: InkWell(
+                                    onTap: () {
+                                      getdetailController.getDeviceId13();
+                                      controller.PackagelistgetAPI();
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: homeCardRadius),
+                                      color: Colors.white,
+                                      elevation: 5,
+                                      child: Container(
+                                        width:
+                                            screenwidth(context, dividedby: 1),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              "SUBSCRIPTION",
+                                              textScaleFactor: 1.3,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            ListTile(
+                                              dense: true,
+                                              title: Text(
+                                                "Current Package",
+                                                textScaleFactor: 1.4,
+                                                style: TextStyle(
+                                                    color: MyTheme.appBarColor,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              // trailing: Icon(
+                                              //   Icons.keyboard_arrow_right_rounded,
+                                              //   color: MyTheme.appBarColor,
+                                              // ),
+                                            ),
+                                            ListTile(
+                                              dense: true,
+                                              title: Text(
+                                                "${controller.packagessummary?.remaningDays} days left",
+                                                textScaleFactor: 1.4,
+                                                style: TextStyle(
+                                                    color: MyTheme.appBarColor,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              trailing: Icon(
+                                                Icons
+                                                    .keyboard_arrow_right_rounded,
+                                                color: MyTheme.appBarColor,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           )
                         : SizedBox.shrink(),
                   ),

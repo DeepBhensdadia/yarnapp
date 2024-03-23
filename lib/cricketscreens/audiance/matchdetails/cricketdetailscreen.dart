@@ -1,16 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:yarn_modified/const/themes.dart';
 import 'package:yarn_modified/cricketscreens/audiance/matchdetails/scoreboardscreen.dart';
 import 'package:yarn_modified/cricketscreens/audiance/matchdetails/summaryscreen.dart';
+import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
 import 'package:yarn_modified/helper.dart';
 import '../../../constcolor.dart';
+import '../../getx/startmatchcontroller.dart';
 import 'infoscreen.dart';
 import 'oversscreen.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+  final int isadmin;
+  final Matchinfo match;
+  const DetailsScreen({super.key, this.isadmin = 0, required this.match});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -19,52 +24,92 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  StartMatchController startmatch = Get.put(StartMatchController());
 
   @override
   void initState() {
     super.initState();
+    startmatch.matchInfoDetailFromAPI(
+        tournamentid: widget.match.tournament?.id.toString() ?? "",
+        matchid: widget.match.id.toString() ?? "");
     _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     backgroundColor:  MyTheme.scaffoldColor,
+      backgroundColor: MyTheme.scaffoldColor,
       appBar: AppBar(
-        backgroundColor: kthemecolor,
-        title: Text('Ind Vs Aus'),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          '${widget.match.team1?.shortName} vs ${widget.match.team2?.shortName}',
+          textScaleFactor: 1,
+          style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+        ),
+        // centerTitle: true,
+        backgroundColor: MyTheme.appBarColor,
+        elevation: 5,
+        automaticallyImplyLeading: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white.withOpacity(0.20),
+                Colors.white.withOpacity(0.15),
+                Colors.white.withOpacity(0.025),
+                Colors.transparent,
+              ],
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [
           Container(
-            color: kwhite,
-            height: 45,
-            child: TabBar(
-              // isScrollable: true,
-              controller: _tabController,
-
-
-              labelColor: Colors.black,
-              tabs: [
-                Tab(text: 'Info'),
-                Tab(text: "Scorecard"),
-                Tab(text: "Overs"),
-              ],
+            padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+            color: Cricket_SkyBlue_Color,
+            height: 50,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white70,
+                borderRadius: BorderRadius.circular(7.5),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              child: TabBar(
+                controller: _tabController,
+                dividerColor: kthemecolor,
+                indicatorColor: kthemecolor,
+                indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7.5),
+                    color: kthemecolor),
+                labelColor: kwhite,
+                unselectedLabelColor: kthemecolor,
+                labelStyle:
+                    TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                tabs: [
+                  Tab(text: 'Info'),
+                  Tab(text: "Scorecard"),
+                  Tab(text: "Overs"),
+                ],
+              ),
             ),
+          ),
+          SizedBox(
+            height: 5,
           ),
           Expanded(
             child: Container(
               color: MyTheme.scaffoldColor,
-
               height: double.maxFinite,
               width: double.maxFinite,
-
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
                 controller: _tabController,
                 children: [
-                  InfoScreen(),
-                  ScoreBoardScreen(),
+                  InfoScreen(isadmin: widget.isadmin, match: widget.match),
+                  ScoreBoardScreen( match: widget.match),
                   OversScreen(),
                 ],
               ),

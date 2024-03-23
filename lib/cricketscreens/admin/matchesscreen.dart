@@ -71,7 +71,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
                       itemBuilder: (context, index) {
                         // MatchList match = matchController.matchllist[index];
                         return InkWell(
-                          onTap: () => Get.to(DetailsScreen()),
+                          // onTap: () => Get.to(DetailsScreen()),
                           child: Card(
                             margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                             shape: RoundedRectangleBorder(

@@ -116,13 +116,15 @@ class _RootAppState extends State<RootApp> {
                             ? const ProfileScreen()
                             : Container(),
             bottomNavigationBar: SizedBox(
-              height: screenheight(context,dividedby: 15),
+              height: screenheight(context, dividedby: 15),
               child: BottomNavigationBar(
-                iconSize:  screenheight(context,dividedby: 35),
+                iconSize: screenheight(context, dividedby: 35),
                 selectedItemColor: Colors.black,
                 selectedIconTheme: const IconThemeData(color: Colors.black),
                 elevation: 0,
-                selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600,fontSize: screenheight(context,dividedby: 80)),
+                selectedLabelStyle: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: screenheight(context, dividedby: 80)),
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: Colors.white,
                 unselectedItemColor: Colors.grey,

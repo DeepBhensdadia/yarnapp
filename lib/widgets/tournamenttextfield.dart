@@ -22,7 +22,7 @@ class TournamentTextFormField extends StatefulWidget {
     this.onchange,
     this.ontap,
     this.read = false,
-    this.maxlength =25 ,
+    this.maxlength = 25,
   });
 
   final String? labelText;
@@ -84,12 +84,12 @@ class _TournamentTextFormFieldState extends State<TournamentTextFormField> {
               // ),
               contentPadding: EdgeInsets.symmetric(horizontal: 0),
               disabledBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
+                borderSide: BorderSide(
+                    color: Colors.black.withOpacity(0.5), width: 0.25),
               ),
               enabledBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: Colors.black.withOpacity(0.5), width: 0.25),
+                borderSide: BorderSide(
+                    color: Colors.black.withOpacity(0.5), width: 0.25),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide:
@@ -117,8 +117,14 @@ class TournamentDropdown extends StatefulWidget {
   final String? Function(String?)? validator;
   final String? initialValue;
 
-  const TournamentDropdown(
-      {super.key, this.lable, this.count, this.validator, this.onchange, this.initialValue,});
+  const TournamentDropdown({
+    super.key,
+    this.lable,
+    this.count,
+    this.validator,
+    this.onchange,
+    this.initialValue,
+  });
 
   @override
   State<TournamentDropdown> createState() => _TournamentDropdownState();
@@ -128,7 +134,7 @@ class _TournamentDropdownState extends State<TournamentDropdown> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15.0,bottom: 15),
+      padding: const EdgeInsets.only(top: 15.0, bottom: 15),
       child: Column(
         children: [
           Align(

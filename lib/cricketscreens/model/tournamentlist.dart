@@ -47,6 +47,8 @@ class Tournamentdetails {
   String? location;
   int? tournamentTypeId;
   String? logo;
+  String? ballType;
+  String? cricketType;
   String? description;
   String? organizationName;
   dynamic organizationNumber;
@@ -76,6 +78,8 @@ class Tournamentdetails {
     this.location,
     this.tournamentTypeId,
     this.logo,
+    this.ballType,
+    this.cricketType,
     this.description,
     this.organizationName,
     this.organizationNumber,
@@ -98,6 +102,8 @@ class Tournamentdetails {
         location: json["location"],
         tournamentTypeId: json["tournament_type_id"],
         logo: json["logo"],
+        ballType: json["ball_type"],
+        cricketType: json["cricket_type"],
         description: json["description"],
         organizationName: json["organization_name"],
         organizationNumber: json["organization_number"],
@@ -123,6 +129,8 @@ class Tournamentdetails {
         "location": location,
         "tournament_type_id": tournamentTypeId,
         "logo": logo,
+        "ball_type": ballType,
+        "cricket_type": cricketType,
         "description": description,
         "organization_name": organizationName,
         "organization_number": organizationNumber,

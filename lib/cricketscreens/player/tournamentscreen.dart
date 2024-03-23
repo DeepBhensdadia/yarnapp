@@ -98,7 +98,7 @@ class _MyTournamentState extends State<MyTournament> {
             padding: const EdgeInsets.all(0.0),
             child: ListTile(
               onTap: () {
-                Get.to(TournamentRootAudiance());
+                // Get.to(TournamentRootAudiance());
               },
               // visualDensity: VisualDensity.compact,
               // dense: true,
@@ -138,7 +138,7 @@ class _FollowingTournamentState extends State<FollowingTournament> {
             padding: const EdgeInsets.all(0.0),
             child: ListTile(
               onTap: () {
-                Get.to(TournamentRootAudiance());
+                // Get.to(TournamentRootAudiance());
               },
               // visualDensity: VisualDensity.compact,
               // dense: true,
@@ -178,7 +178,7 @@ class _AllTournamentState extends State<AllTournament> {
             padding: const EdgeInsets.all(0.0),
             child: ListTile(
               onTap: () {
-                Get.to(TournamentRootAudiance());
+                // Get.to(TournamentRootAudiance());
               },
               // visualDensity: VisualDensity.compact,
               // dense: true,

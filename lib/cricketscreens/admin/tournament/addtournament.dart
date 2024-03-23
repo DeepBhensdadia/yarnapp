@@ -40,6 +40,8 @@ class _addtournamentState extends State<addtournament> {
       tournamentController.location.text = widget.edited?.location ?? "";
       tournamentController.adress.text = widget.edited?.address ?? "";
       tournamentController.description.text = widget.edited?.description ?? "";
+      tournamentController.crickettype.text = widget.edited?.cricketType ?? "";
+      tournamentController.balltype.text = widget.edited?.ballType ?? "";
       tournamentController.Organizedname.text =
           widget.edited?.organizationName.toString() ?? "";
       tournamentController.startdate.text =
@@ -376,11 +378,11 @@ class _addtournamentState extends State<addtournament> {
                           },
                           validatorfield: (p0) {
                             if (p0!.isEmpty) {
-                              return "Enter Tournament Location";
+                              return "Enter Tournament City";
                             }
                           },
                           controller: tournamentController.location,
-                          labelText: "Tournament Location",
+                          labelText: "Tournament City",
                           keyboardType: TextInputType.text,
                           hintText: "Enter Tournament Location",
                         ),
@@ -469,6 +471,50 @@ class _addtournamentState extends State<addtournament> {
                             ),
                           ],
                         ),
+                        TournamentDropdown(
+                          count: [
+                            DropdownMenuItem<String>(
+                                value: "Ground Cricket",
+                                child: Text("Ground Cricket")),
+                            DropdownMenuItem<String>(
+                                value: "Box Cricket",
+                                child: Text("Box Cricket")),
+                            DropdownMenuItem<String>(
+                                value: "Others", child: Text("Others")),
+                          ],
+                          onchange: (p0) {
+                            tournamentController.crickettype.text = p0 ?? "";
+                          },
+                          validator: (p0) {
+                            if (p0?.isEmpty ?? true) {
+                              return "Select Cricket Type";
+                            }
+                          },
+                          lable: "Select Cricket Type",
+                          initialValue: widget.edited?.cricketType.toString(),
+                        ),
+                        TournamentDropdown(
+                          count: [
+                            DropdownMenuItem<String>(
+                                value: "Tennis Ball",
+                                child: Text("Tennis Ball")),
+                            DropdownMenuItem<String>(
+                                value: "Leather Ball",
+                                child: Text("Leather Ball")),
+                            DropdownMenuItem<String>(
+                                value: "Others", child: Text("Others")),
+                          ],
+                          onchange: (p0) {
+                            tournamentController.balltype.text = p0 ?? "";
+                          },
+                          validator: (p0) {
+                            if (p0?.isEmpty ?? true) {
+                              return "Select Ball Type";
+                            }
+                          },
+                          lable: "Select Ball Type",
+                          initialValue: widget.edited?.ballType.toString(),
+                        ),
                         TournamentTextFormField(
                           onchange: (p0) {
                             setState(() {
@@ -486,29 +532,6 @@ class _addtournamentState extends State<addtournament> {
                           keyboardType: TextInputType.text,
                           hintText: "Organized By",
                         ),
-                        // Obx(
-                        //   () => tournamentController.tournamenttypebool == false
-                        //       ? SizedBox()
-                        //       : TournamentDropdown(
-                        //           count: tournamentController.gettype
-                        //               .map((e) => DropdownMenuItem<String>(
-                        //                   value: e.id.toString(),
-                        //                   child: Text(e.name ?? "")))
-                        //               .toList(),
-                        //           onchange: (p0) {
-                        //             tournamentController.tournamnettype.text =
-                        //                 p0 ?? "";
-                        //           },
-                        //           validator: (p0) {
-                        //             if (p0?.isEmpty ?? true) {
-                        //               return "Select Tournament Type";
-                        //             }
-                        //           },
-                        //           lable: "Select Tournament Type",
-                        //           initialValue: widget.edited?.tournamenttype?.id
-                        //               .toString(),
-                        //         ),
-                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

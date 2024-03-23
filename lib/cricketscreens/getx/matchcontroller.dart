@@ -20,13 +20,15 @@ import '../../services/all_api_services.dart';
 import '../../services/app_url.dart';
 
 import '../model/matchlistmode.dart';
+import '../model/tournamentdetailresponse.dart';
 import '../model/updateresponse.dart';
 
 class MatchController extends GetxController {
   WebService webService = WebService(dio: Dio(), connectivity: Connectivity());
 
+  RxInt isadmin = 0.obs;
   RxBool machloading = false.obs;
-  RxList<MatchList> matchllist = <MatchList>[].obs;
+  RxList<Matchinfo> matchllist = <Matchinfo>[].obs;
 
   getmatchlistCall({required String id}) async {
     Get.context!.loaderOverlay.show();
@@ -61,6 +63,7 @@ class MatchController extends GetxController {
   TextEditingController matchdate = TextEditingController();
   TextEditingController matchtime = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController matchtype = TextEditingController();
   TextEditingController overs = TextEditingController();
   Future<void> AddmatchFromAPI({required String tournamentid}) async {
     String matchdateformat() {
@@ -78,6 +81,7 @@ class MatchController extends GetxController {
       'umpires': upmire.text,
       'match_time': matchtime.text,
       'venue': Location.text,
+      'match_type': matchtype.text,
       'description': description.text,
       'overseas': overs.text
     };
@@ -129,6 +133,7 @@ class MatchController extends GetxController {
       'umpires': upmire.text,
       'match_time': matchtime.text,
       'venue': Location.text,
+      'match_type': matchtype.text,
       'description': description.text,
       'overseas': overs.text
     };

@@ -1,8 +1,8 @@
 import 'package:yarn_modified/services/all_api_services.dart';
 
 class URLs {
-  static String main = "https://textilediary.in/textiles/public";
-  // static String main = "192.168.29.198:8001";
+  // static String main = "https://textilediary.in/textiles/public";
+  static String main = "http://192.168.29.248:8001";
   static String Base_url = "$main/api/";
   static String image_url = "$main/";
   static String image_url_tournament = "$main/assets/tournament/";
