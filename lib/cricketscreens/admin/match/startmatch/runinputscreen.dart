@@ -8,8 +8,11 @@ import 'package:yarn_modified/cricketscreens/model/matchlivedetailsresponse.dart
 import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/widgets/tournamenttextfield.dart';
 
+import '../../../../const/const.dart';
 import '../../../../const/themes.dart';
+import '../../../../services/app_url.dart';
 import '../../../getx/startmatchcontroller.dart';
+import '../../../photoscreen.dart';
 
 class RunInputScreen extends StatefulWidget {
   final MatchLive match;
@@ -33,25 +36,26 @@ class _RunInputScreenState extends State<RunInputScreen> {
 
   Widget buildMaterialButton(
     String input,
-    void Function()? ontap,
-  ) {
+    void Function() onTap, {
+    Color? color, // Making the color parameter optional
+    // Making the onTap function optional
+  }) {
     return Expanded(
       child: InkWell(
-        onTap: ontap,
+        onTap: onTap,
         child: Card(
-          color: input == "Out"
-              ? Colors.redAccent
-              : input == "4"
-                  ? Colors.green.shade300
-                  : input == "6"
-                      ? Colors.yellow
-                      : Colors.white,
+          color: color ??
+              Colors
+                  .white, // Using the passed color if available, otherwise defaulting to white
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
+              input, // Removed unnecessary quotes around input
               textAlign: TextAlign.center,
-              "$input",
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  fontSize: 22,
+                  color: color != null ? Colors.white : Colors.black,
+                  fontWeight: FontWeight.w400),
             ),
           ),
         ),
@@ -70,7 +74,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
               style: TextStyle(fontSize: 20, color: Colors.red),
             ),
             content: Text(
-              " Are You Sure Do you want to Continue?",
+              "Are you sure the batsman is out?",
               style:
                   TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
             ),
@@ -109,14 +113,16 @@ class _RunInputScreenState extends State<RunInputScreen> {
     required String run,
     String? balltype,
     String? outtype,
-    String? outtypeid,
+    String? outbyplayerid,
+    String? noballtype,
     String? outplayerid,
   }) {
     startmatch.runaddFromAPI(
+        noballtype: noballtype.toString(),
         battingteamid: startmatch.matchlive.value.bettingTeamId.toString(),
         bowlingteamid: startmatch.matchlive.value.bowlingTeamId.toString(),
         outtype: outtype ?? "",
-        outbyplayerid: outtypeid ?? "",
+        outbyplayerid: outbyplayerid ?? "",
         strikerid:
             startmatch.matchlive.value.stickerScore?.playerId.toString() ?? "",
         nonstrikerid:
@@ -144,9 +150,23 @@ class _RunInputScreenState extends State<RunInputScreen> {
     "Strategic Timeout",
     "Other"
   ];
+
   int nbtotalrun = 1;
-  Noballsheet() async {
-    nbtotalrun = 1;
+  bool iswicket = false;
+  int selectindextype = 0;
+  String outplayerid = "0";
+  String no_ball_type = "0";
+  String outbyplayerid = "0";
+  Noballsheet({required int popupid}) async {
+    List type = ["bat", "byes", "legbyes"];
+    nbtotalrun = popupid == 1 || popupid == 2 ? 1 : 0;
+    selectindextype = 0;
+    outplayerid = "";
+    outbyplayerid = "";
+    iswicket = false;
+    runoutrun.text = "0";
+    startmatch.bowlingteamPlayerListFromAPI(
+        teamid: startmatch.matchlive.value.bowlingTeamId.toString() ?? "");
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -172,13 +192,19 @@ class _RunInputScreenState extends State<RunInputScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
+                          children: [
                             Align(
                               alignment: Alignment.center,
                               child: Text(
-                                "No Ball",
+                                popupid == 1
+                                    ? "No Ball"
+                                    : popupid == 2
+                                        ? "Wide Ball"
+                                        : popupid == 3
+                                            ? "Bye"
+                                            : "Leg Bye",
                                 style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
                               ),
@@ -188,7 +214,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 20),
+                            horizontal: 10, vertical: 0),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 5),
@@ -196,35 +222,48 @@ class _RunInputScreenState extends State<RunInputScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Text(
-                                "NB",
+                              Text(
+                                popupid == 1
+                                    ? "NB"
+                                    : popupid == 2
+                                        ? "WD"
+                                        : popupid == 3
+                                            ? "BYE"
+                                            : "LB",
                                 style: TextStyle(color: Colors.black),
                               ),
                               const SizedBox(
                                 width: 10,
                               ),
-                              Container(
-                                height: 45,
-                                width: 45,
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: const Center(
-                                    child: Text("1",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20))),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Icon(
-                                Icons.add,
-                                size: 25,
-                                color: Colors.black,
-                              ),
+                              popupid == 1 || popupid == 2
+                                  ? Row(
+                                      children: [
+                                        Container(
+                                          height: 45,
+                                          width: 45,
+                                          padding: const EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: const Center(
+                                              child: Text("1",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20))),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        const Icon(
+                                          Icons.add,
+                                          size: 25,
+                                          color: Colors.black,
+                                        ),
+                                      ],
+                                    )
+                                  : SizedBox(),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -254,7 +293,8 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                       ),
                                     ),
                                     onChanged: (value) {
-                                      nbtotalrun = 1;
+                                      nbtotalrun =
+                                          popupid == 1 || popupid == 2 ? 1 : 0;
                                       nbtotalrun =
                                           nbtotalrun + int.parse(value);
                                       setState(() {});
@@ -282,193 +322,293 @@ class _RunInputScreenState extends State<RunInputScreen> {
                           ),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 40,
-                              child: MaterialButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: const Center(
-                                    child: Text(
-                                  "CANCEL",
-                                  style: TextStyle(color: Colors.black),
-                                )),
-                              ),
+                      if (popupid == 1)
+                        if (nbtotalrun > 1)
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: TournamentDropdown(
+                              // initialValue:
+                              //     widget.matchdetail?.team2?.id.toString(),
+                              count: type
+                                  .map((e) => DropdownMenuItem<String>(
+                                      value: "${e}", child: Text("${e}")))
+                                  .toList(),
+                              onchange: (p0) {
+                                no_ball_type = p0.toString();
+                                setState(() {});
+                              },
+                              validator: (p0) {
+                                if (p0?.isEmpty ?? true) {
+                                  return "Runs from No Ball";
+                                }
+                                return null;
+                              },
+                              lable: "Runs from No Ball",
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(15))),
-                              height: 40,
-                              child: MaterialButton(
-                                onPressed: () {
-                                  runapi(
-                                      run: "${nbtotalrun - 1}", balltype: "nb");
-                                  Get.back();
-                                },
-                                child: const Center(
-                                    child: Text("OK",
-                                        style: TextStyle(color: Colors.white))),
-                              ),
-                            ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: iswicket,
+                            onChanged: (value) {
+                              setState(() {
+                                iswicket = !iswicket;
+                              });
+                            },
+                          ),
+                          Text(
+                            "Is Wicket on ${popupid == 1 ? "No Ball" : popupid == 2 ? "Wide" : popupid == 3 ? "Bye" : "Leg Bye"}?",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
                           )
                         ],
                       ),
-                    ],
-                  ),
-                );
-              },
-            ));
-      },
-    );
-  }
-
-  int wdtotalrun = 1;
-  widesheet() async {
-    nbtotalrun = 1;
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-            contentPadding: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            content: StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Wide",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 20),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "WB",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 45,
-                                width: 45,
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: const Center(
-                                    child: Text("1",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20))),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Icon(
-                                Icons.add,
-                                size: 25,
-                                color: Colors.black,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 45,
-                                width: 45,
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Pinput(
-                                    length: 1,
-                                    defaultPinTheme: PinTheme(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 6),
-                                      width: 56,
-                                      height: 56,
-                                      textStyle: const TextStyle(
-                                        fontSize: 22,
-                                        color: Color.fromRGBO(30, 60, 87, 1),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
+                      !iswicket
+                          ? SizedBox()
+                          : popupid == 2
+                              ? Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: List.generate(
+                                        3,
+                                        (index) => Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                selectindextype = index;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                  color:
+                                                      selectindextype == index
+                                                          ? Colors.greenAccent
+                                                          : Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: Colors.grey)),
+                                              child: Center(
+                                                child: Text(
+                                                  index == 0
+                                                      ? "Stumping"
+                                                      : index == 1
+                                                          ? "Runout"
+                                                          : "hitwicket",
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    onChanged: (value) {
-                                      wdtotalrun = 1;
-                                      wdtotalrun =
-                                          wdtotalrun + int.parse(value);
-                                      setState(() {});
-                                    },
-                                  ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    selectindextype == 0
+                                        ? Obx(
+                                            () => Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10.0),
+                                              child: TournamentDropdown(
+                                                // initialValue:
+                                                //     widget.matchdetail?.team2?.id.toString(),
+                                                count: startmatch.bowlingteam
+                                                    .where((p0) =>
+                                                        p0.id.toString() !=
+                                                        startmatch
+                                                            .matchlive
+                                                            .value
+                                                            .bowlerScore
+                                                            ?.playerId
+                                                            .toString())
+                                                    .map((e) => DropdownMenuItem<
+                                                            String>(
+                                                        value: "${e.playerId}",
+                                                        child: Text(
+                                                            "${e.player?.playerName}")))
+                                                    .toList(),
+                                                onchange: (p0) {
+                                                  outbyplayerid = p0.toString();
+                                                  setState(() {});
+                                                },
+                                                validator: (p0) {
+                                                  if (p0?.isEmpty ?? true) {
+                                                    return "Select Stumped Player";
+                                                  }
+                                                  return null;
+                                                },
+                                                lable: "Who Stumped?",
+                                              ),
+                                            ),
+                                          )
+                                        : selectindextype == 1
+                                            ? Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10.0),
+                                                    child: TournamentDropdown(
+                                                      // initialValue:
+                                                      //     widget.matchdetail?.team2?.id.toString(),
+                                                      count: [
+                                                        DropdownMenuItem<
+                                                                String>(
+                                                            value:
+                                                                "${startmatch.matchlive.value.stickerScore?.playerId.toString()}",
+                                                            child: Text(
+                                                                "${startmatch.matchlive.value.playerstrick?.playerName}")),
+                                                        DropdownMenuItem<
+                                                                String>(
+                                                            value:
+                                                                "${startmatch.matchlive.value.nonstickerScore?.playerId.toString()}",
+                                                            child: Text(
+                                                                "${startmatch.matchlive.value.playerNonStricker?.playerName}"))
+                                                      ],
+                                                      onchange: (p0) {
+                                                        outplayerid =
+                                                            p0.toString();
+                                                        setState(() {});
+                                                      },
+                                                      validator: (p0) {
+                                                        if (p0?.isEmpty ??
+                                                            true) {
+                                                          return "Run Out Batsman?";
+                                                        }
+                                                        return null;
+                                                      },
+                                                      lable: "Run Out Batsman?",
+                                                    ),
+                                                  ),
+                                                  Obx(
+                                                    () => Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10.0),
+                                                      child: TournamentDropdown(
+                                                        // initialValue:
+                                                        //     widget.matchdetail?.team2?.id.toString(),
+                                                        count: startmatch
+                                                            .bowlingteam
+                                                            .where((p0) =>
+                                                                p0.id
+                                                                    .toString() !=
+                                                                startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .bowlerScore
+                                                                    ?.playerId
+                                                                    .toString())
+                                                            .map((e) => DropdownMenuItem<
+                                                                    String>(
+                                                                value:
+                                                                    "${e.playerId}",
+                                                                child: Text(
+                                                                    "${e.player?.playerName}")))
+                                                            .toList(),
+                                                        onchange: (p0) {
+                                                          outbyplayerid =
+                                                              p0.toString();
+                                                          setState(() {});
+                                                        },
+                                                        validator: (p0) {
+                                                          if (p0?.isEmpty ??
+                                                              true) {
+                                                            return "Run Out by Whom?";
+                                                          }
+                                                          return null;
+                                                        },
+                                                        lable:
+                                                            "Run Out by Whom?",
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : SizedBox(),
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      child: TournamentDropdown(
+                                        // initialValue:
+                                        //     widget.matchdetail?.team2?.id.toString(),
+                                        count: [
+                                          DropdownMenuItem<String>(
+                                              value:
+                                                  "${startmatch.matchlive.value.stickerScore?.playerId.toString()}",
+                                              child: Text(
+                                                  "${startmatch.matchlive.value.playerstrick?.playerName}")),
+                                          DropdownMenuItem<String>(
+                                              value:
+                                                  "${startmatch.matchlive.value.nonstickerScore?.playerId.toString()}",
+                                              child: Text(
+                                                  "${startmatch.matchlive.value.playerNonStricker?.playerName}"))
+                                        ],
+                                        onchange: (p0) {
+                                          outplayerid = p0.toString();
+                                          setState(() {});
+                                        },
+                                        validator: (p0) {
+                                          if (p0?.isEmpty ?? true) {
+                                            return "Run Out Batsman?";
+                                          }
+                                          return null;
+                                        },
+                                        lable: "Run Out Batsman?",
+                                      ),
+                                    ),
+                                    Obx(
+                                      () => Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: TournamentDropdown(
+                                          // initialValue:
+                                          //     widget.matchdetail?.team2?.id.toString(),
+                                          count: startmatch.bowlingteam
+                                              .where((p0) =>
+                                                  p0.id.toString() !=
+                                                  startmatch.matchlive.value
+                                                      .bowlerScore?.playerId
+                                                      .toString())
+                                              .map((e) => DropdownMenuItem<
+                                                      String>(
+                                                  value: "${e.playerId}",
+                                                  child: Text(
+                                                      "${e.player?.playerName}")))
+                                              .toList(),
+                                          onchange: (p0) {
+                                            outbyplayerid = p0.toString();
+                                            setState(() {});
+                                          },
+                                          validator: (p0) {
+                                            if (p0?.isEmpty ?? true) {
+                                              return "Run Out by Whom?";
+                                            }
+                                            return null;
+                                          },
+                                          lable: "Run Out by Whom?",
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Text(
-                                "=",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 25),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "${wdtotalrun}",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 25),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -497,9 +637,55 @@ class _RunInputScreenState extends State<RunInputScreen> {
                               height: 40,
                               child: MaterialButton(
                                 onPressed: () {
-                                  runapi(
-                                      run: "${wdtotalrun - 1}", balltype: "wb");
-                                  Get.back();
+                                  if (!iswicket) {
+                                    runapi(
+                                      noballtype: no_ball_type,
+                                      run: popupid == 1 || popupid == 2
+                                          ? "${nbtotalrun - 1}"
+                                          : "${nbtotalrun}",
+                                      balltype: popupid == 1
+                                          ? "nb"
+                                          : popupid == 2
+                                              ? "wb"
+                                              : popupid == 3
+                                                  ? "by"
+                                                  : "lb",
+                                    );
+                                    Get.back();
+                                  } else {
+                                    runapi(
+                                        noballtype: no_ball_type,
+                                        run: popupid == 1 || popupid == 2
+                                            ? "${nbtotalrun - 1}"
+                                            : "${nbtotalrun}",
+                                        balltype: popupid == 1
+                                            ? "nb"
+                                            : popupid == 2
+                                                ? "wd"
+                                                : popupid == 3
+                                                    ? "by"
+                                                    : "lb",
+                                        outplayerid:
+                                            selectindextype == 1 || popupid == 1
+                                                ? outplayerid
+                                                : startmatch.matchlive.value
+                                                    .stickerPlayerId
+                                                    .toString(),
+                                        outbyplayerid: outbyplayerid,
+                                        outtype: popupid == 1
+                                            ? selectindextype == 0
+                                                ? "stumping"
+                                                : selectindextype == 1
+                                                    ? "runout"
+                                                    : "hitwicket"
+                                            : "runout");
+                                    Get.back();
+                                    newbatsmanaddSheet(
+                                        isrunout:
+                                            popupid != 1 || selectindextype == 1
+                                                ? 1
+                                                : null);
+                                  }
                                 },
                                 child: const Center(
                                     child: Text("OK",
@@ -526,6 +712,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
     );
     nextbowlerid = "0";
     await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -641,35 +828,68 @@ class _RunInputScreenState extends State<RunInputScreen> {
                             height: 20,
                           ),
 
-                          Container(
-                            // width: screenwidth(context, dividedby: 2),
-                            child: Wrap(
-                              runSpacing: 10,
-                              spacing: 10,
-                              children: List.generate(
-                                  startmatch.balls.length,
-                                  (index) => CircleAvatar(
-                                        radius: 15,
-                                        backgroundColor:
-                                            Colors.blueGrey.shade100,
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 6,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 0),
+                                  // width: screenwidth(context,
+                                  //     dividedby: 1),
+                                  child: Wrap(
+                                    runSpacing: 10,
+                                    spacing: 10,
+                                    children: List.generate(
+                                        startmatch.balls.length, (index) {
+                                      Ball ball = startmatch.balls[index];
+                                      return Container(
+                                        width: 30,
+                                        height: 30,
+                                        // padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: ball.outType == null
+                                              ? ball.ballType == "normal"
+                                                  ? ball.run == 6
+                                                      ? Colors.green
+                                                      : ball.run == 4
+                                                          ? Colors.blue
+                                                          : Colors.black45
+                                                  : Colors.orange
+                                              : Colors.red,
+                                        ),
                                         child: Center(
                                           child: Text(
-                                              "${startmatch.balls[index].ballType != "normal" ? "${startmatch.balls[index].ballType}" : ""}${startmatch.balls[index].run}"),
+                                            ball.outType == null
+                                                ? ball.ballType == "normal"
+                                                    ? "${ball.run}"
+                                                    : ball.run == 0
+                                                        ? "${ball.ballType}"
+                                                        : "${ball.ballType}${ball.run}"
+                                                : ball.run == 0
+                                                    ? "W"
+                                                    : "W${ball.run}",
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500),
+                                          ),
                                         ),
-                                      )),
-                            ),
+                                      );
+                                    }),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  "= ${startmatch.overrun}",
+                                  style: TextStyle(color: Colors.black54),
+                                ),
+                              ),
+                            ],
                           ),
-                          // Row(
-                          //   children: [
-                          //
-                          //     const Padding(
-                          //         padding: EdgeInsets.only(bottom: 20),
-                          //         child: Text(
-                          //           "= 11",
-                          //           style: TextStyle(color: Colors.black54),
-                          //         )),
-                          //   ],
-                          // ),
                           const SizedBox(
                             height: 20,
                           ),
@@ -770,6 +990,10 @@ class _RunInputScreenState extends State<RunInputScreen> {
   }
 
   InningsCompleteSheet() async {
+    String team = startmatch.matchlive.value.bettingTeamId.toString() ==
+            startmatch.matchlive.value.team1?.id.toString()
+        ? "1"
+        : "2";
     await showDialog(
       barrierDismissible: false,
       context: context,
@@ -798,7 +1022,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "First innings completed",
+                            "${startmatch.matchlive.value.inningId == 1 ? "First" : "Second"} innings completed",
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -819,10 +1043,10 @@ class _RunInputScreenState extends State<RunInputScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Align(
+                          Align(
                             alignment: AlignmentDirectional.centerStart,
                             child: Text(
-                              "End of innings for TramA",
+                              "End of innings for ${team == "1" ? startmatch.matchlive.value.team1?.shortName : startmatch.matchlive.value.team2?.shortName}",
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   color: Colors.black54,
@@ -847,12 +1071,12 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                         child: Center(
                                             child: Text(
                                           index == 0
-                                              ? "18"
+                                              ? "${team == "1" ? startmatch.matchlive.value.team1TotalRun.toString() : startmatch.matchlive.value.team2TotalRun.toString()}"
                                               : index == 1
-                                                  ? "1"
+                                                  ? "${team == "1" ? startmatch.matchlive.value.team1TotalOver.toString() : startmatch.matchlive.value.team2TotalOver.toString()}"
                                                   : index == 2
-                                                      ? "0"
-                                                      : "3",
+                                                      ? "${team == "1" ? startmatch.matchlive.value.team1TotalWickets.toString() : startmatch.matchlive.value.team2TotalWickets.toString()}"
+                                                      : "${team == "1" ? startmatch.matchlive.value.team1ExtraRun.toString() : startmatch.matchlive.value.team2ExtraRun.toString()}",
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
@@ -894,17 +1118,29 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                   height: 40,
                                   child: MaterialButton(
                                     onPressed: () {
-                                      startmatch.Firstinningcomplete(
-                                          tournamentid: widget
-                                                  .match.tournament?.id
-                                                  .toString() ??
-                                              "",
-                                          matchid:
-                                              widget.match.id.toString() ?? "");
+                                      startmatch.matchlive.value.inningId == 1
+                                          ? startmatch.Firstinningcomplete(
+                                              tournamentid: widget
+                                                      .match.tournament?.id
+                                                      .toString() ??
+                                                  "",
+                                              matchid:
+                                                  widget.match.id.toString() ??
+                                                      "")
+                                          : startmatch.matchcomplete(
+                                              tournamentid: widget
+                                                      .match.tournament?.id
+                                                      .toString() ??
+                                                  "",
+                                              matchid:
+                                                  widget.match.id.toString() ??
+                                                      "");
                                     },
-                                    child: const Center(
+                                    child: Center(
                                         child: Text(
-                                      "START NEXT INNINGS",
+                                      startmatch.matchlive.value.inningId == 1
+                                          ? "Start Next Innings"
+                                          : "Declare Winning Team",
                                       style: TextStyle(color: Colors.white),
                                     )),
                                   ),
@@ -955,6 +1191,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
     startmatch.bowlingteamPlayerListFromAPI(
         teamid: startmatch.matchlive.value.bowlingTeamId.toString() ?? "");
     await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -976,21 +1213,21 @@ class _RunInputScreenState extends State<RunInputScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 15),
-                      child: Row(
-                        children: [
-                          Text(
-                            "What's the Caught player?",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       horizontal: 10.0, vertical: 15),
+                    //   child: Row(
+                    //     children: [
+                    //       Text(
+                    //         "What's the Caught player?",
+                    //         style: TextStyle(
+                    //             color: Colors.black,
+                    //             fontSize: 16,
+                    //             fontWeight: FontWeight.w500),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Obx(
                       () => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -1017,7 +1254,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                             }
                             return null;
                           },
-                          lable: "Select Caught Player",
+                          lable: "Who Caught?",
                         ),
                       ),
                     ),
@@ -1058,7 +1295,145 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                   runapi(
                                       run: "0",
                                       outtype: "caught",
-                                      outtypeid: playercughtid,
+                                      outbyplayerid: playercughtid,
+                                      outplayerid: startmatch
+                                          .matchlive.value.stickerPlayerId
+                                          .toString());
+
+                                  Get.back();
+                                  newbatsmanaddSheet();
+                                },
+                                child: const Center(
+                                    child: Text(
+                                  "Confirm Out",
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  String playerStumpid = "";
+  stumpoutSheet() async {
+    startmatch.bowlingteamPlayerListFromAPI(
+        teamid: startmatch.matchlive.value.bowlingTeamId.toString() ?? "");
+    await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsPadding: EdgeInsets.zero,
+          insetPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                width: screenwidth(context, dividedby: 1.2),
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                decoration: BoxDecoration(
+                    color: kwhite, borderRadius: BorderRadius.circular(15)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       horizontal: 10.0, vertical: 15),
+                    //   child: Row(
+                    //     children: [
+                    //       Text(
+                    //         "What's the Caught player?",
+                    //         style: TextStyle(
+                    //             color: Colors.black,
+                    //             fontSize: 16,
+                    //             fontWeight: FontWeight.w500),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: TournamentDropdown(
+                          // initialValue:
+                          //     widget.matchdetail?.team2?.id.toString(),
+                          count: startmatch.bowlingteam
+                              .where((p0) =>
+                                  p0.id.toString() !=
+                                  startmatch
+                                      .matchlive.value.bowlerScore?.playerId
+                                      .toString())
+                              .map((e) => DropdownMenuItem<String>(
+                                  value: "${e.playerId}",
+                                  child: Text("${e.player?.playerName}")))
+                              .toList(),
+                          onchange: (p0) {
+                            playerStumpid = p0.toString();
+                            setState(() {});
+                          },
+                          validator: (p0) {
+                            if (p0?.isEmpty ?? true) {
+                              return "Select Caught Player";
+                            }
+                            return null;
+                          },
+                          lable: "Who Stumped?",
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              color: Colors.grey,
+                              height: 40,
+                              child: MaterialButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: const Center(
+                                    child: Text(
+                                  "Cancel",
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Expanded(
+                            child: Container(
+                              color: Colors.grey,
+                              height: 40,
+                              child: MaterialButton(
+                                onPressed: () {
+                                  runapi(
+                                      run: "0",
+                                      outtype: "stumped",
+                                      outbyplayerid: playerStumpid,
                                       outplayerid: startmatch
                                           .matchlive.value.stickerPlayerId
                                           .toString());
@@ -1095,6 +1470,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
     startmatch.bowlingteamPlayerListFromAPI(
         teamid: startmatch.matchlive.value.bowlingTeamId.toString() ?? "");
     await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -1116,21 +1492,21 @@ class _RunInputScreenState extends State<RunInputScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 15),
-                      child: Row(
-                        children: [
-                          Text(
-                            "runout?",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       horizontal: 10.0, vertical: 15),
+                    //   child: Row(
+                    //     children: [
+                    //       Text(
+                    //         "runout?",
+                    //         style: TextStyle(
+                    //             color: Colors.black,
+                    //             fontSize: 16,
+                    //             fontWeight: FontWeight.w500),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: TournamentDropdown(
@@ -1154,11 +1530,11 @@ class _RunInputScreenState extends State<RunInputScreen> {
                         },
                         validator: (p0) {
                           if (p0?.isEmpty ?? true) {
-                            return "Select Out Player";
+                            return "Run Out Batsman?";
                           }
                           return null;
                         },
-                        lable: "Select Out Player",
+                        lable: "Run Out Batsman?",
                       ),
                     ),
                     Obx(
@@ -1183,11 +1559,11 @@ class _RunInputScreenState extends State<RunInputScreen> {
                           },
                           validator: (p0) {
                             if (p0?.isEmpty ?? true) {
-                              return "Select player helper";
+                              return "Run Out by Whom?";
                             }
                             return null;
                           },
-                          lable: "Select player helper",
+                          lable: "Run Out by Whom?",
                         ),
                       ),
                     ),
@@ -1283,8 +1659,8 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                   runapi(
                                       run: runoutrun.text,
                                       outtype: "runout",
-                                      outtypeid: runoutplayerid,
-                                      outplayerid: runouthelperid);
+                                      outbyplayerid: runouthelperid,
+                                      outplayerid: runoutplayerid);
                                   Get.back();
                                   newbatsmanaddSheet(isrunout: 1);
                                 },
@@ -1326,7 +1702,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                       runapi(
                           run: "0",
                           outtype: "bowled",
-                          outtypeid:
+                          outbyplayerid:
                               startmatch.matchlive.value.bowlerId.toString() ??
                                   "",
                           outplayerid: startmatch
@@ -1365,17 +1741,8 @@ class _RunInputScreenState extends State<RunInputScreen> {
                   Get.back();
                   outwarningdetails(
                     () {
-                      runapi(
-                          run: "0",
-                          outtype: "stumped",
-                          outtypeid:
-                              startmatch.matchlive.value.bowlerId.toString() ??
-                                  "",
-                          outplayerid: startmatch
-                              .matchlive.value.stickerPlayerId
-                              .toString());
                       Get.back();
-                      newbatsmanaddSheet();
+                      stumpoutSheet();
                     },
                   );
                 },
@@ -1401,7 +1768,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                       runapi(
                           run: "0",
                           outtype: "lbw",
-                          outtypeid:
+                          outbyplayerid:
                               startmatch.matchlive.value.bowlerId.toString() ??
                                   "",
                           outplayerid: startmatch
@@ -1443,8 +1810,8 @@ class _RunInputScreenState extends State<RunInputScreen> {
                     () {
                       runapi(
                           run: "0",
-                          outtype: "Other",
-                          outtypeid:
+                          outtype: "other",
+                          outbyplayerid:
                               startmatch.matchlive.value.bowlerId.toString() ??
                                   "",
                           outplayerid: startmatch
@@ -1495,21 +1862,21 @@ class _RunInputScreenState extends State<RunInputScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 15),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Select New Player",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       horizontal: 10.0, vertical: 15),
+                    //   child: Row(
+                    //     children: [
+                    //       Text(
+                    //         "Select New Player",
+                    //         style: TextStyle(
+                    //             color: Colors.black,
+                    //             fontSize: 16,
+                    //             fontWeight: FontWeight.w500),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Obx(
                       () => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -1532,11 +1899,11 @@ class _RunInputScreenState extends State<RunInputScreen> {
                           },
                           validator: (p0) {
                             if (p0?.isEmpty ?? true) {
-                              return "Select Batsman";
+                              return "Select New Batsman";
                             }
                             return null;
                           },
-                          lable: "Select Batsman",
+                          lable: "Select New Batsman",
                         ),
                       ),
                     ),
@@ -1603,6 +1970,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                               child: MaterialButton(
                                 onPressed: () {
                                   startmatch.newbatsmanadd(
+                                      isstrike: newbatsmanonstrike,
                                       teamid: startmatch
                                           .matchlive.value.bettingTeamId
                                           .toString(),
@@ -1639,6 +2007,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
   int breakresson = 15;
   breakSheet() async {
     await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -1779,163 +2148,419 @@ class _RunInputScreenState extends State<RunInputScreen> {
     );
   }
 
-  int legbyrun = 0;
-  Legbysheet({String? isby}) async {
+  int teamtoss = 3;
+  int declareindex = 0;
+  declaresheet(int iscomplete) async {
+    declareindex = 0;
+    teamtoss = 3;
+    teamtoss = startmatch.matchlive.value.winningTeamId != null
+        ? startmatch.matchlive.value.winningTeamId ==
+                startmatch.matchlive.value.team1?.id
+            ? 0
+            : 1
+        : 3;
+    startmatch.remark.text = startmatch.matchlive.value.summary ?? "";
     await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            contentPadding: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            content: StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+          actionsPadding: EdgeInsets.zero,
+          insetPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                width: screenwidth(context, dividedby: 1.2),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                decoration: BoxDecoration(
+                    color: kwhite, borderRadius: BorderRadius.circular(15)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Declare Result",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      // mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
                           children: [
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                isby != null ? "By" : "Leg By",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
+                            PhotoScreencric(
+                                dobbn: 18,
+                                image: URLs.image_url_team +
+                                    "${widget.match.team1?.logo}"),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              widget.match.team1?.shortName ?? "",
+                              style: TextStyle(
+                                  color: startmatch
+                                              .matchlive.value.bettingTeamId ==
+                                          startmatch.matchlive.value.team1?.id
+                                      ? Colors.black
+                                      : Colors.grey,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 20),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                isby != null ? "By" : "Leg By",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 45,
-                                width: 45,
-                                padding: const EdgeInsets.all(5),
+                        startmatch.matchlive.value.team1TotalOver == null
+                            ? Text(
+                                textAlign: TextAlign.center,
+                                "",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                              )
+                            : Row(
+                                children: [
+                                  Text(
+                                    textAlign: TextAlign.center,
+                                    "${startmatch.matchlive.value.team1TotalRun}-${startmatch.matchlive.value.team1TotalWickets}",
+                                    style: TextStyle(
+                                        color: startmatch.matchlive.value
+                                                    .bettingTeamId ==
+                                                startmatch
+                                                    .matchlive.value.team1?.id
+                                            ? Colors.black
+                                            : Colors.grey,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    textAlign: TextAlign.center,
+                                    " (${startmatch.matchlive.value.team1TotalOver})",
+                                    style: TextStyle(
+                                        color: startmatch.matchlive.value
+                                                    .bettingTeamId ==
+                                                startmatch
+                                                    .matchlive.value.team1?.id
+                                            ? Colors.black
+                                            : Colors.grey,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ).paddingOnly(right: 20),
+                                ],
+                              )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      // mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            PhotoScreencric(
+                                dobbn: 18,
+                                image: URLs.image_url_team +
+                                    "${widget.match.team2?.logo}"),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              widget.match.team2?.shortName ?? "",
+                              style: TextStyle(
+                                  color: startmatch
+                                              .matchlive.value.bettingTeamId ==
+                                          startmatch.matchlive.value.team2?.id
+                                      ? Colors.black
+                                      : Colors.grey,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                        startmatch.matchlive.value.team2TotalOver == null
+                            ? Text(
+                                textAlign: TextAlign.center,
+                                "",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                              )
+                            : Row(
+                                children: [
+                                  Text(
+                                    textAlign: TextAlign.center,
+                                    "${startmatch.matchlive.value.team2TotalRun}-${startmatch.matchlive.value.team2TotalWickets}",
+                                    style: TextStyle(
+                                        color: startmatch.matchlive.value
+                                                    .bettingTeamId ==
+                                                startmatch
+                                                    .matchlive.value.team2?.id
+                                            ? Colors.black
+                                            : Colors.grey,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    textAlign: TextAlign.center,
+                                    " (${startmatch.matchlive.value.team2TotalOver})",
+                                    style: TextStyle(
+                                        color: startmatch.matchlive.value
+                                                    .bettingTeamId ==
+                                                startmatch
+                                                    .matchlive.value.team2?.id
+                                            ? Colors.black
+                                            : Colors.grey,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ).paddingOnly(right: 20),
+                                ],
+                              )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(
+                          iscomplete == 1 ? 2 : 3,
+                          (index) => Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  teamtoss = 3;
+                                  declareindex = index;
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                                margin: EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
+                                    color: declareindex == index
+                                        ? Colors.greenAccent
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(
+                                        width: 1, color: Colors.grey)),
                                 child: Center(
-                                  child: Pinput(
-                                    length: 1,
-                                    defaultPinTheme: PinTheme(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 6),
-                                      width: 56,
-                                      height: 56,
-                                      textStyle: const TextStyle(
-                                        fontSize: 22,
-                                        color: Color.fromRGBO(30, 60, 87, 1),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    onChanged: (value) {
-                                      legbyrun = int.parse(value);
-                                      setState(() {});
-                                    },
+                                  child: Text(
+                                    index == 0
+                                        ? "Won"
+                                        : index == 1
+                                            ? "Draw"
+                                            : "Cancel",
+                                    style: TextStyle(fontSize: 12),
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Text(
-                                "=",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 25),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "${legbyrun}",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 25),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 40,
-                              child: MaterialButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: const Center(
-                                    child: Text(
-                                  "CANCEL",
-                                  style: TextStyle(color: Colors.black),
-                                )),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(15))),
-                              height: 40,
-                              child: MaterialButton(
-                                onPressed: () {
-                                  runapi(
-                                    run: "${legbyrun}",
-                                    balltype: isby != null ? "by" : "leg_by",
-                                  );
-                                  Get.back();
-                                },
-                                child: const Center(
-                                    child: Text("OK",
-                                        style: TextStyle(color: Colors.white))),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    declareindex == 0
+                        ? Row(
+                            children: List.generate(
+                              2,
+                              (index) => Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      teamtoss = index;
+                                    });
+                                  },
+                                  child: Card(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 15),
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              width: 3,
+                                              color: teamtoss == index
+                                                  ? MyTheme.appBarColor
+                                                  : Colors.transparent)),
+                                      child: Column(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor:
+                                                Colors.grey.shade200,
+                                            radius: 30,
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            index == 0
+                                                ? "${widget.match.team1?.shortName}"
+                                                : "${widget.match.team2?.shortName}",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            index == 0
+                                                ? "${teamtoss == 0 ? "2 Points" : "0 Points"}"
+                                                : "${teamtoss == 1 ? "2 Points" : "0 Points"}",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           )
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ));
+                        : declareindex == 1
+                            ? Row(
+                                children: List.generate(
+                                  2,
+                                  (index) => Expanded(
+                                    child: InkWell(
+                                      child: Card(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        child: Container(
+                                          padding: EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  width: 3,
+                                                  color: Colors.transparent)),
+                                          child: Column(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                    Colors.grey.shade200,
+                                                radius: 30,
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                index == 0
+                                                    ? "${widget.match.team1?.shortName}"
+                                                    : "${widget.match.team2?.shortName}",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                "1 Points",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
+                    SizedBox(
+                      height: declareindex == 2 ? 0 : 5,
+                    ),
+                    TournamentTextFormField(
+                      labelText: "Remark",
+                      controller: startmatch.remark,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: Colors.grey,
+                            height: 40,
+                            child: MaterialButton(
+                              onPressed: () {
+                                if (declareindex == 0) {
+                                  if (teamtoss != 3) {
+                                    startmatch.DeclareResult(
+                                      result: "won",
+                                      winningteamid: startmatch
+                                          .matchlive.value.winningTeamId
+                                          .toString(),
+                                      touramentid: startmatch
+                                              .matchlive.value.tournament?.id
+                                              .toString() ??
+                                          "",
+                                      matchid: startmatch.matchlive.value.id
+                                              .toString() ??
+                                          "",
+                                    );
+                                  } else {
+                                    FlutterToast.showCustomToast(
+                                        "Please Select Won Team");
+                                  }
+                                } else if (declareindex == 1) {
+                                  startmatch.DeclareResult(
+                                    result: "draw",
+                                    winningteamid: "",
+                                    touramentid: startmatch
+                                            .matchlive.value.tournament?.id
+                                            .toString() ??
+                                        "",
+                                    matchid: startmatch.matchlive.value.id
+                                            .toString() ??
+                                        "",
+                                  );
+                                } else {
+                                  startmatch.DeclareResult(
+                                    result: "cancel",
+                                    winningteamid: "",
+                                    touramentid: startmatch
+                                            .matchlive.value.tournament?.id
+                                            .toString() ??
+                                        "",
+                                    matchid: startmatch.matchlive.value.id
+                                            .toString() ??
+                                        "",
+                                  );
+                                }
+                              },
+                              child: const Center(
+                                  child: Text(
+                                "End Match",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
       },
     );
   }
@@ -1951,6 +2576,16 @@ class _RunInputScreenState extends State<RunInputScreen> {
           textScaleFactor: 1,
           style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
         ),
+        actions: [
+          TextButton(
+              onPressed: () {
+                declaresheet(0);
+              },
+              child: Text(
+                "Declare",
+                style: TextStyle(color: Colors.white),
+              ))
+        ],
         // centerTitle: true,
         backgroundColor: MyTheme.appBarColor,
         elevation: 5,
@@ -1974,256 +2609,773 @@ class _RunInputScreenState extends State<RunInputScreen> {
         children: [
           Obx(
             () {
-              if (startmatch.isnewinning.isTrue) {
+              if (startmatch.matchlive.value.inningId == 3) {
+                Future.delayed(Duration.zero, () {
+                  if (startmatch.Endmatch.isTrue) {
+                    startmatch.matchlive.value.isSuperOver == true
+                        ? declareindex == 1
+                        : declareindex == 0;
+                    declaresheet(1);
+                  }
+                  startmatch.Endmatch.value = false;
+                });
+              } else if (startmatch.isnewinning.isTrue) {
                 Future.delayed(Duration.zero, () {
                   InningsCompleteSheet();
                 });
+              } else if ((startmatch.matchlive.value.inningId == 1 ||
+                      startmatch.matchlive.value.inningId == 2) &&
+                  startmatch.isnewover.isTrue) {
+                Future.delayed(Duration.zero, () {
+                  Overcompletesheet();
+                });
               }
+
               return Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Container(
-                        // height: 200,
-                        width: double.infinity,
-                        child: Card(
-                          elevation: 4,
-                          margin: EdgeInsets.all(15),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 0.0),
-                                  child: Text(
-                                    startmatch.batteam.value,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Column(
+                      Column(
+                        children: [
+                          SizedBox(height: 5),
+                          Container(
+                            // height: 200,
+                            width: double.infinity,
+                            child: Card(
+                              elevation: 4,
+                              margin: EdgeInsets.symmetric(horizontal: 15),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 15),
+                                child: Column(
                                   children: [
                                     Row(
+                                      // mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          startmatch.matchlive.value
-                                                      .bettingTeamId
-                                                      .toString() ==
-                                                  startmatch
-                                                      .matchlive.value.team1?.id
-                                                      .toString()
-                                              ? "${startmatch.matchlive.value.team1TotalRun}/${startmatch.matchlive.value.team1TotalWickets}"
-                                              : "${startmatch.matchlive.value.team2TotalRun}/${startmatch.matchlive.value.team2TotalWickets}",
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500),
+                                        Row(
+                                          children: [
+                                            PhotoScreencric(
+                                                dobbn: 18,
+                                                image: URLs.image_url_team +
+                                                    "${widget.match?.team1?.logo}"),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              widget.match?.team1?.shortName ??
+                                                  "",
+                                              style: TextStyle(
+                                                  color: startmatch
+                                                              .matchlive
+                                                              .value
+                                                              .bettingTeamId ==
+                                                          startmatch.matchlive
+                                                              .value.team1?.id
+                                                      ? Colors.black
+                                                      : Colors.grey,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          " ( ${startmatch.matchlive.value.runingOver}/${startmatch.matchlive.value.overseas} )",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400),
-                                        ),
+                                        startmatch.matchlive.value
+                                                    .team1TotalOver ==
+                                                null
+                                            ? Text(
+                                                textAlign: TextAlign.center,
+                                                "",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              )
+                                            : Row(
+                                                children: [
+                                                  Text(
+                                                    textAlign: TextAlign.center,
+                                                    "${startmatch.matchlive.value.team1TotalRun}-${startmatch.matchlive.value.team1TotalWickets}",
+                                                    style: TextStyle(
+                                                        color: startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .bettingTeamId ==
+                                                                startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .team1
+                                                                    ?.id
+                                                            ? Colors.black
+                                                            : Colors.grey,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  Text(
+                                                    textAlign: TextAlign.center,
+                                                    " (${startmatch.matchlive.value.team1TotalOver})",
+                                                    style: TextStyle(
+                                                        color: startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .bettingTeamId ==
+                                                                startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .team1
+                                                                    ?.id
+                                                            ? Colors.black
+                                                            : Colors.grey,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ).paddingOnly(right: 20),
+                                                ],
+                                              )
                                       ],
                                     ),
                                     SizedBox(
-                                      height: 5,
+                                      height: 15,
                                     ),
-                                    Text(
-                                      "${startmatch.matchlive.value.toss}",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    // SizedBox(
-                                    //   height: 20,
-                                    // ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      startmatch.matchlive.value.playerstrick?.id == null
-                          ? SizedBox.shrink()
-                          : Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Card(
-                                      elevation: 4,
-                                      // margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                    Row(
+                                      // mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
                                           children: [
-                                            Text(
-                                              "${startmatch.matchlive.value.playerstrick?.playerName} *",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
+                                            PhotoScreencric(
+                                                dobbn: 18,
+                                                image: URLs.image_url_team +
+                                                    "${widget.match?.team2?.logo}"),
                                             SizedBox(
-                                              height: 5,
+                                              width: 10,
                                             ),
                                             Text(
-                                              "${startmatch.matchlive.value.stickerScore?.run} (${startmatch.matchlive.value.stickerScore?.balls})",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Card(
-                                      elevation: 4,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              startmatch
-                                                      .matchlive
-                                                      .value
-                                                      .playerNonStricker
-                                                      ?.playerName ??
+                                              widget.match?.team2?.shortName ??
                                                   "",
                                               style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
+                                                  color: startmatch
+                                                              .matchlive
+                                                              .value
+                                                              .bettingTeamId ==
+                                                          startmatch.matchlive
+                                                              .value.team2?.id
+                                                      ? Colors.black
+                                                      : Colors.grey,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400),
                                             ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              "${startmatch.matchlive.value.nonstickerScore?.run} (${startmatch.matchlive.value.nonstickerScore?.balls})",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500),
-                                            )
                                           ],
                                         ),
-                                      ),
+                                        startmatch.matchlive.value
+                                                    .team2TotalOver ==
+                                                null
+                                            ? Text(
+                                                textAlign: TextAlign.center,
+                                                "",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              )
+                                            : Row(
+                                                children: [
+                                                  Text(
+                                                    textAlign: TextAlign.center,
+                                                    "${startmatch.matchlive.value.team2TotalRun}-${startmatch.matchlive.value.team2TotalWickets}",
+                                                    style: TextStyle(
+                                                        color: startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .bettingTeamId ==
+                                                                startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .team2
+                                                                    ?.id
+                                                            ? Colors.black
+                                                            : Colors.grey,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  Text(
+                                                    textAlign: TextAlign.center,
+                                                    " (${startmatch.matchlive.value.team2TotalOver})",
+                                                    style: TextStyle(
+                                                        color: startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .bettingTeamId ==
+                                                                startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .team2
+                                                                    ?.id
+                                                            ? Colors.black
+                                                            : Colors.grey,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ).paddingOnly(right: 20),
+                                                ],
+                                              )
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    startmatch.matchlive.value.summary == null
+                                        ? Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    textAlign: TextAlign.center,
+                                                    "CRR   ${startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team1?.id ? startmatch.matchlive.value.team1Crr ?? "0.00" : startmatch.matchlive.value.team2Crr ?? "0.00"}",
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .grey.shade700,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                        : Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    textAlign: TextAlign.center,
+                                                    startmatch
+                                                        .matchlive.value.summary
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        color:
+                                                            Cricket_textColorSecondary,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                  ],
+                                ),
                               ),
                             ),
-                      startmatch.matchlive.value.playerBowler?.id == null
-                          ? SizedBox.shrink()
-                          : Column(
-                              children: [
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  // height: 200,
-                                  width: double.infinity,
-                                  child: Card(
-                                    elevation: 4,
-                                    margin: EdgeInsets.only(
-                                        left: 15, right: 15, bottom: 15),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15.0, vertical: 15),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
+                          ),
+                          (startmatch.matchlive.value.inningId ?? 0) > 3
+                              ? SizedBox()
+                              : Column(
+                                  children: [
+                                    startmatch.matchlive.value.playerstrick
+                                                ?.id ==
+                                            null
+                                        ? SizedBox.shrink()
+                                        : Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 0.0),
-                                            child: Text(
-                                              startmatch.ballteam.value,
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                                horizontal: 10.0, vertical: 10),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Card(
+                                                  elevation: 4,
+                                                  // margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .grey.shade200,
+                                                            borderRadius: BorderRadius.only(
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        10),
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        10))),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Expanded(
+                                                                flex: 7,
+                                                                child: Text(
+                                                                    "Batter(${startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team1?.id ? startmatch.matchlive.value.team1?.shortName : startmatch.matchlive.value.team2?.shortName})",
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                child: Text("R",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                child: Text("B",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                child: Text(
+                                                                    "4s",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                child: Text(
+                                                                    "6s",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                flex: 2,
+                                                                child: Text(
+                                                                    "SR",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Column(children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                                          },
+                                                          child: Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left: 0),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <
+                                                                    Widget>[
+                                                                  SizedBox(
+                                                                    height: 8,
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            8,
+                                                                        left: 8,
+                                                                        top: 5),
+                                                                    child: Row(
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Expanded(
+                                                                            flex:
+                                                                                7,
+                                                                            child:
+                                                                                Text("${startmatch.matchlive.value.playerstrick?.playerName} *", style: TextStyle(color: Colors.grey.shade700, fontSize: 12, fontWeight: FontWeight.w400))),
+                                                                        Expanded(
+                                                                            child: Text(
+                                                                                textAlign: TextAlign.center,
+                                                                                startmatch.matchlive.value.stickerScore?.run.toString() ?? "",
+                                                                                style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold))),
+                                                                        Expanded(
+                                                                            child: Text(
+                                                                                textAlign: TextAlign.center,
+                                                                                startmatch.matchlive.value.stickerScore?.balls.toString() ?? "",
+                                                                                style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                        Expanded(
+                                                                            child: Text(
+                                                                                textAlign: TextAlign.center,
+                                                                                startmatch.matchlive.value.stickerScore?.fours.toString() ?? "",
+                                                                                style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                        Expanded(
+                                                                            child: Text(
+                                                                                textAlign: TextAlign.center,
+                                                                                startmatch.matchlive.value.stickerScore?.sixers.toString() ?? "",
+                                                                                style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                        Expanded(
+                                                                            flex:
+                                                                                2,
+                                                                            child: Text(
+                                                                                textAlign: TextAlign.center,
+                                                                                startmatch.matchlive.value.stickerScore?.strikeRate.toString() ?? "",
+                                                                                style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  const Divider(
+                                                                    thickness:
+                                                                        0.8,
+                                                                  ),
+                                                                ],
+                                                              )),
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                                          },
+                                                          child: Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left: 0),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            8,
+                                                                        left: 8,
+                                                                        top: 5),
+                                                                    child: Row(
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Expanded(
+                                                                            flex:
+                                                                                7,
+                                                                            child:
+                                                                                Text(startmatch.matchlive.value.playerNonStricker?.playerName.toString() ?? "", style: TextStyle(color: Colors.grey.shade700, fontSize: 12, fontWeight: FontWeight.w400))),
+                                                                        Expanded(
+                                                                            child: Text(
+                                                                                textAlign: TextAlign.center,
+                                                                                startmatch.matchlive.value.nonstickerScore?.run.toString() ?? "",
+                                                                                style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold))),
+                                                                        Expanded(
+                                                                            child: Text(
+                                                                                textAlign: TextAlign.center,
+                                                                                startmatch.matchlive.value.nonstickerScore?.balls.toString() ?? "",
+                                                                                style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                        Expanded(
+                                                                            child:
+                                                                                Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.fours.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12)).paddingOnly(left: 4)),
+                                                                        Expanded(
+                                                                            child:
+                                                                                Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.sixers.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12)).paddingOnly(left: 4)),
+                                                                        Expanded(
+                                                                            flex:
+                                                                                2,
+                                                                            child: Text(
+                                                                                textAlign: TextAlign.center,
+                                                                                startmatch.matchlive.value.nonstickerScore?.strikeRate.toString() ?? "",
+                                                                                style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  const Divider(
+                                                                    thickness:
+                                                                        0.8,
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                        horizontal:
+                                                                            10.0),
+                                                                    child: Text(
+                                                                        "Partnership   10 (10)",
+                                                                        style: TextStyle(
+                                                                            color: Colors
+                                                                                .grey.shade700,
+                                                                            fontSize:
+                                                                                12,
+                                                                            fontWeight:
+                                                                                FontWeight.w400)),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 5,
+                                                                  ),
+                                                                ],
+                                                              )),
+                                                        ),
+                                                      ]),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                    startmatch.matchlive.value.playerBowler
+                                                ?.id ==
+                                            null
+                                        ? SizedBox.shrink()
+                                        : Column(
                                             children: [
-                                              Text(
-                                                startmatch
-                                                        .matchlive
-                                                        .value
-                                                        .playerBowler
-                                                        ?.playerName ??
-                                                    "",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              SizedBox(
+                                                height: 0,
                                               ),
-                                              Text(
-                                                "${startmatch.matchlive.value.bowlerScore?.overs}-${startmatch.matchlive.value.bowlerScore?.runs}-${startmatch.matchlive.value.bowlerScore?.wickets}",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              Container(
+                                                // height: 200,
+                                                width: double.infinity,
+                                                child: Card(
+                                                  elevation: 4,
+                                                  margin: EdgeInsets.only(
+                                                      left: 15,
+                                                      right: 15,
+                                                      bottom: 0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .grey.shade200,
+                                                            borderRadius: BorderRadius.only(
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        10),
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        10))),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Expanded(
+                                                                flex: 7,
+                                                                child: Text(
+                                                                    "Bowler(${startmatch.matchlive.value.bowlingTeamId == startmatch.matchlive.value.team1?.id ? startmatch.matchlive.value.team1?.shortName : startmatch.matchlive.value.team2?.shortName})",
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                child: Text("O",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                child: Text("M",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                child: Text("R",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                child: Text("W",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                            Expanded(
+                                                                flex: 2,
+                                                                child: Text(
+                                                                    "ER",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        textbar)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                                        },
+                                                        child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 0),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: <
+                                                                  Widget>[
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right: 8,
+                                                                      left: 8,
+                                                                      top: 5),
+                                                                  child: Row(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Expanded(
+                                                                          flex:
+                                                                              7,
+                                                                          child: Text(
+                                                                              startmatch.matchlive.value.playerBowler?.playerName ?? "",
+                                                                              style: TextStyle(color: Colors.grey.shade700, fontSize: 12))),
+                                                                      Expanded(
+                                                                          child: Text(
+                                                                              textAlign: TextAlign.center,
+                                                                              startmatch.matchlive.value.bowlerScore?.overs.toString() ?? '',
+                                                                              style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                      Expanded(
+                                                                          child: Text(
+                                                                              textAlign: TextAlign.center,
+                                                                              startmatch.matchlive.value.bowlerScore?.maidenOver.toString() ?? '',
+                                                                              style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                      Expanded(
+                                                                          child: Text(
+                                                                              textAlign: TextAlign.center,
+                                                                              startmatch.matchlive.value.bowlerScore?.runs.toString() ?? '',
+                                                                              style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                      Expanded(
+                                                                          child: Text(
+                                                                              textAlign: TextAlign.center,
+                                                                              startmatch.matchlive.value.bowlerScore?.wickets.toString() ?? '',
+                                                                              style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold))),
+                                                                      Expanded(
+                                                                          flex:
+                                                                              2,
+                                                                          child: Text(
+                                                                              textAlign: TextAlign.center,
+                                                                              startmatch.matchlive.value.bowlerScore?.economyRate.toString() ?? '',
+                                                                              style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                // Padding(
+                                                                //     padding: EdgeInsets.only(
+                                                                //         right: 10,
+                                                                //         left: 10,
+                                                                //         top: 5,
+                                                                //         bottom: 5),
+                                                                //     child: Text("not out (Head)",
+                                                                //             style: TextStyle(
+                                                                //                 color: Colors.black,
+                                                                //                 fontSize: 12))
+                                                                //         .paddingOnly(
+                                                                //             top: 4, bottom: 4)),
+                                                              ],
+                                                            )),
+                                                      ),
+                                                      Divider(),
+                                                      Container(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 12,
+                                                                vertical: 0),
+                                                        width: screenwidth(
+                                                            context,
+                                                            dividedby: 1),
+                                                        child: Wrap(
+                                                          runSpacing: 10,
+                                                          spacing: 10,
+                                                          children:
+                                                              List.generate(
+                                                                  startmatch
+                                                                      .balls
+                                                                      .length,
+                                                                  (index) {
+                                                            Ball ball =
+                                                                startmatch
+                                                                        .balls[
+                                                                    index];
+                                                            return Container(
+                                                              width: 30,
+                                                              height: 30,
+                                                              // padding: EdgeInsets.all(10),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: ball.outType ==
+                                                                        null
+                                                                    ? ball.ballType ==
+                                                                            "normal"
+                                                                        ? ball.run ==
+                                                                                6
+                                                                            ? Colors.green
+                                                                            : ball.run == 4
+                                                                                ? Colors.blue
+                                                                                : Colors.black45
+                                                                        : Colors.orange
+                                                                    : Colors.red,
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  ball.outType ==
+                                                                          null
+                                                                      ? ball.ballType ==
+                                                                              "normal"
+                                                                          ? "${ball.run}"
+                                                                          : ball.run ==
+                                                                                  0
+                                                                              ? "${ball.ballType}"
+                                                                              : "${ball.ballType}${ball.run}"
+                                                                      : ball.run ==
+                                                                              0
+                                                                          ? "W"
+                                                                          : "W${ball.run}",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          Container(
-                                            width: screenwidth(context,
-                                                dividedby: 1),
-                                            child: Wrap(
-                                              runSpacing: 10,
-                                              spacing: 10,
-                                              children: List.generate(
-                                                  startmatch.balls.length,
-                                                  (index) => CircleAvatar(
-                                                        radius: 18,
-                                                        backgroundColor: Colors
-                                                            .blueGrey.shade100,
-                                                        child: Center(
-                                                          child: Text(
-                                                              "${startmatch.balls[index].ballType != "normal" ? "${startmatch.balls[index].ballType}" : ""}${startmatch.balls[index].run}"),
-                                                        ),
-                                                      )),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -2231,87 +3383,127 @@ class _RunInputScreenState extends State<RunInputScreen> {
             },
           ),
           Obx(
-            () => startmatch.isnewover.isTrue
-                ? MaterialButton(
-                    onPressed: () {
-                      Overcompletesheet();
-                    },
-                    child: Text("Next Over"),
-                  )
-                : SizedBox(),
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  children: [
-                    buildMaterialButton("0", () {
-                      // InningsCompleteSheet();
-                      runapi(
-                        run: "0",
-                      );
-                    }),
-                    buildMaterialButton("1", () {
-                      // breakSheet();
-                      runapi(
-                        run: "1",
-                      );
-                    }),
-                    buildMaterialButton("2", () {
-                      runapi(
-                        run: "2",
-                      );
-                    }),
-                    buildMaterialButton("3", () {
-                      runapi(
-                        run: "3",
-                      );
-                    }),
-                  ],
+            () => Column(
+              children: [
+                startmatch.isnewover.isTrue
+                    ? Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                Overcompletesheet();
+                              },
+                              child: Card(
+                                margin: EdgeInsets.symmetric(horizontal: 15),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 60.0),
+                                  child: Center(child: Text("Next Over")),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : SizedBox(),
+                Visibility(
+                  visible: startmatch.isnewinning.isTrue ||
+                          startmatch.isnewover.isTrue ||
+                          startmatch.matchlive.value.inningId == 3
+                      ? false
+                      : true,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                          children: [
+                            buildMaterialButton("0", () {
+                              // InningsCompleteSheet();
+                              runapi(
+                                run: "0",
+                              );
+                            }),
+                            buildMaterialButton("1", () {
+                              // breakSheet();
+                              runapi(
+                                run: "1",
+                              );
+                            }),
+                            buildMaterialButton("2", () {
+                              runapi(
+                                run: "2",
+                              );
+                            }),
+                            buildMaterialButton("3", () {
+                              runapi(
+                                run: "3",
+                              );
+                            }),
+                            // InkWell(
+                            //   onTap: () {},
+                            //   child: Card(
+                            //     color: Colors.white,
+                            //     child: Padding(
+                            //       padding: const EdgeInsets.all(8.0),
+                            //       child: Text(
+                            //         textAlign: TextAlign.center,
+                            //         "Undo",
+                            //         style: const TextStyle(
+                            //             fontSize: 20, fontWeight: FontWeight.w400),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                          children: [
+                            buildMaterialButton("4", color: Colors.blue, () {
+                              runapi(run: "4");
+                            }),
+                            buildMaterialButton("5", () {
+                              runapi(run: "5");
+                            }),
+                            buildMaterialButton("6", color: Colors.green, () {
+                              runapi(run: "6");
+                            }),
+                            buildMaterialButton("Out", color: Colors.red, () {
+                              // outSheet();
+                              Outbottomsheet();
+                            }),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                          children: [
+                            buildMaterialButton("NB", () {
+                              Noballsheet(popupid: 1);
+                            }),
+                            buildMaterialButton("WD", () {
+                              // Overcompletesheet();
+                              Noballsheet(popupid: 2);
+                              // widesheet();
+                            }),
+                            buildMaterialButton("BYE", () {
+                              Noballsheet(popupid: 3);
+                            }),
+                            buildMaterialButton("L.BYE", () {
+                              Noballsheet(popupid: 4);
+                            }),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  children: [
-                    buildMaterialButton("4", () {
-                      runapi(run: "4");
-                    }),
-                    buildMaterialButton("5", () {
-                      runapi(run: "5");
-                    }),
-                    buildMaterialButton("6", () {
-                      runapi(run: "6");
-                    }),
-                    buildMaterialButton("Out", () {
-                      // outSheet();
-                      Outbottomsheet();
-                    }),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  children: [
-                    buildMaterialButton("NB", () {
-                      Noballsheet();
-                    }),
-                    buildMaterialButton("WB", () {
-                      // Overcompletesheet();
-                      widesheet();
-                    }),
-                    buildMaterialButton("BY", () {
-                      Legbysheet(isby: "12");
-                    }),
-                    buildMaterialButton("L.BY", () {
-                      Legbysheet();
-                    }),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
           SizedBox(
             height: 5,

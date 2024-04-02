@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:yarn_modified/helper.dart';
 
 import '../../const/themes.dart';
 import '../../constcolor.dart';
+import '../getx/audiance/tournamentshow.dart';
+import '../model/tournamentlist.dart';
 import 'aboutscreen.dart';
 import 'matchscreenaudiance.dart';
 import 'pointstablescreen.dart';
 import 'teamlistaudiance.dart';
 
 class TournamentRootAudiance extends StatefulWidget {
-  final String tournamentname;
+  final Tournamentdetails tournamentname;
   const TournamentRootAudiance({super.key, required this.tournamentname});
 
   @override
@@ -23,6 +26,8 @@ class _TournamentRootAudianceState extends State<TournamentRootAudiance>
   @override
   void initState() {
     super.initState();
+    Get.put(TournamentAudianceController())
+        .getpointsFromAPI(tournamentid: widget.tournamentname.id.toString());
     _tabController = TabController(length: 4, vsync: this);
   }
 
@@ -32,7 +37,7 @@ class _TournamentRootAudianceState extends State<TournamentRootAudiance>
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         title: Text(
-          '${widget.tournamentname}',
+          '${widget.tournamentname.tournamentName}',
           textScaleFactor: 1,
           style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
         ),

@@ -18,6 +18,7 @@ import '../../const/const.dart';
 import '../../services/app_url.dart';
 import '../model/getteamslistresponse.dart';
 import '../model/gettournamenttype.dart';
+import '../model/grouplistresponse.dart';
 import '../model/tournamentlist.dart';
 import '../model/updateresponse.dart';
 import '../services/cricket_api.dart';
@@ -50,8 +51,30 @@ class TeamController extends GetxController {
     );
   }
 
+  RxList<String> getgroups = <String>[].obs;
+  Future<void> getgroupDataAPI() async {
+    Get.context!.loaderOverlay.show();
+    final response = await webService.getRequest(
+      url: "${URLs.Base_url}group_list",
+    );
+    response.fold(
+      (l) {
+        Grouplistdata data = grouplistdataFromJson(l.toString());
+        print(jsonEncode(data));
+        getgroups.value = data.data ?? [];
+        Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
   TextEditingController teamname = TextEditingController();
   TextEditingController shortname = TextEditingController();
+  TextEditingController ownername = TextEditingController();
+  TextEditingController group = TextEditingController();
   RxBool status = true.obs;
 
   Future<void> AddTeamFromAPI(
@@ -62,6 +85,8 @@ class TeamController extends GetxController {
       'created_by': saveUser()?.id,
       'short_name': shortname.text,
       'tournament_id': tournamentid,
+      "team_owner": ownername.text,
+      "group_id": group.text,
       'status': status.value ? "1" : "0"
     };
     if (logo != null) {
@@ -102,6 +127,8 @@ class TeamController extends GetxController {
       'created_by': saveUser()?.id,
       'short_name': shortname.text,
       'tournament_id': tournamentid,
+      "team_owner": ownername.text,
+      "group_id": group.text,
       'status': status.value ? "1" : "0"
     };
     if (logo != null) {

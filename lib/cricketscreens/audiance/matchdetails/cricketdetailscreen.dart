@@ -35,6 +35,7 @@ class _DetailsScreenState extends State<DetailsScreen>
     _tabController = TabController(length: 3, vsync: this);
   }
 
+  int tabindex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +47,40 @@ class _DetailsScreenState extends State<DetailsScreen>
           textScaleFactor: 1,
           style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                switch (tabindex) {
+                  case 0:
+                    startmatch.matchInfoDetailFromAPI(
+                        tournamentid:
+                            widget.match.tournament?.id.toString() ?? "",
+                        matchid: widget.match.id.toString() ?? "");
+                    break;
+                  case 1:
+                    startmatch.indextab.value == 0
+                        ? startmatch.scorecardFromAPI(
+                            teamid: widget.match.team1?.id.toString() ?? "",
+                            matchid: widget.match.id.toString(),
+                            touramentid:
+                                widget.match.tournament?.id.toString() ?? "")
+                        : startmatch.scorecard2FromAPI(
+                            teamid: widget.match.team2?.id.toString() ?? "",
+                            matchid: widget.match.id.toString(),
+                            touramentid:
+                                widget.match.tournament?.id.toString() ?? "");
+                    break;
+                  case 2:
+                    startmatch.Overswiserun(
+                        matchid: startmatch.matchlive.value.id.toString(),
+                        touramentid: startmatch.matchlive.value.tournament?.id
+                                .toString() ??
+                            "");
+                    break;
+                }
+              },
+              icon: Icon(Icons.refresh))
+        ],
         // centerTitle: true,
         backgroundColor: MyTheme.appBarColor,
         elevation: 5,
@@ -86,6 +121,12 @@ class _DetailsScreenState extends State<DetailsScreen>
                     color: kthemecolor),
                 labelColor: kwhite,
                 unselectedLabelColor: kthemecolor,
+                onTap: (value) {
+                  setState(() {
+                    tabindex = value;
+                  });
+                  print(tabindex);
+                },
                 labelStyle:
                     TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                 tabs: [
@@ -109,7 +150,7 @@ class _DetailsScreenState extends State<DetailsScreen>
                 controller: _tabController,
                 children: [
                   InfoScreen(isadmin: widget.isadmin, match: widget.match),
-                  ScoreBoardScreen( match: widget.match),
+                  ScoreBoardScreen(match: widget.match),
                   OversScreen(),
                 ],
               ),

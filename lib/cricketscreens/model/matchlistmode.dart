@@ -17,11 +17,13 @@ class Matchlistmodel {
   bool? success;
   String? message;
   List<Matchinfo>? data;
+  List<Matchinfo>? past;
 
   Matchlistmodel({
     this.success,
     this.message,
     this.data,
+    this.past,
   });
 
   factory Matchlistmodel.fromJson(Map<String, dynamic> json) => Matchlistmodel(
@@ -31,12 +33,17 @@ class Matchlistmodel {
             ? []
             : List<Matchinfo>.from(
                 json["data"].map((x) => Matchinfo.fromJson(x))),
+        past: json["past"] == null
+            ? []
+            : List<Matchinfo>.from(
+                json["past"].map((x) => Matchinfo.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "message": message,
         "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+        "past": List<dynamic>.from(past!.map((x) => x.toJson())),
       };
 }
 
@@ -121,9 +128,10 @@ class MatchList {
     this.team2,
   });
 
-   String matchdatecon() {
-   return DateFormat('dd-MM-yyyy').format(matchDate ?? DateTime.now());
- }
+  String matchdatecon() {
+    return DateFormat('dd-MM-yyyy').format(matchDate ?? DateTime.now());
+  }
+
   factory MatchList.fromJson(Map<String, dynamic> json) => MatchList(
         id: json["id"],
         createdBy: json["created_by"],
@@ -347,53 +355,97 @@ class MatchStatus {
 class Team {
   int? id;
   String? teamName;
+  dynamic teamOwner;
   int? tournamentId;
   int? createdBy;
   String? logo;
   String? players;
   String? shortName;
   int? status;
+  String? groupId;
+  int? totalMatches;
+  int? totalWin;
+  int? totalLoss;
+  int? totalDraw;
+  int? point;
+  String? netRunrate;
+  int? isDelete;
   DateTime? createdAt;
   DateTime? updatedAt;
+  User? user;
+  List<Teamplaye>? teamplaye;
 
   Team({
     this.id,
     this.teamName,
+    this.teamOwner,
     this.tournamentId,
     this.createdBy,
     this.logo,
     this.players,
     this.shortName,
     this.status,
+    this.groupId,
+    this.totalMatches,
+    this.totalWin,
+    this.totalLoss,
+    this.totalDraw,
+    this.point,
+    this.netRunrate,
+    this.isDelete,
     this.createdAt,
     this.updatedAt,
+    this.user,
+    this.teamplaye,
   });
 
   factory Team.fromJson(Map<String, dynamic> json) => Team(
-        id: json["id"],
-        teamName: json["team_name"],
-        tournamentId: json["tournament_id"],
-        createdBy: json["created_by"],
-        logo: json["logo"],
-        players: json["players"],
-        shortName: json["short_name"],
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-      );
+    id: json["id"],
+    teamName: json["team_name"],
+    teamOwner: json["team_owner"],
+    tournamentId: json["tournament_id"],
+    createdBy: json["created_by"],
+    logo: json["logo"],
+    players: json["players"],
+    shortName: json["short_name"],
+    status: json["status"],
+    groupId: json["group_id"],
+    totalMatches: json["total_matches"],
+    totalWin: json["total_win"],
+    totalLoss: json["total_loss"],
+    totalDraw: json["total_draw"],
+    point: json["point"],
+    netRunrate: json["net_runrate"],
+    isDelete: json["is_delete"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    user: User.fromJson(json["user"]),
+    teamplaye: List<Teamplaye>.from(json["teamplaye"].map((x) => Teamplaye.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "team_name": teamName,
-        "tournament_id": tournamentId,
-        "created_by": createdBy,
-        "logo": logo,
-        "players": players,
-        "short_name": shortName,
-        "status": status,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
-      };
+    "id": id,
+    "team_name": teamName,
+    "team_owner": teamOwner,
+    "tournament_id": tournamentId,
+    "created_by": createdBy,
+    "logo": logo,
+    "players": players,
+    "short_name": shortName,
+    "status": status,
+    "group_id": groupId,
+    "total_matches": totalMatches,
+    "total_win": totalWin,
+    "total_loss": totalLoss,
+    "total_draw": totalDraw,
+    "point": point,
+    "net_runrate": netRunrate,
+    "is_delete": isDelete,
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
+    "user": user?.toJson(),
+    "teamplaye": List<dynamic>.from(teamplaye!.map((x) => x.toJson())),
+  };
 }
 
 class Tournament {

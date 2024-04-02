@@ -8,6 +8,7 @@ import 'package:yarn_modified/helper.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import '../../../const/themes.dart';
 import '../../../services/app_url.dart';
+import '../admin/player/playerprofileadmin.dart';
 import '../getx/usercontroller.dart';
 import '../model/searchplayerresponse.dart';
 import '../photoscreen.dart';
@@ -402,43 +403,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
                         ),
                       ),
                     ),
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // Icon(
-                          //   CupertinoIcons.creditcard,
-                          //   color: Colors.black,
-                          //   size: 100,
-                          // ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                              "This player has not participated in any matches yet.",
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16))
-                        ],
-                      ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Icon(
-                        //   CupertinoIcons.er,
-                        //   color: Colors.black,
-                        //   size: 100,
-                        // ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text("This player has not joined any team yet.",
-                            style: TextStyle(color: Colors.black, fontSize: 16))
-                      ],
-                    ),
+                    Playermatches(),
+                    Playerteams(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -466,143 +432,103 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen>
   }
 }
 
-class Addphoto extends StatefulWidget {
-  const Addphoto({super.key});
-
-  @override
-  State<Addphoto> createState() => _AddphotoState();
-}
-
-class _AddphotoState extends State<Addphoto> {
-  File? _image;
-  final _picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
-
-    if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      setState(() {});
-    } else {
-      print('No Image Selected');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        constraints: BoxConstraints(maxWidth: 190, maxHeight: 190),
-        child: Stack(
-          clipBehavior: Clip.none,
-          fit: StackFit.expand,
-          children: [
-            Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Material(
-                  elevation: 0,
-                  shape: CircleBorder(
-                      side: BorderSide(width: 1.5, color: Colors.grey)),
-                  clipBehavior: Clip.antiAlias,
-                  color: Colors.white,
-                  child: _image == null
-                      ? Ink.image(
-                          image: AssetImage("images/avatar.png"),
-                          fit: BoxFit.contain,
-                          width: 220,
-                          height: 220,
-                          child: InkWell(
-                            radius: 0,
-                            onTap: () async {
-                              await showDialog(
-                                context: context,
-                                builder: (_) => Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 50, right: 50),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image:
-                                                AssetImage("images/avatar.png"),
-                                            fit: BoxFit.contain),
-                                      ),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        )
-                      : Ink.image(
-                          image: FileImage(File(_image!.path).absolute),
-                          fit: BoxFit.fill,
-                          width: 220,
-                          height: 220,
-                          child: InkWell(
-                            radius: 0,
-                            onTap: () async {
-                              await showDialog(
-                                context: context,
-                                builder: (_) => Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 50, right: 50),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: FileImage(
-                                                File(_image!.path).absolute),
-                                            fit: BoxFit.fill),
-                                      ),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 10,
-              right: -40,
-              left: 70,
-              child: Tooltip(
-                message: 'Pick Image',
-                child: RawMaterialButton(
-                  onPressed: () {
-                    getImage();
-                  },
-                  elevation: 2,
-                  fillColor: Colors.white,
-                  child: Icon(
-                    Icons.camera_alt_outlined,
-                    color: Colors.grey,
-                  ),
-                  padding: EdgeInsets.all(7.5),
-                  shape: CircleBorder(side: BorderSide(color: Colors.grey)),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class PlayerTeams extends StatefulWidget {
+//   const PlayerTeams({super.key});
+//
+//   @override
+//   State<PlayerTeams> createState() => _PlayerTeamsState();
+// }
+//
+// class _PlayerTeamsState extends State<PlayerTeams> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: MyTheme.scaffoldColor,
+//       body: Obx(() => tournamentAudiance.gettournadetai.isFalse
+//           ? Center(
+//               child: CircularProgressIndicator(),
+//             )
+//           : tournamentAudiance.getteaminfo.isEmpty
+//               ? Center(
+//                   child: Text('No Data Found...'),
+//                 )
+//               : Container(
+//                   color: MyTheme.scaffoldColor,
+//                   height: double.maxFinite,
+//                   width: double.maxFinite,
+//                   child: Container(
+//                       decoration: decration,
+//                       child: SingleChildScrollView(
+//                         child: Column(
+//                           children: [
+//                             ListView.builder(
+//                               physics: NeverScrollableScrollPhysics(),
+//                               shrinkWrap: true,
+//                               itemCount: tournamentAudiance.getteaminfo.length,
+//                               // shrinkWrap: true,
+//                               padding: EdgeInsets.symmetric(
+//                                 horizontal: 15,
+//                               ),
+//                               // physics: NeverScrollableScrollPhysics(),
+//                               itemBuilder: (BuildContext context, int index) {
+//                                 TeamAudiance team =
+//                                     tournamentAudiance.getteaminfo[index];
+//                                 return Padding(
+//                                   padding:
+//                                       const EdgeInsets.only(bottom: 0, top: 15),
+//                                   child: Padding(
+//                                     padding: const EdgeInsets.only(
+//                                         bottom: 0, top: 00),
+//                                     child: Card(
+//                                       margin: EdgeInsets.zero,
+//                                       child: ListTile(
+//                                         contentPadding: EdgeInsets.all(8),
+//                                         visualDensity: VisualDensity.compact,
+//                                         onTap: () {
+//                                           Get.to(PlayersListAudiance(
+//                                               teamid: team));
+//                                         },
+//                                         // minVerticalPadding: 20,
+//                                         leading: PhotoScreencric(
+//                                           image: URLs.image_url_team +
+//                                               "${team.logo}",
+//                                         ),
+//                                         title: Column(
+//                                           crossAxisAlignment:
+//                                               CrossAxisAlignment.start,
+//                                           children: [
+//                                             Text(
+//                                                 team.teamName ??
+//                                                     "Channai Super King",
+//                                                 textScaleFactor: 1.15,
+//                                                 style: TextStyle(
+//                                                   color: Colors.black,
+//                                                 )),
+//                                             SizedBox(
+//                                               height: 10,
+//                                             ),
+//                                             Text(team.shortName ?? "CSK",
+//                                                 textScaleFactor: 1,
+//                                                 style: TextStyle(
+//                                                     color: Colors.grey))
+//                                           ],
+//                                         ),
+//                                         // trailing: Icon(
+//                                         //     Icons.arrow_forward_ios_rounded,size: 15,)
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 );
+//                               },
+//                             ),
+//                             SizedBox(
+//                               height: 15,
+//                             )
+//                           ],
+//                         ),
+//                       )),
+//                 )),
+//     );
+//     ;
+//   }
+// }

@@ -28,3 +28,11 @@ BoxDecoration decration = BoxDecoration(
           Colors.white.withOpacity(0.65),
           Colors.white.withOpacity(0.85)
         ]));
+
+TextStyle textbar  = TextStyle(
+    color: Colors
+        .blueGrey,
+    fontWeight:
+    FontWeight
+        .bold,
+    fontSize: 12);

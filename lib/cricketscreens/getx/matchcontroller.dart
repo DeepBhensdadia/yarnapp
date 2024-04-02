@@ -29,6 +29,7 @@ class MatchController extends GetxController {
   RxInt isadmin = 0.obs;
   RxBool machloading = false.obs;
   RxList<Matchinfo> matchllist = <Matchinfo>[].obs;
+  RxList<Matchinfo> pastmatchllist = <Matchinfo>[].obs;
 
   getmatchlistCall({required String id}) async {
     Get.context!.loaderOverlay.show();
@@ -44,6 +45,7 @@ class MatchController extends GetxController {
       (l) {
         Matchlistmodel data = matchlistmodelFromJson(l.toString());
         matchllist.value = data.data ?? [];
+        pastmatchllist.value = data.past ?? [];
         Get.context!.loaderOverlay.hide();
 
         machloading.value = true;

@@ -53,15 +53,49 @@ class TournamentDetailresponse {
       };
 }
 
+class MatchStatus {
+  int? id;
+  String? name;
+
+  MatchStatus({
+    this.id,
+    this.name,
+  });
+
+  factory MatchStatus.fromJson(Map<String, dynamic> json) => MatchStatus(
+        id: json["id"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+      };
+}
+
 class Matchinfo {
   int? id;
   int? createdBy;
   int? tournamentId;
   int? matchinfoTeam1;
+  int? team1TotalRun;
+  int? team1TotalWickets;
+  String? team1TotalOver;
+  int? team1ExtraRun;
   int? matchinfoTeam2;
+  int? team2TotalRun;
+  int? team2TotalWickets;
+  String? team2TotalOver;
+  int? team2ExtraRun;
+  int? inningId;
+  int? stickerPlayerId;
+  int? nonstickerPlayerId;
+  int? bowlerId;
+  String? runingOver;
   int? overseas;
-  dynamic match;
-  dynamic description;
+  String? matchType;
+  String? description;
+  String? summary;
   dynamic leaderBorad;
   dynamic pointTable;
   DateTime? matchDate;
@@ -69,10 +103,12 @@ class Matchinfo {
   String? umpires;
   DateTime? createdAt;
   DateTime? updatedAt;
-  dynamic matchStatus;
+  MatchStatus? matchStatus;
   dynamic groupId;
   int? isDelete;
   dynamic toss;
+  String? wonToss;
+  String? tossElected;
   String? venue;
   TeamUser? user;
   Tournament? tournament;
@@ -89,15 +125,33 @@ class Matchinfo {
     return DateFormat('HH:mm').format(parsedTime);
   }
 
+  String matchdatecon() {
+    return DateFormat('dd-MM-yyyy').format(matchDate ?? DateTime.now());
+  }
+
   Matchinfo({
     this.id,
     this.createdBy,
     this.tournamentId,
     this.matchinfoTeam1,
+    this.team1TotalRun,
+    this.team1TotalWickets,
+    this.team1TotalOver,
+    this.team1ExtraRun,
     this.matchinfoTeam2,
+    this.team2TotalRun,
+    this.team2TotalWickets,
+    this.team2TotalOver,
+    this.team2ExtraRun,
+    this.inningId,
+    this.stickerPlayerId,
+    this.nonstickerPlayerId,
+    this.bowlerId,
+    this.runingOver,
     this.overseas,
-    this.match,
+    this.matchType,
     this.description,
+    this.summary,
     this.leaderBorad,
     this.pointTable,
     this.matchDate,
@@ -109,6 +163,8 @@ class Matchinfo {
     this.groupId,
     this.isDelete,
     this.toss,
+    this.wonToss,
+    this.tossElected,
     this.venue,
     this.user,
     this.tournament,
@@ -116,19 +172,29 @@ class Matchinfo {
     this.team2,
   });
 
-  String matchdatecon() {
-     return DateFormat('dd-MM-yyyy').format(matchDate ?? DateTime.now());
-  }
-
   factory Matchinfo.fromJson(Map<String, dynamic> json) => Matchinfo(
         id: json["id"],
         createdBy: json["created_by"],
         tournamentId: json["tournament_id"],
         matchinfoTeam1: json["team_1"],
+        team1TotalRun: json["team_1_total_run"],
+        team1TotalWickets: json["team_1_total_wickets"],
+        team1TotalOver: json["team_1_total_over"],
+        team1ExtraRun: json["team_1_extra_run"],
         matchinfoTeam2: json["team_2"],
+        team2TotalRun: json["team_2_total_run"],
+        team2TotalWickets: json["team_2_total_wickets"],
+        team2TotalOver: json["team_2_total_over"],
+        team2ExtraRun: json["team_2_extra_run"],
+        inningId: json["inning_id"],
+        stickerPlayerId: json["sticker_player_id"],
+        nonstickerPlayerId: json["nonsticker_player_id"],
+        bowlerId: json["bowler_id"],
+        runingOver: json["runing_over"],
         overseas: json["overseas"],
-        match: json["match_type"],
+        matchType: json["match_type"],
         description: json["description"],
+        summary: json["summary"],
         leaderBorad: json["leader_borad"],
         pointTable: json["point_table"],
         matchDate: DateTime.parse(json["match_date"]),
@@ -136,15 +202,26 @@ class Matchinfo {
         umpires: json["umpires"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        matchStatus: json["match_status"],
+        matchStatus: json["match_status"] == null
+            ? MatchStatus()
+            : MatchStatus.fromJson(json["match_status"]),
         groupId: json["group_id"],
         isDelete: json["is_delete"],
         toss: json["toss"],
+        wonToss: json["won_toss"],
+        tossElected: json["toss_elected"],
         venue: json["venue"],
-        user: TeamUser.fromJson(json["user"]),
-        tournament: Tournament.fromJson(json["tournament"]),
-        team1: TeamAudiance.fromJson(json["team1"]),
-        team2: TeamAudiance.fromJson(json["team2"]),
+        user:
+            json["user"] == null ? TeamUser() : TeamUser.fromJson(json["user"]),
+        tournament: json["tournament"] == null
+            ? Tournament()
+            : Tournament.fromJson(json["tournament"]),
+        team1: json["team1"] == null
+            ? TeamAudiance()
+            : TeamAudiance.fromJson(json["team1"]),
+        team2: json["team2"] == null
+            ? TeamAudiance()
+            : TeamAudiance.fromJson(json["team2"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -152,10 +229,24 @@ class Matchinfo {
         "created_by": createdBy,
         "tournament_id": tournamentId,
         "team_1": matchinfoTeam1,
+        "team_1_total_run": team1TotalRun,
+        "team_1_total_wickets": team1TotalWickets,
+        "team_1_total_over": team1TotalOver,
+        "team_1_extra_run": team1ExtraRun,
         "team_2": matchinfoTeam2,
+        "team_2_total_run": team2TotalRun,
+        "team_2_total_wickets": team2TotalWickets,
+        "team_2_total_over": team2TotalOver,
+        "team_2_extra_run": team2ExtraRun,
+        "inning_id": inningId,
+        "sticker_player_id": stickerPlayerId,
+        "nonsticker_player_id": nonstickerPlayerId,
+        "bowler_id": bowlerId,
+        "runing_over": runingOver,
         "overseas": overseas,
-        "match_type": match,
+        "match_type": matchType,
         "description": description,
+        "summary": summary,
         "leader_borad": leaderBorad,
         "point_table": pointTable,
         "match_date":
@@ -164,10 +255,12 @@ class Matchinfo {
         "umpires": umpires,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "match_status": matchStatus,
+        "match_status": matchStatus?.toJson(),
         "group_id": groupId,
         "is_delete": isDelete,
         "toss": toss,
+        "won_toss": wonToss,
+        "toss_elected": tossElected,
         "venue": venue,
         "user": user?.toJson(),
         "tournament": tournament?.toJson(),
@@ -181,6 +274,13 @@ class TeamAudiance {
   String? teamName;
   int? tournamentId;
   int? createdBy;
+  int? totalMatches;
+  int? totalWin;
+  int? totalLoss;
+  int? totalDraw;
+  int? point;
+  String? netRunrate;
+  String? teamOwner;
   String? logo;
   String? players;
   String? shortName;
@@ -197,6 +297,13 @@ class TeamAudiance {
     this.teamName,
     this.tournamentId,
     this.createdBy,
+    this.totalMatches,
+    this.totalWin,
+    this.totalLoss,
+    this.totalDraw,
+    this.point,
+    this.netRunrate,
+    this.teamOwner,
     this.logo,
     this.players,
     this.shortName,
@@ -214,6 +321,12 @@ class TeamAudiance {
         teamName: json["team_name"],
         tournamentId: json["tournament_id"],
         createdBy: json["created_by"],
+        totalWin: json["total_win"],
+        totalLoss: json["total_loss"],
+        totalDraw: json["total_draw"],
+        point: json["point"],
+        netRunrate: json["net_runrate"],
+        teamOwner: json["team_owner"],
         logo: json["logo"],
         players: json["players"],
         shortName: json["short_name"],
@@ -235,6 +348,13 @@ class TeamAudiance {
         "team_name": teamName,
         "tournament_id": tournamentId,
         "created_by": createdBy,
+        "total_matches": totalMatches,
+        "total_win": totalWin,
+        "total_loss": totalLoss,
+        "total_draw": totalDraw,
+        "point": point,
+        "net_runrate": netRunrate,
+        "team_owner": teamOwner,
         "logo": logo,
         "players": players,
         "short_name": shortName,

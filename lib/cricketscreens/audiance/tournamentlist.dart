@@ -99,7 +99,8 @@ class _TournamentAudianceState extends State<TournamentAudiance>
                                                 VisualDensity.compact,
                                             onTap: () {
                                               tournamentAudiance.getaudiTournamentDetails(id: data.id.toString());
-                                              Get.to(TournamentRootAudiance(tournamentname:data.tournamentName ?? ''));
+
+                                              Get.to(TournamentRootAudiance(tournamentname:data));
 
                                             },
                                             // visualDensity: VisualDensity.compact,

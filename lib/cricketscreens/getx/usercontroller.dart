@@ -11,6 +11,7 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
 
 import 'package:yarn_modified/services/all_api_services.dart';
 
@@ -19,6 +20,7 @@ import '../../model/getplayerdropdown.dart';
 import '../../model/getplayerinfo.dart';
 import '../../services/app_url.dart';
 import '../admin/player/playerprofileadmin.dart';
+import '../model/getteamplayerlist.dart';
 import '../model/searchplayerresponse.dart';
 import '../model/updateresponse.dart';
 import '../model/usercheckmodel.dart';
@@ -35,6 +37,8 @@ class UserController extends GetxController {
       jsonEncode({"mobile_number": saveUser()?.mobileNumber.toString()});
 
   Rx<PlayerDetails> playerdata = PlayerDetails().obs;
+  RxList<Matchinfo> matches = <Matchinfo>[].obs;
+  RxList<Teamdetails> teams = <Teamdetails>[].obs;
 
   getuserconrollerCall() async {
     Get.context!.loaderOverlay.show();
@@ -72,6 +76,9 @@ class UserController extends GetxController {
       (l) {
         Getplayerinfo data = getplayerinfoFromJson(l.toString());
         if (data.data != null) {
+          playerdata.value = data.data!;
+          matches.value = data.matchs?.first ?? [];
+          teams.value = data.teams ?? [];
           Get.to(PlayerProfileAdmin(data: data.data));
         }
 
@@ -96,6 +103,8 @@ class UserController extends GetxController {
         Getplayerinfo data = getplayerinfoFromJson(l.toString());
         if (data.data?.mobileNumber != null) {
           playerdata.value = data.data!;
+          matches.value = data.matchs?.first ?? [];
+          teams.value = data.teams ?? [];
           Get.to(PlayerProfileScreen());
         }
 

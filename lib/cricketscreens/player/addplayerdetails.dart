@@ -380,7 +380,10 @@ class _AddPlayerDetailsState extends State<AddPlayerDetails> {
                               lable: "Select Player Skill",
                             )),
                         Obx(() => TournamentDropdown(
-                              initialValue: widget.data?.battingStyle,
+                              initialValue: userController.battingStyleList1
+                                      .contains(widget.data?.battingStyle)
+                                  ? widget.data?.battingStyle
+                                  : null,
                               count: userController.battingStyleList1
                                   .map((String value) {
                                 return DropdownMenuItem<String>(
@@ -403,7 +406,10 @@ class _AddPlayerDetailsState extends State<AddPlayerDetails> {
                               lable: "Select Player Batting Style",
                             )),
                         Obx(() => TournamentDropdown(
-                              initialValue: widget.data?.bowlingStyle,
+                              initialValue: userController.bowlingStyleList1
+                                      .contains(widget.data?.bowlingStyle)
+                                  ? widget.data?.bowlingStyle
+                                  : null,
                               count: userController.bowlingStyleList1
                                   .map((String value) {
                                 return DropdownMenuItem<String>(

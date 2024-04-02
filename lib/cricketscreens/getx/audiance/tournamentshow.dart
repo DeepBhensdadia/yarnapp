@@ -6,9 +6,11 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
+import 'package:yarn_modified/services/all_api_services.dart';
 
 import '../../../services/app_url.dart';
 // import '../../model/getteamplayerlist.dart';
+import '../../model/getpointsresponse.dart';
 import '../../model/getteamplayerlist.dart';
 import '../../model/gettournamenttype.dart';
 import '../../model/tournamentlist.dart';
@@ -94,6 +96,36 @@ class TournamentAudianceController extends GetxController {
         getplayerlist.value = data.date ?? [];
         getextralist.value = data.extra ?? [];
         playerbool.value = true;
+        // Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        // Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
+  RxList<Teampoints> getpointsA = <Teampoints>[].obs;
+  RxList<Teampoints> getpointsB = <Teampoints>[].obs;
+  RxList<Teampoints> getpointsC = <Teampoints>[].obs;
+  RxList<Teampoints> getpointsD = <Teampoints>[].obs;
+  RxBool getpoint = false.obs;
+
+  Future<void> getpointsFromAPI({required String tournamentid}) async {
+    // Get.context!.loaderOverlay.show();
+    final response = await webService.getRequest(
+      url:
+          "${URLs.Base_url}groupbyteam/$tournamentid?user_id=${saveUser()?.id}",
+    );
+    response.fold(
+      (l) {
+        Getpointslist data = getpointslistFromJson(l.toString());
+        print(jsonEncode(data));
+        getpointsA.value = data.teamA ?? [];
+        getpointsB.value = data.teamB ?? [];
+        getpointsC.value = data.teamC ?? [];
+        getpointsD.value = data.teamD ?? [];
+        getpoint.value = true;
         // Get.context!.loaderOverlay.hide();
       },
       (r) {

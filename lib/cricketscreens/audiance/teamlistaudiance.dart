@@ -21,6 +21,7 @@ class TeamListAudiance extends StatefulWidget {
 class _TeamListAudianceState extends State<TeamListAudiance> {
   TournamentAudianceController tournamentAudiance =
       Get.put(TournamentAudianceController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

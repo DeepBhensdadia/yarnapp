@@ -23,11 +23,21 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen>
   late TabController _tabController;
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
-    startmatch.scorecardFromAPI(
-        teamid: widget.match.team1?.id.toString() ?? "",
-        matchid: widget.match.id.toString(),
-        touramentid: widget.match.tournament?.id.toString() ?? "");
+    int index = startmatch.matchlive.value.bettingTeamId.toString() ==
+            startmatch.matchlive.value.team1?.id.toString()
+        ? 0
+        : 1;
+    startmatch.indextab.value = index;
+    _tabController = TabController(length: 2, vsync: this, initialIndex: index);
+    index == 0
+        ? startmatch.scorecardFromAPI(
+            teamid: widget.match.team1?.id.toString() ?? "",
+            matchid: widget.match.id.toString(),
+            touramentid: widget.match.tournament?.id.toString() ?? "")
+        : startmatch.scorecard2FromAPI(
+            teamid: widget.match.team2?.id.toString() ?? "",
+            matchid: widget.match.id.toString(),
+            touramentid: widget.match.tournament?.id.toString() ?? "");
     // TODO: implement initState
     super.initState();
   }
@@ -52,6 +62,19 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen>
                 color: MyTheme.appBarColor),
             labelColor: kwhite,
             unselectedLabelColor: MyTheme.appBarColor,
+            onTap: (value) {
+              startmatch.indextab.value = value;
+              value == 0
+                  ? startmatch.scorecardFromAPI(
+                      teamid: widget.match.team1?.id.toString() ?? "",
+                      matchid: widget.match.id.toString(),
+                      touramentid: widget.match.tournament?.id.toString() ?? "")
+                  : startmatch.scorecard2FromAPI(
+                      teamid: widget.match.team2?.id.toString() ?? "",
+                      matchid: widget.match.id.toString(),
+                      touramentid:
+                          widget.match.tournament?.id.toString() ?? "");
+            },
             tabs: [
               Text(
                 widget.match.team1?.shortName ?? "",
@@ -73,987 +96,858 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen>
                         )
                       : Container(
                           color: Colors.white,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: const EdgeInsets.only(
-                                    top: 16, bottom: 16, left: 16, right: 4),
-                                color: Colors.grey.withOpacity(0.4),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                        flex: 4,
-                                        child: Text("Batsman",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12))),
-                                    Expanded(
-                                        child: Text("R",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12))
-                                            .paddingOnly(left: 0)),
-                                    Expanded(
-                                        child: Text("B",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12))
-                                            .paddingOnly(left: 4)),
-                                    Expanded(
-                                        child: Text("4s",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12))
-                                            .paddingOnly(left: 4)),
-                                    Expanded(
-                                        child: Text("6s",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12))
-                                            .paddingOnly(left: 4)),
-                                    Expanded(
-                                        child: Text("SR",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12))
-                                            .paddingOnly(left: 8)),
-                                    Expanded(
-                                        child: Text("",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12))
-                                            .paddingOnly(left: 8)),
-                                  ],
-                                ),
-                              ),
-                              Column(
-                                children: List.generate(
-                                    startmatch.scroreboard.value.betsmens
-                                            ?.length ??
-                                        0, (index) {
-                                  Betsmen? batsman = startmatch
-                                      .scroreboard.value.betsmens?[index];
-                                  return InkWell(
-                                    onTap: () {
-                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
-                                    },
-                                    child: Container(
-                                        padding: const EdgeInsets.only(left: 0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 10, left: 10, top: 5),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                      flex: 4,
-                                                      child: Text(
-                                                          batsman?.betsmens
-                                                                  ?.playerName
-                                                                  .toString() ??
-                                                              "",
-                                                          style: TextStyle(
-                                                              color: darkBlue,
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600))),
-                                                  Expanded(
-                                                      child: Text(
-                                                          batsman?.run
-                                                                  .toString() ??
-                                                              "",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold))),
-                                                  Expanded(
-                                                      child: Text(
-                                                          batsman?.balls
-                                                                  .toString() ??
-                                                              "",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12))),
-                                                  Expanded(
-                                                      child: Text(
-                                                              batsman?.fours
-                                                                      .toString() ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 12))
-                                                          .paddingOnly(
-                                                              left: 4)),
-                                                  Expanded(
-                                                      child: Text(
-                                                              batsman?.sixers
-                                                                      .toString() ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 12))
-                                                          .paddingOnly(
-                                                              left: 4)),
-                                                  Expanded(
-                                                      child: Text(
-                                                          batsman?.sixers
-                                                                  .toString() ??
-                                                              "",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12))),
-                                                  Icon(
-                                                    Icons
-                                                        .keyboard_arrow_right_rounded,
-                                                    color: Colors.grey.shade600,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 10,
-                                                    left: 10,
-                                                    top: 5,
-                                                    bottom: 5),
-                                                child: Text(
-                                                        batsman?.typeOut ??
-                                                            "Not out",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 12))
-                                                    .paddingOnly(
-                                                        top: 4, bottom: 4)),
-                                            const Divider(
-                                              thickness: 0.8,
-                                              height: 0,
-                                            ),
-                                          ],
-                                        )),
-                                  );
-                                }),
-                              ),
-                              const Divider(
-                                thickness: 0.25,
-                                height: 0,
-                                color: Colors.grey,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: const EdgeInsets.only(left: 0),
-                                child: Padding(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
                                   padding: const EdgeInsets.only(
-                                      right: 10, left: 10, top: 5, bottom: 5),
+                                      top: 7, bottom: 7, left: 10, right: 10),
+                                  color: Colors.grey.shade300,
                                   child: Row(
                                     children: <Widget>[
                                       Expanded(
-                                          flex: 4,
-                                          child: Text("Extras",
+                                          flex: 7,
+                                          child:
+                                              Text("Batter", style: textbar)),
+                                      Expanded(
+                                          child: Text("R",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("B",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("4s",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("6s",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text("SR",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      // Expanded(
+                                      //     child: Text("",
+                                      //             style: TextStyle(
+                                      //                 color: Colors.black,
+                                      //                 fontSize: 12))
+                                      //        ),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  children: List.generate(
+                                      startmatch.scroreboard.value.betsmens
+                                              ?.length ??
+                                          0, (index) {
+                                    Betsmen? batsman = startmatch
+                                        .scroreboard.value.betsmens?[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                      },
+                                      child: Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10,
+                                                    left: 10,
+                                                    top: 5),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                        flex: 7,
+                                                        child: Text(
+                                                            "${batsman?.betsmens?.playerName} ${batsman?.outStatusLabel == "not out" ? "*" : ""}",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade700,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.run
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.balls
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.fours
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.sixers
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        flex: 2,
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.strikeRate
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 10,
+                                                      left: 10,
+                                                      top: 5,
+                                                      bottom: 5),
+                                                  child: Text(
+                                                          "${batsman?.outStatusLabel}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize: 12))
+                                                      .paddingOnly(
+                                                          top: 4, bottom: 4)),
+                                              const Divider(
+                                                thickness: 0.8,
+                                                height: 0,
+                                              ),
+                                            ],
+                                          )),
+                                    );
+                                  }),
+                                ),
+                                const Divider(
+                                  thickness: 0.25,
+                                  height: 0,
+                                  color: Colors.grey,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.only(left: 0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 10, left: 10, top: 5, bottom: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text("Extras",
+                                            style: TextStyle(
+                                                color: Colors.grey.shade700,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        Row(
+                                          children: [
+                                            Text(
+                                                "${startmatch.scroreboard.value.extra?.total}",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Text(
+                                                " b ${startmatch.scroreboard.value.extra?.ball}, by ${startmatch.scroreboard.value.extra?.by}, lb ${startmatch.scroreboard.value.extra?.lb}, wd ${startmatch.scroreboard.value.extra?.wb}, nd ${startmatch.scroreboard.value.extra?.nb}",
+                                                style: TextStyle(
+                                                    color: Colors.black54,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                    FontWeight.w400)),
+                                          ],
+                                        ),
+                                      ],
+                                    ).paddingOnly(right: 4),
+                                  ),
+                                ),
+                                const Divider(
+                                  thickness: 0.25,
+                                  height: 0,
+                                  color: Colors.grey,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.only(
+                                      right: 10, left: 10, top: 5, bottom: 5),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Expanded(
+                                          flex: 3,
+                                          child: Text("Total",
                                               style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: Colors.grey.shade700,
                                                   fontSize: 15,
                                                   fontWeight:
                                                       FontWeight.bold))),
-                                      Expanded(
-                                          child: Text("T31,",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.bold))
-                                              .paddingOnly(left: 4)),
-                                      Expanded(
-                                          child: Text("b5,",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12))
-                                              .paddingOnly(left: 10)),
-                                      Expanded(
-                                          child: Text("lb15,",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12))
-                                              .paddingOnly(left: 4)),
-                                      Expanded(
-                                          child: Text("w10,",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12))
-                                              .paddingOnly(left: 6)),
-                                      Expanded(
-                                          child: Text("nb1,",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12))
-                                              .paddingOnly(left: 8)),
-                                      Expanded(
-                                          child: Text("p0",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12))
-                                              .paddingOnly(left: 8)),
-                                    ],
-                                  ).paddingOnly(right: 4),
-                                ),
-                              ),
-                              const Divider(
-                                thickness: 0.25,
-                                height: 0,
-                                color: Colors.grey,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: const EdgeInsets.only(
-                                    right: 10, left: 10, top: 5, bottom: 5),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                        flex: 3,
-                                        child: Text("Total",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold))),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 50),
-                                      child: Text(
-                                        "362 (9 wkts,75.2 Ov)",
+
+                                      // padding: const EdgeInsets.only(right: 50),
+                                      Text(
+                                        startmatch.indextab.value == 0
+                                            ? "${startmatch.matchlive.value.team1TotalRun}-${startmatch.matchlive.value.team1TotalWickets} (${startmatch.matchlive.value.team1TotalOver})"
+                                            : "${startmatch.matchlive.value.team2TotalRun}-${startmatch.matchlive.value.team2TotalWickets} (${startmatch.matchlive.value.team2TotalOver})",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      Text(
+                                        "CRR  ${startmatch.indextab.value == 0 ? startmatch.scroreboard.value.data?.team1Crr : startmatch.scroreboard.value.data?.team2Crr}",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                    )
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              const Divider(
-                                thickness: 0.25,
-                                height: 0,
-                                color: Colors.grey,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: const EdgeInsets.only(
-                                    top: 16, bottom: 16, left: 16, right: 4),
-                                color: Colors.grey.withOpacity(0.4),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                        flex: 4,
-                                        child: Text("Bowler",
-                                            style: primaryTextStyle(
-                                                color: Cricket_textColorPrimary,
-                                                size: 12))),
-                                    Expanded(
-                                        child: Text("O",
-                                                style: primaryTextStyle(
-                                                    color:
-                                                        Cricket_textColorPrimary,
-                                                    size: 12))
-                                            .paddingOnly(left: 0)),
-                                    Expanded(
-                                        child: Text("M",
-                                                style: primaryTextStyle(
-                                                    color:
-                                                        Cricket_textColorPrimary,
-                                                    size: 12))
-                                            .paddingOnly(left: 4)),
-                                    Expanded(
-                                        child: Text("R",
-                                                style: primaryTextStyle(
-                                                    color:
-                                                        Cricket_textColorPrimary,
-                                                    size: 12))
-                                            .paddingOnly(left: 4)),
-                                    Expanded(
-                                        child: Text("W",
-                                                style: primaryTextStyle(
-                                                    color:
-                                                        Cricket_textColorPrimary,
-                                                    size: 12))
-                                            .paddingOnly(left: 4)),
-                                    Expanded(
-                                        child: Text("ER",
-                                                style: primaryTextStyle(
-                                                    color:
-                                                        Cricket_textColorPrimary,
-                                                    size: 12))
-                                            .paddingOnly(left: 8)),
-                                    Expanded(
-                                        child: Text("",
-                                                style: primaryTextStyle(
-                                                    color:
-                                                        Cricket_textColorPrimary,
-                                                    size: 12))
-                                            .paddingOnly(left: 8)),
-                                  ],
+                                const Divider(
+                                  thickness: 0.25,
+                                  height: 0,
+                                  color: Colors.grey,
                                 ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Column(
-                                children: List.generate(
-                                    startmatch.scroreboard.value.bawlers
-                                            ?.length ??
-                                        0, (index) {
-                                  Bawler? bowler = startmatch
-                                      .scroreboard.value.bawlers?[index];
-                                  return InkWell(
-                                    onTap: () {
-                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
-                                    },
-                                    child: Container(
-                                        padding: const EdgeInsets.only(left: 0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 10, left: 10, top: 5),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                      flex: 4,
-                                                      child: Text(
-                                                          bowler?.bowler
-                                                                  ?.playerName ??
-                                                              "",
-                                                          style: TextStyle(
-                                                              color: darkBlue,
-                                                              fontSize: 15))),
-                                                  Expanded(
-                                                      child: Text(
-                                                          bowler?.overs
-                                                                  .toString() ??
-                                                              '',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12))),
-                                                  Expanded(
-                                                      child: Text(
-                                                          bowler?.maidenOver
-                                                                  .toString() ??
-                                                              '',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12))),
-                                                  Expanded(
-                                                      child: Text(
-                                                              bowler?.runs
-                                                                      .toString() ??
-                                                                  '',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 12))
-                                                          .paddingOnly(
-                                                              left: 4)),
-                                                  Expanded(
-                                                      child: Text(
-                                                              bowler?.wickets
-                                                                      .toString() ??
-                                                                  '',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold))
-                                                          .paddingOnly(
-                                                              left: 4)),
-                                                  Expanded(
-                                                      child: Text(
-                                                          bowler?.maidenOver
-                                                                  .toString() ??
-                                                              '',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12))),
-                                                  Icon(
-                                                    Icons
-                                                        .keyboard_arrow_right_rounded,
-                                                    color: Colors.grey.shade600,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            // Padding(
-                                            //     padding: EdgeInsets.only(
-                                            //         right: 10,
-                                            //         left: 10,
-                                            //         top: 5,
-                                            //         bottom: 5),
-                                            //     child: Text("not out (Head)",
-                                            //             style: TextStyle(
-                                            //                 color: Colors.black,
-                                            //                 fontSize: 12))
-                                            //         .paddingOnly(
-                                            //             top: 4, bottom: 4)),
-                                            const Divider(
-                                              thickness: 0.8,
-                                              height: 0,
-                                            ),
-                                          ],
-                                        )),
-                                  );
-                                }),
-                              )
-                            ],
-                          ),
-                        ),
-                ),
-                Obx(
-                  () => Theme(
-                    data: ThemeData(
-                      dividerColor: Colors.transparent,
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: const EdgeInsets.only(
-                                top: 16, bottom: 16, left: 16, right: 4),
-                            color: Colors.grey.withOpacity(0.4),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                    flex: 4,
-                                    child: Text("Batsman",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12))),
-                                Expanded(
-                                    child: Text("R",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12))
-                                        .paddingOnly(left: 0)),
-                                Expanded(
-                                    child: Text("B",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12))
-                                        .paddingOnly(left: 4)),
-                                Expanded(
-                                    child: Text("4s",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12))
-                                        .paddingOnly(left: 4)),
-                                Expanded(
-                                    child: Text("6s",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12))
-                                        .paddingOnly(left: 4)),
-                                Expanded(
-                                    child: Text("SR",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12))
-                                        .paddingOnly(left: 8)),
-                                Expanded(
-                                    child: Text("",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12))
-                                        .paddingOnly(left: 8)),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount:
-                                startmatch.scroreboard.value.betsmens?.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              Betsmen? batsman =
-                                  startmatch.scroreboard.value.betsmens?[index];
-                              return InkWell(
-                                onTap: () {
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
-                                },
-                                child: Container(
-                                    padding: const EdgeInsets.only(left: 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 10, left: 10, top: 5),
-                                          child: Row(
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 10, left: 10, right: 10),
+                                  color: Colors.grey.shade300,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          flex: 7,
+                                          child:
+                                              Text("Bowler", style: textbar)),
+                                      Expanded(
+                                          child: Text("O",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("M",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("R",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("W",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text("ER",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Column(
+                                  children: List.generate(
+                                      startmatch.scroreboard.value.bawlers
+                                              ?.length ??
+                                          0, (index) {
+                                    Bawler? bowler = startmatch
+                                        .scroreboard.value.bawlers?[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                      },
+                                      child: Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
-                                              Expanded(
-                                                  flex: 4,
-                                                  child: Text(
-                                                      batsman?.betsmens
-                                                              ?.playerName
-                                                              .toString() ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: darkBlue,
-                                                          fontSize: 15,
-                                                          fontWeight: FontWeight
-                                                              .w600))),
-                                              Expanded(
-                                                  child: Text(
-                                                      batsman?.run.toString() ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .bold))),
-                                              Expanded(
-                                                  child: Text(
-                                                      batsman?.balls
-                                                              .toString() ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12))),
-                                              Expanded(
-                                                  child: Text(
-                                                          batsman?.fours
-                                                                  .toString() ??
-                                                              "",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12))
-                                                      .paddingOnly(left: 4)),
-                                              Expanded(
-                                                  child: Text(
-                                                          batsman?.sixers
-                                                                  .toString() ??
-                                                              "",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12))
-                                                      .paddingOnly(left: 4)),
-                                              Expanded(
-                                                  child: Text(
-                                                      batsman?.sixers
-                                                              .toString() ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12))),
-                                              Icon(
-                                                Icons
-                                                    .keyboard_arrow_right_rounded,
-                                                color: Colors.grey.shade600,
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10,
+                                                    left: 10,
+                                                    top: 5),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                        flex: 7,
+                                                        child: Text(
+                                                            bowler?.bowler
+                                                                    ?.playerName ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade700,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.overs
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.maidenOver
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.runs
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.wickets
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                    Expanded(
+                                                        flex: 2,
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.economyRate
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                  ],
+                                                ),
+                                              ),
+                                              // Padding(
+                                              //     padding: EdgeInsets.only(
+                                              //         right: 10,
+                                              //         left: 10,
+                                              //         top: 5,
+                                              //         bottom: 5),
+                                              //     child: Text("not out (Head)",
+                                              //             style: TextStyle(
+                                              //                 color: Colors.black,
+                                              //                 fontSize: 12))
+                                              //         .paddingOnly(
+                                              //             top: 4, bottom: 4)),
+                                              const Divider(
+                                                thickness: 0.8,
                                               ),
                                             ],
-                                          ),
-                                        ),
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                right: 10,
-                                                left: 10,
-                                                top: 5,
-                                                bottom: 5),
-                                            child: Text(
-                                                    batsman?.typeOut ??
-                                                        "Not out",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12))
-                                                .paddingOnly(
-                                                    top: 4, bottom: 4)),
-                                        const Divider(
-                                          thickness: 0.8,
-                                          height: 0,
-                                        ),
-                                      ],
-                                    )),
-                              );
-                            },
-                          ),
-                          const Divider(
-                            thickness: 0.25,
-                            height: 0,
-                            color: Colors.grey,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10, left: 10, top: 5, bottom: 5),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                      flex: 4,
-                                      child: Text("Extras",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold))),
-                                  Expanded(
-                                      child: Text("T31,",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold))
-                                          .paddingOnly(left: 4)),
-                                  Expanded(
-                                      child: Text("b5,",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12))
-                                          .paddingOnly(left: 10)),
-                                  Expanded(
-                                      child: Text("lb15,",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12))
-                                          .paddingOnly(left: 4)),
-                                  Expanded(
-                                      child: Text("w10,",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12))
-                                          .paddingOnly(left: 6)),
-                                  Expanded(
-                                      child: Text("nb1,",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12))
-                                          .paddingOnly(left: 8)),
-                                  Expanded(
-                                      child: Text("p0",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12))
-                                          .paddingOnly(left: 8)),
-                                ],
-                              ).paddingOnly(right: 4),
-                            ),
-                          ),
-                          const Divider(
-                            thickness: 0.25,
-                            height: 0,
-                            color: Colors.grey,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: const EdgeInsets.only(
-                                right: 10, left: 10, top: 5, bottom: 5),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                    flex: 3,
-                                    child: Text("Total",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold))),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 50),
-                                  child: Text(
-                                    "362 (9 wkts,75.2 Ov)",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                          )),
+                                    );
+                                  }),
                                 )
                               ],
                             ),
                           ),
-                          const Divider(
-                            thickness: 0.25,
-                            height: 0,
-                            color: Colors.grey,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: const EdgeInsets.only(
-                                top: 16, bottom: 16, left: 16, right: 4),
-                            color: Colors.grey.withOpacity(0.4),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                    flex: 4,
-                                    child: Text("Bowler",
-                                        style: primaryTextStyle(
-                                            color: Cricket_textColorPrimary,
-                                            size: 12))),
-                                Expanded(
-                                    child: Text("O",
-                                            style: primaryTextStyle(
-                                                color: Cricket_textColorPrimary,
-                                                size: 12))
-                                        .paddingOnly(left: 0)),
-                                Expanded(
-                                    child: Text("M",
-                                            style: primaryTextStyle(
-                                                color: Cricket_textColorPrimary,
-                                                size: 12))
-                                        .paddingOnly(left: 4)),
-                                Expanded(
-                                    child: Text("R",
-                                            style: primaryTextStyle(
-                                                color: Cricket_textColorPrimary,
-                                                size: 12))
-                                        .paddingOnly(left: 4)),
-                                Expanded(
-                                    child: Text("W",
-                                            style: primaryTextStyle(
-                                                color: Cricket_textColorPrimary,
-                                                size: 12))
-                                        .paddingOnly(left: 4)),
-                                Expanded(
-                                    child: Text("ER",
-                                            style: primaryTextStyle(
-                                                color: Cricket_textColorPrimary,
-                                                size: 12))
-                                        .paddingOnly(left: 8)),
-                                Expanded(
-                                    child: Text("",
-                                            style: primaryTextStyle(
-                                                color: Cricket_textColorPrimary,
-                                                size: 12))
-                                        .paddingOnly(left: 8)),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount:
-                                startmatch.scroreboard.value.bawlers?.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              Bawler? bowler =
-                                  startmatch.scroreboard.value.bawlers?[index];
-                              return InkWell(
-                                onTap: () {
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
-                                },
-                                child: Container(
-                                    padding: const EdgeInsets.only(left: 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 10, left: 10, top: 5),
-                                          child: Row(
+                        ),
+                ),
+                Obx(
+                  () => startmatch.scorebordbool2.isFalse
+                      ? Center(
+                          child: SizedBox(),
+                        )
+                      : Container(
+                          color: Colors.white,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.only(
+                                      top: 7, bottom: 7, left: 10, right: 10),
+                                  color: Colors.grey.shade300,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          flex: 7,
+                                          child:
+                                              Text("Batter", style: textbar)),
+                                      Expanded(
+                                          child: Text("R",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("B",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("4s",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("6s",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text("SR",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      // Icon(
+                                      //   Icons.keyboard_arrow_right_rounded,
+                                      //   color: Colors.transparent,
+                                      // ),
+                                      // Expanded(
+                                      //     child: Text("",
+                                      //             style: TextStyle(
+                                      //                 color: Colors.black,
+                                      //                 fontSize: 12))
+                                      //        ),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  children: List.generate(
+                                      startmatch.scroreboard2.value.betsmens
+                                              ?.length ??
+                                          0, (index) {
+                                    Betsmen? batsman = startmatch
+                                        .scroreboard2.value.betsmens?[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                      },
+                                      child: Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
-                                              Expanded(
-                                                  flex: 4,
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10,
+                                                    left: 10,
+                                                    top: 5),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                        flex: 7,
+                                                        child: Text(
+                                                            "${batsman?.betsmens?.playerName} ${batsman?.outStatusLabel == "not out" ? "*" : ""}",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade700,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.run
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.balls
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.fours
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.sixers
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        flex: 2,
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            batsman?.strikeRate
+                                                                    .toString() ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 10,
+                                                      left: 10,
+                                                      top: 5,
+                                                      bottom: 5),
                                                   child: Text(
-                                                      bowler?.bowler
-                                                              ?.playerName ??
-                                                          "",
-                                                      style: TextStyle(
-                                                          color: darkBlue,
-                                                          fontSize: 15))),
-                                              Expanded(
-                                                  child: Text(
-                                                      bowler?.overs
-                                                              .toString() ??
-                                                          '',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12))),
-                                              Expanded(
-                                                  child: Text(
-                                                      bowler?.maidenOver
-                                                              .toString() ??
-                                                          '',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12))),
-                                              Expanded(
-                                                  child: Text(
-                                                          bowler?.runs
-                                                                  .toString() ??
-                                                              '',
+                                                          "${batsman?.outStatusLabel}",
                                                           style: TextStyle(
                                                               color:
-                                                                  Colors.black,
+                                                                  Colors.grey,
                                                               fontSize: 12))
-                                                      .paddingOnly(left: 4)),
-                                              Expanded(
-                                                  child: Text(
-                                                          bowler?.wickets
-                                                                  .toString() ??
-                                                              '',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold))
-                                                      .paddingOnly(left: 4)),
-                                              Expanded(
-                                                  child: Text(
-                                                      bowler?.maidenOver
-                                                              .toString() ??
-                                                          '',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12))),
-                                              Icon(
-                                                Icons
-                                                    .keyboard_arrow_right_rounded,
-                                                color: Colors.grey.shade600,
+                                                      .paddingOnly(
+                                                          top: 4, bottom: 4)),
+                                              const Divider(
+                                                thickness: 0.8,
+                                                height: 0,
                                               ),
                                             ],
-                                          ),
-                                        ),
-                                        // Padding(
-                                        //     padding: EdgeInsets.only(
-                                        //         right: 10,
-                                        //         left: 10,
-                                        //         top: 5,
-                                        //         bottom: 5),
-                                        //     child: Text("not out (Head)",
-                                        //             style: TextStyle(
-                                        //                 color: Colors.black,
-                                        //                 fontSize: 12))
-                                        //         .paddingOnly(
-                                        //             top: 4, bottom: 4)),
-                                        const Divider(
-                                          thickness: 0.8,
-                                          height: 0,
-                                        ),
-                                      ],
-                                    )),
-                              );
-                            },
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: const EdgeInsets.only(
-                                top: 16, bottom: 16, left: 16, right: 4),
-                            color: Colors.grey.withOpacity(0.4),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                    flex: 6,
-                                    child: Text("Fall of Wickets",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12))),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text("Score",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12))),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text("Over",
+                                          )),
+                                    );
+                                  }),
+                                ),
+                                const Divider(
+                                  thickness: 0.25,
+                                  height: 0,
+                                  color: Colors.grey,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.only(left: 0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 10, left: 10, top: 5, bottom: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text("Extras",
                                             style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12))
-                                        .paddingOnly(left: 12)),
-                                Expanded(
-                                    child: Text("",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12))
-                                        .paddingOnly(left: 8)),
-                              ],
-                            ),
-                          ),
-                          ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: 6,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return InkWell(
-                                onTap: () {
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
-                                },
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 10),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                                flex: 4,
-                                                child: Text("Ben Stokes",
-                                                    style: TextStyle(
-                                                        color: darkBlue,
-                                                        fontSize: 15))),
-                                            Expanded(
-                                                flex: 1,
-                                                child: Text("135",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 12))
-                                                    .paddingOnly(left: 12)),
-                                            Expanded(
-                                                flex: 0,
-                                                child: Text("95.94",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12))),
-                                            Expanded(
-                                                flex: 0,
-                                                child: Text("",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 12))
-                                                    .paddingOnly(right: 35)),
+                                                color: Colors.grey.shade700,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        Row(
+                                          children: [
+                                            Text(
+                                                startmatch.indextab.value == 0
+                                                    ? "${startmatch.matchlive.value.team1ExtraRun}"
+                                                    : "${startmatch.matchlive.value.team2ExtraRun}",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Text(
+                                                " b ${startmatch.scroreboard.value.extra?.ball}, by ${startmatch.scroreboard.value.extra?.by}, lb ${startmatch.scroreboard.value.extra?.lb}, wd ${startmatch.scroreboard.value.extra?.wb}, nd ${startmatch.scroreboard.value.extra?.nb}",
+                                                style: TextStyle(
+                                                    color: Colors.black54,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w400)),
                                           ],
-                                        ).paddingOnly(right: 4),
+                                        )
+                                      ],
+                                    ).paddingOnly(right: 4),
+                                  ),
+                                ),
+                                const Divider(
+                                  thickness: 0.25,
+                                  height: 0,
+                                  color: Colors.grey,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.only(
+                                      right: 10, left: 10, top: 5, bottom: 5),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          flex: 3,
+                                          child: Text("Total",
+                                              style: TextStyle(
+                                                  color: Colors.grey.shade700,
+                                                  fontSize: 15,
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      Text(
+                                        startmatch.indextab.value == 0
+                                            ? "${startmatch.matchlive.value.team1TotalRun}-${startmatch.matchlive.value.team1TotalWickets} (${startmatch.matchlive.value.team1TotalOver})"
+                                            : "${startmatch.matchlive.value.team2TotalRun}-${startmatch.matchlive.value.team2TotalWickets} (${startmatch.matchlive.value.team2TotalOver})",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      const Divider(
-                                        thickness: 0.8,
-                                        height: 0,
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      Text(
+                                        "CRR  ${startmatch.indextab.value == 0 ? startmatch.scroreboard.value.data?.team1Crr : startmatch.scroreboard.value.data?.team2Crr}",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
                                 ),
-                              );
-                            },
+                                const Divider(
+                                  thickness: 0.25,
+                                  height: 0,
+                                  color: Colors.grey,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 10, left: 10, right: 10),
+                                  color: Colors.grey.shade300,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          flex: 7,
+                                          child:
+                                              Text("Bowler", style: textbar)),
+                                      Expanded(
+                                          child: Text("O",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("M",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("R",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          child: Text("W",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text("ER",
+                                              textAlign: TextAlign.center,
+                                              style: textbar)),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Column(
+                                  children: List.generate(
+                                      startmatch.scroreboard2.value.bawlers
+                                              ?.length ??
+                                          0, (index) {
+                                    Bawler? bowler = startmatch
+                                        .scroreboard2.value.bawlers?[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                      },
+                                      child: Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10,
+                                                    left: 10,
+                                                    top: 5),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                        flex: 7,
+                                                        child: Text(
+                                                            bowler?.bowler
+                                                                    ?.playerName ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade700,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.overs
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.maidenOver
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.runs
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                    Expanded(
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.wickets
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold))),
+                                                    Expanded(
+                                                        flex: 2,
+                                                        child: Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            bowler?.economyRate
+                                                                    .toString() ??
+                                                                '',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12))),
+                                                  ],
+                                                ),
+                                              ),
+                                              // Padding(
+                                              //     padding: EdgeInsets.only(
+                                              //         right: 10,
+                                              //         left: 10,
+                                              //         top: 5,
+                                              //         bottom: 5),
+                                              //     child: Text("not out (Head)",
+                                              //             style: TextStyle(
+                                              //                 color: Colors.black,
+                                              //                 fontSize: 12))
+                                              //         .paddingOnly(
+                                              //             top: 4, bottom: 4)),
+                                              const Divider(
+                                                thickness: 0.8,
+                                              ),
+                                            ],
+                                          )),
+                                    );
+                                  }),
+                                )
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
                 ),
               ],
             ),

@@ -29,9 +29,14 @@ class _AddTeamScreenState extends State<AddTeamScreen> {
   void initState() {
     teamcontroller.teamname.clear();
     teamcontroller.shortname.clear();
+    teamcontroller.ownername.clear();
+    teamcontroller.group.clear();
+    teamcontroller.getgroupDataAPI();
     if (widget.teamdetails != null) {
       teamcontroller.teamname.text = widget.teamdetails?.teamName ?? "";
       teamcontroller.shortname.text = widget.teamdetails?.shortName ?? "";
+      teamcontroller.ownername.text = widget.teamdetails?.teamOwner ?? "";
+      teamcontroller.group.text = widget.teamdetails?.groupId ?? "";
       teamcontroller.status.value =
           widget.teamdetails?.status == 1 ? true : false;
     }
@@ -331,6 +336,46 @@ class _AddTeamScreenState extends State<AddTeamScreen> {
                           controller: teamcontroller.shortname,
                           keyboardType: TextInputType.text,
                           hintText: "Enter Team Name",
+                        ),
+                        TournamentTextFormField(
+                          onchange: (p0) {
+                            setState(() {
+                              editedt = true;
+                            });
+                          },
+                          maxlength: 25,
+                          // validatorfield: (p0) {
+                          //   if (p0!.isEmpty) {
+                          //     return "Enter Owner Name";
+                          //   }
+                          //   return null;
+                          // },
+                          labelText: "Team Owner Name",
+                          controller: teamcontroller.ownername,
+                          keyboardType: TextInputType.text,
+                          hintText: "Enter owner Name",
+                        ),
+                        Obx(
+                          () => TournamentDropdown(
+                            initialValue: widget.teamdetails?.groupId == "" ?  null :widget.teamdetails?.groupId,
+                            count: teamcontroller.getgroups
+                                .map((e) => DropdownMenuItem<String>(
+                                    value: "${e}", child: Text("${e}")))
+                                .toList(),
+                            onchange: (p0) {
+                              setState(() {
+                                editedt = true;
+                              });
+                              teamcontroller.group.text = p0.toString();
+                            },
+                            validator: (p0) {
+                              if (p0?.isEmpty ?? true) {
+                                return "Select Team Group";
+                              }
+                              return null;
+                            },
+                            lable: "Select Team Group",
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

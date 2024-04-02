@@ -38,8 +38,16 @@ class Getteamslist {
 class Teams {
   int? id;
   String? teamName;
+  String? groupId;
+  String? teamOwner;
   int? tournamentId;
   int? createdBy;
+  int? totalMatches;
+  int? totalWin;
+  int? totalLoss;
+  int? totalDraw;
+  int? point;
+  String? netRunrate;
   String? logo;
   String? players;
   String? shortName;
@@ -52,8 +60,16 @@ class Teams {
   Teams({
     this.id,
     this.teamName,
+    this.teamOwner,
+    this.groupId,
     this.tournamentId,
     this.createdBy,
+    this.totalMatches,
+    this.totalWin,
+    this.totalLoss,
+    this.totalDraw,
+    this.point,
+    this.netRunrate,
     this.logo,
     this.players,
     this.shortName,
@@ -67,8 +83,16 @@ class Teams {
   factory Teams.fromJson(Map<String, dynamic> json) => Teams(
         id: json["id"],
         teamName: json["team_name"],
+        teamOwner: json["team_owner"],
+        groupId: json["group_id"],
         tournamentId: json["tournament_id"],
         createdBy: json["created_by"],
+        totalMatches: json["total_matches"],
+        totalWin: json["total_win"],
+        totalLoss: json["total_loss"],
+        totalDraw: json["total_draw"],
+        point: json["point"],
+        netRunrate: json["net_runrate"],
         logo: json["logo"],
         players: json["players"],
         shortName: json["short_name"],
@@ -85,8 +109,16 @@ class Teams {
   Map<String, dynamic> toJson() => {
         "id": id,
         "team_name": teamName,
+        "team_owner": teamOwner,
+        "group_id": groupId,
         "tournament_id": tournamentId,
         "created_by": createdBy,
+        "total_matches": totalMatches,
+        "total_win": totalWin,
+        "total_loss": totalLoss,
+        "total_draw": totalDraw,
+        "point": point,
+        "net_runrate": netRunrate,
         "logo": logo,
         "players": players,
         "short_name": shortName,

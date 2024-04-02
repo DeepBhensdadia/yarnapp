@@ -31,7 +31,10 @@ class _OpeningPlayersState extends State<OpeningPlayers> {
     // startmatch.matchlive.value = widget.match;
     startmatch.matchInfoDetailFromAPI(
         tournamentid: widget.match.tournament?.id.toString() ?? "",
-        matchid: widget.match.id.toString() ?? "");
+        matchid: widget.match.id.toString() ?? "").then((value) {
+      startmatch.confirmposition();
+      startmatch.teamname();
+    });
 
     // TODO: implement initState
     super.initState();

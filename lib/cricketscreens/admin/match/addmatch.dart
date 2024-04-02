@@ -54,7 +54,7 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
       matchController.overs.text =
           widget.matchdetail?.overseas?.toString() ?? "";
       matchController.matchtype.text =
-          widget.matchdetail?.match?.toString() ?? "";
+          widget.matchdetail?.matchType?.toString() ?? "";
     } else {
       matchController.Location.text =
           widget.tournametid.address.toString() ?? "";
@@ -289,7 +289,9 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
                           hintText: "",
                         ),
                         TournamentDropdown(
-                          initialValue: widget.matchdetail?.match.toString(),
+                          initialValue: widget.matchdetail?.matchType != null
+                              ? widget.matchdetail?.matchType.toString()
+                              : null,
                           count: [
                             DropdownMenuItem<String>(
                                 value: "Early", child: Text("Early")),
