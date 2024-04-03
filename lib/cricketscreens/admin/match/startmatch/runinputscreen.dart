@@ -46,15 +46,15 @@ class _RunInputScreenState extends State<RunInputScreen> {
         child: Card(
           color: color ??
               Colors
-                  .white, // Using the passed color if available, otherwise defaulting to white
+                  .grey.shade600.withOpacity(0.9), // Using the passed color if available, otherwise defaulting to white
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15),
             child: Text(
               input, // Removed unnecessary quotes around input
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 22,
-                  color: color != null ? Colors.white : Colors.black,
+                  fontSize: screenwidth(context, dividedby: 22),
+                  color: input != "undo" ? Colors.white : Colors.black,
                   fontWeight: FontWeight.w400),
             ),
           ),
@@ -661,7 +661,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                         balltype: popupid == 1
                                             ? "nb"
                                             : popupid == 2
-                                                ? "wd"
+                                                ? "wb"
                                                 : popupid == 3
                                                     ? "by"
                                                     : "lb",
@@ -672,9 +672,9 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                     .stickerPlayerId
                                                     .toString(),
                                         outbyplayerid: outbyplayerid,
-                                        outtype: popupid == 1
+                                        outtype: popupid == 2
                                             ? selectindextype == 0
-                                                ? "stumping"
+                                                ? "stumped"
                                                 : selectindextype == 1
                                                     ? "runout"
                                                     : "hitwicket"
@@ -682,7 +682,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                     Get.back();
                                     newbatsmanaddSheet(
                                         isrunout:
-                                            popupid != 1 || selectindextype == 1
+                                            popupid != 2 || selectindextype == 1
                                                 ? 1
                                                 : null);
                                   }
@@ -733,23 +733,16 @@ class _RunInputScreenState extends State<RunInputScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "End of over by ${startmatch.matchlive.value.playerBowler?.playerName}",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: kthemecolor,
-                            ),
+                      child: SizedBox(
+                        width: screenwidth(context, dividedby: 1.5),
+                        child: Text(
+                          "End of over by ${startmatch.matchlive.value.playerBowler?.playerName}",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: kthemecolor,
                           ),
-                          Icon(
-                            CupertinoIcons.settings,
-                            color: Colors.white,
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                     Container(
@@ -1071,7 +1064,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                         child: Center(
                                             child: Text(
                                           index == 0
-                                              ? "${team == "1" ? startmatch.matchlive.value.team1TotalRun.toString() : startmatch.matchlive.value.team2TotalRun.toString()}"
+                                              ? "${team == "1" ? startmatch.matchlive.value.team1Runs.toString() : startmatch.matchlive.value.team2Runs.toString()}"
                                               : index == 1
                                                   ? "${team == "1" ? startmatch.matchlive.value.team1TotalOver.toString() : startmatch.matchlive.value.team2TotalOver.toString()}"
                                                   : index == 2
@@ -2202,18 +2195,23 @@ class _RunInputScreenState extends State<RunInputScreen> {
                             PhotoScreencric(
                                 dobbn: 18,
                                 image: URLs.image_url_team +
-                                    "${widget.match.team1?.logo}"),
+                                    "${widget.match?.team1?.logo}"),
                             SizedBox(
                               width: 10,
                             ),
                             Text(
-                              widget.match.team1?.shortName ?? "",
+                              widget.match?.team1?.shortName ?? "",
                               style: TextStyle(
                                   color: startmatch
-                                              .matchlive.value.bettingTeamId ==
+                                              .matchlive.value.winningTeamId ==
                                           startmatch.matchlive.value.team1?.id
                                       ? Colors.black
-                                      : Colors.grey,
+                                      : startmatch.matchlive.value
+                                                  .bettingTeamId ==
+                                              startmatch
+                                                  .matchlive.value.team1?.id
+                                          ? Colors.black
+                                          : Colors.grey,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -2230,14 +2228,19 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                 children: [
                                   Text(
                                     textAlign: TextAlign.center,
-                                    "${startmatch.matchlive.value.team1TotalRun}-${startmatch.matchlive.value.team1TotalWickets}",
+                                    "${startmatch.matchlive.value.team1Runs}-${startmatch.matchlive.value.team1TotalWickets}",
                                     style: TextStyle(
                                         color: startmatch.matchlive.value
-                                                    .bettingTeamId ==
+                                                    .winningTeamId ==
                                                 startmatch
                                                     .matchlive.value.team1?.id
                                             ? Colors.black
-                                            : Colors.grey,
+                                            : startmatch.matchlive.value
+                                                        .bettingTeamId ==
+                                                    startmatch.matchlive.value
+                                                        .team1?.id
+                                                ? Colors.black
+                                                : Colors.grey,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500),
                                   ),
@@ -2246,11 +2249,16 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                     " (${startmatch.matchlive.value.team1TotalOver})",
                                     style: TextStyle(
                                         color: startmatch.matchlive.value
-                                                    .bettingTeamId ==
+                                                    .winningTeamId ==
                                                 startmatch
                                                     .matchlive.value.team1?.id
                                             ? Colors.black
-                                            : Colors.grey,
+                                            : startmatch.matchlive.value
+                                                        .bettingTeamId ==
+                                                    startmatch.matchlive.value
+                                                        .team1?.id
+                                                ? Colors.black
+                                                : Colors.grey,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
                                   ).paddingOnly(right: 20),
@@ -2270,18 +2278,23 @@ class _RunInputScreenState extends State<RunInputScreen> {
                             PhotoScreencric(
                                 dobbn: 18,
                                 image: URLs.image_url_team +
-                                    "${widget.match.team2?.logo}"),
+                                    "${widget.match?.team2?.logo}"),
                             SizedBox(
                               width: 10,
                             ),
                             Text(
-                              widget.match.team2?.shortName ?? "",
+                              widget.match?.team2?.shortName ?? "",
                               style: TextStyle(
                                   color: startmatch
-                                              .matchlive.value.bettingTeamId ==
+                                              .matchlive.value.winningTeamId ==
                                           startmatch.matchlive.value.team2?.id
                                       ? Colors.black
-                                      : Colors.grey,
+                                      : startmatch.matchlive.value
+                                                  .bettingTeamId ==
+                                              startmatch
+                                                  .matchlive.value.team2?.id
+                                          ? Colors.black
+                                          : Colors.grey,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -2301,11 +2314,16 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                     "${startmatch.matchlive.value.team2TotalRun}-${startmatch.matchlive.value.team2TotalWickets}",
                                     style: TextStyle(
                                         color: startmatch.matchlive.value
-                                                    .bettingTeamId ==
+                                                    .winningTeamId ==
                                                 startmatch
                                                     .matchlive.value.team2?.id
                                             ? Colors.black
-                                            : Colors.grey,
+                                            : startmatch.matchlive.value
+                                                        .bettingTeamId ==
+                                                    startmatch.matchlive.value
+                                                        .team2?.id
+                                                ? Colors.black
+                                                : Colors.grey,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500),
                                   ),
@@ -2314,11 +2332,16 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                     " (${startmatch.matchlive.value.team2TotalOver})",
                                     style: TextStyle(
                                         color: startmatch.matchlive.value
-                                                    .bettingTeamId ==
+                                                    .winningTeamId ==
                                                 startmatch
                                                     .matchlive.value.team2?.id
                                             ? Colors.black
-                                            : Colors.grey,
+                                            : startmatch.matchlive.value
+                                                        .bettingTeamId ==
+                                                    startmatch.matchlive.value
+                                                        .team2?.id
+                                                ? Colors.black
+                                                : Colors.grey,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
                                   ).paddingOnly(right: 20),
@@ -2621,7 +2644,8 @@ class _RunInputScreenState extends State<RunInputScreen> {
                 });
               } else if (startmatch.isnewinning.isTrue) {
                 Future.delayed(Duration.zero, () {
-                  InningsCompleteSheet();
+                  if ((startmatch.matchlive.value.inningId ?? 0) < 3)
+                    InningsCompleteSheet();
                 });
               } else if ((startmatch.matchlive.value.inningId == 1 ||
                       startmatch.matchlive.value.inningId == 2) &&
@@ -2670,11 +2694,21 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                   color: startmatch
                                                               .matchlive
                                                               .value
-                                                              .bettingTeamId ==
+                                                              .winningTeamId ==
                                                           startmatch.matchlive
                                                               .value.team1?.id
                                                       ? Colors.black
-                                                      : Colors.grey,
+                                                      : startmatch
+                                                                  .matchlive
+                                                                  .value
+                                                                  .bettingTeamId ==
+                                                              startmatch
+                                                                  .matchlive
+                                                                  .value
+                                                                  .team1
+                                                                  ?.id
+                                                          ? Colors.black
+                                                          : Colors.grey,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w400),
                                             ),
@@ -2695,19 +2729,29 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                 children: [
                                                   Text(
                                                     textAlign: TextAlign.center,
-                                                    "${startmatch.matchlive.value.team1TotalRun}-${startmatch.matchlive.value.team1TotalWickets}",
+                                                    "${startmatch.matchlive.value.team1Runs}-${startmatch.matchlive.value.team1TotalWickets}",
                                                     style: TextStyle(
                                                         color: startmatch
                                                                     .matchlive
                                                                     .value
-                                                                    .bettingTeamId ==
+                                                                    .winningTeamId ==
                                                                 startmatch
                                                                     .matchlive
                                                                     .value
                                                                     .team1
                                                                     ?.id
                                                             ? Colors.black
-                                                            : Colors.grey,
+                                                            : startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .bettingTeamId ==
+                                                                    startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .team1
+                                                                        ?.id
+                                                                ? Colors.black
+                                                                : Colors.grey,
                                                         fontSize: 18,
                                                         fontWeight:
                                                             FontWeight.w500),
@@ -2719,14 +2763,24 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                         color: startmatch
                                                                     .matchlive
                                                                     .value
-                                                                    .bettingTeamId ==
+                                                                    .winningTeamId ==
                                                                 startmatch
                                                                     .matchlive
                                                                     .value
                                                                     .team1
                                                                     ?.id
                                                             ? Colors.black
-                                                            : Colors.grey,
+                                                            : startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .bettingTeamId ==
+                                                                    startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .team1
+                                                                        ?.id
+                                                                ? Colors.black
+                                                                : Colors.grey,
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.w500),
@@ -2759,11 +2813,21 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                   color: startmatch
                                                               .matchlive
                                                               .value
-                                                              .bettingTeamId ==
+                                                              .winningTeamId ==
                                                           startmatch.matchlive
                                                               .value.team2?.id
                                                       ? Colors.black
-                                                      : Colors.grey,
+                                                      : startmatch
+                                                                  .matchlive
+                                                                  .value
+                                                                  .bettingTeamId ==
+                                                              startmatch
+                                                                  .matchlive
+                                                                  .value
+                                                                  .team2
+                                                                  ?.id
+                                                          ? Colors.black
+                                                          : Colors.grey,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w400),
                                             ),
@@ -2784,19 +2848,29 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                 children: [
                                                   Text(
                                                     textAlign: TextAlign.center,
-                                                    "${startmatch.matchlive.value.team2TotalRun}-${startmatch.matchlive.value.team2TotalWickets}",
+                                                    "${startmatch.matchlive.value.team2Runs}-${startmatch.matchlive.value.team2TotalWickets}",
                                                     style: TextStyle(
                                                         color: startmatch
                                                                     .matchlive
                                                                     .value
-                                                                    .bettingTeamId ==
+                                                                    .winningTeamId ==
                                                                 startmatch
                                                                     .matchlive
                                                                     .value
                                                                     .team2
                                                                     ?.id
                                                             ? Colors.black
-                                                            : Colors.grey,
+                                                            : startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .bettingTeamId ==
+                                                                    startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .team2
+                                                                        ?.id
+                                                                ? Colors.black
+                                                                : Colors.grey,
                                                         fontSize: 18,
                                                         fontWeight:
                                                             FontWeight.w500),
@@ -2808,14 +2882,24 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                         color: startmatch
                                                                     .matchlive
                                                                     .value
-                                                                    .bettingTeamId ==
+                                                                    .winningTeamId ==
                                                                 startmatch
                                                                     .matchlive
                                                                     .value
                                                                     .team2
                                                                     ?.id
                                                             ? Colors.black
-                                                            : Colors.grey,
+                                                            : startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .bettingTeamId ==
+                                                                    startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .team2
+                                                                        ?.id
+                                                                ? Colors.black
+                                                                : Colors.grey,
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.w500),
@@ -2832,7 +2916,8 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                             children: [
                                               Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     textAlign: TextAlign.center,
@@ -2844,8 +2929,63 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                         fontWeight:
                                                             FontWeight.w400),
                                                   ),
+                                                  startmatch.matchlive.value
+                                                              .inningId ==
+                                                          2
+                                                      ? Text(
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          "REQ  ${startmatch.requirerunrate}",
+                                                          style: TextStyle(
+                                                              color: Colors.grey
+                                                                  .shade700,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        )
+                                                      : SizedBox(),
+                                                  startmatch.matchlive.value
+                                                              .inningId ==
+                                                          2
+                                                      ? Text(
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          "Target :  ${startmatch.target}",
+                                                          style: TextStyle(
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        )
+                                                      : SizedBox(),
                                                 ],
                                               ),
+                                              startmatch.matchlive.value
+                                                          .inningId ==
+                                                      2
+                                                  ? Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          "${startmatch.requirestatus}",
+                                                          style: TextStyle(
+                                                              color: Colors.grey
+                                                                  .shade700,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : SizedBox(),
                                             ],
                                           )
                                         : Column(
@@ -3095,32 +3235,38 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                                       ],
                                                                     ),
                                                                   ),
-                                                                  const Divider(
-                                                                    thickness:
-                                                                        0.8,
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                        horizontal:
-                                                                            10.0),
-                                                                    child: Text(
-                                                                        "Partnership   10 (10)",
-                                                                        style: TextStyle(
-                                                                            color: Colors
-                                                                                .grey.shade700,
-                                                                            fontSize:
-                                                                                12,
-                                                                            fontWeight:
-                                                                                FontWeight.w400)),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 5,
-                                                                  ),
+
                                                                 ],
                                                               )),
                                                         ),
                                                       ]),
+                                                      const Divider(
+                                                        thickness:
+                                                        0.8,
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal:
+                                                            10.0),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                                "Partnership   ${startmatch.partnershiprun} (${startmatch.partnershipball})",
+                                                                style: TextStyle(
+                                                                    color: Colors.grey.shade700,
+                                                                    fontSize: 12,
+                                                                    fontWeight: FontWeight.w400)),
+                                                            Text("Change Strike", style: TextStyle(color: darkBlue, fontSize: 12, fontWeight: FontWeight.w400))
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -3350,8 +3496,10 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                                           ? "W"
                                                                           : "W${ball.run}",
                                                                   style: TextStyle(
-                                                                      fontSize:
-                                                                          12,
+                                                                      fontSize: screenwidth(
+                                                                          context,
+                                                                          dividedby:
+                                                                              30),
                                                                       color: Colors
                                                                           .white,
                                                                       fontWeight:
@@ -3409,7 +3557,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                 Visibility(
                   visible: startmatch.isnewinning.isTrue ||
                           startmatch.isnewover.isTrue ||
-                          startmatch.matchlive.value.inningId == 3
+                          (startmatch.matchlive.value.inningId ?? 0) > 2
                       ? false
                       : true,
                   child: Column(
@@ -3471,7 +3619,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                             buildMaterialButton("6", color: Colors.green, () {
                               runapi(run: "6");
                             }),
-                            buildMaterialButton("Out", color: Colors.red, () {
+                            buildMaterialButton("out", color: Colors.red, () {
                               // outSheet();
                               Outbottomsheet();
                             }),
@@ -3482,18 +3630,21 @@ class _RunInputScreenState extends State<RunInputScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Row(
                           children: [
-                            buildMaterialButton("NB", () {
+                            buildMaterialButton(color: Colors.orange, "nb", () {
                               Noballsheet(popupid: 1);
                             }),
-                            buildMaterialButton("WD", () {
+                            buildMaterialButton(color: Colors.orange,"wd", () {
                               // Overcompletesheet();
                               Noballsheet(popupid: 2);
                               // widesheet();
                             }),
-                            buildMaterialButton("BYE", () {
+                            buildMaterialButton(color: Colors.orange,"by", () {
                               Noballsheet(popupid: 3);
                             }),
-                            buildMaterialButton("L.BYE", () {
+                            buildMaterialButton(color: Colors.orange,"lby", () {
+                              Noballsheet(popupid: 4);
+                            }),
+                            buildMaterialButton(color: Colors.grey.shade300,"undo", () {
                               Noballsheet(popupid: 4);
                             }),
                           ],

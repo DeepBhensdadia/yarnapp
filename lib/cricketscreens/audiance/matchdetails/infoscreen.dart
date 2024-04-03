@@ -68,11 +68,16 @@ class _InfoScreenState extends State<InfoScreen> {
                                           widget.match?.team1?.shortName ?? "",
                                           style: TextStyle(
                                               color: startmatch.matchlive.value
-                                                          .bettingTeamId ==
+                                                          .winningTeamId ==
                                                       startmatch.matchlive.value
                                                           .team1?.id
                                                   ? Colors.black
-                                                  : Colors.grey,
+                                                  : startmatch.matchlive.value
+                                                              .bettingTeamId ==
+                                                          startmatch.matchlive
+                                                              .value.team1?.id
+                                                      ? Colors.black
+                                                      : Colors.grey,
                                               fontSize: 18,
                                               fontWeight: FontWeight.w400),
                                         ),
@@ -91,16 +96,26 @@ class _InfoScreenState extends State<InfoScreen> {
                                             children: [
                                               Text(
                                                 textAlign: TextAlign.center,
-                                                "${startmatch.matchlive.value.team1TotalRun}-${startmatch.matchlive.value.team1TotalWickets}",
+                                                "${startmatch.matchlive.value.team1Runs}-${startmatch.matchlive.value.team1TotalWickets}",
                                                 style: TextStyle(
                                                     color: startmatch
                                                                 .matchlive
                                                                 .value
-                                                                .bettingTeamId ==
+                                                                .winningTeamId ==
                                                             startmatch.matchlive
                                                                 .value.team1?.id
                                                         ? Colors.black
-                                                        : Colors.grey,
+                                                        : startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .bettingTeamId ==
+                                                                startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .team1
+                                                                    ?.id
+                                                            ? Colors.black
+                                                            : Colors.grey,
                                                     fontSize: 18,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -112,11 +127,21 @@ class _InfoScreenState extends State<InfoScreen> {
                                                     color: startmatch
                                                                 .matchlive
                                                                 .value
-                                                                .bettingTeamId ==
+                                                                .winningTeamId ==
                                                             startmatch.matchlive
                                                                 .value.team1?.id
                                                         ? Colors.black
-                                                        : Colors.grey,
+                                                        : startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .bettingTeamId ==
+                                                                startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .team1
+                                                                    ?.id
+                                                            ? Colors.black
+                                                            : Colors.grey,
                                                     fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -146,11 +171,16 @@ class _InfoScreenState extends State<InfoScreen> {
                                           widget.match?.team2?.shortName ?? "",
                                           style: TextStyle(
                                               color: startmatch.matchlive.value
-                                                          .bettingTeamId ==
+                                                          .winningTeamId ==
                                                       startmatch.matchlive.value
                                                           .team2?.id
                                                   ? Colors.black
-                                                  : Colors.grey,
+                                                  : startmatch.matchlive.value
+                                                              .bettingTeamId ==
+                                                          startmatch.matchlive
+                                                              .value.team2?.id
+                                                      ? Colors.black
+                                                      : Colors.grey,
                                               fontSize: 18,
                                               fontWeight: FontWeight.w400),
                                         ),
@@ -169,16 +199,26 @@ class _InfoScreenState extends State<InfoScreen> {
                                             children: [
                                               Text(
                                                 textAlign: TextAlign.center,
-                                                "${startmatch.matchlive.value.team2TotalRun}-${startmatch.matchlive.value.team2TotalWickets}",
+                                                "${startmatch.matchlive.value.team2Runs}-${startmatch.matchlive.value.team2TotalWickets}",
                                                 style: TextStyle(
                                                     color: startmatch
                                                                 .matchlive
                                                                 .value
-                                                                .bettingTeamId ==
+                                                                .winningTeamId ==
                                                             startmatch.matchlive
                                                                 .value.team2?.id
                                                         ? Colors.black
-                                                        : Colors.grey,
+                                                        : startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .bettingTeamId ==
+                                                                startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .team2
+                                                                    ?.id
+                                                            ? Colors.black
+                                                            : Colors.grey,
                                                     fontSize: 18,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -190,11 +230,21 @@ class _InfoScreenState extends State<InfoScreen> {
                                                     color: startmatch
                                                                 .matchlive
                                                                 .value
-                                                                .bettingTeamId ==
+                                                                .winningTeamId ==
                                                             startmatch.matchlive
                                                                 .value.team2?.id
                                                         ? Colors.black
-                                                        : Colors.grey,
+                                                        : startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .bettingTeamId ==
+                                                                startmatch
+                                                                    .matchlive
+                                                                    .value
+                                                                    .team2
+                                                                    ?.id
+                                                            ? Colors.black
+                                                            : Colors.grey,
                                                     fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -211,7 +261,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                         children: [
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 textAlign: TextAlign.center,
@@ -222,8 +272,59 @@ class _InfoScreenState extends State<InfoScreen> {
                                                     fontWeight:
                                                         FontWeight.w400),
                                               ),
+                                              startmatch.matchlive.value
+                                                          .inningId ==
+                                                      2
+                                                  ? Text(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      "REQ  ${startmatch.requirerunrate}",
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .grey.shade700,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    )
+                                                  : SizedBox(),
+                                              startmatch.matchlive.value
+                                                          .inningId ==
+                                                      2
+                                                  ? Text(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      "Target :  ${startmatch.target}",
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .grey.shade900,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    )
+                                                  : SizedBox(),
                                             ],
                                           ),
+                                          startmatch.matchlive.value.inningId ==
+                                                  2
+                                              ? Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Text(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      "${startmatch.requirestatus}",
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .grey.shade700,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                )
+                                              : SizedBox(),
                                         ],
                                       )
                                     : Column(
@@ -514,7 +615,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                                                     horizontal:
                                                                         10.0),
                                                                 child: Text(
-                                                                    "Partnership   10 (10)",
+                                                                    "Partnership   ${startmatch.partnershiprun} (${startmatch.partnershipball})",
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .grey
@@ -777,7 +878,10 @@ class _InfoScreenState extends State<InfoScreen> {
                                                                       ? "W"
                                                                       : "W${ball.run}",
                                                               style: TextStyle(
-                                                                  fontSize: 12,
+                                                                  fontSize: screenwidth(
+                                                                      context,
+                                                                      dividedby:
+                                                                          30),
                                                                   color: Colors
                                                                       .white,
                                                                   fontWeight:
@@ -905,7 +1009,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                     textlines(
                                         text1: "Ball Type",
                                         text2:
-                                            "${widget.match?.tournament?.ballType}"),  
+                                            "${widget.match?.tournament?.ballType}"),
                                     Divider(
                                       color: Colors.grey.shade400,
                                       height: 25,

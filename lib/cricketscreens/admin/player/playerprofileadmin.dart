@@ -762,7 +762,7 @@ class _PlayermatchesState extends State<Playermatches> {
                                                                 Row(
                                                                   children: [
                                                                     Text(
-                                                                      "${match.team1TotalRun}/${match.team1TotalWickets} ",
+                                                                      "${match.team1Runs}/${match.team1TotalWickets} ",
                                                                       style: TextStyle(
                                                                           color: Colors
                                                                               .blueGrey,
@@ -786,7 +786,7 @@ class _PlayermatchesState extends State<Playermatches> {
                                                                 Row(
                                                                   children: [
                                                                     Text(
-                                                                      "${match.team2TotalRun}/${match.team2TotalWickets} ",
+                                                                      "${match.team2Runs}/${match.team2TotalWickets} ",
                                                                       style: TextStyle(
                                                                           color: Colors
                                                                               .blueGrey,

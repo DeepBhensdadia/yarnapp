@@ -30,7 +30,7 @@ class _DetailsScreenState extends State<DetailsScreen>
   void initState() {
     super.initState();
     startmatch.matchInfoDetailFromAPI(
-        tournamentid: widget.match.tournament?.id.toString() ?? "",
+        tournamentid: widget.match.tournamentId.toString() ?? "",
         matchid: widget.match.id.toString() ?? "");
     _tabController = TabController(length: 3, vsync: this);
   }

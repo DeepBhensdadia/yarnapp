@@ -281,7 +281,7 @@ class _MatchScreenAudianceState extends State<MatchScreenAudiance> {
                                                                   fontSize: screenwidth(
                                                                       context,
                                                                       dividedby:
-                                                                          33),
+                                                                          38),
                                                                   color: Colors
                                                                       .grey
                                                                       .shade700,
@@ -356,7 +356,7 @@ class _MatchScreenAudianceState extends State<MatchScreenAudiance> {
                                                                   Row(
                                                                     children: [
                                                                       Text(
-                                                                        "${match.team1TotalRun}/${match.team1TotalWickets} ",
+                                                                        "${match.team1Runs}/${match.team1TotalWickets} ",
                                                                         style: TextStyle(
                                                                             color:
                                                                                 Colors.blueGrey,
@@ -376,7 +376,7 @@ class _MatchScreenAudianceState extends State<MatchScreenAudiance> {
                                                                   Row(
                                                                     children: [
                                                                       Text(
-                                                                        "${match.team2TotalRun}/${match.team2TotalWickets} ",
+                                                                        "${match.team2Runs}/${match.team2TotalWickets} ",
                                                                         style: TextStyle(
                                                                             color:
                                                                                 Colors.blueGrey,
@@ -428,7 +428,7 @@ class _MatchScreenAudianceState extends State<MatchScreenAudiance> {
                                                                   ? "${match.summary}"
                                                                   : match.toss !=
                                                                           null
-                                                                      ? "${match.toss}"
+                                                                      ? "${match.tossStatus}"
                                                                       : "",
                                                               // "Match Yet to be started on ${match.matchdateformat()}",
                                                               // "ENG needs 1002 runs to win",
@@ -471,8 +471,10 @@ class _MatchScreenAudianceState extends State<MatchScreenAudiance> {
                                                                           : "Future",
                                                                   // "ENG needs 1002 runs to win",
                                                                   style: TextStyle(
-                                                                      fontSize:
-                                                                          10,
+                                                                      fontSize: screenwidth(
+                                                                          context,
+                                                                          dividedby:
+                                                                              40),
                                                                       color: match.matchStatus?.id == 1 ||
                                                                               match.matchStatus?.id ==
                                                                                   5

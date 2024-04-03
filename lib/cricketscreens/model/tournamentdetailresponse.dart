@@ -109,6 +109,12 @@ class Matchinfo {
   dynamic toss;
   String? wonToss;
   String? tossElected;
+  dynamic  notes;
+  String? team1Crr;
+  String? team2Crr;
+  int? team1Runs;
+  int? team2Runs;
+  String? tossStatus;
   String? venue;
   TeamUser? user;
   Tournament? tournament;
@@ -165,6 +171,12 @@ class Matchinfo {
     this.toss,
     this.wonToss,
     this.tossElected,
+    this.notes,
+    this.team1Crr,
+    this.team2Crr,
+    this.team1Runs,
+    this.team2Runs,
+    this.tossStatus,
     this.venue,
     this.user,
     this.tournament,
@@ -210,6 +222,12 @@ class Matchinfo {
         toss: json["toss"],
         wonToss: json["won_toss"],
         tossElected: json["toss_elected"],
+    notes: json["notes"],
+    team1Crr: json["team_1_crr"],
+    team2Crr: json["team_2_crr"],
+    tossStatus: json["toss_status"],
+    team1Runs: json["team1_runs"],
+    team2Runs: json["team2_runs"],
         venue: json["venue"],
         user:
             json["user"] == null ? TeamUser() : TeamUser.fromJson(json["user"]),
@@ -245,6 +263,8 @@ class Matchinfo {
         "runing_over": runingOver,
         "overseas": overseas,
         "match_type": matchType,
+    "team1_runs": team1Runs,
+    "team2_runs": team2Runs,
         "description": description,
         "summary": summary,
         "leader_borad": leaderBorad,
@@ -261,6 +281,10 @@ class Matchinfo {
         "toss": toss,
         "won_toss": wonToss,
         "toss_elected": tossElected,
+    "notes": notes,
+    "team_1_crr": team1Crr,
+    "team_2_crr": team2Crr,
+    "toss_status": tossStatus,
         "venue": venue,
         "user": user?.toJson(),
         "tournament": tournament?.toJson(),

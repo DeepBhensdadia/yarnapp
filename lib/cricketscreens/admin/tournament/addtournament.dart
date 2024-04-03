@@ -491,7 +491,7 @@ class _addtournamentState extends State<addtournament> {
                             }
                           },
                           lable: "Select Cricket Type",
-                          initialValue: widget.edited?.cricketType.toString(),
+                          initialValue: widget.edited?.cricketType ?? null,
                         ),
                         TournamentDropdown(
                           count: [

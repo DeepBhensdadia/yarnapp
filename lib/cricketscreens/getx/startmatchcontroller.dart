@@ -30,6 +30,11 @@ class StartMatchController extends GetxController {
   RxBool isnewover = false.obs;
   RxBool isnewinning = false.obs;
   RxString overrun = "0".obs;
+  RxString partnershiprun = "0".obs;
+  RxString partnershipball = "0".obs;
+  RxString requirerunrate = "0.00".obs;
+  RxString target = "0".obs;
+  RxString requirestatus = "".obs;
 
   Future<void> matchInfoDetailFromAPI(
       {required String tournamentid, required String matchid}) async {
@@ -37,7 +42,7 @@ class StartMatchController extends GetxController {
     isnewinning.value = false;
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> formFields = {
-      "user_id": saveUser()?.id.toString(),
+      // "user_id": saveUser()?.id.toString(),
       "match_id": matchid
     };
     print(formFields);
@@ -54,6 +59,12 @@ class StartMatchController extends GetxController {
         matchlive.value = match.data ?? MatchLive();
         balls.value = match.balls ?? [];
         overrun.value = match.overruns.toString() ?? "0";
+        partnershiprun.value = match.partnershipRun.toString();
+        partnershipball.value = match.partnershipBall.toString();
+        requirerunrate.value = match.requiredRunrate.toString();
+        target.value = match.targetRun.toString();
+        requirestatus.value = match.requiredStatus.toString();
+
         isnewinning.value = match.isNewInning ?? false;
         isnewover.value =
             match.isNewOver == true && match.isbowlerassigned == false
@@ -390,7 +401,7 @@ class StartMatchController extends GetxController {
       'team_id': teamid,
       'tournament_id': tournamentid,
       'match_id': matchid,
-      'is_on_strike': isstrike
+      'is_on_strike': isstrike == false ? 0 : 1
     };
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));

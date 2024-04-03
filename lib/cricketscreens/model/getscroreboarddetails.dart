@@ -345,11 +345,11 @@ class Extra {
   });
 
   factory Extra.fromJson(Map<String, dynamic> json) => Extra(
-        ball: json["ball"] ?? "0",
-        by: json["by"] ?? "0",
-        lb: json["lb"] ?? "0",
-        wb: json["wb"] ?? "0",
-        nb: json["nb"] ?? "0",
+        ball: json["ball"].toString(),
+        by: json["by"].toString(),
+        lb: json["lb"].toString(),
+        wb: json["wb"].toString(),
+        nb: json["nb"].toString(),
         total: json["total"] ?? 0,
       );
 

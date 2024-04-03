@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 MatchLiveDetails matchLiveDetailsFromJson(String str) =>
     MatchLiveDetails.fromJson(json.decode(str));
 
@@ -17,6 +19,11 @@ class MatchLiveDetails {
   List<Ball>? balls;
   bool? isNewOver;
   bool? isbowlerassigned;
+  int? partnershipRun;
+  int? partnershipBall;
+  int? targetRun;
+  String? requiredRunrate;
+  String? requiredStatus;
   int? overruns;
   bool? isNewInning;
 
@@ -27,7 +34,12 @@ class MatchLiveDetails {
     this.balls,
     this.isNewOver,
     this.isbowlerassigned,
+    this.partnershipRun,
+    this.partnershipBall,
+    this.targetRun,
+    this.requiredRunrate,
     this.overruns,
+    this.requiredStatus,
     this.isNewInning,
   });
 
@@ -39,7 +51,12 @@ class MatchLiveDetails {
         balls: List<Ball>.from(json["over_balls"].map((x) => Ball.fromJson(x))),
         isNewOver: json["is_new_over"],
         isbowlerassigned: json["is_bowler_assigned"],
+        partnershipRun: json["partnership_run"],
+        partnershipBall: json["partnership_ball"],
+        targetRun: json["target_run"],
+        requiredRunrate: json["required_runrate"],
         overruns: json["over_runs"],
+        requiredStatus: json["required_status"],
         isNewInning: json["is_new_inning"],
       );
 
@@ -50,7 +67,12 @@ class MatchLiveDetails {
         "over_balls": List<dynamic>.from(balls!.map((x) => x.toJson())),
         "is_new_over": isNewOver,
         "is_bowler_assigned": isbowlerassigned,
+        "partnership_run": partnershipRun,
+        "partnership_ball": partnershipBall,
+        "target_run": targetRun,
+        "required_runrate": requiredRunrate,
         "over_runs": overruns,
+    "required_status": requiredStatus,
         "is_new_inning": isNewInning,
       };
 }
@@ -92,6 +114,8 @@ class MatchLive {
   int? team1TotalWickets;
   dynamic team1TotalOver;
   int? team1ExtraRun;
+  int? team1Runs;
+  int? team2Runs;
   int? team2ExtraRun;
   int? dataTeam2;
   int? team2TotalRun;
@@ -140,6 +164,20 @@ class MatchLive {
   StickerScore? nonstickerScore;
   BowlerScore? bowlerScore;
 
+  String matchdateformat() {
+    return DateFormat('dd-MM-yyyy').format(matchDate ?? DateTime.now());
+  }
+
+  String matchtimeformat() {
+    DateTime parsedTime = DateFormat('HH:mm:ss').parse(matchTime ?? "00:00:00");
+
+    return DateFormat('HH:mm').format(parsedTime);
+  }
+
+  String matchdatecon() {
+    return DateFormat('dd-MM-yyyy').format(matchDate ?? DateTime.now());
+  }
+
   MatchLive({
     this.id,
     this.createdBy,
@@ -150,6 +188,8 @@ class MatchLive {
     this.team1TotalOver,
     this.team2ExtraRun,
     this.team1ExtraRun,
+    this.team1Runs,
+    this.team2Runs,
     this.dataTeam2,
     this.team2TotalRun,
     this.team2TotalWickets,
@@ -208,11 +248,13 @@ class MatchLive {
         team1TotalOver: json["team_1_total_over"],
         team1ExtraRun: json["team_1_extra_run"],
         team2ExtraRun: json["team_2_extra_run"],
+    team1Runs: json["team1_runs"],
+    team2Runs: json["team2_runs"],
         dataTeam2: json["team_2"],
         team2TotalRun: json["team_2_total_run"],
         team2TotalWickets: json["team_2_total_wickets"],
         team2TotalOver: json["team_2_total_over"],
-        inningId: json["inning_id"] != null  ?json["inning_id"] : 0,
+        inningId: json["inning_id"] != null ? json["inning_id"] : 0,
         bettingTeamId: json["betting_team_id"],
         bowlingTeamId: json["bowling_team_id"],
         overseas: json["overseas"],
@@ -242,8 +284,8 @@ class MatchLive {
         venue: json["venue"],
         winningTeamId: json["winning_team_id"],
         isSuperOver: json["is_super_over"],
-        team1Crr: json["team_1_crr"],
-        team2Crr: json["team_2_crr"],
+        team1Crr: json["team_1_crr"] ?? "0.00",
+        team2Crr: json["team_2_crr"] ?? "0.00",
         buttonLabel: json["button_label"],
         user: json["user"] == null ? User() : User.fromJson(json["user"]),
         tournament: json["tournament"] == null
@@ -283,6 +325,8 @@ class MatchLive {
         "team_1_total_wickets": team1TotalWickets,
         "team_1_total_over": team1TotalOver,
         "team_1_extra_run": team1ExtraRun,
+    "team1_runs": team1Runs,
+    "team2_runs": team2Runs,
         "team_2_extra_run": team2ExtraRun,
         "team_2": dataTeam2,
         "team_2_total_run": team2TotalRun,
