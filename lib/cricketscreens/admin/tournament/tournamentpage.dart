@@ -150,7 +150,7 @@ class _TournamentPageState extends State<TournamentPage> {
                                                                   screenwidth(
                                                                       context,
                                                                       dividedby:
-                                                                          25),
+                                                                          30),
                                                               color:
                                                                   Colors.grey)),
                                                     ],

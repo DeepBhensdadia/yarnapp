@@ -1,26 +1,30 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:yarn_modified/const/const.dart';
+import 'package:path_provider/path_provider.dart';
+// import 'package:share_plus/share_plus.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import '../../services/app_url.dart';
-import '../admin/match/startmatch/openingplayers.dart';
-import '../audiance/matchdetails/infoscreen.dart';
 import '../model/ballbyballresponse.dart';
 import '../model/battingnextplayerlistresponse.dart';
 import '../model/getscroreboarddetails.dart';
 import '../model/getteamplayerlist.dart';
 import '../model/matchlivedetailsresponse.dart';
+import '../model/playerofthematchlist.dart';
 import '../services/api_source.dart';
 import 'matchcontroller.dart';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+// import 'package:screenshot/screenshot.dart';
 
 class StartMatchController extends GetxController {
   WebService webService = WebService(dio: Dio(), connectivity: Connectivity());
@@ -29,7 +33,12 @@ class StartMatchController extends GetxController {
   RxList<Ball> balls = <Ball>[].obs;
   RxBool isnewover = false.obs;
   RxBool isnewinning = false.obs;
+  RxBool isbowler = false.obs;
+  RxBool isstrikebatsman = false.obs;
+  RxBool isnonstrikebatsman = false.obs;
+  RxBool isloading = false.obs;
   RxString overrun = "0".obs;
+  RxInt outplayer = 0.obs;
   RxString partnershiprun = "0".obs;
   RxString partnershipball = "0".obs;
   RxString requirerunrate = "0.00".obs;
@@ -40,7 +49,7 @@ class StartMatchController extends GetxController {
       {required String tournamentid, required String matchid}) async {
     isnewover.value = false;
     isnewinning.value = false;
-    Get.context!.loaderOverlay.show();
+    if (isloading.isFalse) Get.context!.loaderOverlay.show();
     Map<String, dynamic> formFields = {
       // "user_id": saveUser()?.id.toString(),
       "match_id": matchid
@@ -63,13 +72,18 @@ class StartMatchController extends GetxController {
         partnershipball.value = match.partnershipBall.toString();
         requirerunrate.value = match.requiredRunrate.toString();
         target.value = match.targetRun.toString();
+        outplayer.value = match.outPlayerId ?? 0;
         requirestatus.value = match.requiredStatus.toString();
-
+        isloading.value = true;
         isnewinning.value = match.isNewInning ?? false;
+        isbowler.value = match.isBowlerChangeable ?? false;
+        isstrikebatsman.value = match.isStrikerChangeable ?? false;
+        isnonstrikebatsman.value = match.isNonstrikerChangeable ?? false;
         isnewover.value =
             match.isNewOver == true && match.isbowlerassigned == false
                 ? true
                 : false;
+
         Get.context!.loaderOverlay.hide();
       },
       (r) {
@@ -315,6 +329,39 @@ class StartMatchController extends GetxController {
     );
   }
 
+  RxList<playerlist> Allplayerlist = <playerlist>[].obs;
+  Future<void> AllPlayersListFromAPI({
+    required String teamid1,
+    required String teamid2,
+  }) async {
+    Get.context!.loaderOverlay.show();
+    Map<String, dynamic> formFields = {
+      'team_1': teamid1,
+      'team_2': teamid2,
+    };
+
+    List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
+    FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
+    print(formData);
+    final response = await webService.postFormRequest(
+      formData: formData,
+      url: "${URLs.Base_url}both_team_player",
+    );
+    response.fold(
+      (l) {
+        Playerofthematchlist data = playerofthematchlistFromJson(l.toString());
+        print(jsonEncode(data));
+
+        Allplayerlist.value = data.date ?? [];
+        Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
   TextEditingController strike = TextEditingController();
   TextEditingController nonstrike = TextEditingController();
   TextEditingController bowler = TextEditingController();
@@ -388,6 +435,40 @@ class StartMatchController extends GetxController {
     );
   }
 
+  Future<void> replacebowleradd({
+    required String tournamentid,
+    required String matchid,
+    required String playerid,
+    required String oldplayerid,
+  }) async {
+    Get.context!.loaderOverlay.show();
+    Map<String, dynamic> formFields = {
+      'new_player_id': playerid,
+      'team_id': matchlive.value.bowlingTeamId.toString(),
+      'old_player_id': oldplayerid,
+      'match_id': matchid
+    };
+    List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
+    FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
+    print(formData);
+    final response = await webService.postFormRequest(
+      formData: formData,
+      url: "${URLs.Base_url}edit_new_bowler",
+    );
+    response.fold(
+      (l) {
+        // playeradd.value = 0;
+        matchInfoDetailFromAPI(tournamentid: tournamentid, matchid: matchid);
+        Get.back();
+        Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
   Future<void> newbatsmanadd({
     required String teamid,
     required String tournamentid,
@@ -409,6 +490,41 @@ class StartMatchController extends GetxController {
     final response = await webService.postFormRequest(
       formData: formData,
       url: "${URLs.Base_url}newbatsman",
+    );
+    response.fold(
+      (l) {
+        // playeradd.value = 0;
+        matchInfoDetailFromAPI(tournamentid: tournamentid, matchid: matchid);
+        Get.back();
+        Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
+  Future<void> replacebatsmanadd({
+    required String tournamentid,
+    required String matchid,
+    required String playerid,
+    required String oldplayerid,
+  }) async {
+    Get.context!.loaderOverlay.show();
+    Map<String, dynamic> formFields = {
+      'new_player_id': playerid,
+      'old_player_id': oldplayerid,
+      // 'team_id': teamid,
+      // 'tournament_id': tournamentid,
+      'match_id': matchid,
+    };
+    List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
+    FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
+    print(formData);
+    final response = await webService.postFormRequest(
+      formData: formData,
+      url: "${URLs.Base_url}edit_new_bats_man",
     );
     response.fold(
       (l) {
@@ -488,7 +604,8 @@ class StartMatchController extends GetxController {
       {required String teamid,
       required String matchid,
       required String touramentid}) async {
-    Get.context!.loaderOverlay.show();
+    if (isloading.isFalse) Get.context!.loaderOverlay.show();
+
     Map<String, dynamic> formFields = {
       'user_id': saveUser()?.id.toString(),
       'match_id': matchid,
@@ -508,9 +625,11 @@ class StartMatchController extends GetxController {
             matchscroreboardDetailsFromJson(l.toString());
         scroreboard.value = data;
         scorebordbool.value = true;
+        isloading.value = true;
         Get.context!.loaderOverlay.hide();
       },
       (r) {
+        isloading.value = false;
         Get.context!.loaderOverlay.hide();
         print(r.message);
       },
@@ -522,7 +641,7 @@ class StartMatchController extends GetxController {
       {required String teamid,
       required String matchid,
       required String touramentid}) async {
-    Get.context!.loaderOverlay.show();
+    if (isloading.isFalse) Get.context!.loaderOverlay.show();
     Map<String, dynamic> formFields = {
       'user_id': saveUser()?.id.toString(),
       'match_id': matchid,
@@ -542,9 +661,11 @@ class StartMatchController extends GetxController {
             matchscroreboardDetailsFromJson(l.toString());
         scroreboard2.value = data;
         scorebordbool2.value = true;
+        isloading.value = true;
         Get.context!.loaderOverlay.hide();
       },
       (r) {
+        isloading.value = false;
         Get.context!.loaderOverlay.hide();
         print(r.message);
       },
@@ -558,7 +679,7 @@ class StartMatchController extends GetxController {
   RxBool overbool = false.obs;
   Future<void> Overswiserun(
       {required String matchid, required String touramentid}) async {
-    Get.context!.loaderOverlay.show();
+    if (isloading.isFalse) Get.context!.loaderOverlay.show();
     Map<String, dynamic> formFields = {
       'user_id': saveUser()?.id.toString(),
       'match_id': matchid,
@@ -579,9 +700,11 @@ class StartMatchController extends GetxController {
         team1overs.value = data.team1?.overs ?? [];
         team2overs.value = data.team2?.overs ?? [];
         overbool.value = true;
+        isloading.value = true;
         Get.context!.loaderOverlay.hide();
       },
       (r) {
+        isloading.value = false;
         Get.context!.loaderOverlay.hide();
         print(r.message);
       },
@@ -618,6 +741,92 @@ class StartMatchController extends GetxController {
         Get.find<MatchController>().getmatchlistCall(id: touramentid);
         Get.back();
         Get.back();
+        Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
+  Future<void> changestrike({
+    required String matchid,
+    required String touramentid,
+  }) async {
+    Get.context!.loaderOverlay.show();
+    Map<String, dynamic> formFields = {
+      'match_id': matchid,
+    };
+    List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
+    FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
+    print(formData);
+    final response = await webService.postFormRequest(
+      formData: formData,
+      url: "${URLs.Base_url}strick_change",
+    );
+    response.fold(
+      (l) {
+        print(jsonEncode(l.toString()));
+        matchInfoDetailFromAPI(tournamentid: touramentid, matchid: matchid);
+        Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
+  Future<void> matchundoo({
+    required String matchid,
+    required String touramentid,
+  }) async {
+    Get.context!.loaderOverlay.show();
+    Map<String, dynamic> formFields = {
+      'match_id': matchid,
+    };
+    List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
+    FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
+    print(formData);
+    final response = await webService.postFormRequest(
+      formData: formData,
+      url: "${URLs.Base_url}undobutton",
+    );
+    response.fold(
+      (l) {
+        print(jsonEncode(l.toString()));
+        matchInfoDetailFromAPI(tournamentid: touramentid, matchid: matchid);
+        Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
+  Future<void> playerofthematchapi({
+    required String matchid,
+    required String touramentid,
+    required String playerofthematch,
+  }) async {
+    Get.context!.loaderOverlay.show();
+    Map<String, dynamic> formFields = {
+      'match_id': matchid,
+      'player_id': playerofthematch
+    };
+    List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
+    FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
+    print(formData);
+    final response = await webService.postFormRequest(
+      formData: formData,
+      url: "${URLs.Base_url}declare_player_of_the_match",
+    );
+    response.fold(
+      (l) {
+        print(jsonEncode(l.toString()));
+        matchInfoDetailFromAPI(tournamentid: touramentid, matchid: matchid);
         Get.context!.loaderOverlay.hide();
       },
       (r) {

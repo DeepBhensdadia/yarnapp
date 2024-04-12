@@ -184,8 +184,12 @@ class Player {
         status: json["status"],
         createdBy: json["created_by"],
         mobileNumber: json["mobile_number"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? DateTime.now()
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? DateTime.now()
+            : DateTime.parse(json["updated_at"]),
         weight: json["weight"],
         age: json["age"],
         bob: json["bob"],

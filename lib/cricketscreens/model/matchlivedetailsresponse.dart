@@ -24,8 +24,12 @@ class MatchLiveDetails {
   int? targetRun;
   String? requiredRunrate;
   String? requiredStatus;
+  int? outPlayerId;
   int? overruns;
   bool? isNewInning;
+  bool? isStrikerChangeable;
+  bool? isNonstrikerChangeable;
+  bool? isBowlerChangeable;
 
   MatchLiveDetails({
     this.success,
@@ -40,7 +44,11 @@ class MatchLiveDetails {
     this.requiredRunrate,
     this.overruns,
     this.requiredStatus,
+    this.outPlayerId,
     this.isNewInning,
+    this.isStrikerChangeable,
+    this.isNonstrikerChangeable,
+    this.isBowlerChangeable,
   });
 
   factory MatchLiveDetails.fromJson(Map<String, dynamic> json) =>
@@ -57,7 +65,11 @@ class MatchLiveDetails {
         requiredRunrate: json["required_runrate"],
         overruns: json["over_runs"],
         requiredStatus: json["required_status"],
+        outPlayerId: json["out_player_id"],
         isNewInning: json["is_new_inning"],
+        isStrikerChangeable: json["is_striker_changeable"],
+        isNonstrikerChangeable: json["is_nonstriker_changeable"],
+        isBowlerChangeable: json["is_bowler_changeable"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -71,9 +83,13 @@ class MatchLiveDetails {
         "partnership_ball": partnershipBall,
         "target_run": targetRun,
         "required_runrate": requiredRunrate,
+        "out_player_id": outPlayerId,
         "over_runs": overruns,
-    "required_status": requiredStatus,
+        "required_status": requiredStatus,
         "is_new_inning": isNewInning,
+        "is_striker_changeable": isStrikerChangeable,
+        "is_nonstriker_changeable": isNonstrikerChangeable,
+        "is_bowler_changeable": isBowlerChangeable,
       };
 }
 
@@ -82,12 +98,14 @@ class Ball {
   int? run;
   String? ballType;
   String? outType;
+  String? balltag;
 
   Ball({
     this.ballNumber,
     this.run,
     this.ballType,
     this.outType,
+    this.balltag,
   });
 
   factory Ball.fromJson(Map<String, dynamic> json) => Ball(
@@ -95,6 +113,7 @@ class Ball {
         run: json["run"],
         ballType: json["ball_type"],
         outType: json["out_type"],
+        balltag: json["ball_tag"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -102,6 +121,7 @@ class Ball {
         "run": run,
         "ball_type": ballType,
         "out_type": outType,
+        "ball_tag": balltag,
       };
 }
 
@@ -145,9 +165,11 @@ class MatchLive {
   dynamic toss;
   dynamic tossstatus;
   String? wonToss;
+  int? wonteamid;
   String? tossElected;
   String? venue;
   int? winningTeamId;
+  String? playerOfTheMatchTeam;
   bool? isSuperOver;
   String? buttonLabel;
   String? team1Crr;
@@ -163,6 +185,7 @@ class MatchLive {
   StickerScore? stickerScore;
   StickerScore? nonstickerScore;
   BowlerScore? bowlerScore;
+  Playerofthematch? playerofthematch;
 
   String matchdateformat() {
     return DateFormat('dd-MM-yyyy').format(matchDate ?? DateTime.now());
@@ -195,6 +218,7 @@ class MatchLive {
     this.team2TotalWickets,
     this.team2TotalOver,
     this.inningId,
+    this.playerOfTheMatchTeam,
     this.bettingTeamId,
     this.bowlingTeamId,
     this.overseas,
@@ -218,6 +242,7 @@ class MatchLive {
     this.toss,
     this.tossstatus,
     this.wonToss,
+    this.wonteamid,
     this.tossElected,
     this.venue,
     this.winningTeamId,
@@ -236,6 +261,7 @@ class MatchLive {
     this.stickerScore,
     this.nonstickerScore,
     this.bowlerScore,
+    this.playerofthematch,
   });
 
   factory MatchLive.fromJson(Map<String, dynamic> json) => MatchLive(
@@ -248,11 +274,12 @@ class MatchLive {
         team1TotalOver: json["team_1_total_over"],
         team1ExtraRun: json["team_1_extra_run"],
         team2ExtraRun: json["team_2_extra_run"],
-    team1Runs: json["team1_runs"],
-    team2Runs: json["team2_runs"],
+        team1Runs: json["team1_runs"],
+        team2Runs: json["team2_runs"],
         dataTeam2: json["team_2"],
         team2TotalRun: json["team_2_total_run"],
         team2TotalWickets: json["team_2_total_wickets"],
+        playerOfTheMatchTeam: json["player_of_the_match_team"],
         team2TotalOver: json["team_2_total_over"],
         inningId: json["inning_id"] != null ? json["inning_id"] : 0,
         bettingTeamId: json["betting_team_id"],
@@ -280,6 +307,7 @@ class MatchLive {
         toss: json["toss"],
         tossstatus: json["toss_status"],
         wonToss: json["won_toss"],
+        wonteamid: json["won_team_id"],
         tossElected: json["toss_elected"],
         venue: json["venue"],
         winningTeamId: json["winning_team_id"],
@@ -314,6 +342,9 @@ class MatchLive {
         bowlerScore: json["bowler_score"] == null
             ? BowlerScore()
             : BowlerScore.fromJson(json["bowler_score"]),
+        playerofthematch: json["playerofthematch"] == null
+            ? Playerofthematch()
+            : Playerofthematch.fromJson(json["playerofthematch"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -325,8 +356,8 @@ class MatchLive {
         "team_1_total_wickets": team1TotalWickets,
         "team_1_total_over": team1TotalOver,
         "team_1_extra_run": team1ExtraRun,
-    "team1_runs": team1Runs,
-    "team2_runs": team2Runs,
+        "team1_runs": team1Runs,
+        "team2_runs": team2Runs,
         "team_2_extra_run": team2ExtraRun,
         "team_2": dataTeam2,
         "team_2_total_run": team2TotalRun,
@@ -338,6 +369,7 @@ class MatchLive {
         "overseas": overseas,
         "summary": summary,
         "sticker_player_id": stickerPlayerId,
+        "player_of_the_match_team": playerOfTheMatchTeam,
         "nonsticker_player_id": nonstickerPlayerId,
         "bowler_id": bowlerId,
         "runing_over": runingOver,
@@ -357,6 +389,7 @@ class MatchLive {
         "toss": toss,
         "toss_status": tossstatus,
         "won_toss": wonToss,
+        "won_team_id": wonteamid,
         "toss_elected": tossElected,
         "venue": venue,
         "winning_team_id": winningTeamId,
@@ -375,6 +408,36 @@ class MatchLive {
         "sticker_score": stickerScore?.toJson(),
         "nonsticker_score": nonstickerScore?.toJson(),
         "bowler_score": bowlerScore?.toJson(),
+        "playerofthematch": playerofthematch?.toJson()
+      };
+}
+
+class Playerofthematch {
+  int? id;
+  String? playerName;
+  String? logo;
+  String? playerShortName;
+
+  Playerofthematch({
+    this.id,
+    this.playerName,
+    this.logo,
+    this.playerShortName,
+  });
+
+  factory Playerofthematch.fromJson(Map<String, dynamic> json) =>
+      Playerofthematch(
+        id: json["id"],
+        playerName: json["player_name"],
+        logo: json["logo"],
+        playerShortName: json["player_short_name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "player_name": playerName,
+        "logo": logo,
+        "player_short_name": playerShortName,
       };
 }
 

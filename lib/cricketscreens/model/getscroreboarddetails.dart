@@ -328,7 +328,7 @@ class Betsmen {
 }
 
 class Extra {
-  String? ball;
+  // String? ball;
   String? by;
   String? lb;
   String? wb;
@@ -336,7 +336,7 @@ class Extra {
   int? total;
 
   Extra({
-    this.ball,
+    // this.ball,
     this.by,
     this.lb,
     this.wb,
@@ -345,16 +345,16 @@ class Extra {
   });
 
   factory Extra.fromJson(Map<String, dynamic> json) => Extra(
-        ball: json["ball"].toString(),
-        by: json["by"].toString(),
-        lb: json["lb"].toString(),
-        wb: json["wb"].toString(),
-        nb: json["nb"].toString(),
+        // ball: json["ball"].toString(),
+        by: json["by"],
+        lb: json["lb"],
+        wb: json["wb"],
+        nb: json["nb"],
         total: json["total"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
-        "ball": ball,
+        // "ball": ball,
         "by": by,
         "lb": lb,
         "wb": wb,

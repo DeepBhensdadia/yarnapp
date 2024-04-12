@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:yarn_modified/const/themes.dart';
 import 'package:yarn_modified/cricketscreens/audiance/matchdetails/scoreboardscreen.dart';
 import 'package:yarn_modified/cricketscreens/audiance/matchdetails/summaryscreen.dart';
 import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
 import 'package:yarn_modified/helper.dart';
 import '../../../constcolor.dart';
+import '../../getx/screenshotcontroller.dart';
 import '../../getx/startmatchcontroller.dart';
 import 'infoscreen.dart';
 import 'oversscreen.dart';
@@ -25,7 +29,39 @@ class _DetailsScreenState extends State<DetailsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   StartMatchController startmatch = Get.put(StartMatchController());
+  Timer? _timer;
 
+  void startTimer() {
+    const duration = Duration(seconds: 5);
+    _timer = Timer.periodic(duration, (Timer timer) {
+      switch (tabindex) {
+        case 0:
+          startmatch.matchInfoDetailFromAPI(
+              tournamentid: widget.match.tournament?.id.toString() ?? "",
+              matchid: widget.match.id.toString() ?? "");
+          break;
+        case 1:
+          startmatch.indextab.value == 0
+              ? startmatch.scorecardFromAPI(
+                  teamid: widget.match.team1?.id.toString() ?? "",
+                  matchid: widget.match.id.toString(),
+                  touramentid: widget.match.tournament?.id.toString() ?? "")
+              : startmatch.scorecard2FromAPI(
+                  teamid: widget.match.team2?.id.toString() ?? "",
+                  matchid: widget.match.id.toString(),
+                  touramentid: widget.match.tournament?.id.toString() ?? "");
+          break;
+        case 2:
+          startmatch.Overswiserun(
+              matchid: startmatch.matchlive.value.id.toString(),
+              touramentid:
+                  startmatch.matchlive.value.tournament?.id.toString() ?? "");
+          break;
+      }
+    });
+  }
+
+  screenshotcontrol screenshot = Get.put(screenshotcontrol());
   @override
   void initState() {
     super.initState();
@@ -33,6 +69,9 @@ class _DetailsScreenState extends State<DetailsScreen>
         tournamentid: widget.match.tournamentId.toString() ?? "",
         matchid: widget.match.id.toString() ?? "");
     _tabController = TabController(length: 3, vsync: this);
+    Wakelock.enable();
+    if (widget.isadmin != 1) if (widget.match.matchStatus?.id == 1)
+      startTimer();
   }
 
   int tabindex = 0;
@@ -48,6 +87,28 @@ class _DetailsScreenState extends State<DetailsScreen>
           style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
         ),
         actions: [
+          // Obx(() =>
+          // startmatch.isloading.isTrue
+          //     ? Center(
+          //         child: CircularProgressIndicator(
+          //         color: Colors.white,
+          //       ))
+          //     :
+          // )
+          IconButton(
+              onPressed: () {
+                switch (tabindex) {
+                  case 0:
+                    screenshot.takeScreenshotandShare(0);
+                    break;
+                  case 1:
+                    screenshot.takeScreenshotandShare(1);
+                    break;
+                  case 2:
+                    break;
+                }
+              },
+              icon: Icon(Icons.share)),
           IconButton(
               onPressed: () {
                 switch (tabindex) {
@@ -163,7 +224,9 @@ class _DetailsScreenState extends State<DetailsScreen>
 
   @override
   void dispose() {
+    _timer?.cancel();
     _tabController.dispose();
+    Wakelock.disable();
     super.dispose();
   }
 }

@@ -22,13 +22,16 @@ class TournamentRootAudiance extends StatefulWidget {
 class _TournamentRootAudianceState extends State<TournamentRootAudiance>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
+  TournamentAudianceController tournamentAudiance =
+      Get.put(TournamentAudianceController());
+  int index = 0;
   @override
   void initState() {
     super.initState();
-    Get.put(TournamentAudianceController())
-        .getpointsFromAPI(tournamentid: widget.tournamentname.id.toString());
-    _tabController = TabController(length: 4, vsync: this);
+    tournamentAudiance.getpointsFromAPI(
+        tournamentid: widget.tournamentname.id.toString());
+
+    _tabController = TabController(length: 4, vsync: this, initialIndex: index);
   }
 
   @override
@@ -59,6 +62,15 @@ class _TournamentRootAudianceState extends State<TournamentRootAudiance>
             ),
           ),
         ),
+        actions: [
+          if (index == 2)
+            IconButton(
+                onPressed: () {
+                  tournamentAudiance.getaudiTournamentDetails(
+                      id: widget.tournamentname.id.toString(), status: "live");
+                },
+                icon: Icon(Icons.refresh))
+        ],
       ),
       body: Column(
         children: [
@@ -66,7 +78,7 @@ class _TournamentRootAudianceState extends State<TournamentRootAudiance>
             width: screenwidth(context, dividedby: 1),
             padding: EdgeInsets.only(top: 10, left: 10, right: 10),
             color: Cricket_SkyBlue_Color,
-            height: 50,
+            height: 45,
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white70,
@@ -74,6 +86,15 @@ class _TournamentRootAudianceState extends State<TournamentRootAudiance>
               ),
               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
               child: TabBar(
+                onTap: (value) {
+                  setState(() {
+                    index = value;
+                  });
+                  if (index == 0)
+                    tournamentAudiance.getaudiTournamentDetails(
+                        id: widget.tournamentname.id.toString(),
+                        status: "live");
+                },
                 // isScrollable: true,
                 controller: _tabController,
                 dividerColor: kthemecolor,
@@ -115,7 +136,7 @@ class _TournamentRootAudianceState extends State<TournamentRootAudiance>
               physics: NeverScrollableScrollPhysics(),
               controller: _tabController,
               children: [
-                MatchScreenAudiance(),
+                MatchScreenAudiance(match: widget.tournamentname),
                 TeamListAudiance(),
                 PointTableScreen(),
                 AboutScreen(),

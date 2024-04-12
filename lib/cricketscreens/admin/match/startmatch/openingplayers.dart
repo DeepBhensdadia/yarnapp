@@ -29,9 +29,11 @@ class _OpeningPlayersState extends State<OpeningPlayers> {
     startmatch.nonstrike.clear();
     startmatch.bowler.clear();
     // startmatch.matchlive.value = widget.match;
-    startmatch.matchInfoDetailFromAPI(
-        tournamentid: widget.match.tournament?.id.toString() ?? "",
-        matchid: widget.match.id.toString() ?? "").then((value) {
+    startmatch
+        .matchInfoDetailFromAPI(
+            tournamentid: widget.match.tournament?.id.toString() ?? "",
+            matchid: widget.match.id.toString() ?? "")
+        .then((value) {
       startmatch.confirmposition();
       startmatch.teamname();
     });

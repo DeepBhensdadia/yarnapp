@@ -46,18 +46,25 @@ class _PlayersListAudianceState extends State<PlayersListAudiance> {
             Text(
               "${widget.teamid.teamName}",
               textScaleFactor: 1,
-              style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+              style:
+                  TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
             ),
-            widget.teamid.teamOwner == null ? SizedBox() :    Column(
-              children: [
-                SizedBox(height: 5,),
-                Text(
-                  widget.teamid.teamOwner ?? "",
-
-                  style: TextStyle(fontSize: 12,letterSpacing: 0.5, color: MyTheme.appBarTextColor),
-                ),
-              ],
-            ),
+            widget.teamid.teamOwner == null
+                ? SizedBox()
+                : Column(
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        widget.teamid.teamOwner ?? "",
+                        style: TextStyle(
+                            fontSize: 12,
+                            letterSpacing: 0.5,
+                            color: MyTheme.appBarTextColor),
+                      ),
+                    ],
+                  ),
           ],
         ),
         // centerTitle: true,
@@ -352,7 +359,7 @@ class _PlayersListAudianceState extends State<PlayersListAudiance> {
                                                         PhotoScreencric(
                                                             dobbn: 25,
                                                             image: URLs
-                                                                .image_url_player +
+                                                                    .image_url_player +
                                                                 "${tournamentAudiance.getextralist[index].player?.logo}"),
                                                         // CircleAvatar(
                                                         //     radius: 25,

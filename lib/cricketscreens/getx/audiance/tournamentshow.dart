@@ -47,12 +47,14 @@ class TournamentAudianceController extends GetxController {
   RxList<Matchinfo> getmatchinfo = <Matchinfo>[].obs;
   RxList<TeamAudiance> getteaminfo = <TeamAudiance>[].obs;
   RxBool gettournadetai = false.obs;
+  RxBool isloading = false.obs;
 
-  Future<void> getaudiTournamentDetails({required String id}) async {
+  Future<void> getaudiTournamentDetails({required String id,required String status}) async {
     gettournadetai.value = false;
+    isloading.value = true;
     // Get.context!.loaderOverlay.show();
     final response = await webService.getRequest(
-      url: "${URLs.Base_url}tournament_details/$id",
+      url: "${URLs.Base_url}tournament_details/$id?match_status=$status",
     );
     response.fold(
       (l) {
@@ -63,10 +65,13 @@ class TournamentAudianceController extends GetxController {
         getteaminfo.value = data.team ?? [];
         getdetailstourna.value = data.tournament ?? [];
         gettournadetai.value = true;
+        isloading.value = false;
         update();
         // Get.context!.loaderOverlay.hide();
       },
       (r) {
+        isloading.value = false;
+
         // Get.context!.loaderOverlay.hide();
         print(r.message);
       },

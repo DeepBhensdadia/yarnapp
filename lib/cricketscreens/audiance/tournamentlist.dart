@@ -20,7 +20,8 @@ class TournamentAudiance extends StatefulWidget {
 class _TournamentAudianceState extends State<TournamentAudiance>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  TournamentAudianceController tournamentAudiance = Get.put(TournamentAudianceController());
+  TournamentAudianceController tournamentAudiance =
+      Get.put(TournamentAudianceController());
   @override
   void initState() {
     super.initState();
@@ -98,10 +99,13 @@ class _TournamentAudianceState extends State<TournamentAudiance>
                                             visualDensity:
                                                 VisualDensity.compact,
                                             onTap: () {
-                                              tournamentAudiance.getaudiTournamentDetails(id: data.id.toString());
+                                              tournamentAudiance
+                                                  .getaudiTournamentDetails(
+                                                      id: data.id.toString(),
+                                                      status: "live");
 
-                                              Get.to(TournamentRootAudiance(tournamentname:data));
-
+                                              Get.to(TournamentRootAudiance(
+                                                  tournamentname: data));
                                             },
                                             // visualDensity: VisualDensity.compact,
                                             // dense: true,

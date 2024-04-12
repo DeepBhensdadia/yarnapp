@@ -563,184 +563,189 @@ class _PlayermatchesState extends State<Playermatches> {
                                                   ),
                                                 ),
                                                 SizedBox(height: 8),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      flex: 2,
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Container(
-                                                            width: 50,
-                                                            height: 50,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .withOpacity(
-                                                                            0.4),
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    image:
-                                                                        DecorationImage(
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10.0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        flex: 2,
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Container(
+                                                              width: 40,
+                                                              height: 40,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      color: Colors
+                                                                          .grey
+                                                                          .withOpacity(
+                                                                              0.4),
+                                                                      shape: BoxShape
+                                                                          .circle,
                                                                       image:
-                                                                          NetworkImage(
-                                                                        URLs.image_url_team +
-                                                                            "${match.team1?.logo}",
-                                                                      ),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    )),
-                                                          ),
-                                                          SizedBox(width: 8),
-                                                          Text(
-                                                            match.team1
-                                                                    ?.shortName ??
-                                                                "",
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    screenwidth(
-                                                                        context,
-                                                                        dividedby:
-                                                                            28),
-                                                                color: Colors
-                                                                    .blueGrey,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    2),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Colors.red
-                                                                  .withOpacity(
-                                                                      0.1),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5),
+                                                                          DecorationImage(
+                                                                        image:
+                                                                            NetworkImage(
+                                                                          URLs.image_url_team +
+                                                                              "${match.team1?.logo}",
+                                                                        ),
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      )),
                                                             ),
-                                                            child: Text(
-                                                                match
-                                                                    .matchdateformat()
-                                                                    .toString(),
-                                                                style:
-                                                                    TextStyle(
+                                                            SizedBox(width: 8),
+                                                            Text(
+                                                              match.team1
+                                                                      ?.shortName ??
+                                                                  "",
+                                                              style: TextStyle(
                                                                   fontSize: screenwidth(
                                                                       context,
                                                                       dividedby:
-                                                                          38),
+                                                                          28),
                                                                   color: Colors
-                                                                      .red
-                                                                      .shade700,
-                                                                )),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 2.5,
-                                                          ),
-                                                          Text(
-                                                            match
-                                                                .matchtimeformat(),
-                                                            style: TextStyle(
-                                                              fontSize:
-                                                                  screenwidth(
-                                                                      context,
-                                                                      dividedby:
-                                                                          30),
-                                                              color: Colors.grey
-                                                                  .shade700,
+                                                                      .blueGrey,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
                                                             ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 2.5,
-                                                          ),
-                                                          Text(
-                                                              match.matchType ??
-                                                                  "",
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(2),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .red
+                                                                    .withOpacity(
+                                                                        0.1),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                              ),
+                                                              child: Text(
+                                                                  match
+                                                                      .matchdateformat()
+                                                                      .toString(),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize: screenwidth(
+                                                                        context,
+                                                                        dividedby:
+                                                                            38),
+                                                                    color: Colors
+                                                                        .red
+                                                                        .shade700,
+                                                                  )),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 2.5,
+                                                            ),
+                                                            Text(
+                                                              match
+                                                                  .matchtimeformat(),
                                                               style: TextStyle(
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
                                                                 fontSize:
                                                                     screenwidth(
                                                                         context,
                                                                         dividedby:
-                                                                            33),
+                                                                            30),
                                                                 color: Colors
                                                                     .grey
                                                                     .shade700,
-                                                              )),
-                                                        ],
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 2.5,
+                                                            ),
+                                                            Text(
+                                                                match.matchType ??
+                                                                    "",
+                                                                style:
+                                                                    TextStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  fontSize: screenwidth(
+                                                                      context,
+                                                                      dividedby:
+                                                                          33),
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade700,
+                                                                )),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 2,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            match.team2
-                                                                    ?.shortName ??
-                                                                "",
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    screenwidth(
-                                                                        context,
-                                                                        dividedby:
-                                                                            28),
-                                                                color: Colors
-                                                                    .blueGrey,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          SizedBox(width: 8),
-                                                          Container(
-                                                            width: 50,
-                                                            height: 50,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .withOpacity(
-                                                                            0.4),
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    image:
-                                                                        DecorationImage(
+                                                      Expanded(
+                                                        flex: 2,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: <Widget>[
+                                                            Text(
+                                                              match.team2
+                                                                      ?.shortName ??
+                                                                  "",
+                                                              style: TextStyle(
+                                                                  fontSize: screenwidth(
+                                                                      context,
+                                                                      dividedby:
+                                                                          28),
+                                                                  color: Colors
+                                                                      .blueGrey,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                            SizedBox(width: 8),
+                                                            Container(
+                                                              width: 40,
+                                                              height: 40,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      color: Colors
+                                                                          .grey
+                                                                          .withOpacity(
+                                                                              0.4),
+                                                                      shape: BoxShape
+                                                                          .circle,
                                                                       image:
-                                                                          NetworkImage(
-                                                                        URLs.image_url_team +
-                                                                            "${match.team2?.logo}",
-                                                                      ),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    )),
-                                                          ),
-                                                        ],
+                                                                          DecorationImage(
+                                                                        image:
+                                                                            NetworkImage(
+                                                                          URLs.image_url_team +
+                                                                              "${match.team2?.logo}",
+                                                                        ),
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      )),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
                                                 match.summary == null
                                                     ? SizedBox()

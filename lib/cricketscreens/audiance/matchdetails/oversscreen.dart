@@ -21,8 +21,10 @@ class _OversScreenState extends State<OversScreen>
 
   @override
   void initState() {
-
-    _tabController = TabController(length: 2, vsync: this,);
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+    );
     startmatch.Overswiserun(
         matchid: startmatch.matchlive.value.id.toString(),
         touramentid:
@@ -63,7 +65,7 @@ class _OversScreenState extends State<OversScreen>
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
-                    physics: NeverScrollableScrollPhysics(),
+                    // physics: NeverScrollableScrollPhysics(),
                     children: [
                       ListView.separated(
                         scrollDirection: Axis.vertical,
@@ -79,7 +81,7 @@ class _OversScreenState extends State<OversScreen>
                               child: Row(
                                 children: [
                                   Expanded(
-                                    flex: 1,
+                                    flex: 2,
                                     child: Column(
                                       children: [
                                         Text(
@@ -101,56 +103,69 @@ class _OversScreenState extends State<OversScreen>
                                     width: 20,
                                   ),
                                   Expanded(
-                                    flex: 5,
+                                    flex: 8,
                                     child: Container(
-                                      child: Wrap(
-                                        runSpacing: 5,
-                                        spacing: 5,
-                                        direction: Axis.horizontal,
-                                        // crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: List.generate(
-                                            startmatch.team1overs[index].balls
-                                                    ?.length ??
-                                                0, (indexball) {
-                                          Ballovers? ball = startmatch
-                                              .team1overs[index]
-                                              .balls?[indexball];
-                                          return Container(
-                                            width: 30,
-                                            height: 30,
-                                            // padding: EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: ball?.outType == null
-                                                  ? ball?.ballType == "normal"
-                                                      ? ball?.run == 6
-                                                          ? Colors.green
-                                                          : ball?.run == 4
-                                                              ? Colors.blue
-                                                              : Colors.black45
-                                                      : Colors.orange
-                                                  : Colors.red,
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                ball?.outType == null
-                                                    ? ball?.ballType == "normal"
-                                                        ? "${ball?.run}"
-                                                        : ball?.run == 0
-                                                            ? "${ball?.ballType}"
-                                                            : "${ball?.ballType}${ball?.run}"
-                                                    : ball?.run == 0
-                                                        ? "W"
-                                                        : "W${ball?.run}",
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                          );
-                                        }),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(startmatch.team1overs[index]
+                                                  .bowler?.playerName ??
+                                              "",style: TextStyle(color: Colors.black54)),
+                                          SizedBox(height: 5,),
+                                          Wrap(
+                                            runSpacing: 5,
+                                            spacing: 5,
+                                            direction: Axis.horizontal,
+                                            // crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: List.generate(
+                                                startmatch.team1overs[index]
+                                                        .balls?.length ??
+                                                    0, (indexball) {
+                                              Ballovers? ball = startmatch
+                                                  .team1overs[index]
+                                                  .balls?[indexball];
+                                              return Container(
+                                                width: screenwidth(context,
+                                                    dividedby: 13),
+                                                height: screenwidth(context,
+                                                    dividedby: 13),
+                                                // padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: ball?.outType == null
+                                                      ? ball?.ballType ==
+                                                              "normal"
+                                                          ? ball?.run == 6
+                                                              ? Colors.green
+                                                              : ball?.run == 4
+                                                                  ? Colors.blue
+                                                                  : Colors
+                                                                      .black45
+                                                          : Colors.orange
+                                                      : Colors.red,
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    ball?.balltag ?? "",
+                                                    style: TextStyle(
+                                                        fontSize: ball?.balltag
+                                                                    ?.length ==
+                                                                1
+                                                            ? screenwidth(
+                                                                context,
+                                                                dividedby: 30)
+                                                            : screenwidth(
+                                                                context,
+                                                                dividedby: 35),
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -181,14 +196,13 @@ class _OversScreenState extends State<OversScreen>
                               child: Row(
                                 children: [
                                   Expanded(
-                                    flex: 1,
+                                    flex: 2,
                                     child: Column(
                                       children: [
                                         Text(
                                             "${startmatch.team2overs[index].overName}"),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
+                                        SizedBox(height: 5,),
+
                                         Text(
                                           "${startmatch.team2overs[index].totalRun.toString()} Runs",
                                           style: TextStyle(
@@ -203,56 +217,71 @@ class _OversScreenState extends State<OversScreen>
                                     width: 20,
                                   ),
                                   Expanded(
-                                    flex: 5,
+                                    flex: 8,
                                     child: Container(
-                                      child: Wrap(
-                                        runSpacing: 5,
-                                        spacing: 5,
-                                        direction: Axis.horizontal,
-                                        // crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: List.generate(
-                                            startmatch.team2overs[index].balls
-                                                    ?.length ??
-                                                0, (indexball) {
-                                          Ballovers? ball = startmatch
-                                              .team2overs[index]
-                                              .balls?[indexball];
-                                          return Container(
-                                            width: 30,
-                                            height: 30,
-                                            // padding: EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: ball?.outType == null
-                                                  ? ball?.ballType == "normal"
-                                                      ? ball?.run == 6
-                                                          ? Colors.green
-                                                          : ball?.run == 4
-                                                              ? Colors.blue
-                                                              : Colors.black45
-                                                      : Colors.orange
-                                                  : Colors.red,
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                ball?.outType == null
-                                                    ? ball?.ballType == "normal"
-                                                        ? "${ball?.run}"
-                                                        : ball?.run == 0
-                                                            ? "${ball?.ballType}"
-                                                            : "${ball?.ballType}${ball?.run}"
-                                                    : ball?.run == 0
-                                                        ? "W"
-                                                        : "W${ball?.run}",
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                          );
-                                        }),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(startmatch.team2overs[index]
+                                                  .bowler?.playerName ??
+                                              "",style: TextStyle(color: Colors.black54),),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Wrap(
+                                            runSpacing: 5,
+                                            spacing: 5,
+                                            direction: Axis.horizontal,
+                                            // crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: List.generate(
+                                                startmatch.team2overs[index]
+                                                        .balls?.length ??
+                                                    0, (indexball) {
+                                              Ballovers? ball = startmatch
+                                                  .team2overs[index]
+                                                  .balls?[indexball];
+                                              return Container(
+                                                width: screenwidth(context,
+                                                    dividedby: 13),
+                                                height: screenwidth(context,
+                                                    dividedby: 13),
+                                                // padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: ball?.outType == null
+                                                      ? ball?.ballType ==
+                                                              "normal"
+                                                          ? ball?.run == 6
+                                                              ? Colors.green
+                                                              : ball?.run == 4
+                                                                  ? Colors.blue
+                                                                  : Colors
+                                                                      .black45
+                                                          : Colors.orange
+                                                      : Colors.red,
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    ball?.balltag ?? "",
+                                                    style: TextStyle(
+                                                        fontSize: ball?.balltag
+                                                                    ?.length ==
+                                                                1
+                                                            ? screenwidth(
+                                                                context,
+                                                                dividedby: 30)
+                                                            : screenwidth(
+                                                                context,
+                                                                dividedby: 35),
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),

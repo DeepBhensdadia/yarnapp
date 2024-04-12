@@ -103,8 +103,8 @@ class UserController extends GetxController {
         Getplayerinfo data = getplayerinfoFromJson(l.toString());
         if (data.data?.mobileNumber != null) {
           playerdata.value = data.data!;
-          matches.value = data.matchs?.first ?? [];
-          teams.value = data.teams ?? [];
+          if (data.matchs!.isNotEmpty) matches.value = data.matchs?.first ?? [];
+          if (data.teams!.isNotEmpty) teams.value = data.teams ?? [];
           Get.to(PlayerProfileScreen());
         }
 

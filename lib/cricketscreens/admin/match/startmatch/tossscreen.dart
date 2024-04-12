@@ -196,8 +196,8 @@ class _TossScreenState extends State<TossScreen> {
                         ? widget.match.team1?.id.toString() ?? ""
                         : widget.match.team2?.id.toString() ?? "",
                     matchid: widget.match.id.toString(),
-                    tosselect: batselect == 0 ? "Bat" : "Bowl");
-                Get.off(OpeningPlayers(match:startmatch.matchlive.value));
+                    tosselect: batselect == 0 ? "Bat" : "Bowl").then((value) =>  Get.off(OpeningPlayers(match:startmatch.matchlive.value)));
+
               } else {
                 FlutterToast.showCustomToast(
                     "Please Selcet Team And Bat or Bowl");
