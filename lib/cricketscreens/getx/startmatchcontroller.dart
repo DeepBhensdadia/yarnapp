@@ -556,6 +556,7 @@ class StartMatchController extends GetxController {
     required String outplayerid,
     required String bowlingteamid,
     required String battingteamid,
+    required String isballcount,
   }) async {
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> formFields = {
@@ -573,7 +574,8 @@ class StartMatchController extends GetxController {
       'match_ids': matchid,
       "betting_team_id": battingteamid,
       "bowling_team_id": bowlingteamid,
-      "team_id": battingteamid
+      "team_id": battingteamid,
+      "is_ball_count": isballcount
     };
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));

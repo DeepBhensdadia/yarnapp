@@ -116,9 +116,10 @@ class _RunInputScreenState extends State<RunInputScreen> {
     String? outtype,
     String? outbyplayerid,
     String? noballtype,
-    String? outplayerid,
+    String? outplayerid,String? isballcount
   }) {
     startmatch.runaddFromAPI(
+      isballcount: isballcount ?? "1",
         noballtype: noballtype.toString(),
         battingteamid: startmatch.matchlive.value.bettingTeamId.toString(),
         bowlingteamid: startmatch.matchlive.value.bowlingTeamId.toString(),
@@ -154,6 +155,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
 
   int nbtotalrun = 1;
   bool iswicket = false;
+  bool isballcount = false;
   int selectindextype = 1;
   String outplayerid = "0";
   String no_ball_type = "bat";
@@ -1990,16 +1992,8 @@ class _RunInputScreenState extends State<RunInputScreen> {
                     Get.back();
                     outwarningdetails(
                       () {
-                        runapi(
-                            run: "0",
-                            outtype: "other",
-                            outbyplayerid: startmatch.matchlive.value.bowlerId
-                                    .toString() ??
-                                "",
-                            outplayerid: startmatch
-                                .matchlive.value.stickerPlayerId
-                                .toString());
                         Get.back();
+                        otheroutoutSheet();
                         //
                       },
                     );
@@ -3025,6 +3019,257 @@ class _RunInputScreenState extends State<RunInputScreen> {
                             ),
                           ),
                         ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  otheroutoutSheet() async {
+    runoutplayerid = "";
+    runouthelperid = "";
+    runoutrun.text = "0";
+    startmatch.bowlingteamPlayerListFromAPI(
+        teamid: startmatch.matchlive.value.bowlingTeamId.toString() ?? "");
+    await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsPadding: EdgeInsets.zero,
+          insetPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                width: screenwidth(context, dividedby: 1.2),
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                decoration: BoxDecoration(
+                    color: kwhite, borderRadius: BorderRadius.circular(15)),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 10.0, vertical: 15),
+                      //   child: Row(
+                      //     children: [
+                      //       Text(
+                      //         "runout?",
+                      //         style: TextStyle(
+                      //             color: Colors.black,
+                      //             fontSize: 16,
+                      //             fontWeight: FontWeight.w500),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: TournamentDropdown(
+                          // initialValue:
+                          //     widget.matchdetail?.team2?.id.toString(),
+                          count: [
+                            DropdownMenuItem<String>(
+                                value:
+                                    "${startmatch.matchlive.value.stickerScore?.playerId.toString()}",
+                                child: Text(
+                                    "${startmatch.matchlive.value.playerstrick?.playerName}")),
+                            DropdownMenuItem<String>(
+                                value:
+                                    "${startmatch.matchlive.value.nonstickerScore?.playerId.toString()}",
+                                child: Text(
+                                    "${startmatch.matchlive.value.playerNonStricker?.playerName}"))
+                          ],
+                          onchange: (p0) {
+                            runoutplayerid = p0.toString();
+                            setState(() {});
+                          },
+                          validator: (p0) {
+                            if (p0?.isEmpty ?? true) {
+                              return "Out Batsman?";
+                            }
+                            return null;
+                          },
+                          lable: "Out Batsman?",
+                        ),
+                      ),
+                      Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: TournamentDropdown(
+                            // initialValue:
+                            //     widget.matchdetail?.team2?.id.toString(),
+                            count: startmatch.bowlingteam
+                                .where((p0) =>
+                                    p0.id.toString() !=
+                                    startmatch
+                                        .matchlive.value.bowlerScore?.playerId
+                                        .toString())
+                                .map((e) => DropdownMenuItem<String>(
+                                    value: "${e.playerId}",
+                                    child: Text("${e.player?.playerName}")))
+                                .toList(),
+                            onchange: (p0) {
+                              runouthelperid = p0.toString();
+                              setState(() {});
+                            },
+                            validator: (p0) {
+                              if (p0?.isEmpty ?? true) {
+                                return "Out by Whom?";
+                              }
+                              return null;
+                            },
+                            lable: "Out by Whom?",
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "total run",
+                              textScaleFactor: 1.3,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: MyTheme.appBarColor),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: 45,
+                              width: 45,
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Center(
+                                child: Pinput(
+                                  controller: runoutrun,
+                                  length: 1,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp('[\\.]')),
+                                  ],
+                                  defaultPinTheme: PinTheme(
+                                    margin: EdgeInsets.symmetric(horizontal: 6),
+                                    width: 56,
+                                    height: 56,
+                                    textStyle: const TextStyle(
+                                      fontSize: 22,
+                                      color: Color.fromRGBO(30, 60, 87, 1),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    runoutrun.text = value ?? "0";
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isballcount,
+                            onChanged: (value) {
+                              setState(() {
+                                isballcount = !isballcount;
+                              });
+                            },
+                          ),
+                          Text(
+                            "Is Ball Count ?",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                color: Colors.grey,
+                                height: 40,
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Center(
+                                      child: Text(
+                                    "Cancel",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Expanded(
+                              child: Container(
+                                color: Colors.grey,
+                                height: 40,
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    bool valid =
+                                        runoutplayerid.isEmpty ? false : true;
+                                    if (!valid) {
+                                      FlutterToast.showCustomToast(
+                                          "Please select player");
+                                    } else {
+                                      runapi(
+                                          run: runoutrun.text,
+                                          outtype: "other",
+                                          outbyplayerid: runouthelperid,
+                                          outplayerid: runoutplayerid,
+                                      isballcount: isballcount == false ? "0" : "1"
+                                      );
+                                      Get.back();
+                                    }
+                                  },
+                                  child: const Center(
+                                      child: Text(
+                                    "Confirm Out",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -4212,9 +4457,11 @@ class _RunInputScreenState extends State<RunInputScreen> {
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Center(child: Text(  startmatch.matchlive.value.inningId == 1
-                                    ? "Start Next Innings"
-                                    : "Declare Winning Team")),
+                                child: Center(
+                                    child: Text(
+                                        startmatch.matchlive.value.inningId == 1
+                                            ? "Start Next Innings"
+                                            : "Declare Winning Team")),
                               ),
                             ),
                           ),

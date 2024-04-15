@@ -163,11 +163,9 @@ class _InfoScreenState extends State<InfoScreen> {
   }
 
   Future<void> _refresh() async {
-
     startmatch.matchInfoDetailFromAPI(
         tournamentid: widget.match?.tournamentId.toString() ?? "",
         matchid: widget.match?.id.toString() ?? "");
-
   }
 
   @override
@@ -176,1192 +174,1206 @@ class _InfoScreenState extends State<InfoScreen> {
       children: [
         Expanded(
           child: RefreshIndicator(
-              onRefresh: _refresh,
+            onRefresh: _refresh,
             child: SingleChildScrollView(
               child: Column(
-                          children: [
-                            Obx(
-                              () => Column(
-                                children: [
-                                  SizedBox(height: 5),
-                                  Screenshot(
-                                    controller: screenshot.screenshotController,
+                children: [
+                  Obx(
+                    () => Column(
+                      children: [
+                        SizedBox(height: 5),
+                        Screenshot(
+                          controller: screenshot.screenshotController,
+                          child: Column(
+                            children: [
+                              Container(
+                                // height: 200,
+                                width: double.infinity,
+                                child: Card(
+                                  elevation: 4,
+                                  margin: EdgeInsets.symmetric(horizontal: 15),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0, vertical: 15),
                                     child: Column(
                                       children: [
-                                        Container(
-                                          // height: 200,
-                                          width: double.infinity,
-                                          child: Card(
-                                            elevation: 4,
-                                            margin: EdgeInsets.symmetric(horizontal: 15),
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 20.0, vertical: 15),
-                                              child: Column(
+                                        Row(
+                                          // mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                PhotoScreencric(
+                                                    dobbn: 18,
+                                                    image: URLs.image_url_team +
+                                                        "${widget.match?.team1?.logo}"),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  widget.match?.team1
+                                                          ?.shortName ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      color: startmatch
+                                                                  .matchlive
+                                                                  .value
+                                                                  .summary !=
+                                                              null
+                                                          ? startmatch
+                                                                      .matchlive
+                                                                      .value
+                                                                      .wonteamid ==
+                                                                  startmatch
+                                                                      .matchlive
+                                                                      .value
+                                                                      .team1
+                                                                      ?.id
+                                                              ? Colors.black
+                                                              : Colors.grey
+                                                          : startmatch
+                                                                      .matchlive
+                                                                      .value
+                                                                      .bettingTeamId ==
+                                                                  startmatch
+                                                                      .matchlive
+                                                                      .value
+                                                                      .team1
+                                                                      ?.id
+                                                              ? Colors.black
+                                                              : Colors.grey,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ],
+                                            ),
+                                            startmatch.matchlive.value
+                                                        .team1TotalOver ==
+                                                    null
+                                                ? Text(
+                                                    textAlign: TextAlign.center,
+                                                    "",
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                : Row(
+                                                    children: [
+                                                      Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        "${startmatch.matchlive.value.team1Runs}-${startmatch.matchlive.value.team1TotalWickets}",
+                                                        style: TextStyle(
+                                                            color: startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .summary !=
+                                                                    null
+                                                                ? startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .wonteamid ==
+                                                                        startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .team1
+                                                                            ?.id
+                                                                    ? Colors
+                                                                        .black
+                                                                    : Colors
+                                                                        .grey
+                                                                : startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .bettingTeamId ==
+                                                                        startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .team1
+                                                                            ?.id
+                                                                    ? Colors
+                                                                        .black
+                                                                    : Colors
+                                                                        .grey,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        " (${startmatch.matchlive.value.team1TotalOver})",
+                                                        style: TextStyle(
+                                                            color: startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .summary !=
+                                                                    null
+                                                                ? startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .wonteamid ==
+                                                                        startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .team1
+                                                                            ?.id
+                                                                    ? Colors
+                                                                        .black
+                                                                    : Colors
+                                                                        .grey
+                                                                : startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .bettingTeamId ==
+                                                                        startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .team1
+                                                                            ?.id
+                                                                    ? Colors
+                                                                        .black
+                                                                    : Colors
+                                                                        .grey,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ).paddingOnly(right: 20),
+                                                    ],
+                                                  )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Row(
+                                          // mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                PhotoScreencric(
+                                                    dobbn: 18,
+                                                    image: URLs.image_url_team +
+                                                        "${widget.match?.team2?.logo}"),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  widget.match?.team2
+                                                          ?.shortName ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      color: startmatch
+                                                                  .matchlive
+                                                                  .value
+                                                                  .summary !=
+                                                              null
+                                                          ? startmatch
+                                                                      .matchlive
+                                                                      .value
+                                                                      .wonteamid ==
+                                                                  startmatch
+                                                                      .matchlive
+                                                                      .value
+                                                                      .team2
+                                                                      ?.id
+                                                              ? Colors.black
+                                                              : Colors.grey
+                                                          : startmatch
+                                                                      .matchlive
+                                                                      .value
+                                                                      .bettingTeamId ==
+                                                                  startmatch
+                                                                      .matchlive
+                                                                      .value
+                                                                      .team2
+                                                                      ?.id
+                                                              ? Colors.black
+                                                              : Colors.grey,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ],
+                                            ),
+                                            startmatch.matchlive.value
+                                                        .team2TotalOver ==
+                                                    null
+                                                ? Text(
+                                                    textAlign: TextAlign.center,
+                                                    "",
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                : Row(
+                                                    children: [
+                                                      Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        "${startmatch.matchlive.value.team2Runs}-${startmatch.matchlive.value.team2TotalWickets}",
+                                                        style: TextStyle(
+                                                            color: startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .summary !=
+                                                                    null
+                                                                ? startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .wonteamid ==
+                                                                        startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .team2
+                                                                            ?.id
+                                                                    ? Colors
+                                                                        .black
+                                                                    : Colors
+                                                                        .grey
+                                                                : startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .bettingTeamId ==
+                                                                        startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .team2
+                                                                            ?.id
+                                                                    ? Colors
+                                                                        .black
+                                                                    : Colors
+                                                                        .grey,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        " (${startmatch.matchlive.value.team2TotalOver})",
+                                                        style: TextStyle(
+                                                            color: startmatch
+                                                                        .matchlive
+                                                                        .value
+                                                                        .summary !=
+                                                                    null
+                                                                ? startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .wonteamid ==
+                                                                        startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .team2
+                                                                            ?.id
+                                                                    ? Colors
+                                                                        .black
+                                                                    : Colors
+                                                                        .grey
+                                                                : startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .bettingTeamId ==
+                                                                        startmatch
+                                                                            .matchlive
+                                                                            .value
+                                                                            .team2
+                                                                            ?.id
+                                                                    ? Colors
+                                                                        .black
+                                                                    : Colors
+                                                                        .grey,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ).paddingOnly(right: 20),
+                                                    ],
+                                                  )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        startmatch.matchlive.value.summary ==
+                                                null
+                                            ? Column(
                                                 children: [
                                                   Row(
-                                                    // mainAxisSize: MainAxisSize.max,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.spaceBetween,
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
-                                                      Row(
-                                                        children: [
-                                                          PhotoScreencric(
-                                                              dobbn: 18,
-                                                              image: URLs.image_url_team +
-                                                                  "${widget.match?.team1?.logo}"),
-                                                          SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Text(
-                                                            widget.match?.team1
-                                                                    ?.shortName ??
-                                                                "",
-                                                            style: TextStyle(
-                                                                color: startmatch
-                                                                            .matchlive
-                                                                            .value
-                                                                            .summary !=
-                                                                        null
-                                                                    ? startmatch
-                                                                                .matchlive
-                                                                                .value
-                                                                                .wonteamid ==
-                                                                            startmatch
-                                                                                .matchlive
-                                                                                .value
-                                                                                .team1
-                                                                                ?.id
-                                                                        ? Colors.black
-                                                                        : Colors.grey
-                                                                    : startmatch
-                                                                                .matchlive
-                                                                                .value
-                                                                                .bettingTeamId ==
-                                                                            startmatch
-                                                                                .matchlive
-                                                                                .value
-                                                                                .team1
-                                                                                ?.id
-                                                                        ? Colors.black
-                                                                        : Colors.grey,
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight.w400),
-                                                          ),
-                                                        ],
+                                                      Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        "CRR   ${startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team1?.id ? startmatch.matchlive.value.team1Crr ?? "0.00" : startmatch.matchlive.value.team2Crr ?? "0.00"}",
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .grey.shade700,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
                                                       ),
                                                       startmatch.matchlive.value
-                                                                  .team1TotalOver ==
-                                                              null
+                                                                  .inningId ==
+                                                              2
                                                           ? Text(
-                                                              textAlign: TextAlign.center,
-                                                              "",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              "REQ  ${startmatch.requirerunrate}",
                                                               style: TextStyle(
-                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade700,
+                                                                  fontSize: 14,
                                                                   fontWeight:
-                                                                      FontWeight.w500),
+                                                                      FontWeight
+                                                                          .w400),
                                                             )
-                                                          : Row(
-                                                              children: [
-                                                                Text(
-                                                                  textAlign:
-                                                                      TextAlign.center,
-                                                                  "${startmatch.matchlive.value.team1Runs}-${startmatch.matchlive.value.team1TotalWickets}",
-                                                                  style: TextStyle(
-                                                                      color: startmatch
-                                                                                  .matchlive
-                                                                                  .value
-                                                                                  .summary !=
-                                                                              null
-                                                                          ? startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .wonteamid ==
-                                                                                  startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .team1
-                                                                                      ?.id
-                                                                              ? Colors.black
-                                                                              : Colors.grey
-                                                                          : startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .bettingTeamId ==
-                                                                                  startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .team1
-                                                                                      ?.id
-                                                                              ? Colors.black
-                                                                              : Colors.grey,
-                                                                      fontSize: 18,
-                                                                      fontWeight:
-                                                                          FontWeight.w500),
-                                                                ),
-                                                                Text(
-                                                                  textAlign:
-                                                                      TextAlign.center,
-                                                                  " (${startmatch.matchlive.value.team1TotalOver})",
-                                                                  style: TextStyle(
-                                                                      color: startmatch
-                                                                                  .matchlive
-                                                                                  .value
-                                                                                  .summary !=
-                                                                              null
-                                                                          ? startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .wonteamid ==
-                                                                                  startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .team1
-                                                                                      ?.id
-                                                                              ? Colors.black
-                                                                              : Colors.grey
-                                                                          : startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .bettingTeamId ==
-                                                                                  startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .team1
-                                                                                      ?.id
-                                                                              ? Colors.black
-                                                                              : Colors.grey,
-                                                                      fontSize: 16,
-                                                                      fontWeight:
-                                                                          FontWeight.w500),
-                                                                ).paddingOnly(right: 20),
-                                                              ],
-                                                            )
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 15,
-                                                  ),
-                                                  Row(
-                                                    // mainAxisSize: MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          PhotoScreencric(
-                                                              dobbn: 18,
-                                                              image: URLs.image_url_team +
-                                                                  "${widget.match?.team2?.logo}"),
-                                                          SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Text(
-                                                            widget.match?.team2
-                                                                    ?.shortName ??
-                                                                "",
-                                                            style: TextStyle(
-                                                                color: startmatch
-                                                                            .matchlive
-                                                                            .value
-                                                                            .summary !=
-                                                                        null
-                                                                    ? startmatch
-                                                                                .matchlive
-                                                                                .value
-                                                                                .wonteamid ==
-                                                                            startmatch
-                                                                                .matchlive
-                                                                                .value
-                                                                                .team2
-                                                                                ?.id
-                                                                        ? Colors.black
-                                                                        : Colors.grey
-                                                                    : startmatch
-                                                                                .matchlive
-                                                                                .value
-                                                                                .bettingTeamId ==
-                                                                            startmatch
-                                                                                .matchlive
-                                                                                .value
-                                                                                .team2
-                                                                                ?.id
-                                                                        ? Colors.black
-                                                                        : Colors.grey,
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight.w400),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                          : SizedBox(),
                                                       startmatch.matchlive.value
-                                                                  .team2TotalOver ==
-                                                              null
+                                                                  .inningId ==
+                                                              2
                                                           ? Text(
-                                                              textAlign: TextAlign.center,
-                                                              "",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              "Target :  ${startmatch.target}",
                                                               style: TextStyle(
-                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade900,
+                                                                  fontSize: 14,
                                                                   fontWeight:
-                                                                      FontWeight.w500),
+                                                                      FontWeight
+                                                                          .w500),
                                                             )
-                                                          : Row(
-                                                              children: [
-                                                                Text(
-                                                                  textAlign:
-                                                                      TextAlign.center,
-                                                                  "${startmatch.matchlive.value.team2Runs}-${startmatch.matchlive.value.team2TotalWickets}",
-                                                                  style: TextStyle(
-                                                                      color: startmatch
-                                                                                  .matchlive
-                                                                                  .value
-                                                                                  .summary !=
-                                                                              null
-                                                                          ? startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .wonteamid ==
-                                                                                  startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .team2
-                                                                                      ?.id
-                                                                              ? Colors.black
-                                                                              : Colors.grey
-                                                                          : startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .bettingTeamId ==
-                                                                                  startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .team2
-                                                                                      ?.id
-                                                                              ? Colors.black
-                                                                              : Colors.grey,
-                                                                      fontSize: 18,
-                                                                      fontWeight:
-                                                                          FontWeight.w500),
-                                                                ),
-                                                                Text(
-                                                                  textAlign:
-                                                                      TextAlign.center,
-                                                                  " (${startmatch.matchlive.value.team2TotalOver})",
-                                                                  style: TextStyle(
-                                                                      color: startmatch
-                                                                                  .matchlive
-                                                                                  .value
-                                                                                  .summary !=
-                                                                              null
-                                                                          ? startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .wonteamid ==
-                                                                                  startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .team2
-                                                                                      ?.id
-                                                                              ? Colors.black
-                                                                              : Colors.grey
-                                                                          : startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .bettingTeamId ==
-                                                                                  startmatch
-                                                                                      .matchlive
-                                                                                      .value
-                                                                                      .team2
-                                                                                      ?.id
-                                                                              ? Colors.black
-                                                                              : Colors.grey,
-                                                                      fontSize: 16,
-                                                                      fontWeight:
-                                                                          FontWeight.w500),
-                                                                ).paddingOnly(right: 20),
-                                                              ],
-                                                            )
+                                                          : SizedBox(),
                                                     ],
                                                   ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  startmatch.matchlive.value.summary == null
+                                                  startmatch.matchlive.value
+                                                              .inningId ==
+                                                          2
                                                       ? Column(
                                                           children: [
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Text(
-                                                                  textAlign:
-                                                                      TextAlign.center,
-                                                                  "CRR   ${startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team1?.id ? startmatch.matchlive.value.team1Crr ?? "0.00" : startmatch.matchlive.value.team2Crr ?? "0.00"}",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .grey.shade700,
-                                                                      fontSize: 14,
-                                                                      fontWeight:
-                                                                          FontWeight.w400),
-                                                                ),
-                                                                startmatch.matchlive.value
-                                                                            .inningId ==
-                                                                        2
-                                                                    ? Text(
-                                                                        textAlign: TextAlign
-                                                                            .center,
-                                                                        "REQ  ${startmatch.requirerunrate}",
-                                                                        style: TextStyle(
-                                                                            color: Colors
-                                                                                .grey
-                                                                                .shade700,
-                                                                            fontSize: 14,
-                                                                            fontWeight:
-                                                                                FontWeight
-                                                                                    .w400),
-                                                                      )
-                                                                    : SizedBox(),
-                                                                startmatch.matchlive.value
-                                                                            .inningId ==
-                                                                        2
-                                                                    ? Text(
-                                                                        textAlign: TextAlign
-                                                                            .center,
-                                                                        "Target :  ${startmatch.target}",
-                                                                        style: TextStyle(
-                                                                            color: Colors
-                                                                                .grey
-                                                                                .shade900,
-                                                                            fontSize: 14,
-                                                                            fontWeight:
-                                                                                FontWeight
-                                                                                    .w500),
-                                                                      )
-                                                                    : SizedBox(),
-                                                              ],
+                                                            SizedBox(
+                                                              height: 10,
                                                             ),
-                                                            startmatch.matchlive.value
-                                                                        .inningId ==
-                                                                    2
-                                                                ? Column(
-                                                                    children: [
-                                                                      SizedBox(
-                                                                        height: 10,
-                                                                      ),
-                                                                      Text(
-                                                                        textAlign: TextAlign
-                                                                            .center,
-                                                                        "${startmatch.requirestatus}",
-                                                                        style: TextStyle(
-                                                                            color: Colors
-                                                                                .grey
-                                                                                .shade700,
-                                                                            fontSize: 14,
-                                                                            fontWeight:
-                                                                                FontWeight
-                                                                                    .w400),
-                                                                      ),
-                                                                    ],
-                                                                  )
-                                                                : SizedBox(),
-                                                          ],
-                                                        )
-                                                      : Column(
-                                                          children: [
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment.start,
-                                                              children: [
-                                                                Text(
-                                                                  textAlign:
-                                                                      TextAlign.center,
-                                                                  startmatch.matchlive.value
-                                                                      .summary
-                                                                      .toString(),
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          Cricket_textColorSecondary,
-                                                                      fontSize: 14,
-                                                                      fontWeight:
-                                                                          FontWeight.w600),
-                                                                ),
-                                                              ],
+                                                            Text(
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              "${startmatch.requirestatus}",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade700,
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
                                                             ),
                                                           ],
                                                         )
+                                                      : SizedBox(),
                                                 ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        (startmatch.matchlive.value.inningId ?? 0) > 3
-                                            ? SizedBox()
+                                              )
                                             : Column(
                                                 children: [
-                                                  startmatch.matchlive.value.playerstrick
-                                                              ?.id ==
-                                                          null
-                                                      ? SizedBox.shrink()
-                                                      : Padding(
-                                                          padding:
-                                                              const EdgeInsets.symmetric(
-                                                                  horizontal: 10.0,
-                                                                  vertical: 10),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Card(
-                                                                elevation: 4,
-                                                                // margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Container(
-                                                                      width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width,
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.grey
-                                                                              .shade200,
-                                                                          borderRadius: BorderRadius.only(
-                                                                              topRight: Radius
-                                                                                  .circular(
-                                                                                      10),
-                                                                              topLeft: Radius
-                                                                                  .circular(
-                                                                                      10))),
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                              .all(8),
-                                                                      child: Row(
-                                                                        children: <Widget>[
-                                                                          Expanded(
-                                                                              flex: 7,
-                                                                              child: Text(
-                                                                                  "Batter(${startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team1?.id ? startmatch.matchlive.value.team1?.shortName : startmatch.matchlive.value.team2?.shortName})",
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              child: Text(
-                                                                                  "R",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              child: Text(
-                                                                                  "B",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              child: Text(
-                                                                                  "4s",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              child: Text(
-                                                                                  "6s",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              flex: 2,
-                                                                              child: Text(
-                                                                                  "SR",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Column(children: [
-                                                                      InkWell(
-                                                                        onTap: () {
-                                                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
-                                                                        },
-                                                                        child: Container(
-                                                                            padding:
-                                                                                const EdgeInsets
-                                                                                        .only(
-                                                                                    left:
-                                                                                        0),
-                                                                            child: Column(
-                                                                              crossAxisAlignment:
-                                                                                  CrossAxisAlignment
-                                                                                      .start,
-                                                                              children: <
-                                                                                  Widget>[
-                                                                                SizedBox(
-                                                                                  height: 8,
-                                                                                ),
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets
-                                                                                          .only(
-                                                                                      right:
-                                                                                          8,
-                                                                                      left:
-                                                                                          8,
-                                                                                      top:
-                                                                                          5),
-                                                                                  child:
-                                                                                      Row(
-                                                                                    children: <
-                                                                                        Widget>[
-                                                                                      Expanded(
-                                                                                          flex: 7,
-                                                                                          child: Text("${startmatch.matchlive.value.playerstrick?.playerName}  🏏", style: TextStyle(color: Colors.grey.shade700, fontSize: 12, fontWeight: FontWeight.w400))),
-                                                                                      Expanded(
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.run.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold))),
-                                                                                      Expanded(
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.balls.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                      Expanded(
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.fours.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                      Expanded(
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.sixers.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                      Expanded(
-                                                                                          flex: 2,
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.strikeRate.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
-                                                                                const Divider(
-                                                                                  thickness:
-                                                                                      0.8,
-                                                                                ),
-                                                                              ],
-                                                                            )),
-                                                                      ),
-                                                                      InkWell(
-                                                                        onTap: () {
-                                                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
-                                                                        },
-                                                                        child: Container(
-                                                                            padding:
-                                                                                const EdgeInsets
-                                                                                        .only(
-                                                                                    left:
-                                                                                        0),
-                                                                            child: Column(
-                                                                              crossAxisAlignment:
-                                                                                  CrossAxisAlignment
-                                                                                      .start,
-                                                                              children: <
-                                                                                  Widget>[
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets
-                                                                                          .only(
-                                                                                      right:
-                                                                                          8,
-                                                                                      left:
-                                                                                          8,
-                                                                                      top:
-                                                                                          5),
-                                                                                  child:
-                                                                                      Row(
-                                                                                    children: <
-                                                                                        Widget>[
-                                                                                      Expanded(
-                                                                                          flex: 7,
-                                                                                          child: Text(startmatch.matchlive.value.playerNonStricker?.playerName.toString() ?? "", style: TextStyle(color: Colors.grey.shade700, fontSize: 12, fontWeight: FontWeight.w400))),
-                                                                                      Expanded(
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.run.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold))),
-                                                                                      Expanded(
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.balls.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                      Expanded(
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.fours.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12)).paddingOnly(left: 4)),
-                                                                                      Expanded(
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.sixers.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12)).paddingOnly(left: 4)),
-                                                                                      Expanded(
-                                                                                          flex: 2,
-                                                                                          child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.strikeRate.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
-                                                                                const Divider(
-                                                                                  thickness:
-                                                                                      0.8,
-                                                                                ),
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets
-                                                                                          .symmetric(
-                                                                                      horizontal:
-                                                                                          10.0),
-                                                                                  child: Text(
-                                                                                      "Partnership   ${startmatch.partnershiprun} (${startmatch.partnershipball})",
-                                                                                      style: TextStyle(
-                                                                                          color: Colors.grey.shade700,
-                                                                                          fontSize: 12,
-                                                                                          fontWeight: FontWeight.w400)),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  height: 5,
-                                                                                ),
-                                                                              ],
-                                                                            )),
-                                                                      ),
-                                                                    ]),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                  startmatch.matchlive.value.playerBowler
-                                                              ?.id ==
-                                                          null
-                                                      ? SizedBox.shrink()
-                                                      : Column(
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 0,
-                                                            ),
-                                                            Container(
-                                                              // height: 200,
-                                                              width: double.infinity,
-                                                              child: Card(
-                                                                elevation: 4,
-                                                                margin: EdgeInsets.only(
-                                                                    left: 15,
-                                                                    right: 15,
-                                                                    bottom: 0),
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Container(
-                                                                      width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width,
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.grey
-                                                                              .shade200,
-                                                                          borderRadius: BorderRadius.only(
-                                                                              topRight: Radius
-                                                                                  .circular(
-                                                                                      10),
-                                                                              topLeft: Radius
-                                                                                  .circular(
-                                                                                      10))),
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                              .all(8),
-                                                                      child: Row(
-                                                                        children: <Widget>[
-                                                                          Expanded(
-                                                                              flex: 7,
-                                                                              child: Text(
-                                                                                  "Bowler(${startmatch.matchlive.value.bowlingTeamId == startmatch.matchlive.value.team1?.id ? startmatch.matchlive.value.team1?.shortName : startmatch.matchlive.value.team2?.shortName})",
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              child: Text(
-                                                                                  "O",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              child: Text(
-                                                                                  "M",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              child: Text(
-                                                                                  "R",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              child: Text(
-                                                                                  "W",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                          Expanded(
-                                                                              flex: 2,
-                                                                              child: Text(
-                                                                                  "ER",
-                                                                                  textAlign:
-                                                                                      TextAlign
-                                                                                          .center,
-                                                                                  style:
-                                                                                      textbar)),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    InkWell(
-                                                                      onTap: () {
-                                                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
-                                                                      },
-                                                                      child: Container(
-                                                                          padding:
-                                                                              const EdgeInsets
-                                                                                      .only(
-                                                                                  left: 0),
-                                                                          child: Column(
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment
-                                                                                    .start,
-                                                                            children: <
-                                                                                Widget>[
-                                                                              Padding(
-                                                                                padding: const EdgeInsets
-                                                                                        .only(
-                                                                                    right:
-                                                                                        8,
-                                                                                    left: 8,
-                                                                                    top: 5),
-                                                                                child: Row(
-                                                                                  children: <
-                                                                                      Widget>[
-                                                                                    Expanded(
-                                                                                        flex:
-                                                                                            7,
-                                                                                        child:
-                                                                                            Text(startmatch.matchlive.value.playerBowler?.playerName ?? "", style: TextStyle(color: Colors.grey.shade700, fontSize: 12))),
-                                                                                    Expanded(
-                                                                                        child: Text(
-                                                                                            textAlign: TextAlign.center,
-                                                                                            startmatch.matchlive.value.bowlerScore?.overs.toString() ?? '',
-                                                                                            style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                    Expanded(
-                                                                                        child: Text(
-                                                                                            textAlign: TextAlign.center,
-                                                                                            startmatch.matchlive.value.bowlerScore?.maidenOver.toString() ?? '',
-                                                                                            style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                    Expanded(
-                                                                                        child: Text(
-                                                                                            textAlign: TextAlign.center,
-                                                                                            startmatch.matchlive.value.bowlerScore?.runs.toString() ?? '',
-                                                                                            style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                    Expanded(
-                                                                                        child: Text(
-                                                                                            textAlign: TextAlign.center,
-                                                                                            startmatch.matchlive.value.bowlerScore?.wickets.toString() ?? '',
-                                                                                            style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold))),
-                                                                                    Expanded(
-                                                                                        flex:
-                                                                                            2,
-                                                                                        child: Text(
-                                                                                            textAlign: TextAlign.center,
-                                                                                            startmatch.matchlive.value.bowlerScore?.economyRate.toString() ?? '',
-                                                                                            style: TextStyle(color: Colors.black, fontSize: 12))),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                              // Padding(
-                                                                              //     padding: EdgeInsets.only(
-                                                                              //         right: 10,
-                                                                              //         left: 10,
-                                                                              //         top: 5,
-                                                                              //         bottom: 5),
-                                                                              //     child: Text("not out (Head)",
-                                                                              //             style: TextStyle(
-                                                                              //                 color: Colors.black,
-                                                                              //                 fontSize: 12))
-                                                                              //         .paddingOnly(
-                                                                              //             top: 4, bottom: 4)),
-                                                                            ],
-                                                                          )),
-                                                                    ),
-                                                                    Divider(),
-                                                                    Container(
-                                                                      padding: EdgeInsets
-                                                                          .symmetric(
-                                                                              horizontal:
-                                                                                  12,
-                                                                              vertical: 0),
-                                                                      width: screenwidth(
-                                                                          context,
-                                                                          dividedby: 1),
-                                                                      child: Wrap(
-                                                                        runSpacing: 10,
-                                                                        spacing: 10,
-                                                                        children:
-                                                                            List.generate(
-                                                                                startmatch
-                                                                                    .balls
-                                                                                    .length,
-                                                                                (index) {
-                                                                          Ball ball =
-                                                                              startmatch
-                                                                                      .balls[
-                                                                                  index];
-                                                                          return Container(
-                                                                            width:
-                                                                                screenwidth(
-                                                                                    context,
-                                                                                    dividedby:
-                                                                                        13),
-                                                                            height:
-                                                                                screenwidth(
-                                                                                    context,
-                                                                                    dividedby:
-                                                                                        13),
-                                                                            // padding: EdgeInsets.all(10),
-                                                                            decoration:
-                                                                                BoxDecoration(
-                                                                              shape: BoxShape
-                                                                                  .circle,
-                                                                              color: ball.outType ==
-                                                                                      null
-                                                                                  ? ball.ballType ==
-                                                                                          "normal"
-                                                                                      ? ball.run == 6
-                                                                                          ? Colors.green
-                                                                                          : ball.run == 4
-                                                                                              ? Colors.blue
-                                                                                              : Colors.black45
-                                                                                      : Colors.orange
-                                                                                  : Colors.red,
-                                                                            ),
-                                                                            child: Center(
-                                                                              child: Text(
-                                                                                ball.balltag ??
-                                                                                    "",
-                                                                                style: TextStyle(
-                                                                                    fontSize: ball.balltag?.length ==
-                                                                                            1
-                                                                                        ? screenwidth(context,
-                                                                                            dividedby:
-                                                                                                30)
-                                                                                        : screenwidth(context,
-                                                                                            dividedby:
-                                                                                                35),
-                                                                                    color: Colors
-                                                                                        .white,
-                                                                                    fontWeight:
-                                                                                        FontWeight.w500),
-                                                                              ),
-                                                                            ),
-                                                                          );
-                                                                        }),
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: 10,
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        startmatch.matchlive
+                                                            .value.summary
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color:
+                                                                Cricket_textColorSecondary,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ],
-                                              ),
-                                        startmatch.matchlive.value.playerofthematch?.id ==
+                                              )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              (startmatch.matchlive.value.inningId ?? 0) > 3
+                                  ? SizedBox()
+                                  : Column(
+                                      children: [
+                                        startmatch.matchlive.value.playerstrick
+                                                    ?.id ==
                                                 null
-                                            ? startmatch.matchlive.value.inningId == 4
-                                                ? widget.isadmin == 1
-                                                    ? Card(
-                                                        margin: EdgeInsets.only(
-                                                            left: 15, right: 15, top: 15),
-                                                        child: TextButton(
-                                                            onPressed: () {
-                                                              playerofthematchSheet();
-                                                            },
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment.center,
-                                                              children: [
-                                                                Text(
-                                                                    "Declare Player of the match",
-                                                                    style: TextStyle(
-                                                                        color: Colors.black,
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
-                                                                        fontSize: 14)),
-                                                              ],
-                                                            )))
-                                                    : SizedBox()
-                                                : SizedBox()
-                                            : Container(
-                                                // height: 200,
-                                                width: double.infinity,
-
+                                            ? SizedBox.shrink()
+                                            : Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10.0,
+                                                        vertical: 10),
                                                 child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    SizedBox(height: 15),
                                                     Card(
                                                       elevation: 4,
-                                                      margin: EdgeInsets.symmetric(
-                                                          horizontal: 15),
+                                                      // margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+
                                                       child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Container(
-                                                            padding: EdgeInsets.symmetric(
-                                                                horizontal: 15,
-                                                                vertical: 8),
-                                                            width: screenwidth(context,
-                                                                dividedby: 1),
-                                                            // height: 30,
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
                                                             decoration: BoxDecoration(
-                                                                color: Colors.grey.shade200,
-                                                                borderRadius:
-                                                                    BorderRadius.only(
-                                                                        topRight: Radius
-                                                                            .circular(10),
-                                                                        topLeft:
-                                                                            Radius.circular(
-                                                                                10))),
-                                                            child: Text(
-                                                              "Player of the match",
-                                                              style: TextStyle(
-                                                                  color: Colors.black,
-                                                                  fontWeight:
-                                                                      FontWeight.w500,
-                                                                  fontSize: 14),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            decoration: BoxDecoration(
-                                                                color: kwhite,
-                                                                borderRadius:
-                                                                    BorderRadius.only(
-                                                                        bottomRight: Radius
-                                                                            .circular(10),
-                                                                        bottomLeft:
-                                                                            Radius.circular(
-                                                                                10))),
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade200,
+                                                                borderRadius: BorderRadius.only(
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            10),
+                                                                    topLeft: Radius
+                                                                        .circular(
+                                                                            10))),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
                                                             child: Row(
-                                                              children: [
+                                                              children: <
+                                                                  Widget>[
                                                                 Expanded(
-                                                                  child: Padding(
-                                                                    padding:
-                                                                        const EdgeInsets
-                                                                                .symmetric(
-                                                                            horizontal:
-                                                                                10.0),
-                                                                    child: Row(
-                                                                      children: [
-                                                                        PhotoScreencric(
-                                                                            dobbn: 30,
-                                                                            image: URLs
-                                                                                    .image_url_player +
-                                                                                "${startmatch.matchlive.value.playerofthematch?.logo}"),
-                                                                        SizedBox(width: 20),
-                                                                        Container(
-                                                                          width:
-                                                                              screenwidth(
-                                                                                  context,
-                                                                                  dividedby:
-                                                                                      2.45),
-                                                                          child: Column(
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment
-                                                                                    .start,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment
-                                                                                    .spaceBetween,
-                                                                            children: [
-                                                                              Text(
-                                                                                "${startmatch.matchlive.value.playerofthematch?.playerName}",
-                                                                                style: TextStyle(
-                                                                                    color:
-                                                                                        kblack,
-                                                                                    fontWeight:
-                                                                                        FontWeight
-                                                                                            .w500,
-                                                                                    fontSize:
-                                                                                        15),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                  height:
-                                                                                      8),
-                                                                              Text(
-                                                                                "${startmatch.matchlive.value.playerOfTheMatchTeam ?? "CSK"}",
-                                                                                style: TextStyle(
-                                                                                    color: Colors
-                                                                                        .grey
-                                                                                        .shade500,
-                                                                                    fontWeight:
-                                                                                        FontWeight
-                                                                                            .w500,
-                                                                                    fontSize:
-                                                                                        14),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Image.asset(
-                                                                    height: screenwidth(
-                                                                        context,
-                                                                        dividedby: 4),
-                                                                    width: screenwidth(
-                                                                        context,
-                                                                        dividedby: 4),
-                                                                    "images/Rank Section - One time.gif")
+                                                                    flex: 7,
+                                                                    child: Text(
+                                                                        "Batter(${startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team1?.id ? startmatch.matchlive.value.team1?.shortName : startmatch.matchlive.value.team2?.shortName})",
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    child: Text(
+                                                                        "R",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    child: Text(
+                                                                        "B",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    child: Text(
+                                                                        "4s",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    child: Text(
+                                                                        "6s",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    flex: 2,
+                                                                    child: Text(
+                                                                        "SR",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
                                                               ],
                                                             ),
-                                                          )
+                                                          ),
+                                                          Column(children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                                              },
+                                                              child: Container(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 0),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: <
+                                                                        Widget>[
+                                                                      SizedBox(
+                                                                        height:
+                                                                            8,
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            right:
+                                                                                8,
+                                                                            left:
+                                                                                8,
+                                                                            top:
+                                                                                5),
+                                                                        child:
+                                                                            Row(
+                                                                          children: <
+                                                                              Widget>[
+                                                                            Expanded(
+                                                                                flex: 7,
+                                                                                child: Text("${startmatch.matchlive.value.playerstrick?.playerName}  🏏", style: TextStyle(color: Colors.grey.shade700, fontSize: 12, fontWeight: FontWeight.w400))),
+                                                                            Expanded(child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.run.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold))),
+                                                                            Expanded(child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.balls.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                            Expanded(child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.fours.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                            Expanded(child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.sixers.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                            Expanded(
+                                                                                flex: 2,
+                                                                                child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.stickerScore?.strikeRate.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      const Divider(
+                                                                        thickness:
+                                                                            0.8,
+                                                                      ),
+                                                                    ],
+                                                                  )),
+                                                            ),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                                              },
+                                                              child: Container(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 0),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            right:
+                                                                                8,
+                                                                            left:
+                                                                                8,
+                                                                            top:
+                                                                                5),
+                                                                        child:
+                                                                            Row(
+                                                                          children: <
+                                                                              Widget>[
+                                                                            Expanded(
+                                                                                flex: 7,
+                                                                                child: Text(startmatch.matchlive.value.playerNonStricker?.playerName.toString() ?? "", style: TextStyle(color: Colors.grey.shade700, fontSize: 12, fontWeight: FontWeight.w400))),
+                                                                            Expanded(child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.run.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold))),
+                                                                            Expanded(child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.balls.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                            Expanded(child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.fours.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12)).paddingOnly(left: 4)),
+                                                                            Expanded(child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.sixers.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12)).paddingOnly(left: 4)),
+                                                                            Expanded(
+                                                                                flex: 2,
+                                                                                child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.nonstickerScore?.strikeRate.toString() ?? "", style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      const Divider(
+                                                                        thickness:
+                                                                            0.8,
+                                                                      ),
+                                                                      Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.symmetric(horizontal: 10.0),
+                                                                        child: Text(
+                                                                            "Partnership   ${startmatch.partnershiprun} (${startmatch.partnershipball})",
+                                                                            style: TextStyle(
+                                                                                color: Colors.grey.shade700,
+                                                                                fontSize: 12,
+                                                                                fontWeight: FontWeight.w400)),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height:
+                                                                            5,
+                                                                      ),
+                                                                    ],
+                                                                  )),
+                                                            ),
+                                                          ]),
                                                         ],
                                                       ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
+                                        startmatch.matchlive.value.playerBowler
+                                                    ?.id ==
+                                                null
+                                            ? SizedBox.shrink()
+                                            : Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 0,
+                                                  ),
+                                                  Container(
+                                                    // height: 200,
+                                                    width: double.infinity,
+                                                    child: Card(
+                                                      elevation: 4,
+                                                      margin: EdgeInsets.only(
+                                                          left: 15,
+                                                          right: 15,
+                                                          bottom: 0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            decoration: BoxDecoration(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade200,
+                                                                borderRadius: BorderRadius.only(
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            10),
+                                                                    topLeft: Radius
+                                                                        .circular(
+                                                                            10))),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: Row(
+                                                              children: <
+                                                                  Widget>[
+                                                                Expanded(
+                                                                    flex: 7,
+                                                                    child: Text(
+                                                                        "Bowler(${startmatch.matchlive.value.bowlingTeamId == startmatch.matchlive.value.team1?.id ? startmatch.matchlive.value.team1?.shortName : startmatch.matchlive.value.team2?.shortName})",
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    child: Text(
+                                                                        "O",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    child: Text(
+                                                                        "M",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    child: Text(
+                                                                        "R",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    child: Text(
+                                                                        "W",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
+                                                                Expanded(
+                                                                    flex: 2,
+                                                                    child: Text(
+                                                                        "ER",
+                                                                        textAlign:
+                                                                            TextAlign
+                                                                                .center,
+                                                                        style:
+                                                                            textbar)),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              // Navigator.push(context, MaterialPageRoute(builder: (context) => PCCricketPlayerInfoScreen()));
+                                                            },
+                                                            child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          right:
+                                                                              8,
+                                                                          left:
+                                                                              8,
+                                                                          top:
+                                                                              5),
+                                                                      child:
+                                                                          Row(
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Expanded(
+                                                                              flex: 7,
+                                                                              child: Text(startmatch.matchlive.value.playerBowler?.playerName ?? "", style: TextStyle(color: Colors.grey.shade700, fontSize: 12))),
+                                                                          Expanded(
+                                                                              child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.bowlerScore?.overs.toString() ?? '', style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                          Expanded(
+                                                                              child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.bowlerScore?.maidenOver.toString() ?? '', style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                          Expanded(
+                                                                              child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.bowlerScore?.runs.toString() ?? '', style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                          Expanded(
+                                                                              child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.bowlerScore?.wickets.toString() ?? '', style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold))),
+                                                                          Expanded(
+                                                                              flex: 2,
+                                                                              child: Text(textAlign: TextAlign.center, startmatch.matchlive.value.bowlerScore?.economyRate.toString() ?? '', style: TextStyle(color: Colors.black, fontSize: 12))),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    // Padding(
+                                                                    //     padding: EdgeInsets.only(
+                                                                    //         right: 10,
+                                                                    //         left: 10,
+                                                                    //         top: 5,
+                                                                    //         bottom: 5),
+                                                                    //     child: Text("not out (Head)",
+                                                                    //             style: TextStyle(
+                                                                    //                 color: Colors.black,
+                                                                    //                 fontSize: 12))
+                                                                    //         .paddingOnly(
+                                                                    //             top: 4, bottom: 4)),
+                                                                  ],
+                                                                )),
+                                                          ),
+                                                          Divider(),
+                                                          Container(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        12,
+                                                                    vertical:
+                                                                        0),
+                                                            width: screenwidth(
+                                                                context,
+                                                                dividedby: 1),
+                                                            child: Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  flex: 8,
+                                                                  child: Wrap(
+                                                                    runSpacing:
+                                                                        10,
+                                                                    spacing: 10,
+                                                                    children: List.generate(
+                                                                        startmatch
+                                                                            .balls
+                                                                            .length,
+                                                                        (index) {
+                                                                      Ball
+                                                                          ball =
+                                                                          startmatch
+                                                                              .balls[index];
+                                                                      return Container(
+                                                                        width: screenwidth(
+                                                                            context,
+                                                                            dividedby:
+                                                                                13),
+                                                                        height: screenwidth(
+                                                                            context,
+                                                                            dividedby:
+                                                                                13),
+                                                                        // padding: EdgeInsets.all(10),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          shape:
+                                                                              BoxShape.circle,
+                                                                          color: ball.outType == null
+                                                                              ? ball.ballType == "normal"
+                                                                                  ? ball.run == 6
+                                                                                      ? Colors.green
+                                                                                      : ball.run == 4
+                                                                                          ? Colors.blue
+                                                                                          : Colors.black45
+                                                                                  : Colors.orange
+                                                                              : Colors.red,
+                                                                        ),
+                                                                        child:
+                                                                            Center(
+                                                                          child:
+                                                                              Text(
+                                                                            ball.balltag ??
+                                                                                "",
+                                                                            style: TextStyle(
+                                                                                fontSize: ball.balltag?.length == 1 ? screenwidth(context, dividedby: 30) : screenwidth(context, dividedby: 35),
+                                                                                color: Colors.white,
+                                                                                fontWeight: FontWeight.w500),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    }),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    "= ${startmatch.overrun}",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black54),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                       ],
                                     ),
-                                  ),
-                                  Container(
-                                    // height: 200,
-                                    width: double.infinity,
-                                    child: Card(
-                                      elevation: 4,
-                                      margin: EdgeInsets.all(15),
+                              startmatch.matchlive.value.playerofthematch?.id ==
+                                      null
+                                  ? startmatch.matchlive.value.inningId == 4
+                                      ? widget.isadmin == 1
+                                          ? Card(
+                                              margin: EdgeInsets.only(
+                                                  left: 15, right: 15, top: 15),
+                                              child: TextButton(
+                                                  onPressed: () {
+                                                    playerofthematchSheet();
+                                                  },
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                          "Declare Player of the match",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: 14)),
+                                                    ],
+                                                  )))
+                                          : SizedBox()
+                                      : SizedBox()
+                                  : Container(
+                                      // height: 200,
+                                      width: double.infinity,
+
                                       child: Column(
                                         children: [
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 8),
-                                            width: screenwidth(context, dividedby: 1),
-                                            // height: 30,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey.shade200,
-                                                borderRadius: BorderRadius.only(
-                                                    topRight: Radius.circular(10),
-                                                    topLeft: Radius.circular(10))),
-                                            child: Text(
-                                              "Match Details",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
+                                          SizedBox(height: 15),
+                                          Card(
+                                            elevation: 4,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 15),
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                // Padding(
-                                                //   padding: const EdgeInsets.all(8.0),
-                                                //   child: Text(
-                                                //     "Match Info",
-                                                //     style: TextStyle(
-                                                //       fontSize: 16,
-                                                //       fontWeight: FontWeight.w500,
-                                                //     ),
-                                                //   ),
-                                                // ),
-
-                                                textlines(
-                                                    text1: "Tournament Name",
-                                                    text2:
-                                                        "${widget.match?.tournament?.tournamentName}"),
-                                                Divider(
-                                                  color: Colors.grey.shade400,
-                                                  height: 25,
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 8),
+                                                  width: screenwidth(context,
+                                                      dividedby: 1),
+                                                  // height: 30,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          Colors.grey.shade200,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10))),
+                                                  child: Text(
+                                                    "Player of the match",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 14),
+                                                  ),
                                                 ),
-                                                textlines(
-                                                    text1: "Match Address",
-                                                    text2: "${widget?.match?.venue}"),
-                                                Divider(
-                                                  color: Colors.grey.shade400,
-                                                  height: 25,
-                                                ),
-                                                textlines(
-                                                    text1: "Date",
-                                                    text2:
-                                                        "${widget.match?.matchdateformat()}"),
-                                                Divider(
-                                                  color: Colors.grey.shade400,
-                                                  height: 25,
-                                                ),
-                                                textlines(
-                                                    text1: "Time",
-                                                    text2:
-                                                        "${widget.match?.matchtimeformat()}"),
-                                                Divider(
-                                                  color: Colors.grey.shade400,
-                                                  height: 25,
-                                                ),
-                                                textlines(
-                                                    text1: "Match Type",
-                                                    text2: "${widget.match?.matchType}"),
-                                                Divider(
-                                                  color: Colors.grey.shade400,
-                                                  height: 25,
-                                                ),
-                                                textlines(
-                                                    text1: "Umpire",
-                                                    text2: "${widget.match?.umpires}"),
-                                                Divider(
-                                                  color: Colors.grey.shade400,
-                                                  height: 25,
-                                                ),
-                                                textlines(
-                                                    text1: "Overs",
-                                                    text2: "${widget.match?.overseas}"),
-                                                Divider(
-                                                  color: Colors.grey.shade400,
-                                                  height: 25,
-                                                ),
-                                                textlines(
-                                                    text1: "Toss",
-                                                    text2:
-                                                        "${startmatch.matchlive.value.inningId == 0 ? "------" : startmatch.matchlive.value.tossstatus}"),
-                                                Divider(
-                                                  color: Colors.grey.shade400,
-                                                  height: 25,
-                                                ),
-                                                textlines(
-                                                    text1: "Ball Type",
-                                                    text2:
-                                                        "${widget.match?.tournament?.ballType}"),
-                                                Divider(
-                                                  color: Colors.grey.shade400,
-                                                  height: 25,
-                                                ),
-                                                textlines(
-                                                    text1: "Match code",
-                                                    text2:
-                                                        "m=${widget.match?.id}, t=${widget.match?.tournament?.id}, uid=${saveUser()?.id}, t1=${widget.match?.team1?.id}, t2=${widget.match?.team2?.id}"),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      color: kwhite,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          10),
+                                                              bottomLeft: Radius
+                                                                  .circular(
+                                                                      10))),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      10.0),
+                                                          child: Row(
+                                                            children: [
+                                                              PhotoScreencric(
+                                                                  dobbn: 30,
+                                                                  image: URLs
+                                                                          .image_url_player +
+                                                                      "${startmatch.matchlive.value.playerofthematch?.logo}"),
+                                                              SizedBox(
+                                                                  width: 20),
+                                                              Container(
+                                                                width: screenwidth(
+                                                                    context,
+                                                                    dividedby:
+                                                                        2.45),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      "${startmatch.matchlive.value.playerofthematch?.playerName}",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              kblack,
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize:
+                                                                              15),
+                                                                    ),
+                                                                    SizedBox(
+                                                                        height:
+                                                                            8),
+                                                                    Text(
+                                                                      "${startmatch.matchlive.value.playerOfTheMatchTeam ?? "CSK"}",
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .grey
+                                                                              .shade500,
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          fontSize:
+                                                                              14),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Image.asset(
+                                                          height: screenwidth(
+                                                              context,
+                                                              dividedby: 4),
+                                                          width: screenwidth(
+                                                              context,
+                                                              dividedby: 4),
+                                                          "images/Rank Section - One time.gif")
+                                                    ],
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                        Container(
+                          // height: 200,
+                          width: double.infinity,
+                          child: Card(
+                            elevation: 4,
+                            margin: EdgeInsets.all(15),
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 8),
+                                  width: screenwidth(context, dividedby: 1),
+                                  // height: 30,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10))),
+                                  child: Text(
+                                    "Match Details",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Padding(
+                                      //   padding: const EdgeInsets.all(8.0),
+                                      //   child: Text(
+                                      //     "Match Info",
+                                      //     style: TextStyle(
+                                      //       fontSize: 16,
+                                      //       fontWeight: FontWeight.w500,
+                                      //     ),
+                                      //   ),
+                                      // ),
+
+                                      textlines(
+                                          text1: "Tournament Name",
+                                          text2:
+                                              "${widget.match?.tournament?.tournamentName}"),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      textlines(
+                                          text1: "Match Address",
+                                          text2: "${widget?.match?.venue}"),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      textlines(
+                                          text1: "Date",
+                                          text2:
+                                              "${widget.match?.matchdateformat()}"),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      textlines(
+                                          text1: "Time",
+                                          text2:
+                                              "${widget.match?.matchtimeformat()}"),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      textlines(
+                                          text1: "Match Type",
+                                          text2: "${widget.match?.matchType}"),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      textlines(
+                                          text1: "Umpire",
+                                          text2: "${widget.match?.umpires}"),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      textlines(
+                                          text1: "Overs",
+                                          text2: "${widget.match?.overseas}"),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      textlines(
+                                          text1: "Toss",
+                                          text2:
+                                              "${startmatch.matchlive.value.inningId == 0 ? "------" : startmatch.matchlive.value.tossstatus}"),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      textlines(
+                                          text1: "Ball Type",
+                                          text2:
+                                              "${widget.match?.tournament?.ballType}"),
+                                      Divider(
+                                        color: Colors.grey.shade400,
+                                        height: 25,
+                                      ),
+                                      textlines(
+                                          text1: "Match code",
+                                          text2:
+                                              "m=${widget.match?.id}, t=${widget.match?.tournament?.id}, uid=${saveUser()?.id}, t1=${widget.match?.team1?.id}, t2=${widget.match?.team2?.id}"),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
