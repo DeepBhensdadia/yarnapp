@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yarn_modified/const/const.dart';
+import 'package:yarn_modified/cricketscreens/model/matchlivedetailssuperoverresponse.dart';
 import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
 
 import '../../../../const/themes.dart';
@@ -29,10 +30,32 @@ class _TossScreenState extends State<TossScreen> {
       backgroundColor: MyTheme.scaffoldColor,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text(
-          '${widget.match.team1?.shortName} vs ${widget.match.team2?.shortName}',
-          textScaleFactor: 1,
-          style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${widget.match.team1?.shortName} vs ${widget.match.team2?.shortName}',
+              textScaleFactor: 1,
+              style:
+                  TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+            ),
+            startmatch.superoversis == ""
+                ? SizedBox()
+                : Column(
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Super over ${startmatch.superoversis}",
+                        style: TextStyle(
+                            fontSize: 12,
+                            letterSpacing: 0.5,
+                            color: MyTheme.appBarTextColor),
+                      ),
+                    ],
+                  ),
+          ],
         ),
         // centerTitle: true,
         backgroundColor: MyTheme.appBarColor,
@@ -191,13 +214,15 @@ class _TossScreenState extends State<TossScreen> {
           InkWell(
             onTap: () {
               if (teamtoss != 3 && batselect != 3) {
-                startmatch.tossdetailFromAPI(
-                    wonteamid: teamtoss == 0
-                        ? widget.match.team1?.id.toString() ?? ""
-                        : widget.match.team2?.id.toString() ?? "",
-                    matchid: widget.match.id.toString(),
-                    tosselect: batselect == 0 ? "Bat" : "Bowl").then((value) =>  Get.off(OpeningPlayers(match:startmatch.matchlive.value)));
-
+                startmatch
+                    .tossdetailFromAPI(
+                        wonteamid: teamtoss == 0
+                            ? widget.match.team1?.id.toString() ?? ""
+                            : widget.match.team2?.id.toString() ?? "",
+                        matchid: widget.match.id.toString(),
+                        tosselect: batselect == 0 ? "Bat" : "Bowl")
+                    .then((value) => Get.off(
+                        OpeningPlayers(match: startmatch.matchlive.value)));
               } else {
                 FlutterToast.showCustomToast(
                     "Please Selcet Team And Bat or Bowl");

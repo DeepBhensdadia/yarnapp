@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +7,7 @@ import 'package:wakelock/wakelock.dart';
 import 'package:yarn_modified/const/themes.dart';
 import 'package:yarn_modified/cricketscreens/audiance/matchdetails/scoreboardscreen.dart';
 import 'package:yarn_modified/cricketscreens/audiance/matchdetails/summaryscreen.dart';
+import 'package:yarn_modified/cricketscreens/model/matchlivedetailssuperoverresponse.dart';
 import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
 import 'package:yarn_modified/helper.dart';
 import '../../../constcolor.dart';
@@ -18,8 +18,11 @@ import 'oversscreen.dart';
 
 class DetailsScreen extends StatefulWidget {
   final int isadmin;
-  final Matchinfo match;
-  const DetailsScreen({super.key, this.isadmin = 0, required this.match});
+  final Matchinfo? match;
+  final bool? fromsuperover;
+
+  final int? superover;
+  const DetailsScreen({super.key, this.isadmin = 0, this.match, this.fromsuperover,  this.superover});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -37,19 +40,19 @@ class _DetailsScreenState extends State<DetailsScreen>
       switch (tabindex) {
         case 0:
           startmatch.matchInfoDetailFromAPI(
-              tournamentid: widget.match.tournament?.id.toString() ?? "",
-              matchid: widget.match.id.toString() ?? "");
+              tournamentid: widget.match?.tournament?.id.toString() ?? "",
+              matchid: widget.match?.id.toString() ?? "");
           break;
         case 1:
           startmatch.indextab.value == 0
               ? startmatch.scorecardFromAPI(
-                  teamid: widget.match.team1?.id.toString() ?? "",
-                  matchid: widget.match.id.toString(),
-                  touramentid: widget.match.tournament?.id.toString() ?? "")
+                  teamid: widget.match?.team1?.id.toString() ?? "",
+                  matchid: widget.match?.id.toString() ?? "",
+                  touramentid: widget.match?.tournament?.id.toString() ?? "")
               : startmatch.scorecard2FromAPI(
-                  teamid: widget.match.team2?.id.toString() ?? "",
-                  matchid: widget.match.id.toString(),
-                  touramentid: widget.match.tournament?.id.toString() ?? "");
+                  teamid: widget.match?.team2?.id.toString() ?? "",
+                  matchid: widget.match?.id.toString() ?? "",
+                  touramentid: widget.match?.tournament?.id.toString() ?? "");
           break;
         case 2:
           startmatch.Overswiserun(
@@ -65,12 +68,13 @@ class _DetailsScreenState extends State<DetailsScreen>
   @override
   void initState() {
     super.initState();
+    startmatch.superoversis.value = "";
     startmatch.matchInfoDetailFromAPI(
-        tournamentid: widget.match.tournamentId.toString() ?? "",
-        matchid: widget.match.id.toString() ?? "");
+        tournamentid: widget.match?.tournamentId.toString() ?? "",
+        matchid: widget.match?.id.toString() ?? "");
     _tabController = TabController(length: 3, vsync: this);
     Wakelock.enable();
-    if (widget.isadmin != 1) if (widget.match.matchStatus?.id == 1)
+    if (widget.isadmin != 1) if (widget.match?.matchStatus?.id == 1)
       startTimer();
   }
 
@@ -82,7 +86,7 @@ class _DetailsScreenState extends State<DetailsScreen>
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         title: Text(
-          '${widget.match.team1?.shortName} vs ${widget.match.team2?.shortName}',
+          '${widget.match?.team1?.shortName} vs ${widget.match?.team2?.shortName} ${widget.superover != null ?  "SO ${widget.superover}" : ""}',
           textScaleFactor: 1,
           style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
         ),
@@ -115,21 +119,21 @@ class _DetailsScreenState extends State<DetailsScreen>
                   case 0:
                     startmatch.matchInfoDetailFromAPI(
                         tournamentid:
-                            widget.match.tournament?.id.toString() ?? "",
-                        matchid: widget.match.id.toString() ?? "");
+                            widget.match?.tournament?.id.toString() ?? "",
+                        matchid: widget.match?.id.toString() ?? "");
                     break;
                   case 1:
                     startmatch.indextab.value == 0
                         ? startmatch.scorecardFromAPI(
-                            teamid: widget.match.team1?.id.toString() ?? "",
-                            matchid: widget.match.id.toString(),
+                            teamid: widget.match?.team1?.id.toString() ?? "",
+                            matchid: widget.match?.id.toString() ??"",
                             touramentid:
-                                widget.match.tournament?.id.toString() ?? "")
+                                widget.match?.tournament?.id.toString() ?? "")
                         : startmatch.scorecard2FromAPI(
-                            teamid: widget.match.team2?.id.toString() ?? "",
-                            matchid: widget.match.id.toString(),
+                            teamid: widget.match?.team2?.id.toString() ?? "",
+                            matchid: widget.match?.id.toString() ?? "",
                             touramentid:
-                                widget.match.tournament?.id.toString() ?? "");
+                                widget.match?.tournament?.id.toString() ?? "");
                     break;
                   case 2:
                     startmatch.Overswiserun(
@@ -140,7 +144,7 @@ class _DetailsScreenState extends State<DetailsScreen>
                     break;
                 }
               },
-              icon: Icon(Icons.refresh))
+              icon: Icon(Icons.refresh)),
         ],
         // centerTitle: true,
         backgroundColor: MyTheme.appBarColor,

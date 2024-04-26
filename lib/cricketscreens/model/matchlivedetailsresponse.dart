@@ -1,10 +1,6 @@
-// To parse this JSON data, do
-//
-//     final matchLiveDetails = matchLiveDetailsFromJson(jsonString);
-
 import 'dart:convert';
-
 import 'package:intl/intl.dart';
+import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
 
 MatchLiveDetails matchLiveDetailsFromJson(String str) =>
     MatchLiveDetails.fromJson(json.decode(str));
@@ -30,6 +26,9 @@ class MatchLiveDetails {
   bool? isStrikerChangeable;
   bool? isNonstrikerChangeable;
   bool? isBowlerChangeable;
+  // List<Matchinfo>? matchSuperOverList;
+  List<Matchinfo>? matchSuperOverList;
+  // List<Superover>
 
   MatchLiveDetails({
     this.success,
@@ -49,6 +48,7 @@ class MatchLiveDetails {
     this.isStrikerChangeable,
     this.isNonstrikerChangeable,
     this.isBowlerChangeable,
+    this.matchSuperOverList,
   });
 
   factory MatchLiveDetails.fromJson(Map<String, dynamic> json) =>
@@ -70,6 +70,8 @@ class MatchLiveDetails {
         isStrikerChangeable: json["is_striker_changeable"],
         isNonstrikerChangeable: json["is_nonstriker_changeable"],
         isBowlerChangeable: json["is_bowler_changeable"],
+        matchSuperOverList: List<Matchinfo>.from(
+            json["superovers"].map((x) => Matchinfo.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -90,6 +92,8 @@ class MatchLiveDetails {
         "is_striker_changeable": isStrikerChangeable,
         "is_nonstriker_changeable": isNonstrikerChangeable,
         "is_bowler_changeable": isBowlerChangeable,
+        "superovers":
+            List<dynamic>.from(matchSuperOverList!.map((x) => x.toJson())),
       };
 }
 
@@ -156,6 +160,7 @@ class MatchLive {
   DateTime? matchDate;
   String? matchTime;
   String? umpires;
+  int? parentid;
   DateTime? createdAt;
   DateTime? updatedAt;
   MatchStatus? matchStatus;
@@ -233,6 +238,7 @@ class MatchLive {
     this.matchDate,
     this.matchTime,
     this.umpires,
+    this.parentid,
     this.createdAt,
     this.updatedAt,
     this.matchStatus,
@@ -296,6 +302,7 @@ class MatchLive {
         matchDate: DateTime.parse(json["match_date"]),
         matchTime: json["match_time"],
         umpires: json["umpires"],
+        parentid: json["parent_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         matchStatus: json["match_status"] == null
@@ -380,6 +387,7 @@ class MatchLive {
             "${matchDate?.year.toString().padLeft(4, '0')}-${matchDate?.month.toString().padLeft(2, '0')}-${matchDate?.day.toString().padLeft(2, '0')}",
         "match_time": matchTime,
         "umpires": umpires,
+        "parent_id": parentid,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "match_status": matchStatus?.toJson(),

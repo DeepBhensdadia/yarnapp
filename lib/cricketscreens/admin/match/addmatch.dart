@@ -56,11 +56,9 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
       matchController.matchtype.text =
           widget.matchdetail?.matchType?.toString() ?? "";
     } else {
-      matchController.Location.text =
-          widget.tournametid.address.toString() ?? "";
+      matchController.Location.text = widget.tournametid.address.toString();
     }
     teamcontroller.getTeamDataFromAPI(id: widget.tournametid.id.toString());
-    // TODO: implement initState
     super.initState();
   }
 
@@ -365,6 +363,23 @@ class _AddMatchScreenState extends State<AddMatchScreen> {
                           // },
                           controller: matchController.overs,
                           labelText: "Match Overs",
+                          keyboardType: TextInputType.number,
+                          hintText: "Enter Description",
+                        ),
+                        TournamentTextFormField(
+                          onchange: (p0) {
+                            setState(() {
+                              editedt = true;
+                            });
+                          },
+                          validatorfield: (p0) {
+                            if (p0!.isEmpty) {
+                              return "Enter Total Player";
+                            }
+                            return null;
+                          },
+                          controller: matchController.totalplayers,
+                          labelText: "Match Total Player",
                           keyboardType: TextInputType.number,
                           hintText: "Enter Description",
                         ),

@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -12,16 +10,15 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-
+import 'package:yarn_modified/cricketscreens/model/matchlivedetailssuperoverresponse.dart';
 import 'package:yarn_modified/cricketscreens/services/api_source.dart';
-
 import '../../const/const.dart';
 import '../../services/all_api_services.dart';
 import '../../services/app_url.dart';
-
 import '../model/matchlistmode.dart';
 import '../model/tournamentdetailresponse.dart';
 import '../model/updateresponse.dart';
+import '../services/cricket_api.dart';
 
 class MatchController extends GetxController {
   WebService webService = WebService(dio: Dio(), connectivity: Connectivity());
@@ -67,6 +64,8 @@ class MatchController extends GetxController {
   TextEditingController description = TextEditingController();
   TextEditingController matchtype = TextEditingController();
   TextEditingController overs = TextEditingController();
+  TextEditingController totalplayers = TextEditingController();
+
   Future<void> AddmatchFromAPI({required String tournamentid}) async {
     String matchdateformat() {
       DateTime originalDate = DateFormat("dd-MM-yyyy").parse(matchdate.text);
@@ -85,7 +84,8 @@ class MatchController extends GetxController {
       'venue': Location.text,
       'match_type': matchtype.text,
       'description': description.text,
-      'overseas': overs.text
+      'overseas': overs.text,
+      'total_player': totalplayers.text
     };
     print(formFields);
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
@@ -118,6 +118,8 @@ class MatchController extends GetxController {
     );
   }
 
+
+
   Future<void> EditmatchFromAPI(
       {required String tournamentid, required String id}) async {
     String matchdateformat() {
@@ -139,6 +141,7 @@ class MatchController extends GetxController {
       'description': description.text,
       'overseas': overs.text
     };
+
     print(formFields);
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:yarn_modified/cricketscreens/model/get_super_over_response.dart';
 import 'package:yarn_modified/cricketscreens/model/gettournamenttype.dart';
 import 'package:http/http.dart' as http;
 import 'package:yarn_modified/cricketscreens/model/usercheckmodel.dart';
 import '../../services/all_api_services.dart';
 import '../../services/app_url.dart';
+import '../model/matchlivedetailssuperoverresponse.dart';
 import '../model/tournamentlist.dart';
 
 Future<GetTournamenttype> gettournamenttypelist() async {
@@ -28,5 +29,10 @@ Future<Usercheckmodel> checkuserapi({required String parameter}) async {
   return usercheckmodelFromJson(response.body);
 }
 
-
+Future<GetSuperOverResponse> createSuperOver({required Map<String,dynamic> data}) async {
+  var url = Uri.parse(URLs.super_over);
+  var response = await http.post(url,body: data,);
+  // print('Response Body: ${json.decode(response.body)}');
+  return getSuperOverResponseFromJson(response.body);
+}
 

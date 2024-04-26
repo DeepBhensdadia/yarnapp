@@ -8,6 +8,8 @@ class URLs {
   static String image_url_tournament = "$main/assets/tournament/";
   static String image_url_team = "$main/assets/team/";
   static String image_url_player = "$main/assets/player/";
+  static String super_over = "$Base_url${"create_match_superover"}";
+  // static String match_info = "$Base_url${"matchinfo/$tournament_id"}";
   // static String image_url = "https://textilediary.in/textiles/public/";
   // static String Base_url = "https://textilediary.in/textiles/public/api/";
   static String expiredtoast = "Please activate the package";

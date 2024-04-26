@@ -446,7 +446,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           )
-                        : SizedBox.shrink(),
+                        : SizedBox.shrink()
+                    // CircularProgressIndicator(color: MyTheme.appBarColor,),
                   ),
                   SizedBox(
                     height: 80,

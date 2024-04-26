@@ -20,20 +20,14 @@ const Cricket_BlackColor = Color(0xFF000000);
 
 BoxDecoration decration = BoxDecoration(
     gradient: LinearGradient(
-
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          MyTheme.scaffoldColor,
-          Colors.white.withOpacity(0.30),
-          Colors.white.withOpacity(0.65),
-          Colors.white.withOpacity(0.85)
-        ]));
+      MyTheme.scaffoldColor,
+      Colors.white.withOpacity(0.30),
+      Colors.white.withOpacity(0.65),
+      Colors.white.withOpacity(0.85)
+    ]));
 
-TextStyle textbar  = TextStyle(
-    color: Colors
-        .blueGrey,
-    fontWeight:
-    FontWeight
-        .bold,
-    fontSize: 12);
+TextStyle textbar = TextStyle(
+    color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 12);

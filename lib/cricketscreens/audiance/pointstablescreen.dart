@@ -23,7 +23,6 @@ class _PointTableScreenState extends State<PointTableScreen> {
       Get.put(TournamentAudianceController());
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

@@ -1,8 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum PrefKey {loginDetails}
+enum PrefKey { loginDetails }
 
 class SharedPref {
+
   static late SharedPreferences _sharedPreferences;
 
   static Future<void> init() async =>
@@ -20,4 +21,5 @@ class SharedPref {
       await _sharedPreferences.remove(prefKey.name);
 
   static Future<void> deleteAll() async => await _sharedPreferences.clear();
+
 }

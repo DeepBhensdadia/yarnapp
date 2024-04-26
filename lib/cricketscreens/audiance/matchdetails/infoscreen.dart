@@ -1,15 +1,12 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
-// import 'package:screenshot/screenshot.dart';
 import 'package:yarn_modified/cricketscreens/admin/match/startmatch/tossscreen.dart';
+import 'package:yarn_modified/cricketscreens/audiance/matchdetails/cricketdetailscreen.dart';
+import 'package:yarn_modified/cricketscreens/getx/matchcontroller.dart';
 import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
-
 import '../../../const/const.dart';
+import '../../../const/themes.dart';
 import '../../../constcolor.dart';
 import '../../../helper.dart';
 import '../../../services/all_api_services.dart';
@@ -18,11 +15,10 @@ import '../../../widgets/tournamenttextfield.dart';
 import '../../admin/match/startmatch/openingplayers.dart';
 import '../../admin/match/startmatch/runinputscreen.dart';
 import '../../getx/screenshotcontroller.dart';
-import '../../getx/screenshotcontroller.dart';
 import '../../getx/startmatchcontroller.dart';
-import '../../model/getscroreboarddetails.dart';
 import '../../model/matchlivedetailsresponse.dart';
 import '../../photoscreen.dart';
+import '../../superoverinfoscreen.dart';
 
 class InfoScreen extends StatefulWidget {
   final int isadmin;
@@ -36,6 +32,7 @@ class InfoScreen extends StatefulWidget {
 class _InfoScreenState extends State<InfoScreen> {
   StartMatchController startmatch = Get.put(StartMatchController());
   screenshotcontrol screenshot = Get.put(screenshotcontrol());
+  MatchController matchController = Get.put(MatchController());
 
   String playerofthematchid = "";
   playerofthematchSheet() async {
@@ -166,6 +163,22 @@ class _InfoScreenState extends State<InfoScreen> {
     startmatch.matchInfoDetailFromAPI(
         tournamentid: widget.match?.tournamentId.toString() ?? "",
         matchid: widget.match?.id.toString() ?? "");
+  }
+
+  TextStyle defaultstyle = TextStyle(
+      color: darkBlue,
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      overflow: TextOverflow.ellipsis);
+  TextStyle defaultstyle2 = TextStyle(
+      color: Colors.black,
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      overflow: TextOverflow.ellipsis);
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -591,29 +604,22 @@ class _InfoScreenState extends State<InfoScreen> {
                                                       : SizedBox(),
                                                 ],
                                               )
-                                            : Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        startmatch.matchlive
-                                                            .value.summary
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            color:
-                                                                Cricket_textColorSecondary,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                            : Container(
+                                                alignment: Alignment.centerLeft,
+                                                width: screenwidth(context,
+                                                    dividedby: 1.2),
+                                                child: Text(
+                                                  textAlign: TextAlign.center,
+                                                  startmatch
+                                                      .matchlive.value.summary
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color:
+                                                          Cricket_textColorSecondary,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
                                               )
                                       ],
                                     ),
@@ -1247,6 +1253,288 @@ class _InfoScreenState extends State<InfoScreen> {
                             ],
                           ),
                         ),
+                        startmatch.matchlive.value.isSuperOver == true
+                            ? startmatch.matchSuperOverList.length > 0
+                                ? Column(
+                                    children: List.generate(
+                                        startmatch.matchSuperOverList.length,
+                                        (index) {
+                                    Matchinfo match =
+                                        startmatch.matchSuperOverList[index];
+
+                                    return InkWell(
+                                      highlightColor: Colors.transparent,
+                                      onTap: () {
+                                        print(startmatch
+                                            .matchSuperOverList[index].id);
+
+                                        Get.to(SuperOverInfoScreen(
+                                            match: startmatch
+                                                .matchSuperOverList[index],
+                                            isadmin: widget.isadmin,
+                                            superover: index + 1));
+                                      },
+                                      child: Container(
+                                        // height: 200,
+                                        margin: EdgeInsets.only(top: 15),
+                                        width: double.infinity,
+                                        child: Card(
+                                          elevation: 4,
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20.0, vertical: 15),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Super Over ${index + 1}",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  // mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        PhotoScreencric(
+                                                            dobbn: 18,
+                                                            image: URLs
+                                                                    .image_url_team +
+                                                                "${widget.match?.team1?.logo}"),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Text(
+                                                          widget.match?.team1
+                                                                  ?.shortName ??
+                                                              "",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  // startmatch
+                                                                  //             .matchlive
+                                                                  //             .value
+                                                                  //             .summary !=
+                                                                  //         null
+                                                                  //     ? startmatch
+                                                                  //                 .matchlive
+                                                                  //                 .value
+                                                                  //                 .wonteamid ==
+                                                                  //             startmatch
+                                                                  //                 .matchlive
+                                                                  //                 .value
+                                                                  //                 .team1
+                                                                  //                 ?.id
+                                                                  //         ? Colors
+                                                                  //             .black
+                                                                  //         : Colors
+                                                                  //             .grey
+                                                                  //     : startmatch
+                                                                  //                 .matchlive
+                                                                  //                 .value
+                                                                  //                 .bettingTeamId ==
+                                                                  //             startmatch
+                                                                  //                 .matchlive
+                                                                  //                 .value
+                                                                  //                 .team1
+                                                                  //                 ?.id
+                                                                  //         ? Colors
+                                                                  //             .black
+                                                                  //         :
+                                                                  Colors.grey,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    startmatch.matchlive.value
+                                                                .team1TotalOver ==
+                                                            null
+                                                        ? Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            "",
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          )
+                                                        : Row(
+                                                            children: [
+                                                              Text(
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                "${match.team1Runs}-${match.team1TotalWickets}",
+                                                                style: TextStyle(
+                                                                    color: startmatch.matchlive.value.summary != null
+                                                                        ? startmatch.matchlive.value.wonteamid == startmatch.matchlive.value.team1?.id
+                                                                            ? Colors.black
+                                                                            : Colors.grey
+                                                                        : startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team1?.id
+                                                                            ? Colors.black
+                                                                            : Colors.grey,
+                                                                    fontSize: 18,
+                                                                    fontWeight: FontWeight.w500),
+                                                              ),
+                                                              Text(
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                " (${match.team1TotalOver})",
+                                                                style: TextStyle(
+                                                                    color: startmatch.matchlive.value.summary != null
+                                                                        ? startmatch.matchlive.value.wonteamid == startmatch.matchlive.value.team1?.id
+                                                                            ? Colors.black
+                                                                            : Colors.grey
+                                                                        : startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team1?.id
+                                                                            ? Colors.black
+                                                                            : Colors.grey,
+                                                                    fontSize: 16,
+                                                                    fontWeight: FontWeight.w500),
+                                                              ).paddingOnly(
+                                                                  right: 20),
+                                                            ],
+                                                          )
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Row(
+                                                  // mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        PhotoScreencric(
+                                                            dobbn: 18,
+                                                            image: URLs
+                                                                    .image_url_team +
+                                                                "${widget.match?.team2?.logo}"),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Text(
+                                                          widget.match?.team2
+                                                                  ?.shortName ??
+                                                              "",
+                                                          style: TextStyle(
+                                                              color: startmatch
+                                                                          .matchlive
+                                                                          .value
+                                                                          .summary !=
+                                                                      null
+                                                                  ? startmatch
+                                                                              .matchlive
+                                                                              .value
+                                                                              .wonteamid ==
+                                                                          startmatch
+                                                                              .matchlive
+                                                                              .value
+                                                                              .team2
+                                                                              ?.id
+                                                                      ? Colors
+                                                                          .black
+                                                                      : Colors
+                                                                          .grey
+                                                                  : startmatch
+                                                                              .matchlive
+                                                                              .value
+                                                                              .bettingTeamId ==
+                                                                          startmatch
+                                                                              .matchlive
+                                                                              .value
+                                                                              .team2
+                                                                              ?.id
+                                                                      ? Colors
+                                                                          .black
+                                                                      : Colors
+                                                                          .grey,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    match.team2TotalOver == null
+                                                        ? Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            "",
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          )
+                                                        : Row(
+                                                            children: [
+                                                              Text(
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                "${match.team2Runs}-${match.team2TotalWickets}",
+                                                                style: TextStyle(
+                                                                    color: startmatch.matchlive.value.summary != null
+                                                                        ? startmatch.matchlive.value.wonteamid == startmatch.matchlive.value.team2?.id
+                                                                            ? Colors.black
+                                                                            : Colors.grey
+                                                                        : startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team2?.id
+                                                                            ? Colors.black
+                                                                            : Colors.grey,
+                                                                    fontSize: 18,
+                                                                    fontWeight: FontWeight.w500),
+                                                              ),
+                                                              Text(
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                " (${match.team2TotalOver})",
+                                                                style: TextStyle(
+                                                                    color: startmatch.matchlive.value.summary != null
+                                                                        ? startmatch.matchlive.value.wonteamid == startmatch.matchlive.value.team2?.id
+                                                                            ? Colors.black
+                                                                            : Colors.grey
+                                                                        : startmatch.matchlive.value.bettingTeamId == startmatch.matchlive.value.team2?.id
+                                                                            ? Colors.black
+                                                                            : Colors.grey,
+                                                                    fontSize: 16,
+                                                                    fontWeight: FontWeight.w500),
+                                                              ).paddingOnly(
+                                                                  right: 20),
+                                                            ],
+                                                          )
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }))
+                                : SizedBox.shrink()
+                            : SizedBox.shrink(),
                         Container(
                           // height: 200,
                           width: double.infinity,

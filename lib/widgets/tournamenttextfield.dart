@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:yarn_modified/constcolor.dart';
 
 import '../const/themes.dart';
@@ -116,6 +117,7 @@ class TournamentDropdown extends StatefulWidget {
 
   final String? Function(String?)? validator;
   final String? initialValue;
+  final bool? icon;
 
   const TournamentDropdown({
     super.key,
@@ -124,6 +126,7 @@ class TournamentDropdown extends StatefulWidget {
     this.validator,
     this.onchange,
     this.initialValue,
+    this.icon,
   });
 
   @override
@@ -137,14 +140,28 @@ class _TournamentDropdownState extends State<TournamentDropdown> {
       padding: const EdgeInsets.only(top: 15.0, bottom: 15),
       child: Column(
         children: [
-          Align(
-            alignment: AlignmentDirectional.topStart,
-            child: Text(
-              widget.lable ?? "",
-              textScaleFactor: 1.3,
-              style: TextStyle(
-                  fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: AlignmentDirectional.topStart,
+                child: Text(
+                  widget.lable ?? "",
+                  textScaleFactor: 1.3,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500, color: MyTheme.appBarColor),
+                ),
+              ),
+              widget.icon == true ? Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Icon(Icons.clear,color: Colors.black,)),
+              ) : SizedBox.shrink(),
+            ],
           ),
           SizedBox(
             height: 10,

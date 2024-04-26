@@ -27,7 +27,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    // startmatch.isnewtap.value = false;
     super.initState();
   }
 
@@ -110,16 +110,16 @@ class _RunInputScreenState extends State<RunInputScreen> {
         });
   }
 
-  runapi({
-    required String run,
-    String? balltype,
-    String? outtype,
-    String? outbyplayerid,
-    String? noballtype,
-    String? outplayerid,String? isballcount
-  }) {
+  runapi(
+      {required String run,
+      String? balltype,
+      String? outtype,
+      String? outbyplayerid,
+      String? noballtype,
+      String? outplayerid,
+      String? isballcount}) {
     startmatch.runaddFromAPI(
-      isballcount: isballcount ?? "1",
+        isballcount: isballcount ?? "1",
         noballtype: noballtype.toString(),
         battingteamid: startmatch.matchlive.value.bettingTeamId.toString(),
         bowlingteamid: startmatch.matchlive.value.bowlingTeamId.toString(),
@@ -155,7 +155,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
 
   int nbtotalrun = 1;
   bool iswicket = false;
-  bool isballcount = false;
+  bool isballcount = true;
   int selectindextype = 1;
   String outplayerid = "0";
   String no_ball_type = "bat";
@@ -1267,7 +1267,8 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                     height: 40,
                                     child: MaterialButton(
                                       onPressed: () {
-                                        startmatch.outplayer.value = 0;
+                                        // startmatch.isnewtap.value = true;
+
                                         startmatch.matchlive.value.inningId == 1
                                             ? startmatch.Firstinningcomplete(
                                                 tournamentid: widget
@@ -1276,7 +1277,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                     "",
                                                 matchid: widget.match.id
                                                         .toString() ??
-                                                    "")
+                                                    "").then((value) =>  startmatch.outplayer.value = 0)
                                             : startmatch.matchcomplete(
                                                 tournamentid: widget
                                                         .match.tournament?.id
@@ -1284,7 +1285,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                     "",
                                                 matchid: widget.match.id
                                                         .toString() ??
-                                                    "");
+                                                    "").then((value) =>  startmatch.outplayer.value = 0);
                                       },
                                       child: Center(
                                           child: Text(
@@ -2081,6 +2082,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
                             return null;
                           },
                           lable: "Select New Batsman",
+                          icon: false,
                         ),
                       ),
                     ),
@@ -2526,7 +2528,10 @@ class _RunInputScreenState extends State<RunInputScreen> {
   int declareindex = 0;
   String playerofthematch = "";
   declaresheet(int iscomplete) async {
-    declareindex = 0;
+    declareindex =
+    startmatch.matchlive.value.isSuperOver == true
+        ? 1
+        : 0;
     teamtoss = 3;
     teamtoss = startmatch.matchlive.value.winningTeamId != null
         ? startmatch.matchlive.value.winningTeamId ==
@@ -2956,16 +2961,43 @@ class _RunInputScreenState extends State<RunInputScreen> {
                       //     lable: "Select player of the match",
                       //   ),
                       // ),
-                      Row(
+                      Row (
                         children: [
+                          // Visibility(
+                          //   visible: startmatch.matchlive.value.isSuperOver ?? false,
+                          //   child: Expanded(
+                          //     child: Container(
+                          //       color: Colors.grey,
+                          //       height: 40,
+                          //       child: MaterialButton(
+                          //         onPressed: () {
+                          //           startmatch.AddSuperOverMatchFromAPI(
+                          //             touramentid: startmatch
+                          //                 .matchlive.value.tournament?.id
+                          //                 .toString() ??
+                          //                 "",
+                          //             matchid: startmatch.matchlive.value.id
+                          //                 .toString() ??
+                          //                 "",
+                          //           );
+                          //         },
+                          //         child: const Center(
+                          //             child: Text(
+                          //           "Super Over",
+                          //           style: TextStyle(color: Colors.white),
+                          //         )),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          // startmatch.matchlive.value.isSuperOver == true ? SizedBox(width: 10,) :SizedBox(width: 0,),
                           Expanded(
                             child: Container(
                               color: Colors.grey,
                               height: 40,
                               child: MaterialButton(
                                 onPressed: () {
-                                  if (validationdeclare() ==
-                                      true) if (declareindex == 0) {
+                                  if (validationdeclare() == true) if (declareindex == 0) {
                                     if (teamtoss != 3) {
                                       startmatch.DeclareResult(
                                         result: "won",
@@ -3255,8 +3287,8 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                           outtype: "other",
                                           outbyplayerid: runouthelperid,
                                           outplayerid: runoutplayerid,
-                                      isballcount: isballcount == false ? "0" : "1"
-                                      );
+                                          isballcount:
+                                              isballcount == false ? "0" : "1");
                                       Get.back();
                                     }
                                   },
@@ -3288,12 +3320,51 @@ class _RunInputScreenState extends State<RunInputScreen> {
       backgroundColor: MyTheme.scaffoldColor,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text(
-          '${widget.match.team1?.shortName} vs ${widget.match.team2?.shortName}',
-          textScaleFactor: 1,
-          style: TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${widget.match.team1?.shortName} vs ${widget.match.team2?.shortName}',
+              textScaleFactor: 1,
+              style:
+              TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+            ),
+            startmatch.superoversis == ""
+                ? SizedBox()
+                : Column(
+              children: [
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "Super over ${startmatch.superoversis}",
+                  style: TextStyle(
+                      fontSize: 12,
+                      letterSpacing: 0.5,
+                      color: MyTheme.appBarTextColor),
+                ),
+              ],
+            ),
+          ],
         ),
         actions: [
+          // TextButton(
+          //     onPressed: () {
+          //       declaresheet(0);
+          //     },
+          //     child: Text(
+          //       "End Inning",
+          //       style: TextStyle(color: Colors.white),
+          //     )),
+          TextButton(
+              onPressed: () {
+                InningsCompleteSheet();
+              },
+              child: Text(
+                "End Innig",
+                style: TextStyle(color: Colors.white),
+              )),
+          SizedBox(width: 5,),
           TextButton(
               onPressed: () {
                 declaresheet(0);
@@ -3301,7 +3372,7 @@ class _RunInputScreenState extends State<RunInputScreen> {
               child: Text(
                 "Declare",
                 style: TextStyle(color: Colors.white),
-              ))
+              )),
         ],
         // centerTitle: true,
         backgroundColor: MyTheme.appBarColor,
@@ -3324,31 +3395,35 @@ class _RunInputScreenState extends State<RunInputScreen> {
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 10,
+          ),
           Obx(
             () {
               if (startmatch.matchlive.value.inningId == 3) {
                 Future.delayed(Duration.zero, () {
                   if (startmatch.Endmatch.isTrue) {
-                    startmatch.matchlive.value.isSuperOver == true
-                        ? declareindex == 1
-                        : declareindex == 0;
                     declaresheet(1);
                   }
                   startmatch.Endmatch.value = false;
                 });
               } else if (startmatch.isnewinning.isTrue) {
                 Future.delayed(Duration.zero, () {
-                  if ((startmatch.matchlive.value.inningId ?? 0) < 3)
+                  if ((startmatch.matchlive.value.inningId ?? 0) <
+                      3)
+
                     InningsCompleteSheet();
                 });
               } else if (startmatch.outplayer.value != 0) {
                 Future.delayed(Duration.zero, () {
+                  if (startmatch.isnewtap.isFalse)
                   newbatsmanaddSheet();
                 });
               } else if ((startmatch.matchlive.value.inningId == 1 ||
                       startmatch.matchlive.value.inningId == 2) &&
                   startmatch.isnewover.isTrue) {
                 Future.delayed(Duration.zero, () {
+
                   Overcompletesheet();
                 });
               }
@@ -4411,19 +4486,11 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                           Colors.white70),
                                             ),
                                             onPressed: () {
+                                              startmatch.isnewtap.value = true;
+                                              print(startmatch.isnewtap.value);
                                               Get.back();
                                               startmatch.matchundoo(
-                                                touramentid: startmatch
-                                                        .matchlive
-                                                        .value
-                                                        .tournament
-                                                        ?.id
-                                                        .toString() ??
-                                                    "",
-                                                matchid: startmatch
-                                                        .matchlive.value.id
-                                                        ?.toString() ??
-                                                    "",
+                                                touramentid: startmatch.matchlive.value.tournament?.id.toString() ?? "", matchid: startmatch.matchlive.value.id?.toString() ?? "",
                                               );
                                             },
                                             child: Text(
@@ -4625,7 +4692,10 @@ class _RunInputScreenState extends State<RunInputScreen> {
                                                       .resolveWith((states) =>
                                                           Colors.white70),
                                             ),
+
                                             onPressed: () {
+                                              startmatch.isnewtap.value = true;
+                                              print(startmatch.isnewtap.value);
                                               Get.back();
                                               startmatch.matchundoo(
                                                 touramentid: startmatch

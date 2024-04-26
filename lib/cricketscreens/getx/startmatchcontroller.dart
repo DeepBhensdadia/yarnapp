@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -11,6 +12,7 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
 // import 'package:share_plus/share_plus.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 import '../../services/app_url.dart';
@@ -19,8 +21,10 @@ import '../model/battingnextplayerlistresponse.dart';
 import '../model/getscroreboarddetails.dart';
 import '../model/getteamplayerlist.dart';
 import '../model/matchlivedetailsresponse.dart';
+import '../model/matchlivedetailssuperoverresponse.dart';
 import '../model/playerofthematchlist.dart';
 import '../services/api_source.dart';
+import '../services/cricket_api.dart';
 import 'matchcontroller.dart';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -43,16 +47,21 @@ class StartMatchController extends GetxController {
   RxString partnershipball = "0".obs;
   RxString requirerunrate = "0.00".obs;
   RxString target = "0".obs;
+  RxString superoversis = "".obs;
   RxString requirestatus = "".obs;
+  RxList<Matchinfo> matchSuperOverList = <Matchinfo>[].obs;
 
-  Future<void> matchInfoDetailFromAPI(
-      {required String tournamentid, required String matchid}) async {
+  Future<void> matchInfoDetailFromAPI({
+    required String tournamentid,
+    required String matchid,
+  }) async {
     isnewover.value = false;
     isnewinning.value = false;
     if (isloading.isFalse) Get.context!.loaderOverlay.show();
     Map<String, dynamic> formFields = {
       // "user_id": saveUser()?.id.toString(),
-      "match_id": matchid
+      "match_id": matchid,
+      "is_superover_match": superoversis != "" ? 1 : 0
     };
     print(formFields);
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
@@ -65,6 +74,7 @@ class StartMatchController extends GetxController {
     response.fold(
       (l) {
         MatchLiveDetails match = matchLiveDetailsFromJson(l.toString());
+        outplayer.value = match.outPlayerId ?? 0;
         matchlive.value = match.data ?? MatchLive();
         balls.value = match.balls ?? [];
         overrun.value = match.overruns.toString() ?? "0";
@@ -72,7 +82,6 @@ class StartMatchController extends GetxController {
         partnershipball.value = match.partnershipBall.toString();
         requirerunrate.value = match.requiredRunrate.toString();
         target.value = match.targetRun.toString();
-        outplayer.value = match.outPlayerId ?? 0;
         requirestatus.value = match.requiredStatus.toString();
         isloading.value = true;
         isnewinning.value = match.isNewInning ?? false;
@@ -83,7 +92,9 @@ class StartMatchController extends GetxController {
             match.isNewOver == true && match.isbowlerassigned == false
                 ? true
                 : false;
-
+        matchSuperOverList.value = match.matchSuperOverList ?? [];
+        // matchSuperOverList1.value = match.matchSuperOverList1 ?? [];
+        isnewtap.value = false;
         Get.context!.loaderOverlay.hide();
       },
       (r) {
@@ -143,6 +154,7 @@ class StartMatchController extends GetxController {
   }
 
   RxBool Endmatch = false.obs;
+  RxBool isnewtap = false.obs;
   Future<void> matchcomplete({
     required String matchid,
     required String tournamentid,
@@ -611,7 +623,8 @@ class StartMatchController extends GetxController {
     Map<String, dynamic> formFields = {
       'user_id': saveUser()?.id.toString(),
       'match_id': matchid,
-      'team_id': teamid
+      'team_id': teamid,
+      "is_superover_match": superoversis != "" ? 1 : 0
     };
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
@@ -647,7 +660,8 @@ class StartMatchController extends GetxController {
     Map<String, dynamic> formFields = {
       'user_id': saveUser()?.id.toString(),
       'match_id': matchid,
-      'team_id': teamid
+      'team_id': teamid,
+      "is_superover_match": superoversis != "" ? 1 : 0
     };
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
@@ -743,6 +757,13 @@ class StartMatchController extends GetxController {
         Get.find<MatchController>().getmatchlistCall(id: touramentid);
         Get.back();
         Get.back();
+        if (superoversis != "") {
+          superoversis.value = "";
+          Get.back();
+          matchInfoDetailFromAPI(
+              tournamentid: touramentid,
+              matchid: matchlive.value.parentid.toString());
+        }
         Get.context!.loaderOverlay.hide();
       },
       (r) {
@@ -750,6 +771,30 @@ class StartMatchController extends GetxController {
         print(r.message);
       },
     );
+  }
+
+  Future<void> AddSuperOverMatchFromAPI({
+    required String matchid,
+    required String touramentid,
+  }) async {
+    Get.context!.loaderOverlay.show();
+    Map<String, dynamic> data = {"match_id": matchid};
+
+    await createSuperOver(
+      data: data,
+    ).then((value) {
+      Fluttertoast.showToast(msg: value.message ?? "");
+      matchInfoDetailFromAPI(tournamentid: touramentid, matchid: matchid);
+      // if (value.success == true) {
+      //   fetchAllJobsDataFromAPI();
+      // }
+      Get.back();
+      Get.back();
+      Get.context!.loaderOverlay.hide();
+    }).onError((error, stackTrace) {
+      print(error);
+      Get.context!.loaderOverlay.hide();
+    });
   }
 
   Future<void> changestrike({

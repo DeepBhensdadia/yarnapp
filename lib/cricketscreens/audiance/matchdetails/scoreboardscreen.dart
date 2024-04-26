@@ -11,8 +11,8 @@ import '../../getx/startmatchcontroller.dart';
 import '../../model/getscroreboarddetails.dart';
 
 class ScoreBoardScreen extends StatefulWidget {
-  final Matchinfo match;
-  const ScoreBoardScreen({super.key, required this.match});
+  final Matchinfo? match;
+  const ScoreBoardScreen({super.key, this.match});
 
   @override
   State<ScoreBoardScreen> createState() => _ScoreBoardScreenState();
@@ -35,13 +35,13 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen>
     print(startmatch.indextab.value);
     _tabController = TabController(length: 2, vsync: this, initialIndex: index);
     startmatch.scorecardFromAPI(
-        teamid: widget.match.team1?.id.toString() ?? "",
-        matchid: widget.match.id.toString(),
-        touramentid: widget.match.tournament?.id.toString() ?? "");
+        teamid: widget.match?.team1?.id.toString() ?? "",
+        matchid: widget.match?.id.toString()??"",
+        touramentid: widget.match?.tournament?.id.toString() ?? "");
     startmatch.scorecard2FromAPI(
-        teamid: widget.match.team2?.id.toString() ?? "",
-        matchid: widget.match.id.toString(),
-        touramentid: widget.match.tournament?.id.toString() ?? "");
+        teamid: widget.match?.team2?.id.toString() ?? "",
+        matchid: widget.match?.id.toString()??"",
+        touramentid: widget.match?.tournament?.id.toString() ?? "");
     // TODO: implement initState
     super.initState();
   }
@@ -75,22 +75,22 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen>
                 });
                 value == 0
                     ? startmatch.scorecardFromAPI(
-                        teamid: widget.match.team1?.id.toString() ?? "",
-                        matchid: widget.match.id.toString(),
+                        teamid: widget.match?.team1?.id.toString() ?? "",
+                        matchid: widget.match?.id.toString()??"",
                         touramentid:
-                            widget.match.tournament?.id.toString() ?? "")
+                            widget.match?.tournament?.id.toString() ?? "")
                     : startmatch.scorecard2FromAPI(
-                        teamid: widget.match.team2?.id.toString() ?? "",
-                        matchid: widget.match.id.toString(),
+                        teamid: widget.match?.team2?.id.toString() ?? "",
+                        matchid: widget.match?.id.toString()??"",
                         touramentid:
-                            widget.match.tournament?.id.toString() ?? "");
+                            widget.match?.tournament?.id.toString() ?? "");
               },
               tabs: [
                 Text(
-                  widget.match.team1?.shortName ?? "",
+                  widget.match?.team1?.shortName ?? "",
                 ),
                 Text(
-                  widget.match.team2?.shortName ?? "",
+                  widget.match?.team2?.shortName ?? "",
                 ),
               ],
             ),
