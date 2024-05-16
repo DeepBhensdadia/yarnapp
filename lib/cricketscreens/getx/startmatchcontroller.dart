@@ -250,6 +250,63 @@ class StartMatchController extends GetxController {
     );
   }
 
+  RxList<playersresponse> team1payerlist = <playersresponse>[].obs;
+  RxList<playersresponse> team2ayerlist = <playersresponse>[].obs;
+
+  Future<void> team1PlayerListFromAPI({required String teamid}) async {
+    Get.context!.loaderOverlay.show();
+    Map<String, dynamic> formFields = {
+      'team_id': teamid,
+    };
+    List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
+    FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
+    print(formData);
+    final response = await webService.postFormRequest(
+      formData: formData,
+      url: "${URLs.Base_url}team_wise_player",
+    );
+    response.fold(
+      (l) {
+        var data = getteamplayerlistFromJson(l.toString());
+        print(jsonEncode(data));
+
+        team1payerlist.value = data.date ?? [];
+        Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
+  Future<void> team2PlayerListFromAPI({required String teamid}) async {
+    Get.context!.loaderOverlay.show();
+    Map<String, dynamic> formFields = {
+      'team_id': teamid,
+    };
+    List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
+    FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
+    print(formData);
+    final response = await webService.postFormRequest(
+      formData: formData,
+      url: "${URLs.Base_url}team_wise_player",
+    );
+    response.fold(
+      (l) {
+        var data = getteamplayerlistFromJson(l.toString());
+        print(jsonEncode(data));
+
+        team2ayerlist.value = data.date ?? [];
+        Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
   Future<void> bowlingteamPlayerListFromAPI({required String teamid}) async {
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> formFields = {
@@ -392,7 +449,8 @@ class StartMatchController extends GetxController {
       "betting_team_id": battingteamid,
       "bowling_team_id": bowlingteamid,
       'tournament_id': tournamentid,
-      'match_id': matchid
+      'match_id': matchid,
+      'is_power_play': ispowerplay.value == true ? 1 : 0
     };
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
@@ -424,7 +482,8 @@ class StartMatchController extends GetxController {
       'player_id': playerid,
       'team_id': teamid,
       'tournament_id': tournamentid,
-      'match_id': matchid
+      'match_id': matchid,
+      "is_power_play": ispowerplay.value == true ? 1 : 0
     };
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
@@ -552,6 +611,8 @@ class StartMatchController extends GetxController {
     );
   }
 
+  RxBool ispowerplay = true.obs;
+
   Future<void> runaddFromAPI({
     required String strikerid,
     required String nonstrikerid,
@@ -587,7 +648,7 @@ class StartMatchController extends GetxController {
       "betting_team_id": battingteamid,
       "bowling_team_id": bowlingteamid,
       "team_id": battingteamid,
-      "is_ball_count": isballcount
+      "is_ball_count": isballcount,
     };
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));
@@ -639,6 +700,11 @@ class StartMatchController extends GetxController {
         MatchscroreboardDetails data =
             matchscroreboardDetailsFromJson(l.toString());
         scroreboard.value = data;
+
+        if (data.betsmens?.length == 0) {
+          team1PlayerListFromAPI(teamid: teamid);
+        }
+
         scorebordbool.value = true;
         isloading.value = true;
         Get.context!.loaderOverlay.hide();
@@ -676,6 +742,11 @@ class StartMatchController extends GetxController {
         MatchscroreboardDetails data =
             matchscroreboardDetailsFromJson(l.toString());
         scroreboard2.value = data;
+
+        if (data.betsmens?.length == 0) {
+          team2PlayerListFromAPI(teamid: teamid);
+        }
+
         scorebordbool2.value = true;
         isloading.value = true;
         Get.context!.loaderOverlay.hide();
@@ -699,6 +770,7 @@ class StartMatchController extends GetxController {
     Map<String, dynamic> formFields = {
       'user_id': saveUser()?.id.toString(),
       'match_id': matchid,
+      "is_superover_match": superoversis != "" ? 1 : 0
     };
     List<MapEntry<String, dynamic>> formDataList = formFields.entries.toList();
     FormData formData = FormData.fromMap(Map.fromEntries(formDataList));

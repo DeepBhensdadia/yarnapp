@@ -8,6 +8,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:yarn_modified/cricketscreens/model/tournamentdetailresponse.dart';
 import 'package:yarn_modified/services/all_api_services.dart';
 
+import '../../../model/teamwinloseresponse.dart';
 import '../../../services/app_url.dart';
 // import '../../model/getteamplayerlist.dart';
 import '../../model/getpointsresponse.dart';
@@ -34,6 +35,31 @@ class TournamentAudianceController extends GetxController {
         gettournament.value = data.data ?? [];
         gettourna.value = true;
         update();
+        // Get.context!.loaderOverlay.hide();
+      },
+      (r) {
+        // Get.context!.loaderOverlay.hide();
+        print(r.message);
+      },
+    );
+  }
+
+  RxList<Matchwinlose> teammatches = <Matchwinlose>[].obs;
+  RxBool getwinlose = false.obs;
+
+
+  Future<void> getteamwinlose({ required String tournamentid,required String teamid}) async {
+    // Get.context!.loaderOverlay.show();
+    getwinlose.value = false;
+    final response = await webService.getRequest(
+      url: "${URLs.Base_url}winloss/$tournamentid?team_id=$teamid",
+    );
+    response.fold(
+      (l) {
+        Teamwinloseresponse data = teamwinloseresponseFromJson(l.toString());
+        print(jsonEncode(data));
+        teammatches.value = data.match ?? [];
+        getwinlose.value = true;
         // Get.context!.loaderOverlay.hide();
       },
       (r) {

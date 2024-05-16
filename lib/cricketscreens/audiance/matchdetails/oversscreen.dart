@@ -92,7 +92,22 @@ class _OversScreenState extends State<OversScreen>
                                         Text(
                                           "${startmatch.team1overs[index].totalRun.toString()} Runs",
                                           style: TextStyle(
-                                              fontSize: 9,
+                                              fontSize: 11,
+                                              color: Colors.grey.shade600,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          startmatch.team1overs[index].overRuns
+                                                  .toString() +
+                                              "-" +
+                                              startmatch
+                                                  .team1overs[index].overWickets
+                                                  .toString(),
+                                          style: TextStyle(
+                                              fontSize: 11,
                                               color: Colors.grey.shade600,
                                               fontWeight: FontWeight.w500),
                                         ),
@@ -106,12 +121,16 @@ class _OversScreenState extends State<OversScreen>
                                     flex: 8,
                                     child: Container(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(startmatch.team1overs[index]
-                                                  .bowler?.playerName ??
-                                              "",style: TextStyle(color: Colors.black54)),
-                                          SizedBox(height: 5,),
+                                          Text(
+                                              "${startmatch.team1overs[index].bowler?.playerName ??""} ${startmatch.team1overs[index].isPowerPlay == 1 ? "( P )" : ""}",
+                                              style: TextStyle(
+                                                  color: Colors.black54)),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
                                           Wrap(
                                             runSpacing: 5,
                                             spacing: 5,
@@ -201,12 +220,28 @@ class _OversScreenState extends State<OversScreen>
                                       children: [
                                         Text(
                                             "${startmatch.team2overs[index].overName}"),
-                                        SizedBox(height: 5,),
-
+                                        SizedBox(
+                                          height: 5,
+                                        ),
                                         Text(
                                           "${startmatch.team2overs[index].totalRun.toString()} Runs",
                                           style: TextStyle(
-                                              fontSize: 9,
+                                              fontSize: 11,
+                                              color: Colors.grey.shade600,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          startmatch.team2overs[index].overRuns
+                                                  .toString() +
+                                              "-" +
+                                              startmatch
+                                                  .team2overs[index].overWickets
+                                                  .toString(),
+                                          style: TextStyle(
+                                              fontSize: 11,
                                               color: Colors.grey.shade600,
                                               fontWeight: FontWeight.w500),
                                         ),
@@ -220,11 +255,14 @@ class _OversScreenState extends State<OversScreen>
                                     flex: 8,
                                     child: Container(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(startmatch.team2overs[index]
-                                                  .bowler?.playerName ??
-                                              "",style: TextStyle(color: Colors.black54),),
+                                          Text(
+                                            "${startmatch.team2overs[index].bowler?.playerName ?? ""}  ${startmatch.team2overs[index].isPowerPlay == 1 ? "( P )" : ""}",
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          ),
                                           SizedBox(
                                             height: 5,
                                           ),

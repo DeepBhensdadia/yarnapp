@@ -55,24 +55,24 @@ class _OpeningPlayersState extends State<OpeningPlayers> {
               '${widget.match.team1?.shortName} vs ${widget.match.team2?.shortName}',
               textScaleFactor: 1,
               style:
-              TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
+                  TextStyle(letterSpacing: 0.5, color: MyTheme.appBarTextColor),
             ),
             startmatch.superoversis == ""
                 ? SizedBox()
                 : Column(
-              children: [
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "Super over ${startmatch.superoversis}",
-                  style: TextStyle(
-                      fontSize: 12,
-                      letterSpacing: 0.5,
-                      color: MyTheme.appBarTextColor),
-                ),
-              ],
-            ),
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Super over ${startmatch.superoversis}",
+                        style: TextStyle(
+                            fontSize: 12,
+                            letterSpacing: 0.5,
+                            color: MyTheme.appBarTextColor),
+                      ),
+                    ],
+                  ),
           ],
         ),
         // centerTitle: true,
@@ -220,6 +220,24 @@ class _OpeningPlayersState extends State<OpeningPlayers> {
                             lable: "Select bowler",
                           ),
                         )),
+
+                    Row(
+                      children: [
+                        Obx(() =>   Checkbox(
+                          value: startmatch.ispowerplay.value,
+                          onChanged: (value) {
+                            startmatch.ispowerplay.value = !startmatch.ispowerplay.value;
+                          },
+                        ),),
+                        Text(
+                          "This Over is Powerplay ?",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ),

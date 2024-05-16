@@ -47,13 +47,21 @@ class Overs {
   String? overName;
   List<Ballovers>? balls;
   int? totalRun;
+  int? isPowerPlay;
   Bowler? bowler;
+  int? wicket;
+  int? overRuns;
+  int? overWickets;
 
   Overs({
     this.overName,
     this.balls,
     this.totalRun,
+    this.isPowerPlay,
     this.bowler,
+    this.wicket,
+    this.overRuns,
+    this.overWickets,
   });
 
   factory Overs.fromJson(Map<String, dynamic> json) => Overs(
@@ -61,14 +69,22 @@ class Overs {
         balls: List<Ballovers>.from(
             json["balls"].map((x) => Ballovers.fromJson(x))),
         totalRun: json["total_run"],
+        isPowerPlay: json["is_power_play"],
         bowler: Bowler.fromJson(json["bowler"]),
+    wicket: json["wicket"],
+    overRuns: json["over_runs"],
+    overWickets: json["over_wickets"],
       );
 
   Map<String, dynamic> toJson() => {
         "over_name": overName,
         "balls": List<dynamic>.from(balls!.map((x) => x.toJson())),
         "total_run": totalRun,
+        "is_power_play": isPowerPlay,
         "bowler": bowler?.toJson(),
+    "wicket": wicket,
+    "over_runs": overRuns,
+    "over_wickets": overWickets,
       };
 }
 

@@ -176,6 +176,7 @@ class MatchLive {
   int? winningTeamId;
   String? playerOfTheMatchTeam;
   bool? isSuperOver;
+  int? isPowerPlay;
   String? buttonLabel;
   String? team1Crr;
   String? team2Crr;
@@ -253,6 +254,7 @@ class MatchLive {
     this.venue,
     this.winningTeamId,
     this.isSuperOver,
+    this.isPowerPlay,
     this.buttonLabel,
     this.team1Crr,
     this.team2Crr,
@@ -319,6 +321,7 @@ class MatchLive {
         venue: json["venue"],
         winningTeamId: json["winning_team_id"],
         isSuperOver: json["is_super_over"],
+        isPowerPlay: json["is_power_play"],
         team1Crr: json["team_1_crr"] ?? "0.00",
         team2Crr: json["team_2_crr"] ?? "0.00",
         buttonLabel: json["button_label"],
@@ -402,6 +405,7 @@ class MatchLive {
         "venue": venue,
         "winning_team_id": winningTeamId,
         "is_super_over": isSuperOver,
+        "is_power_play": isPowerPlay,
         "team_1_crr": team1Crr,
         "team_2_crr": team2Crr,
         "button_label": buttonLabel,

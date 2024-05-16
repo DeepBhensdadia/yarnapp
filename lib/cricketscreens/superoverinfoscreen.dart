@@ -166,6 +166,9 @@ class _SuperOverInfoScreenState extends State<SuperOverInfoScreen>
     startmatch.matchInfoDetailFromAPI(
         tournamentid: widget.match?.tournamentId.toString() ?? "",
         matchid: widget.match?.id.toString() ?? "");
+    startmatch.Overswiserun(
+        matchid: widget.match?.id.toString() ?? "",
+        touramentid: widget.match?.tournament?.id.toString() ?? "");
   }
 
   late TabController _tabController;
@@ -183,7 +186,10 @@ class _SuperOverInfoScreenState extends State<SuperOverInfoScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(
+        length: 2,
+        vsync: this,
+        initialIndex: (widget.match?.inningId ?? 0) > 3 ? 1 : 0);
     _refresh();
     // matchController.FetchSuperOverMatchFromAPI(tournamentId: widget.match?.tournamentId.toString() ?? "", matchid: widget.match?.id.toString() ?? "");
     super.initState();
@@ -256,37 +262,40 @@ class _SuperOverInfoScreenState extends State<SuperOverInfoScreen>
         ),
         body: Column(
           children: [
-            Container(
-              padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-              color: Cricket_SkyBlue_Color,
-              height: 50,
+            Visibility(
+              visible: (widget.match?.inningId ?? 0) > 3 ? false : true,
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(7.5),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                child: TabBar(
-                  controller: _tabController,
-                  dividerColor: kthemecolor,
-                  indicatorColor: kthemecolor,
-                  indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7.5),
-                      color: kthemecolor),
-                  labelColor: kwhite,
-                  unselectedLabelColor: kthemecolor,
-                  onTap: (value) {
-                    // setState(() {
-                    //   tabindex = value;
-                    // });
-                    // print(tabindex);
-                  },
-                  labelStyle:
-                      TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-                  tabs: [
-                    Tab(text: 'Info'),
-                    Tab(text: "Scorecard"),
-                  ],
+                padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                color: Cricket_SkyBlue_Color,
+                height: 50,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white70,
+                    borderRadius: BorderRadius.circular(7.5),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  child: TabBar(
+                    controller: _tabController,
+                    dividerColor: kthemecolor,
+                    indicatorColor: kthemecolor,
+                    indicator: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7.5),
+                        color: kthemecolor),
+                    labelColor: kwhite,
+                    unselectedLabelColor: kthemecolor,
+                    onTap: (value) {
+                      // setState(() {
+                      //   tabindex = value;
+                      // });
+                      // print(tabindex);
+                    },
+                    labelStyle:
+                        TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                    tabs: [
+                      Tab(text: 'Info'),
+                      Tab(text: "Scorecard"),
+                    ],
+                  ),
                 ),
               ),
             ),

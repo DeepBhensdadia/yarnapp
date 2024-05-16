@@ -20,6 +20,7 @@ class MatchscroreboardDetails {
   List<Bawler>? bawlers;
   List<Ball>? balls;
   Extra? extra;
+  String? yetToBet;
   bool? isNewOver;
 
   MatchscroreboardDetails({
@@ -30,6 +31,7 @@ class MatchscroreboardDetails {
     this.bawlers,
     this.balls,
     this.extra,
+    this.yetToBet,
     this.isNewOver,
   });
 
@@ -44,6 +46,7 @@ class MatchscroreboardDetails {
             List<Bawler>.from(json["bawlers"].map((x) => Bawler.fromJson(x))),
         balls: List<Ball>.from(json["balls"].map((x) => Ball.fromJson(x))),
         extra: Extra.fromJson(json["extra"]),
+        yetToBet: json["yet_to_bet"],
         isNewOver: json["is_new_over"],
       );
 
@@ -55,6 +58,7 @@ class MatchscroreboardDetails {
         "bawlers": List<dynamic>.from(bawlers!.map((x) => x.toJson())),
         "balls": List<dynamic>.from(balls!.map((x) => x.toJson())),
         "extra": extra?.toJson(),
+        "yet_to_bet": yetToBet,
         "is_new_over": isNewOver,
       };
 }
